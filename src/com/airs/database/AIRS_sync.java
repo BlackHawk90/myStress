@@ -32,6 +32,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
@@ -453,8 +454,8 @@ public class AIRS_sync extends Activity implements OnClickListener
 			        mHandler.sendMessage(mHandler.obtainMessage(NO_STORAGE));
 	   	  			return;
 		        }
-		        
-		    	sync_file = new File(external_storage, "AIRS_temp");
+
+		        sync_file = new File(external_storage, "AIRS_temp");
 	
 				// get files in directory
 				String [] file_list = sync_file.list(null);
@@ -633,6 +634,8 @@ public class AIRS_sync extends Activity implements OnClickListener
 			        
 			        // close values to free up memory
 			        values.close();
+			        
+			        syncing = SYNC_FINISHED;
 				}
 				
 				// close output file
@@ -647,6 +650,10 @@ public class AIRS_sync extends Activity implements OnClickListener
     			}
     			catch(Exception ex)
     			{
+    			}
+    			finally
+    			{
+    				syncing = SYNC_FINISHED;
     			}
 				// signal end of synchronization
     		}	
@@ -789,6 +796,8 @@ public class AIRS_sync extends Activity implements OnClickListener
 		    				        
 			        // close values to free up memory
 			        values.close();
+			        
+			        syncing = SYNC_FINISHED;			       
 				}
 				
 				// close output file
@@ -806,6 +815,11 @@ public class AIRS_sync extends Activity implements OnClickListener
     			}
 				// signal end of synchronization
     		}	
+			finally
+			{
+				syncing = SYNC_FINISHED;
+			}
+			
 			
     		if (at_least_once_written == true)
     			// use handler to start activity
