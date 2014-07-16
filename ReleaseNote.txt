@@ -1,0 +1,697 @@
+V2.7.9.5:
+- addressed bug in phone sensor handler
+
+V2.7.9.4:
+- improved sensor handler teardown procedures
+- re-wrote phone sensor handler
+- added explicit EXIT button to measurement window for faster exit of local recording
+
+V2.7.9.3:
+- address bug in template selection
+- improve DB admin menu
+
+V2.7.9.2:
+- improvements to naming settings for media folder watcher
+- properly support daylight saving time offset for TZ sensor
+
+V2.7.9.1:
+- improved checking of GPS availability
+- bugfixes
+
+V2.7.9:
+- removed bug that limited Zephyr readings to 127 max!
+- restart AIRS recording when updated while recording
+- improvements to BT discovery sensors (BT, BN)
+
+V2.7.8:
+- fixed broken LED notification when recording
+
+V2.7.7:
+- added PD sensor as step counter for those phones (e.g., Nexus 5) that have this feature
+
+V2.7.6: 
+- bugfix for Google account verification when setting in general preferences
+
+V2.7.5:
+- bugfix for TZ sensor when starting in timezone different from GMT+0
+
+V2.7.4:
+- introduced TZ sensor for current timezone, updated with every timezone update
+
+V2.7.3:
+- escape mood and event annotations properly
+- add setting for upload directory
+- bugfix for regular upload
+
+V2.7.2:
+- check in manual sync if background uploading is selected (can only either)
+- updated manifest for new Google Play Services (needs to be installed!)
+- improved SS sensor
+- ensure that only one file is uploaded to GDrive
+
+V2.7.1:
+- small bugfixes in SS (SMS sent) sensor and MO (mood) description
+
+V2.7:
+- added option of regular upload of recording files to Google Drive
+- add Storica user notes to sync files, if those exist
+- check SS sensor now with timestamp rather than status - hopefully more reliable!
+- BACK key in manual view now goes back in webview (if inside the manual), not back in activity!
+
+V2.6.4:
+- improved selection of camera path by picking camera image from gallery to determine path
+- use separate icon for shortcuts
+
+V2.6.3:
+- improved SS sensor by only recording SMS sent that have been delivered
+- fixed NO sensor, including recordings from Spotify
+- fixed check for deleted GI/MW sensors
+
+V2.6.2:
+- changed sensor selection with explanatory information for every sensor
+- sensor list now multi-lingual, including the new explanatory information
+- changed LED color setting into simple list selection
+
+V2.6.1.2:
+- signal start/stop of AIRS via AIRS intent for our AIRS ruler release
+
+V2.6.1.1:
+- updated notification bar icons to proper sizes
+- updated LED notification to re-use existing notification being shown; avoids strange notification when unlocking phone!
+
+V2.6.1:
+- enforce timestamp format for sync files with GMT+0x00 format (caused problems in Android 4.3)
+
+V2.6:
+- changed LED notification when AIRS is running, avoiding future notification service problems
+- added AIRS intents, sending recorded values as system intents allowing for listening apps to react upon them (such as a rules engine we are working on)
+
+V2.5.9.1:
+- only accept location updates of accuracy defined by user
+- refinements to lifelogging template, enabling network location by default (in addition to GPS)
+
+V2.5.9: 
+- change in Location settings, providing now a list of most visited WiFi APs in the last week/month
+- bugfix in Spotify notication recordings
+- Javadoc integration for developer information
+
+V2.5.8.1:
+- bugfix in automatic configuration function
+- bugfix in shortcut creation
+
+V2.5.8:
+- changed from old Google Talk to Hangout support in NO sensor
+- extended also map view to full day viewing
+- added support for automatically configuring AIRS from other apps
+
+V2.5.7.2:
+- improve timeline view for teasing richer visualisations similar to those in Storica
+- add menu to rate AIRS in the market - please do!
+- improve situations where recordings cross midnight
+- improve multilingual support
+
+V2.5.7.1:
+- add lifelogging template upon first start
+- updated getting started instructions
+
+V2.5.7:
+- added ET sensor for sharing text data to AIRS (such as links from your browser) as an annotation
+- added TM (ambient temperature) and HU (ambient humidity) sensors for those phones that support it (Galaxy S4 should) although I could not test it!
+- adjusted weather API to new URL
+- added Getting Started dialog for first time instructions
+
+V2.5.6.4:
+- addressed wrong location reading at (-1,-1) in GPS handler when starting in adaptive GPS mode
+- removed CAMERA permission (since IH sensor is not supported anymore)
+
+V2.5.6.3:
+- change mood icon in event annotation according to mood being chosen
+- add spotify tracks to MP/MA/MT sensors (no album information is given by Spotify!) - need to enable the AIRS notification service for this!
+- improved GPS handler
+- check GI/MW for being deleted in Storica and re-inserting table entries properly
+
+V2.5.6.2:
+- improve MA/MT/ML readings
+- do not create downloaded templates if there is a download error
+- can now add WiFis to adaptive GPS list without needing to save templates all the time
+
+V2.5.6.1: 
+- improvements in reconnecting to Zephyr monitor
+- improvements in music player handler in recognising false readings
+
+V2.5.6:
+- allow for using system path for camera watcher
+- improved heart rate monitor through low/high value filter
+- new icons for mood
+- more moods being supported now!
+- can select mood right from annotation selection window!
+
+V2.5.5:
+- removed IH sensor (it just did not work well enough)
+- added BP sensor through blood pressure widget (based on self-annotation)
+- added averaging window for HP/HI sensors to smoothen values and reduce recordings (define in settings)
+- properly escape SMS characters now for SQL compliance
+
+V2.5.4: 
+- bugfix in shortcut starting
+- support selecting icon for own moods
+- bugfix in wifi handler
+
+V2.5.3.2:
+- improved adaptive GPS, re-scanning when disconnecting from WiFi (cutting down GPS switch times)
+- removed usage of GPS from weather handler (network location suffices)
+- properly support special "'" character in mood and event descriptions
+- bugfix in location handler UI
+
+V2.5.3.1: 
+- fixed bug in location handler UI
+- fixed bug testing if AIRS is running when starting shortcut
+
+V2.5.3:
+- adaptive GPS suspends GPS when near WiFi SSIDs that you can define
+- improved WiFi handler with better semaphore handling
+- WiFi returns empty readings when switched off during recording
+- now checks if shortcut preference file exists
+- added German translation
+
+V2.5.2:
+- bugfixes
+
+V2.5.1:
+- internationalised AIRS for language support
+- bugfixes
+
+V2.5:
+- changed UI to make configuration faster and integrate templates better 
+- added template download from remote server
+- sync now simplified (single file only) with ability to set sync date
+- added BD sensor for list of BT devices connected at any moment
+- added TE sensor for template used for recording
+- changed Wifi handler to return empty readings if no WiFi is found
+- fixed bug in AZ, RO, PI sensors
+- added ability for sensors to disappear in failure cases (e.g., if connection to heart monitor failed)
+- show template being used in measurement window 
+
+V2.4.1:
+- bugfixes in managing templates
+
+V2.4:
+- support for templates. You can now save the entire settings (including recording selections) into 
+  named templates and create shortcut from these templates - great for travel vs home vs battery-saving scenarios
+- introduced NO sensor for IM notifications (currently Skype and GTalk), using an accessibility service for this.
+  You will need to enable the service manually in the system settings.
+- many bugfixes, in particular related to AIRS shutdown, now cleaner!
+
+V2.3: 
+- replaced support for AliveTech ECG monitor with support for Zephyr HxM BT heart rate monitor (pulse and instant speed supported)
+- improvements to TV sensor in filtering the main visible app
+- improvement to IH sensor
+- removed PS sensor
+- fixed erroneous GPS after shutdown
+- changed settings (check online manual) to group a bit more logically
+
+V2.2.9.5:
+- improvements to media watcher
+- introduction of 'TV' sensor of visible processes
+
+V2.2.9.4: 
+- made more features not required to include more devices in PlayStore
+- bug fix in BT handler
+- redone widgets to fit single cell
+
+V2.2.9.3: 
+- bugfixes in DB handling
+
+V2.2.9.2:
+- added DB admin menu
+  - includes indexing, allowing for creating timestamp index to speed up your visualisations (increasing your DB by about 60%)
+- fixed bug in remote sensing reminder
+
+V2.2.9.1:
+- improved audio handler polling
+- removed camera as required feature
+
+V2.2.9:
+- added pulse handler, using the camera for determining pulse. You will need to add the AIRS heart rate widget to your launcher screen to start the heart rate measurement!
+- improved BT beacon shutdown
+
+V2.2.8.1:
+- keep keyguard locked after selecting lockscreen widgets
+
+V2.2.8:
+- added lockscreen widget support for Android 4.2
+- preview of widgets now shown when added
+- changed dialog window for widgets to full screen
+
+V2.2.7.4:
+- bugfix in event annotation handler, selecting the wrong entry
+
+V2.2.7.3:
+- add sharing capability for media snapshots (MW sensor) when long-clicking in the measurement window
+
+V2.2.7.2:
+- bugfix in timeline/mapview visualisation
+
+V2.2.7.1:
+- corrected internal database structures
+- improved timing in BT handler
+- sped up historical views
+
+V2.2.7:
+- improved weather provider connectivity check
+- improved handler resource handling
+
+V2.2.6.9:
+- bugfixes
+- allow for sorting event annotations in selection window (enable in event button UI settings)
+- hold wake lock during sync so that it won't fall asleep when sync takes longer
+
+V2.2.6.8: 
+- bugfixes
+
+V2.2.6.7:
+- remove entry in event (annotation) list of the event widget window by long clicking on it
+
+V2.2.6.6:
+- sped up synchronization of local recording (now much faster!)
+- bug fix in synchronization where applying homescreen shortcuts overwrote sync timestamp in persistent storage!
+
+V2.2.6.5:
+- WiFi wakelock now properly implemented (only locked when WiFi sensors enabled)
+
+V2.2.6.4:
+- check if AIRS is running when creating a shortcut for your homescreen
+
+V2.2.6.3:
+- changed weather provider to worldweatheronline.com since Google stopped its weather API!
+
+V2.2.6.2:
+- added back/forward to Manual tab for easier navigation
+
+V2.2.6.1:
+- add link to AIRS blog to menu in Manual tab of main UI
+- now store preferences with each Quick Start shortcut -> allows for recording templates!
+
+V2.2.6: 
+- backup and restore recording database to/from SD card
+
+V2.2.5.4: 
+- address bug in calendar selection on Honeycomb 
+
+V2.2.5.3:
+- create DB now, if necessary (hopefully avoiding force close for recording)
+
+V2.2.5.2: 
+- address JB issue of creating tmp picture files 
+- bugfix
+
+V2.2.5.1:
+- bugfix causing AIRS to crash during startup below API 14
+
+V2.2.5:
+- added 'SS' sensor for storing sent SMSs
+
+V2.2.4.5:
+- bugfix in DB handling
+
+V2.2.4.4:
+- improved thread safety of DB handling
+
+V2.2.4.3:
+- improved handling of orientation change
+- bugfix for calendar and general startup
+
+V2.2.4.2:
+- added CA calendar sensor now for GB, too!
+
+V2.2.4.1:
+- check for V11 SDK when calling Calendar preferences to avoid crash on GB
+
+V2.2.4:
+- point to dalore.me.uk for the online manual
+- added CA sensor for calendar events (requires new permission!)
+
+V2.2.3:
+- minor bug fix
+
+V2.2.2:
+- minor bug fixes and improvements
+- sync now works properly with Bluetooth and Google Drive
+
+V2.2.1:
+- removed sharing option when exiting AIRS local recording
+
+V2.2:
+- changed to SQLlite for storing local recordings (more secure since it does not expose recording files)
+- synchronization now as menu item in local recording tab
+- synchronization creates local recording files on the spot (can be kept in /AIRS_temp) with size as set in general settings
+- widget icons changed, now with translucent border
+- VI sensor now shown on mapview
+
+V2.1.3:
+- make showing of remote tab optional
+- optional telephony feature allows for installing on wifi-only devices now
+
+V2.1.2:
+- added path to map view
+
+V2.1.1:
+- added menu with satellite/map view switch to GPS traces
+
+V2.1:
+- changed UI to tabbed layout
+- enable direct start of local recording, in addition to selecting sensors before starting
+- now support portrait/landscape orientation
+- merged general and handler settings into single menu
+- added viewing of online manual in separate tab
+- enable start of AIRS UI even if service is running (e.g., for sync'ing)
+- allow sync'ing while running (excludes current recording from sync'ing)
+- added buttons to map view for animating into current or last recorded location
+
+V2.0.6:
+- now show current location in map view
+
+V2.0.5:
+- added right permission for controlling A-GPS data download (option in General Settings)
+
+V2.0.4:
+- deprecated AA sensor in favour of new AS sensor (sound pressure level)
+
+V2.0.3:
+- changed AA sensor to measure sound pressure level in dB now
+- added sound pressure adjustment setting in preferences
+- improved AA sensing through native log10 method
+
+V2.0.2:
+- show different marker for and focus on last position
+- save zoom level for map view
+
+V2.0.1:
+- improved mapview (now showing the time of measurement for each marker)
+- improved axis for timeline
+
+V2.0:
+- support historical views for local measurements
+- added timeline historical views for local measurements
+- added historical map view for GI measurement
+
+V1.9.7.4:
+- removed bug that rendered GPS useless since V1.9.7.2 update
+
+V1.9.7.3:
+- improved BT beacon handler
+- corrected shutdown of remote sensing
+- added warning when starting remote sensing
+
+V1.9.7.2:
+- added option for force AGPS refresh on phones that support this
+
+V1.9.7.1:
+- corrected 'null' playlist entry in MP sensor 
+
+V1.9.7:
+- added watched media folder support
+
+V1.9.6.4: 
+- checked AIRS with lint tool to optimize
+- addressed bug in remote sensing
+- added delay in BT sensing to give BT time to fire up
+- use persistent storage to remember music player info to avoid false sensing
+ 
+V1.9.6.3:
+- fixed bug in event button selection, not showing the last selected event
+
+V1.9.6.2:
+- measurement activities and widget selectors now work both in landscape and portrait orientation
+
+V1.9.6.1:
+- shortcut now directly starts AIRS local with last preferences
+
+V1.9.6:
+- added ability to create shortcut on homescreen for faster start
+- sensor list is now alphabetically sorted for better reading
+
+V1.9.5.1:
+- caught FC in restarting procedure
+
+V1.9.5:
+- added notification light as possible reminder that AIRS is running (with choice of light and/or vibrate)
+
+V1.9.4.1:
+- caught FC when shutting down after discovery but without starting local sensing
+
+V1.9.3:
+- changed event button selector to only hold own defined strings (up to 5 right now)
+- added condition to kill AIRS recording depending on battery level
+- bug fixes
+
+V1.9.2: 
+- sync local recordings now working again properly
+
+V1.9.1:
+- caught bug in sync local recordings
+
+V1.9: 
+- added individual phone sensor checks
+- added barometer sensor for Nexus
+
+V1.8.7.2:
+- added more event button icons
+
+V1.8.7.1:
+- updated event button icons
+- addressed AudioHandler bug
+
+V1.8.7:
+- can add semantic of event to EB sensor through selector window
+- able to add own mood description for MO sensor
+ 
+V1.8.6:
+- caught another FC
+- added Java file to Github distribution that reads local measurements into MySQL database
+
+V1.8.5: 
+- caught FC when system configurations change
+
+V1.8.4:
+- caught FC when incoming caller is 'unknown'
+
+V1.8.3:
+- bugfixes
+- changed Rm sensor to Android available system RAM
+
+V1.8.2:
+- bugfixes
+- added BM sensor for battery temperature
+
+V1.8.1:
+- bugfixes
+
+V1.8:
+- added MP, MA, ML, MT sensors for currently playing song information
+
+V1.7.2: 
+- addressed bug in GPS handler for real now (sorry)
+
+V1.7.1: 
+- addressed bug in GPS handler
+
+V1.7:
+- long click in measurement window can now share measurements, e.g., on G+, FB, ...
+
+V1.6.3:
+- added clickable links to About dialog
+- improved on restarting service if killed by system (it should now restart with new local recording file being created)
+- addressed bug in Exit&Share function
+
+V1.6.2:
+- changed TR sensor to show application label instead!
+
+V1.6.1:
+- read contacts (display name) for SR, IC and OC sensors
+- addressed service shutdowns
+
+V1.6:
+- sync menu option that allows for sharing recently recorded files
+- filter in GPS handler for invalid location changes
+- bug fixes and improvements
+
+V1.5.3:
+- caught bug in weather sensor
+- smaller bug fixes
+
+V1.5.2: 
+- repaired network code (CC) sensor, hopefully
+- improved battery usage of weather sensor(s)
+- new main screen icons
+
+V1.5.1: 
+- bugfixes
+
+V1.5:
+- added weather sensors (requires Internet) for current weather @ location
+- paused state in measurement value window now properly shown
+- layout of main screen changed
+- show release notes in About dialogue
+- improved registration of system callbacks; no Android callbacks when not monitoring!
+- allow for using wifi and network in Location handler -> saves power!
+
+V1.4:
+- can now share measurements before exiting!
+
+V1.3.2:
+- corrections to CS sensor
+- added CB sensor (signal strength in bars)
+- aligned some default settings
+- added two more moods
+
+V1.3.1:
+- mood selector only appears when subscribed to "MO"
+- changed internal structure of widgets -> YOU NEED TO RE-ADD WIDGETS TO HOME SCREENS!
+- added more mood icons in selector
+
+V1.3:
+- added 'mood button' widget, allowing for setting your mood, being delivered as "MO" sensor with various states
+
+V1.2.3:
+- various handler settings refinements
+
+V1.2.2.1:
+- addressed layout problems in handler settings
+
+V1.2.2: 
+- repaired broken EB sensor (event button widget) - works again now!
+- sensor values in measurement window now shown with 24h format
+
+V1.2.1: 
+- improved BT sensor timing so that it now senses more accurately every X seconds
+- added BV sensor for battery voltage
+
+V1.2:
+- simplified settings dialogs by moving configuration screen into main options menu
+
+V1.1.2.1:
+- addressed possible FC in onDestroy()
+
+V1.1.2:
+- centred event button alignment on home screen
+
+V1.1.1:
+- changed TR to only give back suffix of package name
+- check GSM type in cell sensors
+
+V1.1:
+- add TR sensor for running tasks
+
+V1.0.1:
+- minor corrections based on user comments
+
+V1.0:
+- first version of Android Remote Sensing (AIRS) platform
+- added various phone sensors to original NORS code, such as phone sensors, SMS, ...
+- established various activities for Android for displaying sensor values
+- implemented remote and local sensing as foreground services
+
+-----------------
+
+Included here are the release notes for NORS, the originating project! NORS has been discontinued in development although the release notes below show the changes that were applied to the code, relevant to AIRS
+
+V1.2.5:
+- Alive event button and battery now sent in differential mode (i.e., when changes)
+- RAM now sent in differential mode (i.e., when changes)
+- ECG now improved, using double buffering for reading from BT and sending to AS
+- ECG-based pulse now based on entire one second sample rather than currently read one (which is usually about 70 bytes only!)
+- repackaged midlet into NORS package, removing old m2m references
+
+V1.2.4:
+- added simple syntax for subscription request: symbol:polltime can be sent from server for changing default polltime for that subscription
+- removed HTML creation from server
+- added MySQL support to server (tested for mySQL 5.1.5), needs now libmysql.dll in server's exe path
+- binary (img and arr types) sensor values are stored in configurable storage directory with name being stored in SQL table
+  - are types are appended in a single file with entry in SQL being filename:offset (for performance reasons)
+- server middleware window now stores location of last placement on desktop
+- viewing windows on server are now located in tile fashion on desktop when opened
+- zooming for viewing window now possible with double click with draw area
+- corrected bug in Audiohandler resulting in positive dBs
+- added accelerometer handler for phones with JSR256 support 
+- added support for several cameras (usually devcam0: back and devcam1: front) in CameraHandler
+- removed application error bug when exiting midlet
+- allowed for IMG and ARR sensor types in local NORS mode, now written in data files (same directory than measurement file)
+- introduced GPSHandler class to decouple GPS handling from other location handling -> allows for unblocked usage of other location stuff!
+- added pen color support to view windows
+- added pen size support to view windows
+- pen size and color can now be set individually for each acquisition, including scripted ones (see script file for syntax)
+
+v1.2.3:
+- removed support for Symbianserver supplying cellular info (signal strength, ID), now only using system properties for this
+- changed local mode to run in full threaded fashion, not sequentially anymore
+- create now unique file everytime local recording is done - use current milliseconds as suffix
+- tweaked audio handler
+- store local mode sensor on/off settings in RMS
+- added 'BS' sensor for (cell) broadcast service, a string-type information that often holds location (such as names or area codes)
+
+V1.2.2:
+- added system handler to read cellID, battery and ram on S60 FP2 phones
+- changed audio handler to dBm
+
+V1.2:
+- ceased support or NORS GW (Imlet)
+- all handlers are enabled by default, access to be handled by consent and policy (to be done)
+- added GPS support through JSR179 (location API) - works with internal GPS as tested on N95
+- added handler for heart monitor by Alive Technology
+- improved resource usage overall, e.g., camera handler only opens camera on subscription not at startup
+- improved overall stability
+- improved local execution ability
+- added ability to store locally on memory card when executing NORS locally only
+
+V1.1:
+- removed SMS sending in BT scan within SSI handler
+- changed remaining server window titles to NORS from N-RSA
+- commented lifetime validity check for sensor discovery data in server middleware - new publish in gateways makes this obsolete (since any change is reported)
+- debug window in remote sensing now has Exit button
+- added PositioningHandler as framework handler for positioning based on location information, using the LocationHandler
+  - require JSR75 (PIM and file access) to be available on phone
+- added AudioHandler for audio sampling
+  - allows for sampling frequency (AF) and level (AL) but not at same time
+  - handles incoming calls (stops sampling) although still somewhat unstable - need to test if this is device dependent or a code issue
+- added proper JSR availability check in HandlerManager and HandlerManagerUI so that midlet now only shows and enables handlers when the optional JSR is available
+- improved stability of SymbianServer interface. Can now stop & restart Symbian server during midlet running
+- IMEI is now stored in RMS once read in TCPClient via SymbianServer, no user input anymore after that for IMEI!
+- when server fails in remote sensing mode, the GW code correctly goes in offline mode, i.e., restart required
+- added option asking for user content, set in General Settings. With this on, every subscription needs to be confirmed by the user.
+- included certificate in package for generating signed midlets, if required
+- added GPS code to LocationHandler
+  - reads only simple sequence xxGGA
+  - has not been tested yet!
+
+V1.1: 
+- official release of NORS to sourceforge
+Differences between "NORS GW" and "NORS Phone GW":
+- phone has UI with selection for certain things in N_RSA_GW.java
+- TCPClient
+  Phone: - Server IP is given through RSA_Start() (delivered through different constructors down) 
+         and TCPClient directly connects!
+         - reads IMEI through SymbianServer, if existing, or RMS
+  N12: uses own ORB code for reading text SMS -> supposed to be changed when using WMA, i.e., port-destined SMS
+- IRHandler:
+  Phone: removed since it does not support Imlet-IO, comment out line in HandlerManager
+- SerialPortLogger:
+  Phone: changed for display output rather than serial port output
+- SSIHandler::ComPortInit()
+  Phone: Reads from Java RMS to get BT address of Mette and connects via BT serial port profile 
+  N12: connects to COM3 of N12
+- RSA::RSA_start(), RSA::RSA_start_non_blocking()
+  Phone: input Display in RSA_start() for disconnection alerter
+- EventComponent::EventComponent()
+  Phone: input Display pointer for disconnection alerter
+- EventComponent::run()
+  Phone: show Alert in exception handling
+- handlerUIs package
+  Imlet: does not exist here since there is no UI!!!
+- handler package
+  Phone: lots more of handlers
+- Acquisition:
+  Phone: handle online verification for requests -> handling LCDUI parts for requesters
+
+V1.0:
+first release
