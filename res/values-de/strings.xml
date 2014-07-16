@@ -580,7 +580,7 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <!-- visualisation tab -->
 <string name="Get_storica">Hole Dir Storica!</string>
 <string name="Storica_description">Zusätzlich zu den kurzzeitgen Visualisierungen in AIRS kannst Du Deine AIRS Aufnahmen auch mit engagierten Multimediagrafiken verarbeiten und anzeigen lassen. Dazu benötigst Du die Storica Anwendung - drücke auf das Bild unten und lade es vom PlayStore!</string>
-<string name="debug_setting">true</string>
+<string name="debug_setting">false</string>
 <string name="activatedSensors">AS;AF;Ba;Bc;BM;CA;CD;CS;GI;HU;LI;PR;PU;PD;TR;TV;NO;Rm;Sc;IC;OC;SR;SS;TM;WC;VI</string>
 
 </resources>

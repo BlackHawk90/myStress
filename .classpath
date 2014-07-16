@@ -3,8 +3,6 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/google-api-client-1.18.0-rc.jar"/>
 	<classpathentry kind="lib" path="lib/google-api-client-android-1.18.0-rc.jar"/>
@@ -42,5 +40,6 @@
 	<classpathentry kind="lib" path="lib/protobuf-java-2.4.1.jar"/>
 	<classpathentry kind="lib" path="lib/transaction-api-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/xpp3-1.1.4c.jar"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
