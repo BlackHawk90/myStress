@@ -16,16 +16,24 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 */
 package com.airs.handlers;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.airs.R;
+import com.airs.helper.ListPreferenceMultiSelect;
 import com.airs.platform.HandlerManager;
 import com.airs.platform.SensorRepository;
+import com.google.api.client.repackaged.com.google.common.base.Strings;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Instances;
@@ -34,6 +42,7 @@ import android.provider.CalendarContract.Instances;
  * Class to read calendar sensors, specifically the CA sensor
  * @see Handler
  */
+@SuppressLint("NewApi")
 public class CalendarHandler implements Handler
 {
 	private Context airs;
@@ -117,20 +126,28 @@ public class CalendarHandler implements Handler
 		airs = nors;
 
 		// retrieve clendars
-		SharedPreferences  settings = PreferenceManager.getDefaultSharedPreferences(nors);
-		storedCalendars = settings.getString("CalendarHandler::Calendar_names", null);
-		
-		if (storedCalendars == null)	
-			no_calendars = false;
-		else
-		{
-			// retrieve individual calendars now
-			calendars = storedCalendars.split("::");
-			no_calendars = true; 
-		}
+//		SharedPreferences  settings = PreferenceManager.getDefaultSharedPreferences(nors);
+//		storedCalendars = settings.getString("CalendarHandler::Calendar_names", null);
+//		
+//		if (storedCalendars == null) 	
+//			no_calendars = false;
+//		else
+//		{
+//			// retrieve individual calendars now
+//			calendars = storedCalendars.split("::");
+//			no_calendars = true; 
+//		}
 
+		calendars = getAllCalendar();
+		
+		if(calendars != null)
+			no_calendars = true;
+		else
+			no_calendars = false;
+		
 		// now read polltime for audio sampling
-		polltime = HandlerManager.readRMS_i("CalendarHandler::samplingpoll", 60) * 1000;
+//		polltime = HandlerManager.readRMS_i("CalendarHandler::samplingpoll", 60) * 1000;
+		polltime = 5000;
 
 	}
 	
@@ -209,5 +226,37 @@ public class CalendarHandler implements Handler
 		// have we read anything? -> if not, delete reading string
 		if (first == false)
 			reading = null;
+	}
+	
+	/**
+	 * Function to configure the Preference activity with any preset value necessary - here we populate the ListPreference for the calendars with all calendars available on this device
+	 * @param prefs Reference to {@link android.preference.PreferenceActivity}
+	 */
+	private String[] getAllCalendar()
+	{	
+		int i;
+		String[] fields = {CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, CalendarContract.Calendars._ID};
+    	Cursor eventCursor;
+    	ArrayList<String> allCalendar = new ArrayList<String>();
+    	
+		// use different way of accessing calendar for Honeycomb
+		if (Build.VERSION.SDK_INT>=14)
+			eventCursor =  airs.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI, fields, null, null, null);
+		else
+			eventCursor =  airs.getContentResolver().query(Uri.parse("content://com.android.calendar/calendars"), (new String[] { "displayName", "_id"}), null, null, null);
+			
+	    if (eventCursor.getCount() == 0)
+	    	return null;
+	   
+	    eventCursor.moveToFirst();
+		    
+		// collect all calendars
+	    for(i=0;i<eventCursor.getCount();i++)
+	    {
+	    	allCalendar.add(eventCursor.getString(1));
+	    	eventCursor.moveToNext();
+	    }
+	    
+	    return allCalendar.toArray(new String[allCalendar.size()]);
 	}
 }

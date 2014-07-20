@@ -16,13 +16,13 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 */
 package com.airs.handlerUIs;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceActivity;
 import android.provider.CalendarContract;
-
 import com.airs.*;
 import com.airs.helper.ListPreferenceMultiSelect;
 import com.airs.platform.HandlerEntry;
@@ -33,6 +33,7 @@ import com.airs.platform.HandlerEntry;
  * @see com.airs.handlerUIs.HandlerUI HandlerUI 
  * @see com.airs.handlers.CalendarHandler CalendarHandler
  */
+@SuppressLint("NewApi")
 public class CalendarHandlerUI implements HandlerUI
 {
 	private Context context; 

@@ -72,7 +72,7 @@ import com.airs.platform.SensorRepository;
  */
 public class AIRS_local extends Service
 {
-	private List<String> debug;
+	private List<String> activatedSensors;
 	// states for handler 
 	private static final int REFRESH_VALUES 		= 1;
 	private static final int SHOW_NOTIFICATION 	= 2;
@@ -1161,7 +1161,7 @@ public class AIRS_local extends Service
 			int i;
 			String sensor_setting;
 			Sensor current;
-			debug = Arrays.asList(getResources().getString(R.string.activatedSensors).split(";"));
+			activatedSensors = Arrays.asList(getResources().getString(R.string.activatedSensors).split(";"));
 
 			this.airs = airs;
 			
@@ -1215,7 +1215,7 @@ public class AIRS_local extends Service
 		    	
 		    	
 //		    	if (sensor_setting.compareTo("On") == 0 || debug.contains((String)current.Symbol))
-		    	if (debug.contains((String)current.Symbol))
+		    	if (activatedSensors.contains((String)current.Symbol))
 		    		entry.checked = true;
 		    	else
 		    		entry.checked = false;
@@ -1248,7 +1248,7 @@ public class AIRS_local extends Service
 			int i;
 			String sensor_setting;
 			Sensor current;
-			debug = Arrays.asList(getResources().getString(R.string.activatedSensors).split(";"));
+			activatedSensors = Arrays.asList(getResources().getString(R.string.activatedSensors).split(";"));
 			
 			airs = this.getApplicationContext();
      
@@ -1287,7 +1287,7 @@ public class AIRS_local extends Service
 		    	// set selected index to setting in RMS
 		    	
 //		    	if (sensor_setting.compareTo("On") == 0)
-		    	if(debug.contains((String)current.Symbol))
+		    	if(activatedSensors.contains((String)current.Symbol))
 		    		entry.checked = true;
 		    	else
 		    		entry.checked = false;
