@@ -29,7 +29,7 @@ public class SensorRepository
 	 */
     static public  Sensor root_sensor = null;
     static private Sensor new_one = null;
-    
+      
     /**
      * Delete all sensors (by simply setting the first sensor reference to null}
      */

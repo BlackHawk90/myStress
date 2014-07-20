@@ -27,6 +27,10 @@ public class ConnectGoogleAccount extends Activity
 	static private final int REQUEST_ACCOUNT_PICKER = 1;
 	static private final int REQUEST_AUTHORIZATION = 2;
 	
+	static private String CLIENT_ID = "509211771570-tfi8afi6gs00m2s3v37u6d8un94fa5pb.apps.googleusercontent.com";
+	static private String CLIENT_SECRET = "WT4XlJLkVyqKHKp6c-b9W4NB";
+	static private String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
+	  
 	// the actual credential token
 	private GoogleAccountCredential credential;  
     // preferences
@@ -47,10 +51,13 @@ public class ConnectGoogleAccount extends Activity
 
         // get default preferences
         settings = PreferenceManager.getDefaultSharedPreferences(this);
+        
+        //FIXME: Add unique Folder key
         GDrive_Folder = settings.getString("GDriveFolder", "AIRS");
         
         try
         {
+        	//FIXME: Upload klappt nicht
 		    credential = GoogleAccountCredential.usingOAuth2(this.getApplicationContext(), Arrays.asList(DriveScopes.DRIVE));
 		    startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);	
         }
@@ -96,7 +103,7 @@ public class ConnectGoogleAccount extends Activity
 	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) 
     {
-//		super.onActivityResult(requestCode, resultCode, data); 
+		super.onActivityResult(requestCode, resultCode, data); 
 
 		switch (requestCode) 
 	    {

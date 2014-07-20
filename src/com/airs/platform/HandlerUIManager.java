@@ -66,12 +66,12 @@ public class HandlerUIManager
 	   handlers[index++] = new EnvironmentalSensorsUI();
 	   handlers[index++] = new AudioHandlerUI();
 	   handlers[index++] = new LocationHandlerUI();
-	   handlers[index++] = new HeartMonitorHandlerUI();
-	   handlers[index++] = new BeaconHandlerUI();
+//	   handlers[index++] = new HeartMonitorHandlerUI();
+//	   handlers[index++] = new BeaconHandlerUI();
 	   handlers[index++] = new CalendarHandlerUI();
 	   handlers[index++] = new NotificationHandlerUI();
-	   handlers[index++] = new EventButtonHandlerUI();
-	   handlers[index++] = new MediaWatcherHandlerUI();
+//	   handlers[index++] = new EventButtonHandlerUI();
+//	   handlers[index++] = new MediaWatcherHandlerUI();
 	   
 	   return true;
 	}

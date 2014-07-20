@@ -67,19 +67,19 @@ public class HandlerManager
 	   // this is due to the discovery mechanism since aggregated sensor handlers usually check the availability of the raw sensor in order to become 'visible'	   
 	   handlers[inst_handlers++]  = (Handler)new GPSHandler(nors);	   
 	   handlers[inst_handlers++]  = (Handler)new WeatherHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new RandomHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new BeaconHandler(nors);
+//	   handlers[inst_handlers++]  = (Handler)new RandomHandler(nors);
+//	   handlers[inst_handlers++]  = (Handler)new BeaconHandler(nors);
 	   handlers[inst_handlers++]  = (Handler)new WifiHandler(nors);
 	   handlers[inst_handlers++]  = (Handler)new CellHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new EventButtonHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new EventTextHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new MoodButtonHandler(nors);
+//	   handlers[inst_handlers++]  = (Handler)new EventButtonHandler(nors);
+//	   handlers[inst_handlers++]  = (Handler)new EventTextHandler(nors);
+//	   handlers[inst_handlers++]  = (Handler)new MoodButtonHandler(nors);
 	   handlers[inst_handlers++]  = (Handler)new AudioHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new HeartMonitorHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new MusicPlayerHandler(nors);
+//	   handlers[inst_handlers++]  = (Handler)new HeartMonitorHandler(nors);
+//	   handlers[inst_handlers++]  = (Handler)new MusicPlayerHandler(nors);
 	   handlers[inst_handlers++]  = (Handler)new SystemHandler(nors);
 	   handlers[inst_handlers++]  = (Handler)new PhoneSensorHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new MediaWatcherHandler(nors);
+//	   handlers[inst_handlers++]  = (Handler)new MediaWatcherHandler(nors);
 	   handlers[inst_handlers++]  = (Handler)new CalendarHandler(nors);
 	   handlers[inst_handlers++]  = (Handler)new BloodPressureButtonHandler(nors);
 	   handlers[inst_handlers++]  = (Handler)new NotificationHandler(nors);
