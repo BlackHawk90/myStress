@@ -21,7 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import com.airs.R;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
@@ -282,7 +281,11 @@ public class NotificationHandlerService extends AccessibilityService
     };
     
     @SuppressLint("NewApi")
+<<<<<<< HEAD
     public static List<String> getText(Notification notification)
+=======
+	public static List<String> getText(Notification notification)
+>>>>>>> d54b7062dcf1ab7ebf328b61943f77aca85610d6
     {
         // We have to extract the information from the view
         RemoteViews views;

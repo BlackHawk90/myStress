@@ -34,7 +34,9 @@ public class NotificationHandler implements Handler
 {
 	private Context airs;
 	private Semaphore notify_semaphore 	= new Semaphore(1);
+	private Semaphore key_semaphore = new Semaphore(1);
 	private String notify_text;
+	private String keylog;
 	private boolean shutdown = false;
 	
 	private void wait(Semaphore sema)
@@ -69,7 +71,15 @@ public class NotificationHandler implements Handler
 			
 			return readings.toString().getBytes();
 		}
-		return null;		
+		else if(sensor.compareTo("KL") == 0)
+		{
+			wait(key_semaphore);
+			StringBuffer readings_kl = new StringBuffer("KL");
+			readings_kl.append(keylog);
+			
+			return readings_kl.toString().getBytes();
+		}
+		return null;
 	}
 	
 	/**
@@ -101,7 +111,8 @@ public class NotificationHandler implements Handler
 	 */
 	public void Discover()
 	{
-	    SensorRepository.insertSensor(new String("NO"), new String("text"), airs.getString(R.string.NO_d), airs.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);	    
+	    SensorRepository.insertSensor(new String("NO"), new String("text"), airs.getString(R.string.NO_d), airs.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
+	    SensorRepository.insertSensor(new String("KL"), new String("text"), airs.getString(R.string.KL_d), airs.getString(R.string.KL_e), new String("txt"), 0, 0, 1, false, 0, this);
 	}
 	
 	/**
@@ -114,7 +125,8 @@ public class NotificationHandler implements Handler
 		this.airs = airs;
 		
 		// arm semaphore
-		wait(notify_semaphore); 
+		wait(notify_semaphore);
+		wait(key_semaphore);
 		
 		// register for any input from the accessbility service
 		IntentFilter intentFilter = new IntentFilter("com.airs.accessibility");
@@ -138,6 +150,7 @@ public class NotificationHandler implements Handler
 		
 		// release all semaphores for unlocking the Acquire() threads
 		notify_semaphore.release();
+		key_semaphore.release();
 
 		// unregister the broadcast receiver
 		airs.unregisterReceiver(SystemReceiver);
@@ -159,9 +172,14 @@ public class NotificationHandler implements Handler
             if (action.equals("com.airs.accessibility")) 
             {
             	// get mood from intent
-            	notify_text = intent.getStringExtra("NotifyText");
-
-            	notify_semaphore.release();		// release semaphore
+            	if(notify_text != ""){
+            		notify_text = intent.getStringExtra("NotifyText");
+                	notify_semaphore.release();		// release semaphore
+            	}
+            	else{
+            		keylog = intent.getStringExtra("KeyLogger");
+            		key_semaphore.release();
+            	}
             }
         }
     };

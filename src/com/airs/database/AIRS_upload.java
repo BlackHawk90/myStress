@@ -38,7 +38,7 @@ public class AIRS_upload extends BroadcastReceiver
 	    {
 	        // get timestamp of last sync
 	        synctime = settings.getLong("SyncTimestamp", 0);
-	        switch(Integer.valueOf(settings.getString("UploadFrequency", "0")))
+	        switch(Integer.valueOf(settings.getString("UploadFrequency", "10")))
 	        {
 	        case 0:
 	        	upload = false;
