@@ -25,6 +25,7 @@ import java.util.List;
 import com.airs.R;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -53,7 +54,7 @@ public class NotificationHandlerService extends AccessibilityService
 	@Override
 	public void onAccessibilityEvent(AccessibilityEvent event) 
 	{
-    	Log.e("AIRS", "new notification: " + event.getPackageName().toString());
+    	Log.e("AIRS", "new notification: " + event.getPackageName().toString() + ", " + event.getEventType());
 	    if (event.getEventType() == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) 
 	    {
 	    	// get notification shown
@@ -128,6 +129,62 @@ public class NotificationHandlerService extends AccessibilityService
 		    	}
 	    	}
 	    }
+	    else if(event.getEventType() == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED){
+//	    	Log.e("AIRS", event.getBeforeText() + ", " + event.getText().toString());
+	    	
+	    	String diff="";
+	    	String text = event.getText().toString();
+	    	String beforeText = event.getBeforeText().toString();
+	    	text = text.substring(1, text.length()-1);	    	
+	    	boolean del;
+	    	int length_diff;
+	    	
+	    	if(text.length() < beforeText.length()){
+	    		del = true;
+	    		length_diff = beforeText.length()- text.length();
+	    		
+	    		int i=0;
+	    		while(i<text.length()){
+	    			if(text.charAt(i)!=beforeText.charAt(i)) break;
+	    			i++;
+	    		}
+	    		int start = i;
+	    		i=0;
+	    		while(i<length_diff){
+	    			diff = diff + beforeText.charAt(start+i);
+	    			i++;
+	    		}
+	    	}
+	    	else{
+	    		del = false;
+	    		length_diff = text.length() - beforeText.length();
+	    		
+	    		int i=0;
+	    		while(i<beforeText.length()){
+	    			if(text.charAt(i)!=beforeText.charAt(i)) break;
+	    			i++;
+	    		}
+	    		int start = i;
+	    		i=0;
+	    		while(i<length_diff){
+	    			diff = diff + text.charAt(start+i);
+	    			i++;
+	    		}
+	    	}
+	    	
+	    	if(del == false){
+//	    		Log.e("AIRS", "text inserted: " + diff);
+//				Intent intent = new Intent("com.airs.accessibility");
+//				intent.putExtra("KeyLogger", "text inserted: " + );		
+//				sendBroadcast(intent);
+	    	}
+	    	else{
+	    		Log.e("AIRS", "text deleted: " + diff);
+				Intent intent = new Intent("com.airs.accessibility");
+				intent.putExtra("KeyLogger", length_diff + " characters deleted");
+				sendBroadcast(intent);
+	    	}
+	    }
 	}
 	
 	/**
@@ -138,19 +195,25 @@ public class NotificationHandlerService extends AccessibilityService
 	 */
 	@Override
 	protected void onServiceConnected() 
-	{	    
+	{
+//	    Log.e("AIRS", "connecting NotificationHandlerService");
+
 		// register for any input from the accessbility service
 		IntentFilter intentFilter = new IntentFilter("com.airs.accessibility.start");
         registerReceiver(SystemReceiver, intentFilter);
                
         // now switch off initially
 	    AccessibilityServiceInfo info = new AccessibilityServiceInfo();
+//	    info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
 	    info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
-	    info.notificationTimeout = 100;
+//	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_VISUAL;
 	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
+	    info.notificationTimeout = 100;
 //	    info.packageNames = new String[] {"com.airs.helpers" };
 //	    info.packageNames = new String[] {"com.skype.raider", "com.google.android.gsf" };
 
+	    Log.e("AIRS", "NotificationHandlerService connected");
+	    
 	    setServiceInfo(info);   
 	}
 
@@ -187,29 +250,38 @@ public class NotificationHandlerService extends AccessibilityService
             	if (intent.getBooleanExtra("start", true) == true)
             	{
             	    AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-            	    info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
+//            	    info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
+            	    info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
+//            	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_VISUAL;
+            	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
             	    info.notificationTimeout = 100;
-            	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_VISUAL;
 //            	    info.packageNames = new String[] {"com.skype.raider", "com.google.android.talk", "com.spotify.music", "com.whatsapp", "com.facebook.orca", "com.facebook.katana"};
             	    setServiceInfo(info);
             	    
             	    started = true;
+            	    
+//            	    Log.e("AIRS", "gathering started");
             	}
             	else	// or stop it?
             	{
             	    AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-            	    info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
+//            	    info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
+            	    info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
+//            	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_VISUAL;
+            	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
             	    info.notificationTimeout = 100;
-            	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_VISUAL;
 //            	    info.packageNames = new String[] {"com.airs.helpers" };
             	    setServiceInfo(info);   
             	    
             	    started = false;
+            	    
+//            	    Log.e("AIRS", "gathering stopped");
             	}
             }
         }
     };
     
+    @SuppressLint("NewApi")
     public static List<String> getText(Notification notification)
     {
         // We have to extract the information from the view
