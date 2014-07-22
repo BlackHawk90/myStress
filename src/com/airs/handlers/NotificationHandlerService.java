@@ -16,6 +16,12 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 */
 package com.airs.handlers;
 
+import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.airs.R;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
@@ -24,8 +30,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
+import android.widget.RemoteViews;
 
 /**
  * Class to implement the AIRS accessibility service
@@ -42,13 +53,14 @@ public class NotificationHandlerService extends AccessibilityService
 	@Override
 	public void onAccessibilityEvent(AccessibilityEvent event) 
 	{
+    	Log.e("AIRS", "new notification: " + event.getPackageName().toString());
 	    if (event.getEventType() == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) 
 	    {
 	    	// get notification shown
 	    	Notification notification = (Notification)event.getParcelableData();
-		    	
+	    	
 	    	if (notification != null)
-	    	{    	
+	    	{
 		    	// now parse the specific packages we support
 		    	// start with GTalk
 		    	if (event.getPackageName().toString().compareTo("com.google.android.talk") == 0)
@@ -95,6 +107,25 @@ public class NotificationHandlerService extends AccessibilityService
 		    				Log.e("AIRS", "Can't find token in '" + notification.tickerText +"'");
 		    		}				
 		    	}
+		    	if(event.getPackageName().toString().compareTo("com.whatsapp") == 0){
+		    		Log.e("AIRS", "whatsapp message");
+			        // now broadcast the capturing of the accessibility service to the handler
+					Intent intent = new Intent("com.airs.accessibility");
+					intent.putExtra("NotifyText", "whatsapp::" + getText(notification));
+					sendBroadcast(intent);	
+		    	}
+		    	if(event.getPackageName().toString().compareTo("com.facebook.orca") == 0){
+		    		// now broadcast the capturing of the accessibility service to the handler
+					Intent intent = new Intent("com.airs.accessibility");
+					intent.putExtra("NotifyText", "fbm::" + getText(notification));
+					sendBroadcast(intent);
+		    	}
+		    	if(event.getPackageName().toString().compareTo("com.facebook.katana") == 0){
+		    		// now broadcast the capturing of the accessibility service to the handler
+					Intent intent = new Intent("com.airs.accessibility");
+					intent.putExtra("NotifyText", "fb::" + getText(notification));
+					sendBroadcast(intent);
+		    	}
 	    	}
 	    }
 	}
@@ -114,10 +145,10 @@ public class NotificationHandlerService extends AccessibilityService
                
         // now switch off initially
 	    AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-	    info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
+	    info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
 	    info.notificationTimeout = 100;
-	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_VISUAL;
-	    info.packageNames = new String[] {"com.airs.helpers" };
+	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
+//	    info.packageNames = new String[] {"com.airs.helpers" };
 //	    info.packageNames = new String[] {"com.skype.raider", "com.google.android.gsf" };
 
 	    setServiceInfo(info);   
@@ -159,7 +190,7 @@ public class NotificationHandlerService extends AccessibilityService
             	    info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
             	    info.notificationTimeout = 100;
             	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_VISUAL;
-            	    info.packageNames = new String[] {"com.skype.raider", "com.google.android.talk", "com.spotify.music"};
+//            	    info.packageNames = new String[] {"com.skype.raider", "com.google.android.talk", "com.spotify.music", "com.whatsapp", "com.facebook.orca", "com.facebook.katana"};
             	    setServiceInfo(info);
             	    
             	    started = true;
@@ -170,7 +201,7 @@ public class NotificationHandlerService extends AccessibilityService
             	    info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
             	    info.notificationTimeout = 100;
             	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_VISUAL;
-            	    info.packageNames = new String[] {"com.airs.helpers" };
+//            	    info.packageNames = new String[] {"com.airs.helpers" };
             	    setServiceInfo(info);   
             	    
             	    started = false;
@@ -178,5 +209,75 @@ public class NotificationHandlerService extends AccessibilityService
             }
         }
     };
+    
+    public static List<String> getText(Notification notification)
+    {
+        // We have to extract the information from the view
+        RemoteViews views;
+        if (Build.VERSION.SDK_INT >= 16) views = notification.bigContentView;
+        else views = notification.contentView;
+        if (views == null) return null;
+
+        // Use reflection to examine the m_actions member of the given RemoteViews object.
+        // It's not pretty, but it works.
+        List<String> text = new ArrayList<String>();
+        try
+        {
+            Field field = views.getClass().getDeclaredField("mActions");
+            field.setAccessible(true);
+
+            @SuppressWarnings("unchecked")
+            ArrayList<Parcelable> actions = (ArrayList<Parcelable>) field.get(views);
+
+            // Find the setText() and setTime() reflection actions
+            for (Parcelable p : actions)
+            {
+                Parcel parcel = Parcel.obtain();
+                p.writeToParcel(parcel, 0);
+                parcel.setDataPosition(0);
+
+                // The tag tells which type of action it is (2 is ReflectionAction, from the source)
+                int tag = parcel.readInt();
+                if (tag != 2) continue;
+
+                // View ID
+                parcel.readInt();
+
+                String methodName = parcel.readString();
+                if (methodName == null) continue;
+
+                // Save strings
+                else if (methodName.equals("setText"))
+                {
+                    // Parameter type (10 = Character Sequence)
+                    parcel.readInt();
+
+                    // Store the actual string
+                    String t = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(parcel).toString().trim();
+                    text.add(t);
+                }
+
+                // Save times. Comment this section out if the notification time isn't important
+                else if (methodName.equals("setTime"))
+                {
+                    // Parameter type (5 = Long)
+                    parcel.readInt();
+
+                    String t = new SimpleDateFormat("h:mm a").format(new Date(parcel.readLong()));
+                    text.add(t);
+                }
+
+                parcel.recycle();
+            }
+        }
+
+        // It's not usually good style to do this, but then again, neither is the use of reflection...
+        catch (Exception e)
+        {
+            Log.e("NotificationClassifier", e.toString());
+        }
+
+        return text;
+    }
 }
 
