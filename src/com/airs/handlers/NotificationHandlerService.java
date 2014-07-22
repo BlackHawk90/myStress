@@ -281,11 +281,7 @@ public class NotificationHandlerService extends AccessibilityService
     };
     
     @SuppressLint("NewApi")
-<<<<<<< HEAD
-    public static List<String> getText(Notification notification)
-=======
 	public static List<String> getText(Notification notification)
->>>>>>> d54b7062dcf1ab7ebf328b61943f77aca85610d6
     {
         // We have to extract the information from the view
         RemoteViews views;

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2011, Dirk Trossen, airs@dirk-trossen.de
+
+  This program is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License as published by
+  the Free Software Foundation as version 2.1 of the License.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+  License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to the Free Software Foundation, Inc.,
+  59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+ -->
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:title="@string/General_Settings">
+   <PreferenceCategory android:title="@string/Remote_Settings">
+    <EditTextPreference
+        android:summary="@string/Address_server"
+        android:defaultValue="127.0.0.1"
+        android:title="@string/Server_name"
+        android:key="IPStore" android:name="@string/Server_name"/>
+    <EditTextPreference
+        android:summary="@string/Port_server"
+        android:defaultValue="9000"
+        android:title="@string/Port_number"
+        android:numeric="integer"
+        android:key="IPPort" android:name="@string/Port_number"/>
+   </PreferenceCategory>    
+   <PreferenceCategory android:title="@string/Local_Settings">
+    <CheckBoxPreference 
+    	android:enabled="true" 
+    	android:title="@string/Local_Display" 
+    	android:key="localDisplay" 
+    	android:defaultValue="true" 
+    	android:selectable="true" 
+    	android:summaryOn="@string/Local_Display_on" 
+    	android:summaryOff="@string/Local_Display_off"/>
+    <CheckBoxPreference 
+    	android:enabled="true" 
+    	android:title="@string/Local_Storage" 
+    	android:key="LocalStore" 
+    	android:selectable="true" 
+    	android:defaultValue="true" 
+    	android:summaryOn="@string/Local_Storage_on" 
+    	android:summaryOff="@string/Local_Storage_off"/>
+    <CheckBoxPreference 
+    	android:enabled="true" 
+    	android:title="@string/AIRS_intents" 
+    	android:key="AIRSIntents" 
+    	android:selectable="true" 
+    	android:defaultValue="true" 
+    	android:summaryOn="@string/AIRS_intents_on" 
+    	android:summaryOff="@string/AIRS_intents_off"/>
+    <CheckBoxPreference 
+    	android:enabled="true" 
+    	android:title="@string/Wakeup" 
+    	android:key="Wakeup" 
+    	android:defaultValue="false" 
+    	android:selectable="true" 
+    	android:summaryOn="@string/Wakeup_on" 
+    	android:summaryOff="@string/Wakeup_off"/>  
+    <EditTextPreference
+        android:summary="@string/Battery_kill_on"
+        android:defaultValue="0"
+        android:numeric="integer"
+        android:title="@string/Battery_kill"
+        android:key="BatteryKill" android:name="Battery Kill"/>    
+    </PreferenceCategory> 
+    <PreferenceCategory android:title="@string/Sync_Settings">
+	    <Preference android:title="@string/ConnectGoogle"
+	        android:summary="@string/ConnectGoogle2">
+	       <intent
+	        android:action="android.intent.action.MAIN"
+	        android:targetPackage="com.airs"
+	        android:targetClass="com.airs.helper.ConnectGoogleAccount"
+	        />
+	    </Preference> 
+        <EditTextPreference
+	        android:title="@string/FolderGoogle"
+	        android:summary="@string/FolderGoogle2"
+	        android:defaultValue="AIRS"
+	        android:key="GDriveFolder" 
+	        android:name="@string/FolderGoogle"/>
+        <ListPreference
+	        android:key="UploadFrequency"
+	        android:title="@string/UploadFrequency"
+	        android:summary="@string/UploadFrequency_on"
+	        android:defaultValue="0"
+	        android:positiveButtonText="@string/Select"
+	        android:entries="@array/uploadfrequency_values"
+	        android:entryValues="@array/uploadfrequency_entries"
+	        android:dialogTitle="@string/UploadFrequency" />
+	    <CheckBoxPreference 
+	    	android:enabled="true" 
+	    	android:title="@string/Upload_Wifi" 
+	    	android:key="UploadWifi" 
+	    	android:selectable="true" 
+	    	android:defaultValue="true"/>
+    </PreferenceCategory>    
+    <PreferenceCategory android:title="@string/Reminder_Settings"> 	
+    <EditTextPreference
+		android:dialogIcon="@drawable/time"
+        android:summary="@string/Reminder_Interval_on"
+        android:defaultValue="0"
+        android:numeric="integer"
+        android:title="@string/Reminder_Interval"
+        android:key="Reminder" android:name="Reminder"/>
+    <CheckBoxPreference 
+    	android:enabled="true" 
+    	android:title="@string/Vibrate" 
+    	android:key="Vibrator" 
+    	android:defaultValue="true" 
+    	android:selectable="true" 
+    	android:summaryOn="@string/Vibrate_on" 
+    	android:summaryOff="@string/Vibrate_off"/>  
+    <CheckBoxPreference 
+    	android:enabled="true" 
+    	android:title="@string/Lights" 
+    	android:key="Lights" 
+    	android:defaultValue="true" 
+    	android:selectable="true" 
+    	android:summaryOn="@string/Lights_on" 
+    	android:summaryOff="@string/Lights_off"/>  
+    <ListPreference
+        android:dependency="Lights"
+        android:key="LightCode"
+        android:title="@string/Color_Code"
+        android:summary="@string/Color_Code_on"
+        android:defaultValue="0x0000ff"
+        android:positiveButtonText="@string/Select"
+        android:entries="@array/lightnotification_values"
+        android:entryValues="@array/lightnotification_entries"
+        android:dialogTitle="@string/Color_Code" />
+    </PreferenceCategory>    
+    <PreferenceCategory android:title="Debug Settings"> 	
+    <CheckBoxPreference 
+    	android:enabled="true" 
+    	android:title="@string/Debug" 
+    	android:key="Debug" 
+    	android:selectable="true" 
+    	android:summaryOn="@string/Debug_on" 
+    	android:summaryOff="@string/Debug_off"/>    
+   </PreferenceCategory>    
+</PreferenceScreen>
+
