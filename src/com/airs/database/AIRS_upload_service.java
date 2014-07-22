@@ -125,6 +125,7 @@ public class AIRS_upload_service extends Service implements MediaHttpUploaderPro
         service = getDriveService(context);
   
         // get Google drive folder
+        //FIXME: Add unique Folder key
         GDrive_Folder = settings.getString("GDriveFolder", "AIRS");
 
         if (service != null)
