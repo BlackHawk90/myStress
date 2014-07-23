@@ -58,7 +58,6 @@ public class NotificationHandler implements Handler
 	 */
 	public synchronized byte[] Acquire(String sensor, String query)
 	{
-		StringBuffer readings = new StringBuffer("NO");
 		
 		// are we shutting down?
 		if (shutdown == true)
@@ -67,6 +66,7 @@ public class NotificationHandler implements Handler
 		if(sensor.compareTo("NO") == 0)
 		{
 			wait(notify_semaphore);
+			StringBuffer readings = new StringBuffer("NO");
 			readings.append(notify_text.replaceAll("'","''"));
 			
 			return readings.toString().getBytes();
@@ -111,8 +111,8 @@ public class NotificationHandler implements Handler
 	 */
 	public void Discover()
 	{
-	    SensorRepository.insertSensor(new String("NO"), new String("text"), airs.getString(R.string.NO_d), airs.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
 	    SensorRepository.insertSensor(new String("KL"), new String("text"), airs.getString(R.string.KL_d), airs.getString(R.string.KL_e), new String("txt"), 0, 0, 1, false, 0, this);
+	    SensorRepository.insertSensor(new String("NO"), new String("text"), airs.getString(R.string.NO_d), airs.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
 	}
 	
 	/**
@@ -172,12 +172,12 @@ public class NotificationHandler implements Handler
             if (action.equals("com.airs.accessibility")) 
             {
             	// get mood from intent
-            	if(notify_text != ""){
+            	if(intent.hasExtra("NotifyText")){
             		notify_text = intent.getStringExtra("NotifyText");
                 	notify_semaphore.release();		// release semaphore
             	}
-            	else{
-            		keylog = intent.getStringExtra("KeyLogger");
+            	if(intent.hasExtra("KeyLogger")){
+            		keylog =  intent.getStringExtra("KeyLogger");
             		key_semaphore.release();
             	}
             }

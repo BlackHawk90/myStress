@@ -233,6 +233,7 @@ public class NotificationHandlerService extends AccessibilityService
     public void onDestroy() 
     {
         super.onDestroy();
+        unregisterReceiver(SystemReceiver);
     }
     
 	private final BroadcastReceiver SystemReceiver = new BroadcastReceiver() 
