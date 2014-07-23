@@ -1,6 +1,5 @@
 package com.airs.database;
 
-import com.airs.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -17,6 +16,7 @@ import android.widget.Toast;
 
 public class AIRS_upload extends BroadcastReceiver
 {
+	private static final int MINUTELY   = 1000*60; 
 	private static final int HOURLY		= 60*60*1000;
 	private static final int DAYLY		= 24*60*60*1000;
 	private static final int WEEKLY		= 7*24*60*60*1000;
@@ -38,7 +38,7 @@ public class AIRS_upload extends BroadcastReceiver
 	    {
 	        // get timestamp of last sync
 	        synctime = settings.getLong("SyncTimestamp", 0);
-	        switch(Integer.valueOf(settings.getString("UploadFrequency", "10")))
+	        switch(Integer.valueOf(settings.getString("UploadFrequency", "0")))
 	        {
 	        case 0:
 	        	upload = false;
@@ -53,6 +53,10 @@ public class AIRS_upload extends BroadcastReceiver
 	        	break;
 	        case 20:
 	        	synctime += WEEKLY;
+	        	upload = true;
+	        	break;
+	        case 30:
+	        	synctime += MINUTELY;
 	        	upload = true;
 	        	break;
 	    	default:

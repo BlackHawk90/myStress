@@ -1,11 +1,9 @@
 package com.airs.helper;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.GeneralSecurityException;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -14,40 +12,27 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.airs.R;
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential;
-import com.google.api.client.googleapis.services.CommonGoogleClientRequestInitializer;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.IOUtils;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.ParentReference;
-import com.google.appengine.api.appidentity.AppIdentityServiceFactory;
 
 @SuppressLint("NewApi")
 public class ConnectGoogleAccount extends Activity {
-	static private final int REQUEST_AUTHORIZATION = 2;
-
-	// the actual credential token
-	private Credential credential;
-
 	// preferences
 	private SharedPreferences settings;
 
 	// GDrive folder
 	private String GDrive_Folder;
-
-	//API KEY
-	//FIXME: In Datei auslagern
-	private static final String API_KEY = "AIzaSyCfrJZhFH6o0TitB003tS__bx4Jl5wYYDI";
-
 
 	/**
 	 * Called when the activity is first created.
@@ -130,7 +115,7 @@ public class ConnectGoogleAccount extends Activity {
 
 				while (running == true) {
 					try {
-						Drive service = getDriveService();
+						Drive service = getDriveService2();
 						SerialPortLogger
 								.debugForced("trying to find AIRS recordings directory in root");
 
@@ -160,14 +145,10 @@ public class ConnectGoogleAccount extends Activity {
 										.debugForced("Created folder with id = "
 												+ AIRS_dir.getId());
 						}
-
+						
+						Log.i("AIRS","DriveAccount connected successfully");
+						
 						running = false;
-					} catch (UserRecoverableAuthIOException e) {
-						SerialPortLogger
-								.debugForced("Require authorization - starting activity!");
-						startActivityForResult(e.getIntent(),
-								REQUEST_AUTHORIZATION);
-						return;
 					} catch (Exception e) {
 						SerialPortLogger
 								.debugForced("something went wrong with folder creation: "
@@ -179,24 +160,38 @@ public class ConnectGoogleAccount extends Activity {
 			}
 		}).start();
 	}
+	
+	public Drive getDriveService2() {
+		String SERVICE_ACCOUNT_EMAIL = "509211771570-ost52oo87929t8s96cifgk4rg0p1fcbr@developer.gserviceaccount.com";
+	    HttpTransport httpTransport = new NetHttpTransport();
+	    JsonFactory jsonFactory = new JacksonFactory();
+	    GoogleCredential credential;
+	    Drive service = null;
+	    List<String> scopes = Arrays.asList(DriveScopes.DRIVE);
 
-	public static Drive getDriveService() throws GeneralSecurityException,
-			IOException, URISyntaxException {
-		Collection<String> scope = new ArrayList<String>();
-		scope.add(DriveScopes.DRIVE);
-		
-		HttpTransport httpTransport = new NetHttpTransport();
-		JsonFactory jsonFactory = new JacksonFactory();
-		
-		AppIdentityCredential credential = new AppIdentityCredential.Builder(scope).build();
-		GoogleClientRequestInitializer keyInitializer = new CommonGoogleClientRequestInitializer(
-				API_KEY);
-		Drive service = new Drive.Builder(httpTransport, jsonFactory, null)
-				.setHttpRequestInitializer(credential)
-				.setGoogleClientRequestInitializer(keyInitializer)
-				.setApplicationName("myStress")
-				.build();
-		return service;
+
+	    try {
+		    InputStream input = getAssets().open("key.p12");
+		    File tmpFile = File.createTempFile("key", "p12");
+		    tmpFile.deleteOnExit();
+		    try(FileOutputStream out = new FileOutputStream(tmpFile)){
+		    	IOUtils.copy(input, out);
+		    }
+	        credential = new GoogleCredential.Builder()
+	                .setTransport(httpTransport)
+	                .setJsonFactory(jsonFactory)
+	                .setServiceAccountId(SERVICE_ACCOUNT_EMAIL)
+	                .setServiceAccountScopes(scopes)
+	                .setServiceAccountPrivateKeyFromP12File(tmpFile)
+	                .build();
+	        service = new Drive.Builder(httpTransport, jsonFactory, null)
+	        		.setApplicationName("StressApp")
+	                .setHttpRequestInitializer(credential)
+	                .build();
+	    } catch (Exception e) {
+	        Log.e("AIRS","Error on connecting GDrive: " + e.getMessage());
+	    }
+	    return service;
 	}
 
 }

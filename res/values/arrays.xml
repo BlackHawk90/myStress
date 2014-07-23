@@ -106,12 +106,14 @@
     </string-array> 
     <string-array name="uploadfrequency_values">
         <item>Not at all!</item>
+        <item>Minutely</item>
         <item>Hourly</item>
         <item>Daily</item>
         <item>Weekly</item>
     </string-array>
     <string-array name="uploadfrequency_entries">
         <item>0</item>
+		<item>30</item>
         <item>1</item>
         <item>10</item>
         <item>20</item>
