@@ -44,6 +44,11 @@ import android.widget.RemoteViews;
 public class NotificationHandlerService extends AccessibilityService
 {	
 	boolean started = true;
+	boolean typing = false;
+	boolean newText = false;
+	double typingStartTime, typingEndTime;
+	int typedChars;
+	int maxTextLength;
 	
 	/**
 	 * Called when an accessibility event occurs - here, we check the particular component packages that fired the event, filtering out the ones we support
@@ -53,8 +58,9 @@ public class NotificationHandlerService extends AccessibilityService
 	@Override
 	public void onAccessibilityEvent(AccessibilityEvent event) 
 	{
-    	Log.e("AIRS", "new notification: " + event.getPackageName().toString() + ", " + event.getEventType());
-	    if (event.getEventType() == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) 
+		int eventType = event.getEventType();
+    	Log.e("AIRS", "new notification: " + event.getPackageName().toString() + ", " + eventType);
+	    if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) 
 	    {
 	    	// get notification shown
 	    	Notification notification = (Notification)event.getParcelableData();
@@ -128,60 +134,96 @@ public class NotificationHandlerService extends AccessibilityService
 		    	}
 	    	}
 	    }
-	    else if(event.getEventType() == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED){
+	    else if(eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED){
 //	    	Log.e("AIRS", event.getBeforeText() + ", " + event.getText().toString());
-	    	
-	    	String diff="";
+	    		    	
+//	    	String diff="";
 	    	String text = event.getText().toString();
 	    	String beforeText = event.getBeforeText().toString();
-	    	text = text.substring(1, text.length()-1);	    	
+	    	text = text.substring(1, text.length()-1);
 	    	boolean del;
-	    	int length_diff;
+	    	int length_diff = text.length()-beforeText.length();
 	    	
-	    	if(text.length() < beforeText.length()){
-	    		del = true;
-	    		length_diff = beforeText.length()- text.length();
-	    		
-	    		int i=0;
-	    		while(i<text.length()){
-	    			if(text.charAt(i)!=beforeText.charAt(i)) break;
-	    			i++;
-	    		}
-	    		int start = i;
-	    		i=0;
-	    		while(i<length_diff){
-	    			diff = diff + beforeText.charAt(start+i);
-	    			i++;
+	    	if(text.length() > maxTextLength) maxTextLength = text.length();
+	    	
+	    	if(typing == false){
+	    		if(length_diff == 1){
+	    			typing = true;
+	    			typingStartTime = (double)System.currentTimeMillis();
+	    			typingEndTime = typingStartTime;
+	    			typedChars = 1;
 	    		}
 	    	}
 	    	else{
-	    		del = false;
-	    		length_diff = text.length() - beforeText.length();
-	    		
-	    		int i=0;
-	    		while(i<beforeText.length()){
-	    			if(text.charAt(i)!=beforeText.charAt(i)) break;
-	    			i++;
-	    		}
-	    		int start = i;
-	    		i=0;
-	    		while(i<length_diff){
-	    			diff = diff + text.charAt(start+i);
-	    			i++;
-	    		}
+	    		typingEndTime = (double)System.currentTimeMillis();
+		    	typedChars++;
 	    	}
 	    	
-	    	if(del == false){
+	    	if(text.length() < beforeText.length()){
+	    		del = true;
+	    		length_diff = -length_diff;
+	    		
+//	    		int i=0;
+//	    		while(i<text.length()){
+//	    			if(text.charAt(i)!=beforeText.charAt(i)) break;
+//	    			i++;
+//	    		}
+//	    		int start = i;
+//	    		i=0;
+//	    		while(i<length_diff){
+//	    			diff = diff + beforeText.charAt(start+i);
+//	    			i++;
+//	    		}
+	    	}
+	    	else{
+	    		del = false;
+	    		
+//	    		int i=0;
+//	    		while(i<beforeText.length()){
+//	    			if(text.charAt(i)!=beforeText.charAt(i)) break;
+//	    			i++;
+//	    		}
+//	    		int start = i;
+//	    		i=0;
+//	    		while(i<length_diff){
+//	    			diff = diff + text.charAt(start+i);
+//	    			i++;
+//	    		}
+	    	}
+
+	    	
+	    	if(del == true){
+	    		Log.e("AIRS", "text deleted");//: " + diff);
+				Intent intent = new Intent("com.airs.accessibility");
+				intent.putExtra("KeyLogger", length_diff + " characters deleted");
+				sendBroadcast(intent);
+	    	}
+	    	else{
 //	    		Log.e("AIRS", "text inserted: " + diff);
 //				Intent intent = new Intent("com.airs.accessibility");
 //				intent.putExtra("KeyLogger", "text inserted: " + );		
 //				sendBroadcast(intent);
 	    	}
-	    	else{
-	    		Log.e("AIRS", "text deleted: " + diff);
-				Intent intent = new Intent("com.airs.accessibility");
-				intent.putExtra("KeyLogger", length_diff + " characters deleted");
-				sendBroadcast(intent);
+	    }
+	    else if(eventType == AccessibilityEvent.TYPE_VIEW_CLICKED || eventType == AccessibilityEvent.TYPE_VIEW_SELECTED){
+	    	if(typing == true){
+	    		if(typingEndTime != typingStartTime){
+		    		double typingDuration = (typingEndTime - typingStartTime)/1000.0d;
+		    		double typingSpeed = typedChars / typingDuration;
+		    		Log.e("AIRS", "Tippgeschwindigkeit: "+typingSpeed + " Zeichen pro Sekunde");
+		    		Intent intent = new Intent("com.airs.accessibility");
+		    		intent.putExtra("TypingSpeed", typingSpeed);
+		    		sendBroadcast(intent);
+	    		}
+	    		typing = false;
+	    	}
+	    	
+	    	if(maxTextLength > 0){
+	    		Log.e("AIRS", "Textlänge: "+maxTextLength);
+	    		Intent intent = new Intent("com.airs.accessibility");
+	    		intent.putExtra("TextLength", maxTextLength);
+	    		maxTextLength = 0;
+	    		sendBroadcast(intent);
 	    	}
 	    }
 	}
@@ -271,7 +313,7 @@ public class NotificationHandlerService extends AccessibilityService
             	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
             	    info.notificationTimeout = 100;
 //            	    info.packageNames = new String[] {"com.airs.helpers" };
-            	    setServiceInfo(info);   
+            	    setServiceInfo(info);
             	    
             	    started = false;
             	    

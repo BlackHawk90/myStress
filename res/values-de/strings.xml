@@ -468,6 +468,10 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="KL_e">Loggt mit, wie oft der Nutzer die Löschen-Taste betätigt.</string>
 <string name="NO_d">Benachrichtigung</string>
 <string name="NO_e">Bestimmt Informationen über Benachrichtigungen von Skype und Google Hangout.</string>
+<string name="TL_d">Textlänge</string>
+<string name="TL_e">Bestimmt die Länge jeder eingetippten Nachricht.</string>
+<string name="TS_d">Tippgeschwindigkeit</string>
+<string name="TS_e">Bestimmt die Tippgeschwindigkeit bei der Texteingabe.</string>
 <string name="AZ_d">Azimut</string>
 <string name="AZ_e">Bestimmt das Handys Azimut - der Winkel in Bezug zum magnetischen Pol.</string>
 <string name="PI_d">Neigung</string>
@@ -583,5 +587,5 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="Get_storica">Hole Dir Storica!</string>
 <string name="Storica_description">Zusätzlich zu den kurzzeitgen Visualisierungen in AIRS kannst Du Deine AIRS Aufnahmen auch mit engagierten Multimediagrafiken verarbeiten und anzeigen lassen. Dazu benötigst Du die Storica Anwendung - drücke auf das Bild unten und lade es vom PlayStore!</string>
 <string name="debug_setting">true</string>
-<string name="activatedSensors">AS;Ba;BC;BM;CA;CR;CD;CD;CL;CC;GI;GS;HU;RO;PI;LI;Az;PR;PU;PD;TR;TU;KL;NO;Rm;Sc;IC;OC;SR;SS;TM;WC;VI</string>
+<string name="activatedSensors">AS;AF;Ba;BC;BM;CA;CR;CD;CD;CL;CC;GI;GS;HU;RO;PI;LI;Az;PR;PU;PD;TR;TU;KL;NO;TS;TL;Rm;Sc;IC;OC;SR;SS;TM;WC;VI</string>
 </resources>

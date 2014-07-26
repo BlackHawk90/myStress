@@ -468,6 +468,10 @@ For remote recording, download the AIRS application server (see on our website) 
 <string name="KL_e">Counts number of deleted characters.</string>
 <string name="NO_d">Notification</string>
 <string name="NO_e">Provides information on notifications from Skype and Google Hangout.</string>
+<string name="TL_d">Text Length</string>
+<string name="TL_e">Determines length of each text input.</string>
+<string name="TS_d">Typing Speed</string>
+<string name="TS_e">Determines typing speed of text input.</string>
 <string name="AZ_d">Azimuth</string>
 <string name="AZ_e">Provides the phone\'s azimuth - the angle towards the magnetic pole.</string>
 <string name="PI_d">Pitch</string>
