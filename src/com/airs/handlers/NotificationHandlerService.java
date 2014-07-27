@@ -212,7 +212,7 @@ public class NotificationHandlerService extends AccessibilityService
 		    		double typingSpeed = typedChars / typingDuration;
 		    		Log.e("AIRS", "Tippgeschwindigkeit: "+typingSpeed + " Zeichen pro Sekunde");
 		    		Intent intent = new Intent("com.airs.accessibility");
-		    		intent.putExtra("TypingSpeed", typingSpeed);
+		    		intent.putExtra("TypingSpeed", ((Double)typingSpeed).toString());
 		    		sendBroadcast(intent);
 	    		}
 	    		typing = false;
@@ -221,7 +221,7 @@ public class NotificationHandlerService extends AccessibilityService
 	    	if(maxTextLength > 0){
 	    		Log.e("AIRS", "Textlänge: "+maxTextLength);
 	    		Intent intent = new Intent("com.airs.accessibility");
-	    		intent.putExtra("TextLength", maxTextLength);
+	    		intent.putExtra("TextLength", ((Integer)maxTextLength).toString());
 	    		maxTextLength = 0;
 	    		sendBroadcast(intent);
 	    	}

@@ -41,8 +41,8 @@ public class NotificationHandler implements Handler
 	
 	private String notify_text;
 	private String keylog;
-	private String textlength;
-	private String typingspeed;
+	private int textlength;
+	private double typingspeed;
 	
 	private boolean shutdown = false;
 	
@@ -134,8 +134,8 @@ public class NotificationHandler implements Handler
 	{
 	    SensorRepository.insertSensor(new String("KL"), new String("text"), airs.getString(R.string.KL_d), airs.getString(R.string.KL_e), new String("txt"), 0, 0, 1, false, 0, this);
 	    SensorRepository.insertSensor(new String("NO"), new String("text"), airs.getString(R.string.NO_d), airs.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
-	    SensorRepository.insertSensor(new String("TL"), new String("text"), airs.getString(R.string.TL_d), airs.getString(R.string.TL_e), new String("double"), 0, 0, 1, false, 0, this);
-	    SensorRepository.insertSensor(new String("TS"), new String("text"), airs.getString(R.string.TS_d), airs.getString(R.string.TS_e), new String("double"), 0, 0, 1, false, 0, this);
+	    SensorRepository.insertSensor(new String("TL"), new String("chars"), airs.getString(R.string.TL_d), airs.getString(R.string.TL_e), new String("double"), 0, 0, 100000, false, 0, this);
+	    SensorRepository.insertSensor(new String("TS"), new String("chars/s"), airs.getString(R.string.TS_d), airs.getString(R.string.TS_e), new String("double"), 0, 0, 20, false, 0, this);
 	}
 	
 	/**
@@ -208,11 +208,11 @@ public class NotificationHandler implements Handler
             		key_semaphore.release();
             	}
             	if(intent.hasExtra("TextLength")){
-            		textlength = intent.getStringExtra("TextLength");
+            		textlength = Integer.parseInt(intent.getStringExtra("TextLength"));
             		length_semaphore.release();
             	}
             	if(intent.hasExtra("TypingSpeed")){
-            		typingspeed = intent.getStringExtra("TypingSpeed");
+            		typingspeed = Double.parseDouble(intent.getStringExtra("TypingSpeed"));
             		speed_semaphore.release();
             	}
             }
