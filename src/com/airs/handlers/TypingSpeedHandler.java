@@ -31,19 +31,19 @@ import com.airs.platform.SensorRepository;
  * Class to read notification related sensors, specifically the NO sensor
  * @see Handler
  */
-public class NotificationHandler implements Handler
+public class TypingSpeedHandler implements Handler
 {
 	private Context airs;
 	
-	private Semaphore notify_semaphore 	= new Semaphore(1);
+//	private Semaphore notify_semaphore 	= new Semaphore(1);
 //	private Semaphore key_semaphore = new Semaphore(1);
-//	private Semaphore speed_semaphore = new Semaphore(1);
+	private Semaphore speed_semaphore = new Semaphore(1);
 //	private Semaphore length_semaphore = new Semaphore(1);
 	
-	private String notify_text;
+//	private String notify_text;
 //	private String keylog;
 //	private int textlength;
-//	private double typingspeed;
+	private float typingspeed;
 	
 	private boolean shutdown = false;
 	
@@ -73,13 +73,13 @@ public class NotificationHandler implements Handler
 
 		Log.w("AIRS", "Acquire "+sensor);
 		
-		if(sensor.compareTo("NO") == 0){
-			wait(notify_semaphore);
-			StringBuffer readings = new StringBuffer("NO");
-			readings.append(notify_text.replaceAll("'","''"));
-			
-			return readings.toString().getBytes();
-		}
+//		if(sensor.compareTo("NO") == 0){
+//			wait(notify_semaphore);
+//			StringBuffer readings = new StringBuffer("NO");
+//			readings.append(notify_text.replaceAll("'","''"));
+//			
+//			return readings.toString().getBytes();
+//		}
 //		else if(sensor.compareTo("KL") == 0){
 //			wait(key_semaphore);
 //			StringBuffer readings_kl = new StringBuffer("KL");
@@ -94,13 +94,19 @@ public class NotificationHandler implements Handler
 //			
 //			return readings.toString().getBytes();
 //		}
-//		else if(sensor.compareTo("TS") == 0){
-//			wait(speed_semaphore);
-//			StringBuffer readings = new StringBuffer("TS");
-//			readings.append(typingspeed);
-//			
-//			return readings.toString().getBytes();
-//		}
+		if(sensor.compareTo("TS") == 0){
+			wait(speed_semaphore);
+			int ts = (int)(typingspeed*60);
+			byte[] reading = new byte[4 + 2];
+			reading[0] = (byte)sensor.charAt(0);
+			reading[1] = (byte)sensor.charAt(1);
+			reading[2] = (byte)((ts>>24) & 0xff);
+			reading[3] = (byte)((ts>>16) & 0xff);
+			reading[4] = (byte)((ts>>8) & 0xff);
+			reading[5] = (byte)(ts& 0xff);
+			
+			return reading;
+		}
 		else{
 			return null;
 		}
@@ -136,9 +142,9 @@ public class NotificationHandler implements Handler
 	public void Discover()
 	{
 //	    SensorRepository.insertSensor(new String("KL"), new String("text"), airs.getString(R.string.KL_d), airs.getString(R.string.KL_e), new String("txt"), 0, 0, 1, false, 0, this);
-	    SensorRepository.insertSensor(new String("NO"), new String("text"), airs.getString(R.string.NO_d), airs.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
+//	    SensorRepository.insertSensor(new String("NO"), new String("text"), airs.getString(R.string.NO_d), airs.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
 //	    SensorRepository.insertSensor(new String("TL"), new String("chars"), airs.getString(R.string.TL_d), airs.getString(R.string.TL_e), new String("int"), 0, 0, 100000, false, 0, this);
-//	    SensorRepository.insertSensor(new String("TS"), new String("chars/s"), airs.getString(R.string.TS_d), airs.getString(R.string.TS_e), new String("float"), 0, 0, 20, false, 0, this);
+	    SensorRepository.insertSensor(new String("TS"), new String("chars/min"), airs.getString(R.string.TS_d), airs.getString(R.string.TS_e), new String("int"), 0, 0, 20, false, 0, this);
 	}
 	
 	/**
@@ -146,15 +152,15 @@ public class NotificationHandler implements Handler
 	 * Here, it's only arming the semaphore and registering the accessibility broadcast event as well as firing the start event to the accessibility service
 	 * @param airs Reference to the calling {@link android.content.Context}
 	 */
-	public NotificationHandler(Context airs)
+	public TypingSpeedHandler(Context airs)
 	{
 		this.airs = airs;
 		
 		// arm semaphore
-		wait(notify_semaphore);
+//		wait(notify_semaphore);
 //		wait(key_semaphore);
 //		wait(length_semaphore);
-//		wait(speed_semaphore);
+		wait(speed_semaphore);
 		
 		// register for any input from the accessbility service
 		IntentFilter intentFilter = new IntentFilter("com.airs.accessibility");
@@ -177,10 +183,10 @@ public class NotificationHandler implements Handler
 		shutdown = true;
 		
 		// release all semaphores for unlocking the Acquire() threads
-		notify_semaphore.release();
+//		notify_semaphore.release();
 //		key_semaphore.release();
 //		length_semaphore.release();
-//		speed_semaphore.release();
+		speed_semaphore.release();
 		
 		// unregister the broadcast receiver
 		airs.unregisterReceiver(SystemReceiver);
@@ -202,10 +208,10 @@ public class NotificationHandler implements Handler
             if (action.equals("com.airs.accessibility")) 
             {
             	// get mood from intent
-            	if(intent.hasExtra("NotifyText")){
-            		notify_text = intent.getStringExtra("NotifyText");
-                	notify_semaphore.release();		// release semaphore
-            	}
+//            	if(intent.hasExtra("NotifyText")){
+//            		notify_text = intent.getStringExtra("NotifyText");
+//                	notify_semaphore.release();		// release semaphore
+//            	}
 //            	if(intent.hasExtra("KeyLogger")){
 //            		keylog =  intent.getStringExtra("KeyLogger");
 //            		key_semaphore.release();
@@ -214,10 +220,10 @@ public class NotificationHandler implements Handler
 //            		textlength = Integer.parseInt(intent.getStringExtra("TextLength"));
 //            		length_semaphore.release();
 //            	}
-//            	if(intent.hasExtra("TypingSpeed")){
-//            		typingspeed = Double.parseDouble(intent.getStringExtra("TypingSpeed"));
-//            		speed_semaphore.release();
-//            	}
+            	if(intent.hasExtra("TypingSpeed")){
+            		typingspeed = Float.parseFloat(intent.getStringExtra("TypingSpeed"));
+            		speed_semaphore.release();
+            	}
             }
         }
     };

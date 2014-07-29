@@ -106,7 +106,7 @@
     </string-array> 
     <string-array name="uploadfrequency_values">
         <item>Gar nicht!</item>
-        <item>Minütlich</item>
+        <item>5-Minütlich</item>
         <item>Stündlich</item>
         <item>Täglich</item>
         <item>Wöchentlich</item>

@@ -276,6 +276,9 @@ public class AIRS_local extends Service
 			***********************************************************************/
 			public void run() 
 			{
+				if(current.Symbol.compareTo("NO")==0 || current.Symbol.compareTo("TL")==0 || current.Symbol.compareTo("TS")==0){
+					Log.w("AIRS", "Running "+current.Symbol);
+				}
 					 byte[] sensor_data=null;
 			 		 int    integer;
 			 		 double scaler;

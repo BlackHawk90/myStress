@@ -15,6 +15,7 @@ import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -48,8 +49,7 @@ import com.google.api.services.drive.model.ParentReference;
 import com.google.api.services.drive.model.Permission;
 
 @SuppressLint("NewApi")
-public class AIRS_upload_service extends Service implements
-		MediaHttpUploaderProgressListener {
+public class AIRS_upload_service extends Service{ // implements MediaHttpUploaderProgressListener {
 	// current batch of recordings for sync
 	private static final int SYNC_BATCH = 5000;
 
@@ -130,7 +130,8 @@ public class AIRS_upload_service extends Service implements
 
 		// get settings for upload preference
 		wifi_only = settings.getBoolean("UploadWifi", true);
-
+//		wifi_only = false;
+		
 		// get handle to Google Drive
 		service = getDriveService();
 
@@ -232,7 +233,7 @@ public class AIRS_upload_service extends Service implements
 							uploader = insert.getMediaHttpUploader();
 							uploader.setDirectUploadEnabled(false);
 							uploader.setChunkSize(MediaHttpUploader.DEFAULT_CHUNK_SIZE);
-							uploader.setProgressListener(this_service);
+//							uploader.setProgressListener(this_service);
 							Log.v("AIRS", "...executing upload AIRS recordings");
 
 							do {
@@ -347,10 +348,13 @@ public class AIRS_upload_service extends Service implements
 		return service;
 	}
 
-	public void progressChanged(MediaHttpUploader uploader) {
+/*	public void progressChanged(MediaHttpUploader uploader) {
 		long vibration[] = { 0, 200, 0 };
 		int progress;
 
+		Intent notificationIntent = new Intent (this, AIRS_upload_service.class);
+		notification.contentIntent = PendingIntent.getActivity(this,0,notificationIntent,0);
+		
 		switch (uploader.getUploadState()) {
 		case MEDIA_IN_PROGRESS:
 			notification = new Notification(R.drawable.notification_icon,
@@ -366,7 +370,9 @@ public class AIRS_upload_service extends Service implements
 					context,
 					context.getString(R.string.Sync_uploading),
 					context.getString(R.string.Sync_progress)
-							+ String.valueOf(progress) + "%", null);
+//							+ String.valueOf(progress) + "%", notificationIntent);
+					+ String.valueOf(progress) + "%", null);			
+
 			// set the time again for ICS
 			notification.when = System.currentTimeMillis();
 			// don't allow clearing the notification
@@ -383,7 +389,7 @@ public class AIRS_upload_service extends Service implements
 
 			// create pending intent for starting the activity
 			notification.setLatestEventInfo(context,
-					context.getString(R.string.Sync_upload), "", null);
+					context.getString(R.string.Sync_upload), "", notificationIntent);
 			// set the time again for ICS
 			notification.when = System.currentTimeMillis();
 			// don't allow clearing the notification
@@ -396,7 +402,7 @@ public class AIRS_upload_service extends Service implements
 		default:
 			break;
 		}
-	}
+	}*/
 
 	private boolean createSyncFile(Context context) {
 		if (createValueFile(context) == true)

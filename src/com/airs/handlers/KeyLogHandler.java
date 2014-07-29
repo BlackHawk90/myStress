@@ -31,17 +31,17 @@ import com.airs.platform.SensorRepository;
  * Class to read notification related sensors, specifically the NO sensor
  * @see Handler
  */
-public class NotificationHandler implements Handler
+public class KeyLogHandler implements Handler
 {
 	private Context airs;
 	
-	private Semaphore notify_semaphore 	= new Semaphore(1);
-//	private Semaphore key_semaphore = new Semaphore(1);
+//	private Semaphore notify_semaphore 	= new Semaphore(1);
+	private Semaphore key_semaphore = new Semaphore(1);
 //	private Semaphore speed_semaphore = new Semaphore(1);
 //	private Semaphore length_semaphore = new Semaphore(1);
 	
-	private String notify_text;
-//	private String keylog;
+//	private String notify_text;
+	private String keylog;
 //	private int textlength;
 //	private double typingspeed;
 	
@@ -73,20 +73,20 @@ public class NotificationHandler implements Handler
 
 		Log.w("AIRS", "Acquire "+sensor);
 		
-		if(sensor.compareTo("NO") == 0){
-			wait(notify_semaphore);
-			StringBuffer readings = new StringBuffer("NO");
-			readings.append(notify_text.replaceAll("'","''"));
-			
-			return readings.toString().getBytes();
-		}
-//		else if(sensor.compareTo("KL") == 0){
-//			wait(key_semaphore);
-//			StringBuffer readings_kl = new StringBuffer("KL");
-//			readings_kl.append(keylog);
+//		if(sensor.compareTo("NO") == 0){
+//			wait(notify_semaphore);
+//			StringBuffer readings = new StringBuffer("NO");
+//			readings.append(notify_text.replaceAll("'","''"));
 //			
-//			return readings_kl.toString().getBytes();
+//			return readings.toString().getBytes();
 //		}
+		if(sensor.compareTo("KL") == 0){
+			wait(key_semaphore);
+			StringBuffer readings_kl = new StringBuffer("KL");
+			readings_kl.append(keylog);
+			
+			return readings_kl.toString().getBytes();
+		}
 //		else if(sensor.compareTo("TL") == 0){
 //			wait(length_semaphore);
 //			StringBuffer readings = new StringBuffer("TL");
@@ -135,8 +135,8 @@ public class NotificationHandler implements Handler
 	 */
 	public void Discover()
 	{
-//	    SensorRepository.insertSensor(new String("KL"), new String("text"), airs.getString(R.string.KL_d), airs.getString(R.string.KL_e), new String("txt"), 0, 0, 1, false, 0, this);
-	    SensorRepository.insertSensor(new String("NO"), new String("text"), airs.getString(R.string.NO_d), airs.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
+	    SensorRepository.insertSensor(new String("KL"), new String("text"), airs.getString(R.string.KL_d), airs.getString(R.string.KL_e), new String("txt"), 0, 0, 1, false, 0, this);
+//	    SensorRepository.insertSensor(new String("NO"), new String("text"), airs.getString(R.string.NO_d), airs.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
 //	    SensorRepository.insertSensor(new String("TL"), new String("chars"), airs.getString(R.string.TL_d), airs.getString(R.string.TL_e), new String("int"), 0, 0, 100000, false, 0, this);
 //	    SensorRepository.insertSensor(new String("TS"), new String("chars/s"), airs.getString(R.string.TS_d), airs.getString(R.string.TS_e), new String("float"), 0, 0, 20, false, 0, this);
 	}
@@ -146,13 +146,13 @@ public class NotificationHandler implements Handler
 	 * Here, it's only arming the semaphore and registering the accessibility broadcast event as well as firing the start event to the accessibility service
 	 * @param airs Reference to the calling {@link android.content.Context}
 	 */
-	public NotificationHandler(Context airs)
+	public KeyLogHandler(Context airs)
 	{
 		this.airs = airs;
 		
 		// arm semaphore
-		wait(notify_semaphore);
-//		wait(key_semaphore);
+//		wait(notify_semaphore);
+		wait(key_semaphore);
 //		wait(length_semaphore);
 //		wait(speed_semaphore);
 		
@@ -177,8 +177,8 @@ public class NotificationHandler implements Handler
 		shutdown = true;
 		
 		// release all semaphores for unlocking the Acquire() threads
-		notify_semaphore.release();
-//		key_semaphore.release();
+//		notify_semaphore.release();
+		key_semaphore.release();
 //		length_semaphore.release();
 //		speed_semaphore.release();
 		
@@ -202,14 +202,14 @@ public class NotificationHandler implements Handler
             if (action.equals("com.airs.accessibility")) 
             {
             	// get mood from intent
-            	if(intent.hasExtra("NotifyText")){
-            		notify_text = intent.getStringExtra("NotifyText");
-                	notify_semaphore.release();		// release semaphore
-            	}
-//            	if(intent.hasExtra("KeyLogger")){
-//            		keylog =  intent.getStringExtra("KeyLogger");
-//            		key_semaphore.release();
+//            	if(intent.hasExtra("NotifyText")){
+//            		notify_text = intent.getStringExtra("NotifyText");
+//                	notify_semaphore.release();		// release semaphore
 //            	}
+            	if(intent.hasExtra("KeyLogger")){
+            		keylog =  intent.getStringExtra("KeyLogger");
+            		key_semaphore.release();
+            	}
 //            	if(intent.hasExtra("TextLength")){
 //            		textlength = Integer.parseInt(intent.getStringExtra("TextLength"));
 //            		length_semaphore.release();

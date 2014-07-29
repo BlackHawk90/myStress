@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 public class AIRS_upload extends BroadcastReceiver
 {
-	private static final int MINUTELY   = 1000*60; 
+	private static final int MINUTELY   = 1000*60*5; 
 	private static final int HOURLY		= 60*60*1000;
 	private static final int DAYLY		= 24*60*60*1000;
 	private static final int WEEKLY		= 7*24*60*60*1000;

@@ -21,6 +21,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import com.airs.R;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
@@ -36,7 +42,13 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.RemoteViews;
+
+import com.memetix.mst.language.Language;
+import com.memetix.mst.translate.Translate;
+import com.alchemyapi.api.AlchemyAPI;
+import com.alchemyapi.api.AlchemyAPI_NamedEntityParams;
 
 /**
  * Class to implement the AIRS accessibility service
@@ -49,6 +61,10 @@ public class NotificationHandlerService extends AccessibilityService
 	double typingStartTime, typingEndTime;
 	int typedChars;
 	int maxTextLength;
+	String typedText;
+		
+	String alchemyApiKey = "d8c9013818eb2aeb7baa7ad558f7487db4ded10c";
+	AlchemyAPI api = AlchemyAPI.GetInstanceFromString(alchemyApiKey);
 	
 	/**
 	 * Called when an accessibility event occurs - here, we check the particular component packages that fired the event, filtering out the ones we support
@@ -59,7 +75,8 @@ public class NotificationHandlerService extends AccessibilityService
 	public void onAccessibilityEvent(AccessibilityEvent event) 
 	{
 		int eventType = event.getEventType();
-    	Log.e("AIRS", "new notification: " + event.getPackageName().toString() + ", " + eventType);
+		
+    	Log.e("AIRS", "notification: " + event.getPackageName().toString() + ", " + eventType + ", " + event.getClassName());
 	    if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) 
 	    {
 	    	// get notification shown
@@ -73,8 +90,8 @@ public class NotificationHandlerService extends AccessibilityService
 		    	{
 			        // now broadcast the capturing of the accessibility service to the handler
 					Intent intent = new Intent("com.airs.accessibility");
-					intent.putExtra("NotifyText", "gtalk::" + notification.tickerText);		
-					sendBroadcast(intent);		    	
+					intent.putExtra("NotifyText", "gtalk");//::" + notification.tickerText);
+					sendBroadcast(intent);
 		    	}
 		    	
 		    	// anything from Skype?
@@ -83,7 +100,7 @@ public class NotificationHandlerService extends AccessibilityService
 			        // now broadcast the capturing of the accessibility service to the handler
 					Intent intent = new Intent("com.airs.accessibility");
 					intent.putExtra("NotifyText", "skype::Message from " + notification.tickerText);		
-					sendBroadcast(intent);		    	
+					sendBroadcast(intent);
 		    	}
 		    	// anything from Spotify?
 		    	if (event.getPackageName().toString().compareTo("com.spotify.music") == 0)
@@ -107,14 +124,14 @@ public class NotificationHandlerService extends AccessibilityService
 							intent.putExtra("track", tokens[0].trim());		
 							intent.putExtra("artist", tokens[1].trim());							
 							intent.putExtra("album", "");		
-							sendBroadcast(intent);	
+							sendBroadcast(intent);
 						}
 		    			else
 		    				Log.e("AIRS", "Can't find token in '" + notification.tickerText +"'");
 		    		}				
 		    	}
 		    	if(event.getPackageName().toString().compareTo("com.whatsapp") == 0){
-		    		Log.e("AIRS", "whatsapp message");
+		    		//Log.e("AIRS", "whatsapp message");
 			        // now broadcast the capturing of the accessibility service to the handler
 					Intent intent = new Intent("com.airs.accessibility");
 					intent.putExtra("NotifyText", "whatsapp::" + getText(notification));
@@ -136,13 +153,15 @@ public class NotificationHandlerService extends AccessibilityService
 	    }
 	    else if(eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED){
 //	    	Log.e("AIRS", event.getBeforeText() + ", " + event.getText().toString());
-	    		    	
+	    	if(event.isPassword()) return;
+	    	
 //	    	String diff="";
 	    	String text = event.getText().toString();
 	    	String beforeText = event.getBeforeText().toString();
 	    	text = text.substring(1, text.length()-1);
 	    	boolean del;
 	    	int length_diff = text.length()-beforeText.length();
+	    	typedText = text;
 	    	
 	    	if(text.length() > maxTextLength) maxTextLength = text.length();
 	    	
@@ -222,7 +241,26 @@ public class NotificationHandlerService extends AccessibilityService
 	    		Log.e("AIRS", "Textlänge: "+maxTextLength);
 	    		Intent intent = new Intent("com.airs.accessibility");
 	    		intent.putExtra("TextLength", ((Integer)maxTextLength).toString());
+	    		
+	    		try{
+		    		Log.e("AIRS", "Text: "+typedText);
+		    		//übersetzen
+	    			String translatedText = Translate.execute(typedText, Language.GERMAN, Language.ENGLISH);
+	    			Log.e("AIRS", "translated: "+translatedText);
+//		    		// Sentimentanalyse
+//		    		AlchemyAPI_NamedEntityParams nep = new AlchemyAPI_NamedEntityParams();
+//		    		nep.setSentiment(true);
+//		    		Document doc = null;
+//	    			doc = api.URLGetRankedNamedEntities(translatedText, nep);
+//		    		Element el = doc.getDocumentElement();
+//		    		NodeList items = el.getElementsByTagName("text");
+//		    		NodeList sentiments = el.getElementsByTagName("sentiment");
+	    		}catch(Exception e){
+	    			Log.e("AIRS", e.getMessage());
+	    		}
+	    		
 	    		maxTextLength = 0;
+	    		typedText = "";
 	    		sendBroadcast(intent);
 	    	}
 	    }
@@ -255,7 +293,10 @@ public class NotificationHandlerService extends AccessibilityService
 
 	    Log.e("AIRS", "NotificationHandlerService connected");
 	    
-	    setServiceInfo(info);   
+	    setServiceInfo(info);
+	    
+		Translate.setClientId("myStress");
+		Translate.setClientSecret("ZwRLv7hsttnjqql26s7MglS8enqHG5Wi+uLfzt7Jsgw=");
 	}
 
 	/*
