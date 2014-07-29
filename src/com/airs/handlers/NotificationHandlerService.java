@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.airs.R;
@@ -42,7 +43,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityNodeInfo;
+//import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.RemoteViews;
 
 import com.memetix.mst.language.Language;
@@ -65,6 +66,8 @@ public class NotificationHandlerService extends AccessibilityService
 		
 	String alchemyApiKey = "d8c9013818eb2aeb7baa7ad558f7487db4ded10c";
 	AlchemyAPI api = AlchemyAPI.GetInstanceFromString(alchemyApiKey);
+	
+	Context context2;
 	
 	/**
 	 * Called when an accessibility event occurs - here, we check the particular component packages that fired the event, filtering out the ones we support
@@ -226,6 +229,15 @@ public class NotificationHandlerService extends AccessibilityService
 	    }
 	    else if(eventType == AccessibilityEvent.TYPE_VIEW_CLICKED || eventType == AccessibilityEvent.TYPE_VIEW_SELECTED){
 	    	if(typing == true){
+/*	    		Context remotePackageContext;
+	    		try{
+	    			String mPackageName = event.getPackageName().toString();
+	    			remotePackageContext = context2.createPackageContext(mPackageName,0);
+	    		}catch(Exception e){
+	    			
+	    		}*/
+	    		
+	    		
 	    		if(typingEndTime != typingStartTime){
 		    		double typingDuration = (typingEndTime - typingStartTime)/1000.0d;
 		    		double typingSpeed = typedChars / typingDuration;
@@ -239,8 +251,8 @@ public class NotificationHandlerService extends AccessibilityService
 	    	
 	    	if(maxTextLength > 0){
 	    		Log.e("AIRS", "Textlänge: "+maxTextLength);
-	    		Intent intent = new Intent("com.airs.accessibility");
-	    		intent.putExtra("TextLength", ((Integer)maxTextLength).toString());
+	    		String type="";
+	    		double score=0;
 	    		
 	    		try{
 		    		Log.e("AIRS", "Text: "+typedText);
@@ -248,16 +260,30 @@ public class NotificationHandlerService extends AccessibilityService
 	    			String translatedText = Translate.execute(typedText, Language.GERMAN, Language.ENGLISH);
 	    			Log.e("AIRS", "translated: "+translatedText);
 //		    		// Sentimentanalyse
-//		    		AlchemyAPI_NamedEntityParams nep = new AlchemyAPI_NamedEntityParams();
-//		    		nep.setSentiment(true);
-//		    		Document doc = null;
-//	    			doc = api.URLGetRankedNamedEntities(translatedText, nep);
-//		    		Element el = doc.getDocumentElement();
-//		    		NodeList items = el.getElementsByTagName("text");
-//		    		NodeList sentiments = el.getElementsByTagName("sentiment");
+		    		AlchemyAPI_NamedEntityParams nep = new AlchemyAPI_NamedEntityParams();
+		    		nep.setSentiment(true);
+		    		Document doc = null;
+	    			doc = api.TextGetTextSentiment(translatedText, nep);
+	    			NodeList list = doc.getFirstChild().getChildNodes();
+	    			for(int i = 0; i < list.getLength();i++) {
+	    				Node item = list.item(i);
+	    				
+	    				if(item.getNodeName() == null)
+	    					continue;
+	    				
+	    				if(item.getNodeName().equals("docSentiment"))
+	    				{
+	    					type = item.getChildNodes().item(1).getChildNodes().item(0).getNodeValue();
+	    					score = Double.parseDouble(item.getChildNodes().item(3).getChildNodes().item(0).getNodeValue());
+	    					break;
+	    				}
+	    			}
 	    		}catch(Exception e){
 	    			Log.e("AIRS", e.getMessage());
 	    		}
+
+	    		Intent intent = new Intent("com.airs.accessibility");
+	    		intent.putExtra("TextLength", maxTextLength + ":" + type + ":" + score);
 	    		
 	    		maxTextLength = 0;
 	    		typedText = "";
@@ -324,6 +350,7 @@ public class NotificationHandlerService extends AccessibilityService
         @Override
         public void onReceive(Context context, Intent intent) 
         {
+        	context2 = context;
             String action = intent.getAction();
 
             // if anything sent from the accessbility service

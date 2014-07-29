@@ -42,7 +42,7 @@ public class TextLengthHandler implements Handler
 	
 //	private String notify_text;
 //	private String keylog;
-	private int textlength;
+	private String textlength;
 //	private double typingspeed;
 	
 	private boolean shutdown = false;
@@ -89,15 +89,18 @@ public class TextLengthHandler implements Handler
 //		}
 		if(sensor.compareTo("TL") == 0){
 			wait(length_semaphore);
-			byte[] reading = new byte[4 + 2];
-			reading[0] = (byte)sensor.charAt(0);
-			reading[1] = (byte)sensor.charAt(1);
-			reading[2] = (byte)((textlength>>24) & 0xff);
-			reading[3] = (byte)((textlength>>16) & 0xff);
-			reading[4] = (byte)((textlength>>8) & 0xff);
-			reading[5] = (byte)(textlength & 0xff);
+//			byte[] reading = new byte[4 + 2];
+//			reading[0] = (byte)sensor.charAt(0);
+//			reading[1] = (byte)sensor.charAt(1);
+//			reading[2] = (byte)((textlength>>24) & 0xff);
+//			reading[3] = (byte)((textlength>>16) & 0xff);
+//			reading[4] = (byte)((textlength>>8) & 0xff);
+//			reading[5] = (byte)(textlength & 0xff);
 			
-			return reading;
+			StringBuffer reading = new StringBuffer("TL");
+			reading.append(textlength);
+			
+			return reading.toString().getBytes();
 		}
 //		else if(sensor.compareTo("TS") == 0){
 //			wait(speed_semaphore);
@@ -142,7 +145,7 @@ public class TextLengthHandler implements Handler
 	{
 //	    SensorRepository.insertSensor(new String("KL"), new String("text"), airs.getString(R.string.KL_d), airs.getString(R.string.KL_e), new String("txt"), 0, 0, 1, false, 0, this);
 //	    SensorRepository.insertSensor(new String("NO"), new String("text"), airs.getString(R.string.NO_d), airs.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
-	    SensorRepository.insertSensor(new String("TL"), new String("chars"), airs.getString(R.string.TL_d), airs.getString(R.string.TL_e), new String("int"), 0, 0, 10000, false, 0, this);
+	    SensorRepository.insertSensor(new String("TL"), new String("text"), airs.getString(R.string.TL_d), airs.getString(R.string.TL_e), new String("txt"), 0, 0, 10000, false, 0, this);
 //	    SensorRepository.insertSensor(new String("TS"), new String("chars/s"), airs.getString(R.string.TS_d), airs.getString(R.string.TS_e), new String("float"), 0, 0, 20, false, 0, this);
 	}
 	
@@ -216,7 +219,7 @@ public class TextLengthHandler implements Handler
 //            		key_semaphore.release();
 //            	}
             	if(intent.hasExtra("TextLength")){
-            		textlength = Integer.parseInt(intent.getStringExtra("TextLength"));
+            		textlength = intent.getStringExtra("TextLength");
             		length_semaphore.release();
             	}
 //            	if(intent.hasExtra("TypingSpeed")){
