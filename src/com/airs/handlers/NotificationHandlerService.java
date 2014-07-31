@@ -16,39 +16,21 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 */
 package com.airs.handlers;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.airs.R;
+
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityRecord;
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.text.TextUtils;
 import android.util.Log;
-//import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.RemoteViews;
-import android.widget.TextView;
 
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
@@ -61,14 +43,14 @@ import com.alchemyapi.api.AlchemyAPI_NamedEntityParams;
 public class NotificationHandlerService extends AccessibilityService
 {	
 	boolean started = true;
-	boolean typing = false;
+//	boolean typing = false;
 	boolean newText = false;
 	double typingStartTime, typingEndTime;
-	double lastTypingStartTime, lastTypingEndTime;
-	int typedChars, lastTypedChars;
-	int maxTextLength, lastMaxTextLength;
-	String typedText, lastTypedText;
-	boolean sending1 = false, sending2 = false;//, old = false;
+//	int typedChars;
+//	int maxTextLength;
+	String typedText;
+	boolean sending1 = false, sending2 = false;
+	boolean sent = false;//, old = false;
 //	boolean sending = false, sent = false, clicked = false;
 //	double sendingTimeout;
 //	double sendingOffset = 5000;
@@ -88,65 +70,42 @@ public class NotificationHandlerService extends AccessibilityService
 	{
 		int eventType = event.getEventType();
 		
-		if(eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED && sending1){
-	    	sending2 = true;
-		}
-		
-		sendButtonClicked();
-		
     	Log.e("AIRS", "notification: " + event.getPackageName().toString() + ", " + eventType + ", " + event.getClassName());
 	    if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED){
 	    	processNotification(event);
 	    }
 	    else if(eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED){
-//	    	Log.e("AIRS", event.getBeforeText() + ", " + event.getText().toString());
 	    	if(event.isPassword()) return;
 	    	
-//	    	String diff="";
 	    	String text = event.getText().toString();
 	    	String beforeText = event.getBeforeText().toString();
 	    	text = text.substring(1, text.length()-1);
+
+			if(sending1 && text.length() == 1){//< typedText.length()){
+		    	sending2 = true;
+		    	sendButtonClicked();
+		    	sent = true;
+			}
+			else sending1 = false;
+	    	
 	    	boolean del;
 	    	int length_diff = text.length()-beforeText.length();
-//	    	lastTypedText = typedText;
 	    	typedText = text;
 	    	
-//	    	if(text.length() > maxTextLength)
-	    		maxTextLength = text.length();
+//    		maxTextLength = text.length();
 	    	
-	    	if(typing == false){
-	    		if(length_diff == 1){
-	    			typing = true;
-	    			
-//	    			lastTypingStartTime = typingStartTime;
-//	    			lastTypingEndTime = typingEndTime;
-//	    			lastTypedChars = typedChars;
-	    			
-	    			typingStartTime = (double)System.currentTimeMillis();
-	    			typingEndTime = typingStartTime;
-	    			typedChars = 1;
-	    		}
+	    	if(length_diff == 1 && text.length() == 1){
+//    			typing = true;
+    			typingStartTime = (double)System.currentTimeMillis();
+    			typingEndTime = typingStartTime;
 	    	}
 	    	else{
-	    		typingEndTime = (double)System.currentTimeMillis();
-		    	typedChars++;
+    			typingEndTime = (double)System.currentTimeMillis();
 	    	}
 	    	
 	    	if(text.length() < beforeText.length()){
 	    		del = true;
 	    		length_diff = -length_diff;
-	    		
-//	    		int i=0;
-//	    		while(i<text.length()){
-//	    			if(text.charAt(i)!=beforeText.charAt(i)) break;
-//	    			i++;
-//	    		}
-//	    		int start = i;
-//	    		i=0;
-//	    		while(i<length_diff){
-//	    			diff = diff + beforeText.charAt(start+i);
-//	    			i++;
-//	    		}
 	    	}
 	    	else{
 	    		del = false;
@@ -178,6 +137,18 @@ public class NotificationHandlerService extends AccessibilityService
 	    		if(sending1) sending2 = true;
 	    	}
 	    }
+	    else if(eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED){
+	    	if(sending1){
+	    		sending2=true;
+	    		sendButtonClicked();
+	    		sent = true;
+	    	}
+	    }
+	    
+	    if(sent == false){
+	    	sendButtonClicked();
+	    }
+	    sent = false;
 	}
 	
 	/**
@@ -215,61 +186,19 @@ public class NotificationHandlerService extends AccessibilityService
     
     public void sendButtonClicked(){
 		if(sending1 && sending2){
-	    	if(typing == true){
-	    		if(typingEndTime != typingStartTime){
-		    		double typingDuration = (typingEndTime - typingStartTime)/1000.0d;
-		    		double typingSpeed = typedChars / typingDuration;
-		    		Log.e("AIRS", "Tippgeschwindigkeit: "+typingSpeed + " Zeichen pro Sekunde");
-		    		Intent intent = new Intent("com.airs.accessibility");
-		    		intent.putExtra("TypingSpeed", ((Double)typingSpeed).toString());
-		    		sendBroadcast(intent);
-	    		}
-	    		typing = false;
-	    	}
+//	    	if(typing == true){
+			double typingDuration;
+			double typingSpeed = 0;
+    		if(typingEndTime != typingStartTime){
+	    		typingDuration = (typingEndTime - typingStartTime)/1000.0d;
+	    		typingSpeed = typedText.length() / typingDuration;
+	    		Log.e("AIRS", "Tippgeschwindigkeit: "+typingSpeed + " Zeichen pro Minute");
+    		}
+//	    		typing = false;
+//	    	}
 	    	
-	    	if(maxTextLength > 0){
-	    		Log.e("AIRS", "Textlänge: "+maxTextLength);
-	    		String type="";
-	    		double score=0;
-	    		
-	    		try{
-		    		Log.e("AIRS", "Text: "+typedText);
-		    		//übersetzen
-	    			String translatedText = Translate.execute(typedText, Language.GERMAN, Language.ENGLISH);
-	    			Log.e("AIRS", "translated: "+translatedText);
-		    		// Sentimentanalyse
-		    		AlchemyAPI_NamedEntityParams nep = new AlchemyAPI_NamedEntityParams();
-		    		nep.setSentiment(true);
-		    		Document doc = null;
-	    			doc = api.TextGetTextSentiment(translatedText, nep);
-	    			NodeList list = doc.getFirstChild().getChildNodes();
-	    			for(int i = 0; i < list.getLength();i++) {
-	    				Node item = list.item(i);
-	    				
-	    				if(item.getNodeName() == null)
-	    					continue;
-	    				
-	    				if(item.getNodeName().equals("docSentiment"))
-	    				{
-	    					type = item.getChildNodes().item(1).getChildNodes().item(0).getNodeValue();
-	    					score = Double.parseDouble(item.getChildNodes().item(3).getChildNodes().item(0).getNodeValue());
-	    					break;
-	    				}
-	    			}
-	    			Log.e("AIRS", "sentiment: "+type+" with score "+score);
-	    		}catch(Exception e){
-	    			Log.e("AIRS", e.getMessage());
-	    		}
-	
-	    		Intent intent = new Intent("com.airs.accessibility");
-	    		intent.putExtra("TextLength", maxTextLength + ":" + type + ":" + score);
-	    		
-//	    		lastMaxTextLength = maxTextLength;
-//	    		lastTypedText = typedText;
-	    		
-	    		maxTextLength = 0;
-	    		typedText = "";
-	    		sendBroadcast(intent);
+	    	if(typedText.length() > 0){
+	    		new SAThread(typedText, typingSpeed);
 	    	}
 			sending1 = false;
 			sending2 = false;
@@ -370,77 +299,6 @@ public class NotificationHandlerService extends AccessibilityService
         unregisterReceiver(SystemReceiver);
     }
     
-//    @SuppressLint("NewApi")
-//	public static List<String> getText(Notification notification)
-//    {
-//        // We have to extract the information from the view
-//        RemoteViews views;
-//        if (Build.VERSION.SDK_INT >= 16) views = notification.bigContentView;
-//        else views = notification.contentView;
-//        if (views == null) return null;
-//
-//        // Use reflection to examine the m_actions member of the given RemoteViews object.
-//        // It's not pretty, but it works.
-//        List<String> text = new ArrayList<String>();
-//        try
-//        {
-//            Field field = views.getClass().getDeclaredField("mActions");
-//            field.setAccessible(true);
-//
-//            @SuppressWarnings("unchecked")
-//            ArrayList<Parcelable> actions = (ArrayList<Parcelable>) field.get(views);
-//
-//            // Find the setText() and setTime() reflection actions
-//            for (Parcelable p : actions)
-//            {
-//                Parcel parcel = Parcel.obtain();
-//                p.writeToParcel(parcel, 0);
-//                parcel.setDataPosition(0);
-//
-//                // The tag tells which type of action it is (2 is ReflectionAction, from the source)
-//                int tag = parcel.readInt();
-//                if (tag != 2) continue;
-//
-//                // View ID
-//                parcel.readInt();
-//
-//                String methodName = parcel.readString();
-//                if (methodName == null) continue;
-//
-//                // Save strings
-//                else if (methodName.equals("setText"))
-//                {
-//                    // Parameter type (10 = Character Sequence)
-//                    parcel.readInt();
-//
-//                    // Store the actual string
-//                    String t = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(parcel).toString().trim();
-//                    text.add(t);
-//                }
-//
-//                // Save times. Comment this section out if the notification time isn't important
-//                else if (methodName.equals("setTime"))
-//                {
-//                    // Parameter type (5 = Long)
-//                    parcel.readInt();
-//
-//                    String t = new SimpleDateFormat("h:mm a").format(new Date(parcel.readLong()));
-//                    text.add(t);
-//                }
-//
-//                parcel.recycle();
-//            }
-//        }
-//
-//        // It's not usually good style to do this, but then again, neither is the use of reflection...
-//        catch (Exception e)
-//        {
-//            Log.e("NotificationClassifier", e.toString());
-//        }
-//
-//        return text;
-//    }
-//    
 	private final BroadcastReceiver SystemReceiver = new BroadcastReceiver() 
 	{
         @Override
@@ -486,5 +344,60 @@ public class NotificationHandlerService extends AccessibilityService
             }
         }
     };
-}
+    
+	private class SAThread implements Runnable {
+		String text;
+		double speed;
+		
+		SAThread(String text, double speed) {
+			this.text = text;
+			this.speed = speed;
+			new Thread(this).start();
+		}
 
+		public void run() {
+    		Log.e("AIRS", "Textlänge: "+text.length());
+    		String type="";
+    		double score=0;
+    		
+    		try{
+	    		Log.e("AIRS", "Text: "+text);
+	    		//übersetzen
+    			String translatedText = Translate.execute(text, Language.GERMAN, Language.ENGLISH);
+    			Log.e("AIRS", "translated: "+translatedText);
+	    		// Sentimentanalyse
+	    		AlchemyAPI_NamedEntityParams nep = new AlchemyAPI_NamedEntityParams();
+	    		nep.setSentiment(true);
+	    		Document doc = null;
+    			doc = api.TextGetTextSentiment(translatedText, nep);
+    			NodeList list = doc.getFirstChild().getChildNodes();
+    			for(int i = 0; i < list.getLength();i++) {
+    				Node item = list.item(i);
+    				
+    				if(item.getNodeName() == null)
+    					continue;
+    				
+    				if(item.getNodeName().equals("docSentiment"))
+    				{
+    					type = item.getChildNodes().item(1).getChildNodes().item(0).getNodeValue();
+    					if(!type.equals("neutral"))
+    						score = Double.parseDouble(item.getChildNodes().item(3).getChildNodes().item(0).getNodeValue());
+    					else
+    						score = 0;
+    					break;
+    				}
+    			}
+    			Log.e("AIRS", "sentiment: "+type+" with score "+score);
+    		}catch(Exception e){
+    			Log.e("AIRS", e.getMessage());
+    		}
+    		
+    		Intent intent = new Intent("com.airs.accessibility");
+    		intent.putExtra("TextLength", text.length() + ":" + speed + ":" + type + ":" + score);
+    		
+//    		maxTextLength = 0;
+//    		typedText = "";
+    		sendBroadcast(intent);
+		}
+	}
+}
