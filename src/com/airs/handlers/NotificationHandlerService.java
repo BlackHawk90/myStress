@@ -16,6 +16,8 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 */
 package com.airs.handlers;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +33,8 @@ import org.w3c.dom.NodeList;
 import com.airs.R;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityRecord;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.content.BroadcastReceiver;
@@ -42,9 +46,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.accessibility.AccessibilityEvent;
 //import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
@@ -60,9 +64,14 @@ public class NotificationHandlerService extends AccessibilityService
 	boolean typing = false;
 	boolean newText = false;
 	double typingStartTime, typingEndTime;
-	int typedChars;
-	int maxTextLength;
-	String typedText;
+	double lastTypingStartTime, lastTypingEndTime;
+	int typedChars, lastTypedChars;
+	int maxTextLength, lastMaxTextLength;
+	String typedText, lastTypedText;
+	boolean sending1 = false, sending2 = false;//, old = false;
+//	boolean sending = false, sent = false, clicked = false;
+//	double sendingTimeout;
+//	double sendingOffset = 5000;
 		
 	String alchemyApiKey = "d8c9013818eb2aeb7baa7ad558f7487db4ded10c";
 	AlchemyAPI api = AlchemyAPI.GetInstanceFromString(alchemyApiKey);
@@ -75,84 +84,19 @@ public class NotificationHandlerService extends AccessibilityService
 	 * @see android.accessibilityservice.AccessibilityService#onAccessibilityEvent(android.view.accessibility.AccessibilityEvent)
 	 */
 	@Override
-	public void onAccessibilityEvent(AccessibilityEvent event) 
+	public void onAccessibilityEvent(AccessibilityEvent event)
 	{
 		int eventType = event.getEventType();
 		
+		if(eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED && sending1){
+	    	sending2 = true;
+		}
+		
+		sendButtonClicked();
+		
     	Log.e("AIRS", "notification: " + event.getPackageName().toString() + ", " + eventType + ", " + event.getClassName());
-	    if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) 
-	    {
-	    	// get notification shown
-	    	Notification notification = (Notification)event.getParcelableData();
-	    	
-	    	if (notification != null)
-	    	{
-		    	// now parse the specific packages we support
-		    	// start with GTalk
-		    	if (event.getPackageName().toString().compareTo("com.google.android.talk") == 0)
-		    	{
-			        // now broadcast the capturing of the accessibility service to the handler
-					Intent intent = new Intent("com.airs.accessibility");
-					intent.putExtra("NotifyText", "gtalk");//::" + notification.tickerText);
-					sendBroadcast(intent);
-		    	}
-		    	
-		    	// anything from Skype?
-		    	if (event.getPackageName().toString().compareTo("com.skype.raider") == 0)
-		    	{
-			        // now broadcast the capturing of the accessibility service to the handler
-					Intent intent = new Intent("com.airs.accessibility");
-					intent.putExtra("NotifyText", "skype::Message from " + notification.tickerText);		
-					sendBroadcast(intent);
-		    	}
-		    	// anything from Spotify?
-		    	if (event.getPackageName().toString().compareTo("com.spotify.music") == 0)
-		    	{
-			        // now broadcast the capturing of the accessibility service to the handler	    		
-		    		// anything delivered?
-		    		if (notification.tickerText != null)
-		    		{
-		    			// split information in tokens
-		    			String tokens[] = notification.tickerText.toString().split(getString(R.string.accessibility_spotify));
-		    			    			
-		    			// try other '-', if previous one did not work
-		    			if (tokens.length != 2)
-		    				tokens = notification.tickerText.toString().split("-");
-		    			
-		    			if (tokens.length == 2)
-		    			{
-			    			// signal as play state changed event
-							Intent intent = new Intent("com.android.music.playstatechanged");
-							
-							intent.putExtra("track", tokens[0].trim());		
-							intent.putExtra("artist", tokens[1].trim());							
-							intent.putExtra("album", "");		
-							sendBroadcast(intent);
-						}
-		    			else
-		    				Log.e("AIRS", "Can't find token in '" + notification.tickerText +"'");
-		    		}				
-		    	}
-		    	if(event.getPackageName().toString().compareTo("com.whatsapp") == 0){
-		    		//Log.e("AIRS", "whatsapp message");
-			        // now broadcast the capturing of the accessibility service to the handler
-					Intent intent = new Intent("com.airs.accessibility");
-					intent.putExtra("NotifyText", "whatsapp::" + getText(notification));
-					sendBroadcast(intent);	
-		    	}
-		    	if(event.getPackageName().toString().compareTo("com.facebook.orca") == 0){
-		    		// now broadcast the capturing of the accessibility service to the handler
-					Intent intent = new Intent("com.airs.accessibility");
-					intent.putExtra("NotifyText", "fbm::" + getText(notification));
-					sendBroadcast(intent);
-		    	}
-		    	if(event.getPackageName().toString().compareTo("com.facebook.katana") == 0){
-		    		// now broadcast the capturing of the accessibility service to the handler
-					Intent intent = new Intent("com.airs.accessibility");
-					intent.putExtra("NotifyText", "fb::" + getText(notification));
-					sendBroadcast(intent);
-		    	}
-	    	}
+	    if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED){
+	    	processNotification(event);
 	    }
 	    else if(eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED){
 //	    	Log.e("AIRS", event.getBeforeText() + ", " + event.getText().toString());
@@ -164,13 +108,20 @@ public class NotificationHandlerService extends AccessibilityService
 	    	text = text.substring(1, text.length()-1);
 	    	boolean del;
 	    	int length_diff = text.length()-beforeText.length();
+//	    	lastTypedText = typedText;
 	    	typedText = text;
 	    	
-	    	if(text.length() > maxTextLength) maxTextLength = text.length();
+//	    	if(text.length() > maxTextLength)
+	    		maxTextLength = text.length();
 	    	
 	    	if(typing == false){
 	    		if(length_diff == 1){
 	    			typing = true;
+	    			
+//	    			lastTypingStartTime = typingStartTime;
+//	    			lastTypingEndTime = typingEndTime;
+//	    			lastTypedChars = typedChars;
+	    			
 	    			typingStartTime = (double)System.currentTimeMillis();
 	    			typingEndTime = typingStartTime;
 	    			typedChars = 1;
@@ -199,20 +150,7 @@ public class NotificationHandlerService extends AccessibilityService
 	    	}
 	    	else{
 	    		del = false;
-	    		
-//	    		int i=0;
-//	    		while(i<beforeText.length()){
-//	    			if(text.charAt(i)!=beforeText.charAt(i)) break;
-//	    			i++;
-//	    		}
-//	    		int start = i;
-//	    		i=0;
-//	    		while(i<length_diff){
-//	    			diff = diff + text.charAt(start+i);
-//	    			i++;
-//	    		}
 	    	}
-
 	    	
 	    	if(del == true){
 	    		Log.e("AIRS", "text deleted");//: " + diff);
@@ -220,74 +158,24 @@ public class NotificationHandlerService extends AccessibilityService
 				intent.putExtra("KeyLogger", length_diff + " characters deleted");
 				sendBroadcast(intent);
 	    	}
-	    	else{
-//	    		Log.e("AIRS", "text inserted: " + diff);
-//				Intent intent = new Intent("com.airs.accessibility");
-//				intent.putExtra("KeyLogger", "text inserted: " + );		
-//				sendBroadcast(intent);
-	    	}
 	    }
-	    else if(eventType == AccessibilityEvent.TYPE_VIEW_CLICKED || eventType == AccessibilityEvent.TYPE_VIEW_SELECTED){
-	    	if(typing == true){
-/*	    		Context remotePackageContext;
-	    		try{
-	    			String mPackageName = event.getPackageName().toString();
-	    			remotePackageContext = context2.createPackageContext(mPackageName,0);
-	    		}catch(Exception e){
-	    			
-	    		}*/
-	    		
-	    		
-	    		if(typingEndTime != typingStartTime){
-		    		double typingDuration = (typingEndTime - typingStartTime)/1000.0d;
-		    		double typingSpeed = typedChars / typingDuration;
-		    		Log.e("AIRS", "Tippgeschwindigkeit: "+typingSpeed + " Zeichen pro Sekunde");
-		    		Intent intent = new Intent("com.airs.accessibility");
-		    		intent.putExtra("TypingSpeed", ((Double)typingSpeed).toString());
-		    		sendBroadcast(intent);
+	    else if(eventType == AccessibilityEvent.TYPE_VIEW_CLICKED){
+	    	if(event.getPackageName().toString().compareTo("com.whatsapp") == 0){
+	    		String className = event.getClassName().toString();
+	    		if(className.equals("android.widget.ImageButton")){
+    				sending1 = true;
+		    	}
+	    		else if(className.equals("com.whatsapp.EmojiPicker$EmojiImageView")){
+	    			sending1 = false;
+	    			sending2 = false;
 	    		}
-	    		typing = false;
+	    		else if(className.equals("android.widget.ListView") || className.equals("android.widget.ImageView"));
+	    		else{
+	    			if(sending1) sending2 = true;
+	    		}
 	    	}
-	    	
-	    	if(maxTextLength > 0){
-	    		Log.e("AIRS", "Textlänge: "+maxTextLength);
-	    		String type="";
-	    		double score=0;
-	    		
-	    		try{
-		    		Log.e("AIRS", "Text: "+typedText);
-		    		//übersetzen
-	    			String translatedText = Translate.execute(typedText, Language.GERMAN, Language.ENGLISH);
-	    			Log.e("AIRS", "translated: "+translatedText);
-//		    		// Sentimentanalyse
-		    		AlchemyAPI_NamedEntityParams nep = new AlchemyAPI_NamedEntityParams();
-		    		nep.setSentiment(true);
-		    		Document doc = null;
-	    			doc = api.TextGetTextSentiment(translatedText, nep);
-	    			NodeList list = doc.getFirstChild().getChildNodes();
-	    			for(int i = 0; i < list.getLength();i++) {
-	    				Node item = list.item(i);
-	    				
-	    				if(item.getNodeName() == null)
-	    					continue;
-	    				
-	    				if(item.getNodeName().equals("docSentiment"))
-	    				{
-	    					type = item.getChildNodes().item(1).getChildNodes().item(0).getNodeValue();
-	    					score = Double.parseDouble(item.getChildNodes().item(3).getChildNodes().item(0).getNodeValue());
-	    					break;
-	    				}
-	    			}
-	    		}catch(Exception e){
-	    			Log.e("AIRS", e.getMessage());
-	    		}
-
-	    		Intent intent = new Intent("com.airs.accessibility");
-	    		intent.putExtra("TextLength", maxTextLength + ":" + type + ":" + score);
-	    		
-	    		maxTextLength = 0;
-	    		typedText = "";
-	    		sendBroadcast(intent);
+	    	else{
+	    		if(sending1) sending2 = true;
 	    	}
 	    }
 	}
@@ -324,6 +212,143 @@ public class NotificationHandlerService extends AccessibilityService
 		Translate.setClientId("myStress");
 		Translate.setClientSecret("ZwRLv7hsttnjqql26s7MglS8enqHG5Wi+uLfzt7Jsgw=");
 	}
+    
+    public void sendButtonClicked(){
+		if(sending1 && sending2){
+	    	if(typing == true){
+	    		if(typingEndTime != typingStartTime){
+		    		double typingDuration = (typingEndTime - typingStartTime)/1000.0d;
+		    		double typingSpeed = typedChars / typingDuration;
+		    		Log.e("AIRS", "Tippgeschwindigkeit: "+typingSpeed + " Zeichen pro Sekunde");
+		    		Intent intent = new Intent("com.airs.accessibility");
+		    		intent.putExtra("TypingSpeed", ((Double)typingSpeed).toString());
+		    		sendBroadcast(intent);
+	    		}
+	    		typing = false;
+	    	}
+	    	
+	    	if(maxTextLength > 0){
+	    		Log.e("AIRS", "Textlänge: "+maxTextLength);
+	    		String type="";
+	    		double score=0;
+	    		
+	    		try{
+		    		Log.e("AIRS", "Text: "+typedText);
+		    		//übersetzen
+	    			String translatedText = Translate.execute(typedText, Language.GERMAN, Language.ENGLISH);
+	    			Log.e("AIRS", "translated: "+translatedText);
+		    		// Sentimentanalyse
+		    		AlchemyAPI_NamedEntityParams nep = new AlchemyAPI_NamedEntityParams();
+		    		nep.setSentiment(true);
+		    		Document doc = null;
+	    			doc = api.TextGetTextSentiment(translatedText, nep);
+	    			NodeList list = doc.getFirstChild().getChildNodes();
+	    			for(int i = 0; i < list.getLength();i++) {
+	    				Node item = list.item(i);
+	    				
+	    				if(item.getNodeName() == null)
+	    					continue;
+	    				
+	    				if(item.getNodeName().equals("docSentiment"))
+	    				{
+	    					type = item.getChildNodes().item(1).getChildNodes().item(0).getNodeValue();
+	    					score = Double.parseDouble(item.getChildNodes().item(3).getChildNodes().item(0).getNodeValue());
+	    					break;
+	    				}
+	    			}
+	    			Log.e("AIRS", "sentiment: "+type+" with score "+score);
+	    		}catch(Exception e){
+	    			Log.e("AIRS", e.getMessage());
+	    		}
+	
+	    		Intent intent = new Intent("com.airs.accessibility");
+	    		intent.putExtra("TextLength", maxTextLength + ":" + type + ":" + score);
+	    		
+//	    		lastMaxTextLength = maxTextLength;
+//	    		lastTypedText = typedText;
+	    		
+	    		maxTextLength = 0;
+	    		typedText = "";
+	    		sendBroadcast(intent);
+	    	}
+			sending1 = false;
+			sending2 = false;
+		}
+    }
+    
+    public void processNotification(AccessibilityEvent event){
+    	// get notification shown
+    	Notification notification = (Notification)event.getParcelableData();
+    	
+    	if (notification != null)
+    	{
+	    	// now parse the specific packages we support
+	    	// start with GTalk
+	    	if (event.getPackageName().toString().compareTo("com.google.android.talk") == 0)
+	    	{
+		        // now broadcast the capturing of the accessibility service to the handler
+				Intent intent = new Intent("com.airs.accessibility");
+				intent.putExtra("NotifyText", "gtalk");//::" + notification.tickerText);
+				sendBroadcast(intent);
+	    	}
+	    	
+	    	// anything from Skype?
+	    	if (event.getPackageName().toString().compareTo("com.skype.raider") == 0)
+	    	{
+		        // now broadcast the capturing of the accessibility service to the handler
+				Intent intent = new Intent("com.airs.accessibility");
+				intent.putExtra("NotifyText", "skype::Message from " + notification.tickerText);		
+				sendBroadcast(intent);
+	    	}
+	    	// anything from Spotify?
+	    	if (event.getPackageName().toString().compareTo("com.spotify.music") == 0)
+	    	{
+		        // now broadcast the capturing of the accessibility service to the handler	    		
+	    		// anything delivered?
+	    		if (notification.tickerText != null)
+	    		{
+	    			// split information in tokens
+	    			String tokens[] = notification.tickerText.toString().split(getString(R.string.accessibility_spotify));
+	    			    			
+	    			// try other '-', if previous one did not work
+	    			if (tokens.length != 2)
+	    				tokens = notification.tickerText.toString().split("-");
+	    			
+	    			if (tokens.length == 2)
+	    			{
+		    			// signal as play state changed event
+						Intent intent = new Intent("com.android.music.playstatechanged");
+						
+						intent.putExtra("track", tokens[0].trim());		
+						intent.putExtra("artist", tokens[1].trim());							
+						intent.putExtra("album", "");		
+						sendBroadcast(intent);
+					}
+	    			else
+	    				Log.e("AIRS", "Can't find token in '" + notification.tickerText +"'");
+	    		}				
+	    	}
+	    	if(event.getPackageName().toString().compareTo("com.whatsapp") == 0){
+	    		//Log.e("AIRS", "whatsapp message");
+		        // now broadcast the capturing of the accessibility service to the handler
+				Intent intent = new Intent("com.airs.accessibility");
+				intent.putExtra("NotifyText", "whatsapp");//::" + getText(notification));
+				sendBroadcast(intent);	
+	    	}
+	    	if(event.getPackageName().toString().compareTo("com.facebook.orca") == 0){
+	    		// now broadcast the capturing of the accessibility service to the handler
+				Intent intent = new Intent("com.airs.accessibility");
+				intent.putExtra("NotifyText", "fbm");//::" + getText(notification));
+				sendBroadcast(intent);
+	    	}
+	    	if(event.getPackageName().toString().compareTo("com.facebook.katana") == 0){
+	    		// now broadcast the capturing of the accessibility service to the handler
+				Intent intent = new Intent("com.airs.accessibility");
+				intent.putExtra("NotifyText", "fb");//::" + getText(notification));
+				sendBroadcast(intent);
+	    	}
+    	}
+    }
 
 	/*
 	 * Called when interrupting the service
@@ -345,6 +370,77 @@ public class NotificationHandlerService extends AccessibilityService
         unregisterReceiver(SystemReceiver);
     }
     
+//    @SuppressLint("NewApi")
+//	public static List<String> getText(Notification notification)
+//    {
+//        // We have to extract the information from the view
+//        RemoteViews views;
+//        if (Build.VERSION.SDK_INT >= 16) views = notification.bigContentView;
+//        else views = notification.contentView;
+//        if (views == null) return null;
+//
+//        // Use reflection to examine the m_actions member of the given RemoteViews object.
+//        // It's not pretty, but it works.
+//        List<String> text = new ArrayList<String>();
+//        try
+//        {
+//            Field field = views.getClass().getDeclaredField("mActions");
+//            field.setAccessible(true);
+//
+//            @SuppressWarnings("unchecked")
+//            ArrayList<Parcelable> actions = (ArrayList<Parcelable>) field.get(views);
+//
+//            // Find the setText() and setTime() reflection actions
+//            for (Parcelable p : actions)
+//            {
+//                Parcel parcel = Parcel.obtain();
+//                p.writeToParcel(parcel, 0);
+//                parcel.setDataPosition(0);
+//
+//                // The tag tells which type of action it is (2 is ReflectionAction, from the source)
+//                int tag = parcel.readInt();
+//                if (tag != 2) continue;
+//
+//                // View ID
+//                parcel.readInt();
+//
+//                String methodName = parcel.readString();
+//                if (methodName == null) continue;
+//
+//                // Save strings
+//                else if (methodName.equals("setText"))
+//                {
+//                    // Parameter type (10 = Character Sequence)
+//                    parcel.readInt();
+//
+//                    // Store the actual string
+//                    String t = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(parcel).toString().trim();
+//                    text.add(t);
+//                }
+//
+//                // Save times. Comment this section out if the notification time isn't important
+//                else if (methodName.equals("setTime"))
+//                {
+//                    // Parameter type (5 = Long)
+//                    parcel.readInt();
+//
+//                    String t = new SimpleDateFormat("h:mm a").format(new Date(parcel.readLong()));
+//                    text.add(t);
+//                }
+//
+//                parcel.recycle();
+//            }
+//        }
+//
+//        // It's not usually good style to do this, but then again, neither is the use of reflection...
+//        catch (Exception e)
+//        {
+//            Log.e("NotificationClassifier", e.toString());
+//        }
+//
+//        return text;
+//    }
+//    
 	private final BroadcastReceiver SystemReceiver = new BroadcastReceiver() 
 	{
         @Override
@@ -390,76 +486,5 @@ public class NotificationHandlerService extends AccessibilityService
             }
         }
     };
-    
-    @SuppressLint("NewApi")
-	public static List<String> getText(Notification notification)
-    {
-        // We have to extract the information from the view
-        RemoteViews views;
-        if (Build.VERSION.SDK_INT >= 16) views = notification.bigContentView;
-        else views = notification.contentView;
-        if (views == null) return null;
-
-        // Use reflection to examine the m_actions member of the given RemoteViews object.
-        // It's not pretty, but it works.
-        List<String> text = new ArrayList<String>();
-        try
-        {
-            Field field = views.getClass().getDeclaredField("mActions");
-            field.setAccessible(true);
-
-            @SuppressWarnings("unchecked")
-            ArrayList<Parcelable> actions = (ArrayList<Parcelable>) field.get(views);
-
-            // Find the setText() and setTime() reflection actions
-            for (Parcelable p : actions)
-            {
-                Parcel parcel = Parcel.obtain();
-                p.writeToParcel(parcel, 0);
-                parcel.setDataPosition(0);
-
-                // The tag tells which type of action it is (2 is ReflectionAction, from the source)
-                int tag = parcel.readInt();
-                if (tag != 2) continue;
-
-                // View ID
-                parcel.readInt();
-
-                String methodName = parcel.readString();
-                if (methodName == null) continue;
-
-                // Save strings
-                else if (methodName.equals("setText"))
-                {
-                    // Parameter type (10 = Character Sequence)
-                    parcel.readInt();
-
-                    // Store the actual string
-                    String t = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(parcel).toString().trim();
-                    text.add(t);
-                }
-
-                // Save times. Comment this section out if the notification time isn't important
-                else if (methodName.equals("setTime"))
-                {
-                    // Parameter type (5 = Long)
-                    parcel.readInt();
-
-                    String t = new SimpleDateFormat("h:mm a").format(new Date(parcel.readLong()));
-                    text.add(t);
-                }
-
-                parcel.recycle();
-            }
-        }
-
-        // It's not usually good style to do this, but then again, neither is the use of reflection...
-        catch (Exception e)
-        {
-            Log.e("NotificationClassifier", e.toString());
-        }
-
-        return text;
-    }
 }
 
