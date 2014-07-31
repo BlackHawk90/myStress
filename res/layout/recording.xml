@@ -48,7 +48,7 @@
 
     </LinearLayout>
 
-    <TextView
+<!--     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,9 +56,9 @@
         android:layout_marginLeft="5dp"
         android:text="@string/Select_template_and_action"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold" />
+        android:textStyle="bold" /> -->
 
-    <ListView
+<!--     <ListView
         android:id="@+id/templates_list"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
@@ -69,9 +69,9 @@
         android:fastScrollEnabled="true"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
-        android:stackFromBottom="false" />
+        android:stackFromBottom="false" /> -->
 
-    <LinearLayout
+<!--     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp" >
@@ -96,6 +96,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/Download" />
-    </LinearLayout>
+    </LinearLayout> -->
 
 </LinearLayout>

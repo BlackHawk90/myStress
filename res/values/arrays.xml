@@ -106,7 +106,7 @@
     </string-array> 
     <string-array name="uploadfrequency_values">
         <item>Not at all!</item>
-        <item>Minutely</item>
+        <item>5-Minutely</item>
         <item>Hourly</item>
         <item>Daily</item>
         <item>Weekly</item>
@@ -119,8 +119,8 @@
         <item>20</item>
     </string-array> 
     <string-array name="recordinglabel_entries">
+      	<item>Remote</item>
         <item>Local</item>
-        <item>Remote</item>
     </string-array>  
         <string-array name="hitlistduration_entries">
         <item>1 week</item>

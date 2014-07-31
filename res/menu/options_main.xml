@@ -23,7 +23,7 @@
     <item android:id="@+id/main_about"
           android:icon="@android:drawable/ic_menu_help"
           android:title="@string/Help" />
-    <item android:id="@+id/main_market"
+<!--     <item android:id="@+id/main_market"
           android:icon="@android:drawable/ic_menu_edit"
           android:title="@string/Rate" />
     <item android:id="@+id/main_dbadmin"
@@ -31,5 +31,5 @@
           android:title="@string/DB_Admin" />
     <item android:id="@+id/main_manual"
           android:icon="@drawable/manual"
-          android:title="@string/Manual" />
+          android:title="@string/Manual" /> -->
 </menu>

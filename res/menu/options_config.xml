@@ -20,7 +20,7 @@
     <item android:id="@+id/main_about"
           android:icon="@android:drawable/ic_menu_help"
           android:title="@string/Help" />
-    <item android:id="@+id/templates_save"
+<!--     <item android:id="@+id/templates_save"
           android:icon="@android:drawable/ic_menu_save"
-          android:title="@string/Save_as_Template" />
+          android:title="@string/Save_as_Template" /> -->
     </menu>

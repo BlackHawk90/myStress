@@ -119,8 +119,8 @@
         <item>20</item>
     </string-array> 
     <string-array name="recordinglabel_entries">
-        <item>Local</item>
         <item>Remote</item>
+        <item>Local</item>
     </string-array>  
     <string-array name="hitlistduration_entries">
         <item>1 Woche</item>

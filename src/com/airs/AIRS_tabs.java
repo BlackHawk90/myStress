@@ -86,13 +86,13 @@ public class AIRS_tabs extends TabActivity implements OnTabChangeListener, OnSha
 	    no_tabs++;
 	    
 	    // third tab: settings
-	    intent = new Intent().setClass(this, AIRS_settings_tab.class);
-	    spec = tabHost.newTabSpec("handlers").setIndicator(getString(R.string.tab_Config),
-	                      res.getDrawable(R.drawable.general2))
-	                  .setContent(intent);
-	    tabHost.addTab(spec);
-	    // store tab number
-	    no_tabs++;
+//	    intent = new Intent().setClass(this, AIRS_settings_tab.class);
+//	    spec = tabHost.newTabSpec("handlers").setIndicator(getString(R.string.tab_Config),
+//	                      res.getDrawable(R.drawable.general2))
+//	                  .setContent(intent);
+//	    tabHost.addTab(spec);
+//	    // store tab number
+//	    no_tabs++;
 	    
 	    // fourth tab: storica
 //		if (Build.VERSION.SDK_INT>=14)

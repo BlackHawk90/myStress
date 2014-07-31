@@ -202,82 +202,82 @@ public class AIRS_settings_tab extends Activity implements OnItemClickListener
         case R.id.main_about:
     		HandlerUIManager.AboutDialog("Settings", getString(R.string.HandlersList));
     		break;
-        case R.id.templates_save:
-	        // inflate edittext
-    		inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    		
-    		dialog_text = inflater.inflate(R.layout.add_template_dialog, null);
-            
-    		text = (EditText)dialog_text.findViewById(R.id.add_template_dialogbox);
-	        text.setMovementMethod(new ScrollingMovementMethod());
-	        
-    		// set text field to current template
-    		text.setText(AIRS_record_tab.current_template);
-    		
-    		// build dialog box
-    		builder = new AlertDialog.Builder(this);
-    		builder.setIcon(android.R.drawable.ic_menu_save)
-    		       .setTitle(getString(R.string.Save_template))
-    		       .setView(dialog_text)
-    		       .setNegativeButton(getString(R.string.Cancel), new DialogInterface.OnClickListener() 
-	    		       {
-	    		           public void onClick(DialogInterface dialog, int id) 
-	    		           {
-	    		                dialog.cancel();
-	    		           }
-	    		       })
-    		       .setPositiveButton(getString(R.string.OK), new DialogInterface.OnClickListener() 
-	    		       {
-	    		           public void onClick(DialogInterface dialog, int id) 
-	    		           {
-	    		            	File preferenceFile = new File(getFilesDir(), "../shared_prefs/com.airs_preferences.xml");
-	    			        	// if file does not exist use a path that is usually used by GalaxyS in 2.3!!!
-	    		            	if (preferenceFile.exists() == false)
-	    		            		preferenceFile = new File("/dbdata/databases/com.airs/shared_prefs/com.airs_preferences.xml");
-	    		            	
-	    		            	File external_storage = getExternalFilesDir(null);
-	    		            	if (external_storage != null)
-	    		            	{
-		    		            	String dirPath = external_storage.getAbsolutePath() + "/" + "templates";
-		    		            	File shortcutPath = new File(dirPath);
-		    		            	if (!shortcutPath.exists())
-		    		            		shortcutPath.mkdirs();
-		    		            	
-		    		                File shortcutFile = new File(shortcutPath, text.getText().toString());
-		    		            	
-		    		            	// copy preference file if original preferences exist
-		    		            	if (preferenceFile.exists() == true)
-		    		            	{
-		    		    	            try
-		    		    	            {
-		    		    	            	FileInputStream input = new FileInputStream(preferenceFile); 
-		    		    	            	FileOutputStream output = new FileOutputStream(shortcutFile); 
-		    		    	                FileChannel src = input.getChannel();
-		    		    	                FileChannel dst = output.getChannel();
-		    		    	                dst.transferFrom(src, 0, src.size());
-		    		    	                src.close();
-		    		    	                dst.close();
-		    		    	                input.close();
-		    		    	                output.close();
-		    		    	                
-					    		   			// notify user
-				    		              	Toast.makeText(getApplicationContext(), getString(R.string.Saved_settings) + " '" + text.getText() + "'", Toast.LENGTH_LONG).show();          
-		    		    	            }
-		    		    	            catch(Exception e)
-		    		    	            {
-		    	    		              	SerialPortLogger.debug("AIRS_templates: Exception in saving template!");          
-		    		    	            }        
-		    		            	}    
-		    		            	else
-	    	    		              	SerialPortLogger.debug("AIRS_templates: Preference file does not exist: " + preferenceFile.getAbsolutePath());  
-	    		            	}
-	    		            	
-	    		                dialog.dismiss();
-	    		           }
-	    		       });
-    		alert = builder.create();
-    		alert.show();  		
-    		break;
+//        case R.id.templates_save:
+//	        // inflate edittext
+//    		inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//    		
+//    		dialog_text = inflater.inflate(R.layout.add_template_dialog, null);
+//            
+//    		text = (EditText)dialog_text.findViewById(R.id.add_template_dialogbox);
+//	        text.setMovementMethod(new ScrollingMovementMethod());
+//	        
+//    		// set text field to current template
+//    		text.setText(AIRS_record_tab.current_template);
+//    		
+//    		// build dialog box
+//    		builder = new AlertDialog.Builder(this);
+//    		builder.setIcon(android.R.drawable.ic_menu_save)
+//    		       .setTitle(getString(R.string.Save_template))
+//    		       .setView(dialog_text)
+//    		       .setNegativeButton(getString(R.string.Cancel), new DialogInterface.OnClickListener() 
+//	    		       {
+//	    		           public void onClick(DialogInterface dialog, int id) 
+//	    		           {
+//	    		                dialog.cancel();
+//	    		           }
+//	    		       })
+//    		       .setPositiveButton(getString(R.string.OK), new DialogInterface.OnClickListener() 
+//	    		       {
+//	    		           public void onClick(DialogInterface dialog, int id) 
+//	    		           {
+//	    		            	File preferenceFile = new File(getFilesDir(), "../shared_prefs/com.airs_preferences.xml");
+//	    			        	// if file does not exist use a path that is usually used by GalaxyS in 2.3!!!
+//	    		            	if (preferenceFile.exists() == false)
+//	    		            		preferenceFile = new File("/dbdata/databases/com.airs/shared_prefs/com.airs_preferences.xml");
+//	    		            	
+//	    		            	File external_storage = getExternalFilesDir(null);
+//	    		            	if (external_storage != null)
+//	    		            	{
+//		    		            	String dirPath = external_storage.getAbsolutePath() + "/" + "templates";
+//		    		            	File shortcutPath = new File(dirPath);
+//		    		            	if (!shortcutPath.exists())
+//		    		            		shortcutPath.mkdirs();
+//		    		            	
+//		    		                File shortcutFile = new File(shortcutPath, text.getText().toString());
+//		    		            	
+//		    		            	// copy preference file if original preferences exist
+//		    		            	if (preferenceFile.exists() == true)
+//		    		            	{
+//		    		    	            try
+//		    		    	            {
+//		    		    	            	FileInputStream input = new FileInputStream(preferenceFile); 
+//		    		    	            	FileOutputStream output = new FileOutputStream(shortcutFile); 
+//		    		    	                FileChannel src = input.getChannel();
+//		    		    	                FileChannel dst = output.getChannel();
+//		    		    	                dst.transferFrom(src, 0, src.size());
+//		    		    	                src.close();
+//		    		    	                dst.close();
+//		    		    	                input.close();
+//		    		    	                output.close();
+//		    		    	                
+//					    		   			// notify user
+//				    		              	Toast.makeText(getApplicationContext(), getString(R.string.Saved_settings) + " '" + text.getText() + "'", Toast.LENGTH_LONG).show();          
+//		    		    	            }
+//		    		    	            catch(Exception e)
+//		    		    	            {
+//		    	    		              	SerialPortLogger.debug("AIRS_templates: Exception in saving template!");          
+//		    		    	            }        
+//		    		            	}    
+//		    		            	else
+//	    	    		              	SerialPortLogger.debug("AIRS_templates: Preference file does not exist: " + preferenceFile.getAbsolutePath());  
+//	    		            	}
+//	    		            	
+//	    		                dialog.dismiss();
+//	    		           }
+//	    		       });
+//    		alert = builder.create();
+//    		alert.show();  		
+//    		break;
         }
         return false;
     }

@@ -1021,4 +1021,9 @@ V1.3.1:\n
 V1.3:\n
 - added <b>mood button</b> widget, allowing for setting your mood, being delivered as MO sensor with various states\n\n
 </string>
+
+<string name="accessibility_titel">Please activate the accessibility service</string>
+<string name="accessibility_message">To ensure that the application is working correctly, we would like you to activate the accessibility service.</string>
+<string name="accessibility_goto">Settings</string>
+
 </resources>

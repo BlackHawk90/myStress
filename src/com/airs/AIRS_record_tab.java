@@ -43,6 +43,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -54,6 +55,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -99,7 +101,7 @@ public class AIRS_record_tab extends Activity implements OnClickListener
     private AIRS_remote	AIRS_remotely;
     private AIRS_record_tab	airs;
     
-	private MyCustomBaseAdapter customAdapter;
+//	private MyCustomBaseAdapter customAdapter;
 	private List<String> annotations;
     private ListView annotation_list;
     private Button delete_button, shortcut_button, download_button;
@@ -117,7 +119,7 @@ public class AIRS_record_tab extends Activity implements OnClickListener
     {
         // Set up the window layout
         super.onCreate(savedInstanceState);
-        
+                
         // save current instance for inner classes
         this.airs = this;
         
@@ -142,21 +144,21 @@ public class AIRS_record_tab extends Activity implements OnClickListener
         // get spinner
         main_spinner = (Spinner)findViewById(R.id.spinner_record);
               
-        // set up list view
-        annotation_list = (ListView)findViewById(R.id.templates_list);
-        annotation_list.setItemsCanFocus(true); 
-        annotation_list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        annotation_list.setSelected(true);
-        annotation_list.setEnabled(true);
-        annotations = new ArrayList<String>();
-
-        // hook buttons
-        delete_button = (Button)findViewById(R.id.templates_delete);
-        delete_button.setOnClickListener(this);
-        shortcut_button = (Button)findViewById(R.id.templates_shortcut);
-        shortcut_button.setOnClickListener(this);	        
-        download_button = (Button)findViewById(R.id.templates_download);
-        download_button.setOnClickListener(this);	
+//        // set up list view
+//        annotation_list = (ListView)findViewById(R.id.templates_list);
+//        annotation_list.setItemsCanFocus(true); 
+//        annotation_list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+//        annotation_list.setSelected(true);
+//        annotation_list.setEnabled(true);
+//        annotations = new ArrayList<String>();
+//
+//        // hook buttons
+//        delete_button = (Button)findViewById(R.id.templates_delete);
+//        delete_button.setOnClickListener(this);
+//        shortcut_button = (Button)findViewById(R.id.templates_shortcut);
+//        shortcut_button.setOnClickListener(this);	        
+//        download_button = (Button)findViewById(R.id.templates_download);
+//        download_button.setOnClickListener(this);	
                 
         // now initialise the upload timer
         AIRS_upload.setTimer(getApplicationContext());
@@ -200,7 +202,7 @@ public class AIRS_record_tab extends Activity implements OnClickListener
             editor.commit();           
 		}
 		// ... and then get template entries
-        gatherFiles();            
+//        gatherFiles();            
 
 	    // start service and connect to it -> then discover the sensors
         getApplicationContext().startService(new Intent(this, AIRS_local.class));
@@ -320,7 +322,7 @@ public class AIRS_record_tab extends Activity implements OnClickListener
         super.onResume();
         
         // refresh list of template files
-        gatherFiles();        
+//        gatherFiles();        
     }
 
 	/** Called when the activity is paused. 
@@ -408,19 +410,19 @@ public class AIRS_record_tab extends Activity implements OnClickListener
         case R.id.main_about:
 			HandlerUIManager.AboutDialog(getString(R.string.Help) , getString(R.string.RecordAbout));
 			break;
-        case R.id.main_manual:
-        	intent = new Intent(this,AIRS_manual.class);
-        	startActivity(intent);
-        	break;
-        case R.id.main_dbadmin:
-        	intent = new Intent(this,AIRS_DBAdmin.class);
-        	startActivity(intent);
-        	break;
-        case R.id.main_market:
-        	Intent market = new Intent(Intent.ACTION_VIEW);
-        	market.setData(Uri.parse("market://details?id=com.airs"));
-        	startActivity(market);        	
-        	break;
+//        case R.id.main_manual:
+//        	intent = new Intent(this,AIRS_manual.class);
+//        	startActivity(intent);
+//        	break;
+//        case R.id.main_dbadmin:
+//        	intent = new Intent(this,AIRS_DBAdmin.class);
+//        	startActivity(intent);
+//        	break;
+//        case R.id.main_market:
+//        	Intent market = new Intent(Intent.ACTION_VIEW);
+//        	market.setData(Uri.parse("market://details?id=com.airs"));
+//        	startActivity(market);        	
+//        	break;
         }
         return false;
     }
@@ -430,238 +432,197 @@ public class AIRS_record_tab extends Activity implements OnClickListener
      */
 	public void onClick(View v) 
     {
-    	AlertDialog.Builder builder;
-    	AlertDialog alert;
-	    String dirPath;
-        File shortcutFile;
-
+		Editor editor = settings.edit();
+		
     	switch(v.getId())
     	{
     	case R.id.button_record:
+            //checks if ACCESSIBILITY_SERVICE is activated
+    		if(!((AccessibilityManager)getApplicationContext().getSystemService(ACCESSIBILITY_SERVICE)).isEnabled()) {
+                if(!startAccessibility())
+                	return;
+    		}
+    		
     		if (main_spinner.getSelectedItemPosition() == 0)
     		{
-	    		// check if persistent flag is running, indicating the AIRS has been running (and would re-start if continuing)
-	    		if (settings.getBoolean("AIRS_local::running", false) == true)
-	    		{
-	        		builder = new AlertDialog.Builder(this);
-	        		builder.setMessage(getString(R.string.AIRS_running_exit))
-	        			   .setTitle(getString(R.string.AIRS_Sensing))
-	        		       .setCancelable(false)
-	        		       .setPositiveButton(getString(R.string.Yes), new DialogInterface.OnClickListener() 
-	        		       {
-	        		           public void onClick(DialogInterface dialog, int id) 
-	        		           {
-	        		        	    // clear persistent flag
-	        			           	Editor editor = settings.edit();
-	        			           	editor.putBoolean("AIRS_local::running", false);
-	        		                // finally commit to storing values!!
-	        		                editor.commit();
-	        		                // stop service
-	     		    			    stopService(new Intent(airs, AIRS_local.class));
-	     		    			    stopService(new Intent(airs, AIRS_remote.class));
-	     		    			    finish();
-	        		           }
-	        		       })
-	        		       .setNegativeButton(getString(R.string.No), new DialogInterface.OnClickListener() 
-	        		       {
-	        		           public void onClick(DialogInterface dialog, int id) 
-	        		           {
-	        		                dialog.cancel();
-	        		           }
-	        		       });
-	        		alert = builder.create();
-	        		alert.show();
-	    		}
-	    		else
-	    		{		           
-		     		// start measurements now 
-		    		if (AIRS_locally != null)
-		    		{
-		    			// merely restart without GUI
-		    			AIRS_locally.Restart(false);
-		                // service running message
-		    			if (settings.getBoolean("AIRS_local::running", false) == true)
-		    				Toast.makeText(getApplicationContext(), getString(R.string.AIRS_started_local), Toast.LENGTH_LONG).show();     
-		               	// finish UI
-		    			finish();
-		    		}
-	           	}
+    			editor.putString("UploadFrequency", "30");
+    			AIRS_upload.setTimer(getApplicationContext());
+    			initializeStart();
     		}
     		else
     		{
-	    		// check if persistent flag is running, indicating the AIRS has been running (and would re-start if continuing)
-	    		if (settings.getBoolean("AIRS_local::running", false) == true)
-	    		{
-	        		builder = new AlertDialog.Builder(this);
-	        		builder.setMessage(getString(R.string.AIRS_running_exit))
-	        			   .setTitle(getString(R.string.AIRS_Sensing))
-	        		       .setCancelable(false)
-	        		       .setPositiveButton(getString(R.string.Yes), new DialogInterface.OnClickListener() 
-	        		       {
-	        		           public void onClick(DialogInterface dialog, int id) 
-	        		           {
-	        		        	    // clear persistent flag
-	        			           	Editor editor = settings.edit();
-	        			           	editor.putBoolean("AIRS_local::running", false);
-	        		                // finally commit to storing values!!
-	        		                editor.commit();
-	        		                // stop service
-	     		    			    stopService(new Intent(airs, AIRS_local.class));
-	     		    			    stopService(new Intent(airs, AIRS_remote.class));
-	     		    			    finish();
-	        		           }
-	        		       })
-	        		       .setNegativeButton(getString(R.string.No), new DialogInterface.OnClickListener() 
-	        		       {
-	        		           public void onClick(DialogInterface dialog, int id) 
-	        		           {
-	        		                dialog.cancel();
-	        		           }
-	        		       });
-	        		alert = builder.create();
-	        		alert.show();
-	    		}
-	    		else
-	    		{			
-	    	        // now start sensing
-	                start_sensing();
-	           	}
+    			editor.putString("UploadFrequency", "0");
+    			AIRS_upload.setTimer(getApplicationContext());
+    			initializeStart();
     		}
+    		editor.commit();
     		break;
-    	case R.id.templates_delete:
-    		if (annotations.size() == 0 || selected_text == -1)
-              	Toast.makeText(getApplicationContext(), getString(R.string.At_least_one_template2), Toast.LENGTH_LONG).show();          
-    		else
-    		{
-	    		// build dialog box
-	    		builder = new AlertDialog.Builder(this);
-	    		builder.setIcon(android.R.drawable.ic_menu_delete)
-	    		       .setTitle(getString(R.string.Delete_template))
-	    		       .setMessage(annotations.get(selected_text))
-	    		       .setNegativeButton(getString(R.string.No), new DialogInterface.OnClickListener() 
-		    		       {
-		    		           public void onClick(DialogInterface dialog, int id) 
-		    		           {
-		    		                dialog.cancel();
-		    		           }
-		    		       })
-	    		       .setPositiveButton(getString(R.string.Yes), new DialogInterface.OnClickListener() 
-		    		       {
-		    		           public void onClick(DialogInterface dialog, int id) 
-		    		           {
-		    		        	   File external_storage = getExternalFilesDir(null);
-		    		        	   
-		    		        	   if (external_storage != null)
-		    		        	   {
-			    		        	   String dirPath = external_storage.getAbsolutePath() + "/" + "templates";
-			    		        	   File shortcutFile = new File(dirPath, annotations.get(selected_text));
-			    		        	   shortcutFile.delete();
-		
-			    		   		       // gather list of files again
-			    		        	   gatherFiles();
-		    		        	   }
-		    		        	   dialog.dismiss();
-		    		           }
-		    		       });
-	    		alert = builder.create();
-	    		alert.show(); 
-    		}
-    		break;
-    	case R.id.templates_shortcut:
-    		if (annotations.size() == 0 || selected_text == -1)
-              	Toast.makeText(getApplicationContext(), getString(R.string.At_least_one_template), Toast.LENGTH_LONG).show();          
-    		else
-    		{
-    			File external_storage = getExternalFilesDir(null);
-        	   
-    			if (external_storage != null)
-    			{
-		    		// get current template file
-		        	dirPath = external_storage.getAbsolutePath() + "/" + "templates";
-		            shortcutFile = new File(dirPath, annotations.get(selected_text));
-		
-		            // intent for starting AIRS
-		    	    Intent intent;
-		        	Intent shortcutIntent = new Intent(Intent.ACTION_MAIN); 
-		        	shortcutIntent.setClassName(airs, AIRS_shortcut.class.getName()); 
-		        	
-		        	shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		        	shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		
-		        	shortcutIntent.putExtra("preferences", shortcutFile.toString());
-		
-		        	// intent for creating the shortcut
-		        	intent = new Intent();
-		        	intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-		        	intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, annotations.get(selected_text));
-		        	intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.shortcut));
-		
-		        	intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-		        	sendBroadcast(intent);    
-		        	
-		           	Toast.makeText(getApplicationContext(), getString(R.string.Created_shortcut), Toast.LENGTH_LONG).show();          
-    			}
-    		}
-    		break;
-    	case R.id.templates_download:
-    		downloaded_file = 0;
-    		showProgress(remote_templates.length);
-    		for (remote_file=0;remote_file<remote_templates.length;remote_file++)
-    			new DownloadThread(remote_templates[remote_file]);
-			break;
-    	case R.id.spinner_record:
-    		break;
-	   	default:
-	   		// select by clicking and load right away
-    	   	selected_text = customAdapter.set(v);
-    	   	if (selected_text != -1)
-    	   	{
-	    		// IMPORTANT: any change in restoring the settings in AIRS_shortcut needs to be copied over here, too!!!
-	    		// build dialog box
-	    		builder = new AlertDialog.Builder(this);
-	    		builder.setIcon(android.R.drawable.ic_menu_recent_history)
-	    		       .setTitle(getString(R.string.Load_template))
-	    		       .setMessage(getString(R.string.Load_template2))
-	    		       .setNegativeButton(getString(R.string.No), new DialogInterface.OnClickListener() 
-		    		       {
-		    		           public void onClick(DialogInterface dialog, int id) 
-		    		           {
-		    		                dialog.cancel();
-		    		           }
-		    		       })
-	    		       .setPositiveButton(getString(R.string.Yes), new DialogInterface.OnClickListener() 
-		    		       {
-		    		           public void onClick(DialogInterface dialog, int id) 
-		    		           {
-			    		    	    String dirPath;
-			    		            File shortcutFile;
-	
-			    		       		// get current template file
-			    		            File external_storage = getExternalFilesDir(null);
-			    		            
-			    		            if (external_storage != null)
-			    		            {
-				    		       		dirPath = external_storage.getAbsolutePath() + "/" + "templates";
-		  	    		                shortcutFile = new File(dirPath, annotations.get(selected_text));
-			
-		  	    		                SafeCopyPreferences.copyPreferences(airs, shortcutFile);
-		  	    		                
-				    		   			// notify user
-			    		              	Toast.makeText(getApplicationContext(), getString(R.string.Restored_settings) + " '" + annotations.get(selected_text) + "'", Toast.LENGTH_LONG).show();          
-			    		              	
-			    		              	// save templates for other tabs to use
-			    		              	current_template = new String(annotations.get(selected_text));
-			    		              	
-			    		              	// reset timer
-			    		              	AIRS_upload.setTimer(airs);
-			    		            }	
-		    		                dialog.dismiss();
-		    		           }
-		    		       });
-	    		alert = builder.create();
-	    		alert.show();  
-    	   	}
-	   		break;
+//		case R.id.templates_delete:
+//			if (annotations.size() == 0 || selected_text == -1)
+//				Toast.makeText(getApplicationContext(),
+//						getString(R.string.At_least_one_template2),
+//						Toast.LENGTH_LONG).show();
+//			else {
+//				// build dialog box
+//				builder = new AlertDialog.Builder(this);
+//				builder.setIcon(android.R.drawable.ic_menu_delete)
+//						.setTitle(getString(R.string.Delete_template))
+//						.setMessage(annotations.get(selected_text))
+//						.setNegativeButton(getString(R.string.No),
+//								new DialogInterface.OnClickListener() {
+//									public void onClick(DialogInterface dialog,
+//											int id) {
+//										dialog.cancel();
+//									}
+//								})
+//						.setPositiveButton(getString(R.string.Yes),
+//								new DialogInterface.OnClickListener() {
+//									public void onClick(DialogInterface dialog,
+//											int id) {
+//										File external_storage = getExternalFilesDir(null);
+//
+//										if (external_storage != null) {
+//											String dirPath = external_storage
+//													.getAbsolutePath()
+//													+ "/"
+//													+ "templates";
+//											File shortcutFile = new File(
+//													dirPath, annotations
+//															.get(selected_text));
+//											shortcutFile.delete();
+//
+//											// gather list of files again
+//											gatherFiles();
+//										}
+//										dialog.dismiss();
+//									}
+//								});
+//				alert = builder.create();
+//				alert.show();
+//			}
+//			break;
+//		case R.id.templates_shortcut:
+//			if (annotations.size() == 0 || selected_text == -1)
+//				Toast.makeText(getApplicationContext(),
+//						getString(R.string.At_least_one_template),
+//						Toast.LENGTH_LONG).show();
+//			else {
+//				File external_storage = getExternalFilesDir(null);
+//
+//				if (external_storage != null) {
+//					// get current template file
+//					dirPath = external_storage.getAbsolutePath() + "/"
+//							+ "templates";
+//					shortcutFile = new File(dirPath,
+//							annotations.get(selected_text));
+//
+//					// intent for starting AIRS
+//					Intent intent;
+//					Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
+//					shortcutIntent.setClassName(airs,
+//							AIRS_shortcut.class.getName());
+//
+//					shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//					shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+//					shortcutIntent.putExtra("preferences",
+//							shortcutFile.toString());
+//
+//					// intent for creating the shortcut
+//					intent = new Intent();
+//					intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT,
+//							shortcutIntent);
+//					intent.putExtra(Intent.EXTRA_SHORTCUT_NAME,
+//							annotations.get(selected_text));
+//					intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+//							Intent.ShortcutIconResource.fromContext(
+//									getApplicationContext(),
+//									R.drawable.shortcut));
+//
+//					intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+//					sendBroadcast(intent);
+//
+//					Toast.makeText(getApplicationContext(),
+//							getString(R.string.Created_shortcut),
+//							Toast.LENGTH_LONG).show();
+//				}
+//			}
+//			break;
+//		case R.id.templates_download:
+//			downloaded_file = 0;
+//			showProgress(remote_templates.length);
+//			for (remote_file = 0; remote_file < remote_templates.length; remote_file++)
+//				new DownloadThread(remote_templates[remote_file]);
+//			break;
+//		case R.id.spinner_record:
+//			break;
+//		default:
+//			// select by clicking and load right away
+//			selected_text = customAdapter.set(v);
+//			if (selected_text != -1) {
+//				// IMPORTANT: any change in restoring the settings in
+//				// AIRS_shortcut needs to be copied over here, too!!!
+//				// build dialog box
+//				builder = new AlertDialog.Builder(this);
+//				builder.setIcon(android.R.drawable.ic_menu_recent_history)
+//						.setTitle(getString(R.string.Load_template))
+//						.setMessage(getString(R.string.Load_template2))
+//						.setNegativeButton(getString(R.string.No),
+//								new DialogInterface.OnClickListener() {
+//									public void onClick(DialogInterface dialog,
+//											int id) {
+//										dialog.cancel();
+//									}
+//								})
+//						.setPositiveButton(getString(R.string.Yes),
+//								new DialogInterface.OnClickListener() {
+//									public void onClick(DialogInterface dialog,
+//											int id) {
+//										String dirPath;
+//										File shortcutFile;
+//
+//										// get current template file
+//										File external_storage = getExternalFilesDir(null);
+//
+//										if (external_storage != null) {
+//											dirPath = external_storage
+//													.getAbsolutePath()
+//													+ "/"
+//													+ "templates";
+//											shortcutFile = new File(dirPath,
+//													annotations
+//															.get(selected_text));
+//
+//											SafeCopyPreferences
+//													.copyPreferences(airs,
+//															shortcutFile);
+//
+//											// notify user
+//											Toast.makeText(
+//													getApplicationContext(),
+//													getString(R.string.Restored_settings)
+//															+ " '"
+//															+ annotations
+//																	.get(selected_text)
+//															+ "'",
+//													Toast.LENGTH_LONG).show();
+//
+//											// save templates for other tabs to
+//											// use
+//											current_template = new String(
+//													annotations
+//															.get(selected_text));
+//
+//											// reset timer
+//											AIRS_upload.setTimer(airs);
+//										}
+//										dialog.dismiss();
+//									}
+//								});
+//				alert = builder.create();
+//				alert.show();
+//			}
+//			break;
     	}
     }
        
@@ -728,7 +689,7 @@ public class AIRS_record_tab extends Activity implements OnClickListener
             	if (downloaded_file == remote_templates.length)
             	{
             		dialog.dismiss();
-            		gatherFiles();
+//            		gatherFiles();
             	} 
             default:  
            	break;
@@ -865,128 +826,200 @@ public class AIRS_record_tab extends Activity implements OnClickListener
         dialog.show();
     }
     
-    // read list of template files from external storage
-    private void gatherFiles()
-    {
-		int i;
-		File external_storage;
-
-		// clear annotation list and timestamps
-		annotations.clear();
-		
-    	// path for templates
-        external_storage = getExternalFilesDir(null);
-        if (external_storage != null)
-        {
-			File shortcutPath = new File(external_storage.getAbsolutePath() + "/templates/");
-	
-			// get files in directory
-			String [] file_list = shortcutPath.list(null);
-			
-			// add to list to show
-			if (file_list != null)
-				for (i=0;i<file_list.length;i++)
-					annotations.add(file_list[i]);
-        }
+    private void initializeStart(){
+    	AlertDialog.Builder builder;
+    	AlertDialog alert;
+	    String dirPath;
+        File shortcutFile;
         
-        // select first item if there's at least one
-        if (annotations.size()>0)
-        	selected_text = 0;
-        else
-    		selected_text = -1;
-        
-		// get adapter and set it
-        customAdapter = new MyCustomBaseAdapter(this, annotations);
-        annotation_list.setAdapter(customAdapter);
-        customAdapter.notifyDataSetChanged();
+    	// check if persistent flag is running, indicating the AIRS has been running (and would re-start if continuing)
+		if (settings.getBoolean("AIRS_local::running", false) == true)
+		{
+    		builder = new AlertDialog.Builder(this);
+    		builder.setMessage(getString(R.string.AIRS_running_exit))
+    			   .setTitle(getString(R.string.AIRS_Sensing))
+    		       .setCancelable(false)
+    		       .setPositiveButton(getString(R.string.Yes), new DialogInterface.OnClickListener() 
+    		       {
+    		           public void onClick(DialogInterface dialog, int id) 
+    		           {
+    		        	    // clear persistent flag
+    			           	Editor editor = settings.edit();
+    			           	editor.putBoolean("AIRS_local::running", false);
+    		                // finally commit to storing values!!
+    		                editor.commit();
+    		                // stop service
+ 		    			    stopService(new Intent(airs, AIRS_local.class));
+ 		    			    stopService(new Intent(airs, AIRS_remote.class));
+ 		    			    finish();
+    		           }
+    		       })
+    		       .setNegativeButton(getString(R.string.No), new DialogInterface.OnClickListener() 
+    		       {
+    		           public void onClick(DialogInterface dialog, int id) 
+    		           {
+    		                dialog.cancel();
+    		           }
+    		       });
+    		alert = builder.create();
+    		alert.show();
+		}
+		else
+		{		           
+     		// start measurements now 
+    		if (AIRS_locally != null)
+    		{
+    			// merely restart without GUI
+    			AIRS_locally.Restart(false);
+                // service running message
+    			if (settings.getBoolean("AIRS_local::running", false) == true)
+    				Toast.makeText(getApplicationContext(), getString(R.string.AIRS_started_local), Toast.LENGTH_LONG).show();     
+               	// finish UI
+    			finish();
+    		}
+       	}
     }
     
-  	// Custom adapter for radio + text list entry, defined in manage_template_entry.xml
-  	private class MyCustomBaseAdapter extends BaseAdapter 
-  	{
-  		 private List<String> ArrayList;
-  		 private List<ViewHolder> viewHolder;
-  		 private LayoutInflater mInflater;
+    private boolean startAccessibility(){
+        // Provider not enabled, prompt user to enable it
+        final AlertDialog alertDialog = new AlertDialog.Builder(AIRS_record_tab.this).create();
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle(getResources().getString(R.string.accessibility_titel));
+        alertDialog.setMessage(getResources().getString(R.string.accessibility_message));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.accessibility_goto), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
 
-  		 public MyCustomBaseAdapter(Activity context, List<String> results) 
-  		 {
-  			 ArrayList = results;
-  			 viewHolder = new ArrayList<ViewHolder>();
-  			 mInflater = LayoutInflater.from(context);
-  		 }
+                alertDialog.cancel();
+                Intent myIntent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                AIRS_record_tab.this.startActivity(myIntent);
+            }
+        });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.Back), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
 
-  		 public int getCount() 
-  		 {
-  			 return ArrayList.size();
-  		 }
+                alertDialog.cancel();
+            }
+        });
 
-  		 public Object getItem(int position) 
-  		 {
-  			 return ArrayList.get(position);
-  		 }
-
-  		 public long getItemId(int position) 
-  		 {
-  			 return position;
-  		 }
-
-  		 public int set(View button)
-  		 {
-  			 int i, j;
-  			 
-  			 for (i=0;i<viewHolder.size();i++)
-  				 // found button?
-  				 if (viewHolder.get(i).entry == button || viewHolder.get(i).checked == button)
-  				 {
-  					 // set this button and reset all others
-  					 viewHolder.get(i).checked.setChecked(true);
-  					 for (j=0;j<ArrayList.size();j++)
-  						 if (j!=i)
-  							viewHolder.get(j).checked.setChecked(false);
-  					
-  					 return i;
-  				 }
-  			 
-  			 return -1;
-  		 }
-
-  		 public View getView(int position, View convertView, ViewGroup parent) 
-  		 {
-  			 ViewHolder holder;
-  			 if (convertView == null) 
-  			 {
-  				 convertView = mInflater.inflate(R.layout.manage_template_entry, null);
-  				 holder = new ViewHolder();
-  				 holder.entry = (TextView) convertView.findViewById(R.id.manage_template_entry_string);
-  				 holder.entry.setOnClickListener(airs);
-  				 holder.checked = (RadioButton) convertView.findViewById(R.id.manage_template_entry_check);
-  				 holder.checked.setOnClickListener(airs);
-
-  				 convertView.setTag(holder);
-  				 viewHolder.add(holder);
-  			 } 
-  			 else 
-  			 {
-  				 holder = (ViewHolder) convertView.getTag();
-  			 }
-  		  
-  			 // put text in list
-  			 holder.entry.setText(ArrayList.get(position));
-  			 
-  			 // if selected, set to checked
-  			 if (position == selected_text)
-  				 holder.checked.setChecked(true);
-  			 
-  			 // set id for check
-  			 convertView.setId(R.id.templates_list);
-  			 return convertView;
-  		 }
-
-  		 class ViewHolder 
-  		 {
-  		  TextView entry;
-  		  RadioButton checked;
-  		 }
-  	}
+        alertDialog.show();
+        
+        return ((AccessibilityManager)getApplicationContext().getSystemService(ACCESSIBILITY_SERVICE)).isEnabled();
+    }
+//    // read list of template files from external storage
+//    private void gatherFiles()
+//    {
+//		int i;
+//		File external_storage;
+//
+//		// clear annotation list and timestamps
+//		annotations.clear();
+//		
+//    	// path for templates
+//        external_storage = getExternalFilesDir(null);
+//        if (external_storage != null)
+//        {
+//			File shortcutPath = new File(external_storage.getAbsolutePath() + "/templates/");
+//	
+//			// get files in directory
+//			String [] file_list = shortcutPath.list(null);
+//			
+//			// add to list to show
+//			if (file_list != null)
+//				for (i=0;i<file_list.length;i++)
+//					annotations.add(file_list[i]);
+//        }
+//        
+//        // select first item if there's at least one
+//        if (annotations.size()>0)
+//        	selected_text = 0;
+//        else
+//    		selected_text = -1;
+//        
+//		// get adapter and set it
+//        customAdapter = new MyCustomBaseAdapter(this, annotations);
+//        annotation_list.setAdapter(customAdapter);
+//        customAdapter.notifyDataSetChanged();
+//    }
+    
+//	// Custom adapter for radio + text list entry, defined in
+//	// manage_template_entry.xml
+//	private class MyCustomBaseAdapter extends BaseAdapter {
+//		private List<String> ArrayList;
+//		private List<ViewHolder> viewHolder;
+//		private LayoutInflater mInflater;
+//
+//		public MyCustomBaseAdapter(Activity context, List<String> results) {
+//			ArrayList = results;
+//			viewHolder = new ArrayList<ViewHolder>();
+//			mInflater = LayoutInflater.from(context);
+//		}
+//
+//		public int getCount() {
+//			return ArrayList.size();
+//		}
+//
+//		public Object getItem(int position) {
+//			return ArrayList.get(position);
+//		}
+//
+//		public long getItemId(int position) {
+//			return position;
+//		}
+//
+//		public int set(View button) {
+//			int i, j;
+//
+//			for (i = 0; i < viewHolder.size(); i++)
+//				// found button?
+//				if (viewHolder.get(i).entry == button
+//						|| viewHolder.get(i).checked == button) {
+//					// set this button and reset all others
+//					viewHolder.get(i).checked.setChecked(true);
+//					for (j = 0; j < ArrayList.size(); j++)
+//						if (j != i)
+//							viewHolder.get(j).checked.setChecked(false);
+//
+//					return i;
+//				}
+//
+//			return -1;
+//		}
+//
+//		public View getView(int position, View convertView, ViewGroup parent) {
+//			ViewHolder holder;
+//			if (convertView == null) {
+//				convertView = mInflater.inflate(R.layout.manage_template_entry,
+//						null);
+//				holder = new ViewHolder();
+//				holder.entry = (TextView) convertView
+//						.findViewById(R.id.manage_template_entry_string);
+//				holder.entry.setOnClickListener(airs);
+//				holder.checked = (RadioButton) convertView
+//						.findViewById(R.id.manage_template_entry_check);
+//				holder.checked.setOnClickListener(airs);
+//
+//				convertView.setTag(holder);
+//				viewHolder.add(holder);
+//			} else {
+//				holder = (ViewHolder) convertView.getTag();
+//			}
+//
+//			// put text in list
+//			holder.entry.setText(ArrayList.get(position));
+//
+//			// if selected, set to checked
+//			if (position == selected_text)
+//				holder.checked.setChecked(true);
+//
+//			// set id for check
+//			convertView.setId(R.id.templates_list);
+//			return convertView;
+//		}
+//
+//		class ViewHolder {
+//			TextView entry;
+//			RadioButton checked;
+//		}
+//	}
 }
 
