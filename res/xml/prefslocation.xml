@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2011, Dirk Trossen, airs@dirk-trossen.de
+  Copyright (C) 2011, Dirk Trossen, mystress@dirk-trossen.de
 
   This program is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as published by
@@ -74,7 +74,7 @@
     	android:selectable="true" 
     	android:summaryOn="@string/AdaptiveGPS_on" 
     	android:summaryOff="@string/AdaptiveGPS_off"/>
-     <com.airs.helper.ListPreferenceMultiSelect
+     <com.myStress.helper.ListPreferenceMultiSelect
         android:dependency="LocationHandler::AdaptiveGPS"
 		android:dialogIcon="@drawable/location"
         android:key="LocationHandler::AdaptiveGPS_WiFis"
@@ -90,8 +90,8 @@
         android:summary="@string/AdaptiveGPS_Hitlist_on">
         <intent
         android:action="android.intent.action.MAIN"
-        android:targetPackage="com.airs"
-        android:targetClass="com.airs.handlerUIs.LocationHandlerAPs"/>
+        android:targetPackage="com.myStress"
+        android:targetClass="com.myStress.handlerUIs.LocationHandlerAPs"/>
      </Preference>  
     </PreferenceCategory>  
     <PreferenceCategory android:title="Wifi">

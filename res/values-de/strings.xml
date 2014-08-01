@@ -16,15 +16,15 @@
   59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
  -->
 <resources>
-<string name="app_name">AIRS</string>
+<string name="app_name">myStress</string>
 <string name="Copyright">&#169; 2004-2006 Nokia Corp.\n&#169; 2008-2012 Dirk Trossen; \n&#169; 2013-2014 TecVis LP
 \n\nKontakt: dot@tecvis.co.uk
 \n\nFolge Uns in Twitter unter @tecvis
 \n\nFacebook: http://www.facebook.com/tecvisuk
-\n\nAnleitung (in Englisch): http://tecvis.co.uk/software-2/airs/
-\n\nAIRS Quellcode ist lizenziert unter der LGPL 2.0 license und ist auf Github verfügbar. Für mehr Informationen bzgl. der Lizenz, siehe <b>license.txt</b>!
-\n\nSpezielle Anerkennung für Dana Pavel, die durch die Benutzung von AIRS für ihre Forschungsarbeit (http://dalore.me.uk/Dana/research-areas) viele neue Features beigetragen hat (wie z.B. die Widgets für Anmerkungen), sowohl als auch die Stabilität von AIRS erhöht hat!
-\n\nDie Autoren sind nicht für Missbrauch von AIRS verantwortlich, z.B. für Überwachungszwecke. Die Operation von AIRS wird durch ein Symbol in der oberen Titelleiste angezeigt, um Benutzer auf Aufnahmen aufmerksam zu machen!
+\n\nAnleitung (in Englisch): http://tecvis.co.uk/software-2/myStress/
+\n\nmyStress Quellcode ist lizenziert unter der LGPL 2.0 license und ist auf Github verfügbar. Für mehr Informationen bzgl. der Lizenz, siehe <b>license.txt</b>!
+\n\nSpezielle Anerkennung für Dana Pavel, die durch die Benutzung von myStress für ihre Forschungsarbeit (http://dalore.me.uk/Dana/research-areas) viele neue Features beigetragen hat (wie z.B. die Widgets für Anmerkungen), sowohl als auch die Stabilität von myStress erhöht hat!
+\n\nDie Autoren sind nicht für Missbrauch von myStress verantwortlich, z.B. für Überwachungszwecke. Die Operation von myStress wird durch ein Symbol in der oberen Titelleiste angezeigt, um Benutzer auf Aufnahmen aufmerksam zu machen!
 </string>
 <string name="tab_Record">Aufnahme</string>
 <string name="tab_Config">Konfig</string>
@@ -36,7 +36,7 @@
 <string name="recording_prompt">Typ der Aufnahme</string>
 <string name="main_Configure">Generelle Einstellungen</string>
 <string name="main_Configure2">Bestimme generelle Einstellungen wie z.B. Server IP, Überwachungsfunktion und andere.</string>
-<string name="GeneralSettings">\'Server\' bestimmt die Adresse des AIRS Anwendungsservers (muss öffentlich sein), zusammen mit dem Port.\n\n
+<string name="GeneralSettings">\'Server\' bestimmt die Adresse des myStress Anwendungsservers (muss öffentlich sein), zusammen mit dem Port.\n\n
 \'Lokale Anzeige\' wechselt die Ausgabe von Sensordaten im lokalen Aufnahmemodus\n\n
 \'Lokale Speicherung\' wechselt die lokale Speicherung von Daten im lokalen Aufnahmemodus. \n\n
 \'Sensorengeschichte\' bestimmt die Anzahl der Daten, die im lokalen Aufnahmemodus angezeigt werden.\n\n
@@ -44,13 +44,13 @@
 \'Erinnerungsintervall\' bestimmt das Intervall, dass den Benutzer an die Aufzeichnung erinnert durch Vibration und LED Anzeige (0 schaltet die Benachrichtungen ab)\n\n
 \'Debug\' schaltet Debugaufzeichnungen an/aus. \n</string>
 <string name="MapAbout">Zeigt einen Pfad der GPS Aufzeichnungen. Du kannst auf eine Markierung klicken für mehr Information. Du kannst die Karte auf Deine momentane oder die letzte bekannte Position zentrieren (durch die Knöpfe oben rechts). Du kannst auch zwischen Satelliten- und Kartendarstellung umschalten durch die Menüeinträge.</string>
-<string name="ManualAbout">Zeigt das AIRS Benutzerhandbuch (leider nur in Englisch).\nDu brauchst Internetzugang, um die Seite anzuzeigen. Du kannst verschiedene Handbuchkapitel anklicken wie jede andere Webseite. Drücke die BACK Taste, um von Kapiteln zurück zu gehen oder das Manual zu verlassen im Übersichtskapitel.</string>
+<string name="ManualAbout">Zeigt das myStress Benutzerhandbuch (leider nur in Englisch).\nDu brauchst Internetzugang, um die Seite anzuzeigen. Du kannst verschiedene Handbuchkapitel anklicken wie jede andere Webseite. Drücke die BACK Taste, um von Kapiteln zurück zu gehen oder das Manual zu verlassen im Übersichtskapitel.</string>
 <string name="RecordAbout">Starte eine Aufzeichnung und wähle den Modus der Aufzeichnung.\n\nDu kannst auch <b>Muster</b> laden oder löschen, die Du zuvor gespeichert hattest. Du kannst auch Shortcuts zu einem ausgewählten Muster erstellen. Diese Shortcuts werden auf dem Heimbildschirm dargestellt. Wenn Du auf ein Muster klickst, wird dieses automatisch geladen.\n\nZusätzlich zur Erstellung von eigenen Mustern, kannst Du auch Beispiele von unserem Server <b>herunterladen</b>.</string>
 <string name="LocalAbout">Zeigt die Sensoren, die im lokalen Aufnahmemodus verfügbar sind.\nWähle die Sensoren die Du aufzeichnen willst. Durch das Menü kannst Du alle Sensoren anwählen oder alle Anwahlen löschen. Du kannst auch Informationen über die Sensoren ansehen, wie z.B. Typ, Wertebereiche etc, die entdeckt wurden.</string>
 <string name="ValuesAbout">Zeigt die momentanen Werte der Sensoren im lokalen Aufnahmemodus an.\nVon hier aus kannst Du das Programm verlassen oder die Anzeige mit der <b>ZURÜCK</b> Taste verlassen!\Du kannst auch die Anzeige pausieren oder wiederaufnehmen (dies stoppt jedoch nicht den Dienst, der die Werte aufzeichnet in der Datenbank).</string>
 <string name="RemoteAbout">Zeigt die Anzahl der Werte übertragen, zusammen mit den kBytes, im Remote Modus.\nVon hier aus kannst Du das Programm verlassen oder die Anzeige mit der <b>ZURÜCK</b> Taste verlassen!</string>
 <string name="MoodAbout">Wähle die Gemütsstimmung aus in der Du Dich befindest. Deine Aufnahme wird mit einem Zeitstempel versehen mit dem <b>MO</b> Sensor.\nVerlasse die Auswahl mit der <b>ZURÜCK</b> Taste\nDu kannst auch Deine eigene Stimmung bestimmen mit dem Textfeld am unteren Rand.</string>
-<string name="EventAbout">Wähle das Ereignis, dass Du aufzeichen willst. Deine Auswahl wird mit einem Zeitstempel versehen mit dem <b>EB</b> Sensor.\nVerlasse die Auswahl mit der <b>ZURÜCK</b> Taste!\nDu kannst Dein eigenes Ereignis mit dem Textfeld am unteren Rand eingeben. Du kannst einen Eintrag löschen, indem Du lange auf den Eintrag klickst.\n\nAIRS speichert Deine letzte Einträge permanent.</string>
+<string name="EventAbout">Wähle das Ereignis, dass Du aufzeichen willst. Deine Auswahl wird mit einem Zeitstempel versehen mit dem <b>EB</b> Sensor.\nVerlasse die Auswahl mit der <b>ZURÜCK</b> Taste!\nDu kannst Dein eigenes Ereignis mit dem Textfeld am unteren Rand eingeben. Du kannst einen Eintrag löschen, indem Du lange auf den Eintrag klickst.\n\nmyStress speichert Deine letzte Einträge permanent.</string>
 <string name="TimelineAbout">Zeigt den historischen Zeitverlauf des angeklickten Sensors. Du kannst die Anzahl der angezeigten Werte in den Einstellungen ändern.\nVerlasse die Anzeige mit der <b>ZURÜCK</b> Taste!</string>
 <string name="DBadminAbout">Wähle eine der drei Datenbankoperationen: <b>Speichern</b>, <b>Wiederherstellen</b> or <b>Index</b>. Du kannst die Datenbank nur einmal indizieren und diese Operation kann nicht rückgängig gemacht werden.</string>
 <string name="SyncAbout">Erlaubt die Daten seit der letzten Synchronisierung zu sichern.\n\nDu kannst das letzte Synchronisierungsdatum auch manuell ändern für den Fall, dass Du wieder synchronisieren musst.</string>
@@ -70,12 +70,12 @@
 <string name="Getting_Started2">Lokale Aufnahmen:\n
 - wähle \'Lifelogging\' für Lifelogging Einstellungen\n
 - drücke \'Shortcut\', um einen Shortcut auf dem Hauptbildschirm zu erstellen\n
-- plaziere die AIRS Anmerkungen und Stimmungswidgets auf dem Hauptbildschirm für Anmerkungen\n
+- plaziere die myStress Anmerkungen und Stimmungswidgets auf dem Hauptbildschirm für Anmerkungen\n
 - ändere gegenenfalls Einstellungen wie z.B. WiFi Namen zur Liste der adaptiven GPS Einstellungen hinzuzufügen!\n
-- starte AIRS lokale Aufzeichnungen vom Hauptbildschirm mit dem erzeugten Shortcutsymbol!\n
+- starte myStress lokale Aufzeichnungen vom Hauptbildschirm mit dem erzeugten Shortcutsymbol!\n
 - für Visualisierungen der Aufzeichnungen, lade unsere Storica app herunter von http://play.google.com/store/apps/details?id=com.storica\n
 - für mehr Informationen, siehe http://tecvis.co.uk/software/storica/tips-for-recording\n\n
-Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf unsere Website) und lese das AIRS Manual durch das Optionsmenü\n
+Für entfernte Aufnahmen, lade den myStress Anwendungsserver vom Internet (siehe auf unsere Website) und lese das myStress Manual durch das Optionsmenü\n
 </string>
 
 <string name="ConnectGoogle">Google Account</string>
@@ -85,8 +85,8 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="ConnectGoogle5">Zugriff muss erlaubt werden, damit die Hochladefunktion funktionieren kann!</string>
 <string name="FolderGoogle">Hochladeverzeichnis</string>
 <string name="FolderGoogle2">Wähle das Verzeichnis im GDrive Hauptverzeichnis zum Hochladen - es wird angelegt, falls es nicht existiert. Diese Einstellung existiert für jedes Aufzeichnungsmuster!</string>
-<string name="Cannot_backup">Kann die Datenbank nicht sichern wenn AIRS läuft!</string>
-<string name="Cannot_restore">Kann die Datenbank nicht wiederherstellen wenn AIRS läuft!</string>
+<string name="Cannot_backup">Kann die Datenbank nicht sichern wenn myStress läuft!</string>
+<string name="Cannot_restore">Kann die Datenbank nicht wiederherstellen wenn myStress läuft!</string>
 <string name="Backup_recordings">Sicherung</string>
 <string name="Restore_recordings">Wiederherstellen</string>
 <string name="Starting_restore">Starte Wiederherstellung</string>
@@ -109,41 +109,41 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="Sensor_suspended">Sensor angehalten - Grund:</string>
 <string name="Sensor_suspended2">Sensor angehalten - Grund: unbekannt</string>
 <string name="Enable_at_least_one_sensor">Du musst mindestens einen Sensor auswählen bevor Du Aufnahmen startest!</string>
-<string name="Started_AIRS">Startet AIRS</string>
-<string name="Stop_AIRS">Stop AIRS</string>
-<string name="AIRS_Remote_Sensing">AIRS Remote Aufnahmen</string>
-<string name="AIRS_Local_Sensing">AIRS Lokale Aufnahmen</string>
-<string name="AIRS_Sensing">AIRS Aufnahmen</string>
+<string name="Started_myStress">Startet myStress</string>
+<string name="Stop_myStress">Stop myStress</string>
+<string name="myStress_Remote_Sensing">myStress Remote Aufnahmen</string>
+<string name="myStress_Local_Sensing">myStress Lokale Aufnahmen</string>
+<string name="myStress_Sensing">myStress Aufnahmen</string>
 <string name="running_since">&#8230;läuft seit&#8230;</string>
 <string name="restarted_since">&#8230;wiedergestarted seit&#8230;</string>
 <string name="killed_at">&#8230;beendet um</string>
-<string name="AIRS_killed">AIRS beendet</string>
+<string name="myStress_killed">myStress beendet</string>
 <string name="battery">Batterie</string>
 <string name="binding_failed">Anbinden an den Dienst erfolglos!</string>
 <string name="Local_Sensing">Lokale Aufnahmen</string>
 <string name="paused">angehalten</string>
-<string name="Exit_AIRS">Beenden wird Deine Aufnahmen anhalten und den Hintergrunddienst beenden!\nBist Du sicher?</string>
-<string name="Exit_AIRS2">Beende AIRS?</string>
+<string name="Exit_myStress">Beenden wird Deine Aufnahmen anhalten und den Hintergrunddienst beenden!\nBist Du sicher?</string>
+<string name="Exit_myStress2">Beende myStress?</string>
 <string name="Snapshot_nothing_to_share">Nichts zu teilen! Hast Du den Kamerapfad richtig eingestellt (der Pfad muss derselbe sein wie für Bilder in der Galerie!)?</string>
-<string name="Snapshot_share">Share AIRS Bilder:</string>
-<string name="Snapshot_publish">Hochgeladen von AIRS</string>
+<string name="Snapshot_share">Share myStress Bilder:</string>
+<string name="Snapshot_publish">Hochgeladen von myStress</string>
 <string name="Snapshot_only_pictures">Kann nur Bilder sharen!</string>
-<string name="Measurements_share">Share AIRS Aufnahmen via:</string>
-<string name="AIRS_running_exit">AIRS läuft momentan.\nMöchtest Du die mometanen Aufzeichnungen unterbrechen and neu starten? Du musst AIRS dann neu starten.</string>
-<string name="AIRS_running_exit2">AIRS läuft momentan.\nMöchtest Du die mometanen Aufzeichnungen unterbrechen and neu starten? Du musst den Shortcut dann neu starten.</string>
-<string name="AIRS_started_local">AIRS lokale Aufzeichnungen gestartet!\nDu kannst die momentanen Werte in der Benachtigungsleiste sehen, wenn Du auf das AIRS Symbol klickst.</string>
+<string name="Measurements_share">Share myStress Aufnahmen via:</string>
+<string name="myStress_running_exit">myStress läuft momentan.\nMöchtest Du die mometanen Aufzeichnungen unterbrechen and neu starten? Du musst myStress dann neu starten.</string>
+<string name="myStress_running_exit2">myStress läuft momentan.\nMöchtest Du die mometanen Aufzeichnungen unterbrechen and neu starten? Du musst den Shortcut dann neu starten.</string>
+<string name="myStress_started_local">myStress lokale Aufzeichnungen gestartet!\nDu kannst die momentanen Werte in der Benachtigungsleiste sehen, wenn Du auf das myStress Symbol klickst.</string>
 <string name="Delete_template">Lösche Muster</string>
 <string name="At_least_one_template">Du brauchst mindestens ein gespeichertes Muster, dass in der Liste angewählt ist, bevor Du einen Shortcut erstellen kannst!</string>
 <string name="At_least_one_template2">Du brauchst mindestens ein gespeichertes Muster, dass in der Liste angewählt ist, bevor Du einen Shortcut löschen kannst!</string>
-<string name="Created_shortcut">Habe einen AIRS Shortcut auf dem Heimbildschirm erstellt!</string>
-<string name="Configured_airs">Habe ein AIRS Muster und Shortcut auf dem Heimbildschirm erstellt!</string>
-<string name="Configure_AIRS">Konfiguriere AIRS&#8230;bitte warten</string>
+<string name="Created_shortcut">Habe einen myStress Shortcut auf dem Heimbildschirm erstellt!</string>
+<string name="Configured_myStress">Habe ein myStress Muster und Shortcut auf dem Heimbildschirm erstellt!</string>
+<string name="Configure_myStress">Konfiguriere myStress&#8230;bitte warten</string>
 <string name="Load_template">Lade Muster</string>
 <string name="Load_template2">Das Laden des Musters wird die momentanen Einstellungen überschreiben!\nBist Du sicher?</string>
 <string name="Save_template">Dateinamen um Muster zu speichern</string>
 <string name="Saved_settings">Muster gespeichert</string>
 <string name="Restored_settings">Muster wiederhergestellt</string>
-<string name="Start_remote_sensing">Bist Du sicher, dass Du Internet-basierte Aufnahmen starten willst?\n\nAIRS wird versuchen den entfernten Anwendungsserver zu erreichen, während AIRS blockieren wird bis der Verbindungsversuch scheitert.</string>
+<string name="Start_remote_sensing">Bist Du sicher, dass Du Internet-basierte Aufnahmen starten willst?\n\nmyStress wird versuchen den entfernten Anwendungsserver zu erreichen, während myStress blockieren wird bis der Verbindungsversuch scheitert.</string>
 <string name="Sensing_not_running">Aufnahmen ist nicht am Laufen!\nDer Dienst ist möglicherweise abgestürtzt!</string>
 <string name="Gathering_sensors">Suche nach lokalen Sensoren</string>
 <string name="Please_wait">Bitte warte&#8230;</string>
@@ -160,7 +160,7 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="Sync_upload">Aufzeichnungen zum Google Drive hochgeladen!</string>
 <string name="Sync_uploading">Aufzeichnungen werden hochgeladen</string>
 <string name="Sync_progress">Fortschritt :</string>
-<string name="AIRS_Map">AIRS Kartenanblick</string>
+<string name="myStress_Map">myStress Kartenanblick</string>
 <string name="First_sensing">Erste Aufnahme um</string>
 <string name="First_sensing2">mit Wert :</string>
 <string name="Delete_event">Möchtest Du diese Anmerkung von der Liste löschen?</string>
@@ -168,7 +168,7 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="Shortcut_not_found">Kann die Shortcut Datei nicht finden! Bitte stelle den Shortcut wieder neu her.</string>
 <string name="Select_Sensors">Wähle Sensoren</string>
 <string name="Select_Sensors2">Wähle die Sensoren aus, die Du aufzeichnen willst</string>
-<string name="AIRS_mood_selection2">Letzte: </string>
+<string name="myStress_mood_selection2">Letzte: </string>
 <string name="Recorded_shared_text">Text wurde erfolgreich aufgezeichnet!</string>
 <string name="previous_item">&lt;</string>
 <string name="next_item">&gt;</string>
@@ -188,7 +188,7 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 
 <string name="CalendarHandlerUI_name">Kalendar</string>
 <string name="CalendarHandlerUI_description">Ereignisse Deiner Kalendareinträge</string>
-<string name="CalendarHandlerUI_about">Liest Kalendareinträge von Deinem verfügbaren Kalendar!\nDu kannst die verschiedenen Kalendar auswählen, von denen AIRS auszeichnen soll. Die Kalendareinträge werden regelmäßig abgefragt.</string>
+<string name="CalendarHandlerUI_about">Liest Kalendareinträge von Deinem verfügbaren Kalendar!\nDu kannst die verschiedenen Kalendar auswählen, von denen myStress auszeichnen soll. Die Kalendareinträge werden regelmäßig abgefragt.</string>
 
 <string name="DeviceInfoHandlerUI_name">Geräte Informationen</string>
 <string name="DeviceInfoHandlerUI_description">Verschiedene handy-basierte Information wie Orientierung, RAM, Batterie etc etc</string>
@@ -200,7 +200,7 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 
 <string name="EventButtonHandlerUI_name">Ereignis Knopf</string>
 <string name="EventButtonHandlerUI_description">Ein Knopf für den Heimschirm, der bedeutungsvolle Ereignisse markieren kann.</string>
-<string name="EventButtonHandlerUI_about">Erlaubt die Markierung von bedeutungsvollen Ereignisses durch ein Widget auf dem Heimschirm.\n\nDu kannst eigene bedeutungsvolle Beschreibungen eingeben für das markierte Ereignis.\nAIRS speichert die zuletzt definierten Beschreibungen, wobei die maximale Anzahl hier bestimmt werden kann.</string>
+<string name="EventButtonHandlerUI_about">Erlaubt die Markierung von bedeutungsvollen Ereignisses durch ein Widget auf dem Heimschirm.\n\nDu kannst eigene bedeutungsvolle Beschreibungen eingeben für das markierte Ereignis.\nmyStress speichert die zuletzt definierten Beschreibungen, wobei die maximale Anzahl hier bestimmt werden kann.</string>
 
 <string name="HeartMonitorHandlerUI_name">Pulsmonitor</string>
 <string name="HeartMonitorHandlerUI_description">HxM BT Pulsmonitor von Zephyr, der Puls und momentane Geschwindigkeit unterstützt</string>
@@ -239,7 +239,7 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="Info">Info</string>
 <string name="DB_Admin">DB Admin</string>
 <string name="Manual">Anleitung</string>
-<string name="Rate">Bewerte AIRS</string>
+<string name="Rate">Bewerte myStress</string>
 <string name="Map_View">Kartenanblick</string>
 <string name="Satellite_View">Satelittenanblick</string>
 <string name="Toggle_Path">Wechsle Pfad</string>
@@ -248,13 +248,13 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="Forward">Vorwärts</string>
 
 <!-- general settings preference elements -->
-<string name="General_Settings">AIRS Generelle Einstellungen</string>
-<string name="Remote_Settings">AIRS Remote Einstellungen</string>
-<string name="Address_server">Adresse des AIRS Anwendungsservers</string>
+<string name="General_Settings">myStress Generelle Einstellungen</string>
+<string name="Remote_Settings">myStress Remote Einstellungen</string>
+<string name="Address_server">Adresse des myStress Anwendungsservers</string>
 <string name="Server_name">Servername</string>
-<string name="Port_server">Port des AIRS Anwendungsservers</string>
+<string name="Port_server">Port des myStress Anwendungsservers</string>
 <string name="Port_number">Portnummer</string>
-<string name="Local_Settings">AIRS Lokale Einstellungen</string>
+<string name="Local_Settings">myStress Lokale Einstellungen</string>
 <string name="Local_Display">Lokale Anzeige</string>
 <string name="Local_Display_on">Zeige Werte der Sensoren an die Du ausgewählt hast</string>
 <string name="Local_Display_off">Zeige keine Werte an, nur die Anzahl der Messungen</string>
@@ -265,17 +265,17 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="UploadFrequency">Frequenz des Hochladens</string>
 <string name="UploadFrequency_on">Bestimme wie häufig Daten zu GDrive hochgeladen werden sollen (oder auch gar nicht!)</string>
 <string name="Upload_Wifi">Nur über Wifi hochladen</string>
-<string name="AIRS_intents">AIRS Intents</string>
-<string name="AIRS_intents_on">Sende Systemintents für, z.B. externe Regelmachine wie AIRS Ruler</string>
-<string name="AIRS_intents_off">Sende keine Systemintents</string>
+<string name="myStress_intents">myStress Intents</string>
+<string name="myStress_intents_on">Sende Systemintents für, z.B. externe Regelmachine wie myStress Ruler</string>
+<string name="myStress_intents_off">Sende keine Systemintents</string>
 <string name="Wakeup">Aufwecken</string>
 <string name="Wakeup_on">Wecke Handy während der Auszeichnung nur wenn andere Benutzeraktivität existiert</string>
 <string name="Wakeup_off">Handy geht nicht schlafen (zeichnet ununterbrochen auf)</string>
 <string name="Battery_kill">Batteriegrenze für Abbruch [%]</string>
-<string name="Battery_kill_on">Bricht AIRS Aufzeichnung ab, wenn Batterie unter angegebene Grenze sinkt um Batterie zu sparen (0 = ausschalten)</string>
+<string name="Battery_kill_on">Bricht myStress Aufzeichnung ab, wenn Batterie unter angegebene Grenze sinkt um Batterie zu sparen (0 = ausschalten)</string>
 <string name="Reminder_Settings">Erinnergungseinstellungen</string>
 <string name="Reminder_Interval">Erinnerungsintervall [s]</string>
-<string name="Reminder_Interval_on">Intervall für Erinnerungen das AIRS aufzeichnet (0 = ausschalten)</string>
+<string name="Reminder_Interval_on">Intervall für Erinnerungen das myStress aufzeichnet (0 = ausschalten)</string>
 <string name="Vibrate">Vibration</string>
 <string name="Vibrate_on">Vibration als Erinnerung</string>
 <string name="Vibrate_off">Keine Vibration</string>
@@ -285,7 +285,7 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="Color_Code">LED Farbcode</string>
 <string name="Color_Code_on">Farbcode der LED Benachrichtigung</string>
 <string name="Debug">Debug</string>
-<string name="Debug_on">Schreibe Debugnachrichten in AIRS_debug.txt</string>
+<string name="Debug_on">Schreibe Debugnachrichten in myStress_debug.txt</string>
 <string name="Debug_off">Keine Debugnachrichten</string>
 
 <!-- handler settings preference elements -->
@@ -327,13 +327,13 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="Sort_Annotations_on">Sortiere Beschreibungen in der Liste von Ereignissen</string>
 <string name="Sort_Annotations_off">Keine Sortierung der Beschreibungen in der Liste von Ereignissen</string>
 <string name="Enable_Heartmonitor">Benutzung des Pulsmonitors</string>
-<string name="Enable_Heartmonitor_on">Benutze Pulsmonitor mit dem Versuch beim AIRS Start zu verbinden</string>
+<string name="Enable_Heartmonitor_on">Benutze Pulsmonitor mit dem Versuch beim myStress Start zu verbinden</string>
 <string name="Enable_Heartmonitor_off">Benutze den Pulsmonitor nicht!</string>
 <string name="Enable_QSensor">Benutzung des Q Sensors</string>
-<string name="Enable_qsensor_on">Benutze Q Sensor mit dem Versuch beim AIRS Start zu verbinden</string>
+<string name="Enable_qsensor_on">Benutze Q Sensor mit dem Versuch beim myStress Start zu verbinden</string>
 <string name="Enable_qsensor_off">Benutze den Pulsmonitor nicht!</string>
 <string name="Device_Selection">Geräteauswahl</string>
-<string name="Device_Selection_on">Wähle eines der möglichen Geräte, dass benutzt werden soll. Du musst mit dem Gerät zumindest einmal verbunden gewesen sein über die Systemeinstellungen! Stelle auch sicher, dass das Gerät eingeschaltet ist wenn Du die AIRS Aufnahmen startest.</string>
+<string name="Device_Selection_on">Wähle eines der möglichen Geräte, dass benutzt werden soll. Du musst mit dem Gerät zumindest einmal verbunden gewesen sein über die Systemeinstellungen! Stelle auch sicher, dass das Gerät eingeschaltet ist wenn Du die myStress Aufnahmen startest.</string>
 <string name="Device_Selection_title">Wähle Gerät</string>
 <string name="Averaging_Window">Durchschnittsfenster</string>
 <string name="Averaging_Window_on">Zeitfenster für Durchschnittswerte der Pulsmessungen., glättet die Werte und verringert die Anzahl der Aufzeichnungen.</string>
@@ -360,7 +360,7 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="AGPS_Refresh_Interval">AGPS Intervall [h]</string>
 <string name="AGPS_Refresh_Interval_on">Intervall, um eine AGPS Erneuerung zu erzwingen (0 = ausschalten)</string>
 <string name="Enable_WiFi">WiFi Benutzung</string>
-<string name="Enable_WiFi_on">Schalte WiFi durch AIRS ein, falls es ausgeschaltet ist</string>
+<string name="Enable_WiFi_on">Schalte WiFi durch myStress ein, falls es ausgeschaltet ist</string>
 <string name="Enable_WiFi_off">Schalte WiFi nicht ein!</string>
 <string name="Prevent_WiFi_Sleep">WiFi Schlafmodus</string>
 <string name="Prevent_WiFi_Sleep_on">Verhindere WiFi Schlafmodus</string>
@@ -368,8 +368,8 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="WiFi_Interval">WiFi Intervall [s]</string>
 <string name="WiFi_Interval_on">Abfrageintervall für WiFi Scans in Sekunden</string>
 <string name="Enable_Accessibility">Accessibility</string>
-<string name="Enable_Accessibility_on">Springt zu den Systemeinstellungen, um die Bedienungshilfen für AIRS einzuschalten. Dieser wird für IM Nachrichten benötigt.</string>
-<string name="accessibility_description">Bedienungshilfe für AIRS Aufzeichnungen mit Zugriff auf Google Talk und Skype Benachrichtigungen durch den NO Sensor. Spotify ist auch unterstützt durch die MP/MA/MT Sensoren.</string>
+<string name="Enable_Accessibility_on">Springt zu den Systemeinstellungen, um die Bedienungshilfen für myStress einzuschalten. Dieser wird für IM Nachrichten benötigt.</string>
+<string name="accessibility_description">Bedienungshilfe für myStress Aufzeichnungen mit Zugriff auf Google Talk und Skype Benachrichtigungen durch den NO Sensor. Spotify ist auch unterstützt durch die MP/MA/MT Sensoren.</string>
 <string name="accessibility_spotify">&#8212;</string>
 
 <string name="Camera">Kamera</string>
@@ -433,7 +433,7 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="EB_d">Anmerkungsknopf Widget</string>
 <string name="EB_e">Bestimmt Anmerkungen die vom Benutzer mit Hilfes des Anmerkungswidget eingegeben werden.</string>
 <string name="ET_d">Anmerkungstext</string>
-<string name="ET_e">Bestimmt Text der mit AIRS geteilt wird von Anwendungen die solches Teilen erlauben.</string>
+<string name="ET_e">Bestimmt Text der mit myStress geteilt wird von Anwendungen die solches Teilen erlauben.</string>
 <string name="GO_d">GPS Breite</string>
 <string name="GO_e"></string>
 <string name="GL_d">GPS Länge</string>
@@ -519,7 +519,7 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="TV_d">Sichtbare Programme</string>
 <string name="TV_e">Bestimmt die momentan auf dem Handy laufenden Anwendungen, die Benutzereingaben benötigen.</string>
 <string name="TE_d">Aufzeichnungsmuster</string>
-<string name="TE_e">Bestimmt das momentan verwendete AIRS Aufzeichnungsmuster, wie z.B. Reisen.</string>
+<string name="TE_e">Bestimmt das momentan verwendete myStress Aufzeichnungsmuster, wie z.B. Reisen.</string>
 <string name="TZ_d">Zeitzone</string>
 <string name="TZ_e">Bestimmt den momentane Zeitzonenoffset von UTC.</string>
 <string name="VT_d">Temperatur [C]</string>
@@ -546,13 +546,13 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 <string name="WC_e">Bestimmt ob das Handy momentan an WiFi angeschlossen ist (1, wenn ja, 0, wenn nicht).</string>
 
 <!-- activity labels -->
-<string name="AIRS_Timeline">AIRS Zeitverlauf</string>
-<string name="AIRS_Mood_Selector">AIRS Stimmungsauswahl</string>
-<string name="AIRS_Event_Selector">AIRS Ereignisauswahl</string>
-<string name="AIRS_Heartrate">AIRS Puls</string>
-<string name="AIRS_BloodPressure">AIRS Blutdruck</string>
-<string name="AIRS_Preferences">AIRS Einstellungen</string>
-<string name="AIRS_Events">AIRS Ereignisse</string>
+<string name="myStress_Timeline">myStress Zeitverlauf</string>
+<string name="myStress_Mood_Selector">myStress Stimmungsauswahl</string>
+<string name="myStress_Event_Selector">myStress Ereignisauswahl</string>
+<string name="myStress_Heartrate">myStress Puls</string>
+<string name="myStress_BloodPressure">myStress Blutdruck</string>
+<string name="myStress_Preferences">myStress Einstellungen</string>
+<string name="myStress_Events">myStress Ereignisse</string>
 
 <!-- mood labels -->
 <string name="Very_Happy">Sehr glücklich</string>
@@ -585,11 +585,12 @@ Für entfernte Aufnahmen, lade den AIRS Anwendungsserver vom Internet (siehe auf
 
 <!-- visualisation tab -->
 <string name="Get_storica">Hole Dir Storica!</string>
-<string name="Storica_description">Zusätzlich zu den kurzzeitgen Visualisierungen in AIRS kannst Du Deine AIRS Aufnahmen auch mit engagierten Multimediagrafiken verarbeiten und anzeigen lassen. Dazu benötigst Du die Storica Anwendung - drücke auf das Bild unten und lade es vom PlayStore!</string>
+<string name="Storica_description">Zusätzlich zu den kurzzeitgen Visualisierungen in myStress kannst Du Deine myStress Aufnahmen auch mit engagierten Multimediagrafiken verarbeiten und anzeigen lassen. Dazu benötigst Du die Storica Anwendung - drücke auf das Bild unten und lade es vom PlayStore!</string>
 <string name="debug_setting">false</string>
 <string name="activatedSensors">AS;AF;Ba;BC;BM;CA;CR;CD;CL;CC;GI;GS;HU;RO;PI;LI;Az;PR;PU;PD;TR;TU;KL;NO;TS;TL;Rm;Sc;IC;OC;SR;SS;TM;WC;VI</string>
 
 <string name="accessibility_titel">Bitte aktivieren Sie die Bedienhilfe</string>
 <string name="accessibility_message">Damit die Applikation korrekt arbeiten kann, würden wir Sie bitten die Bedienhilfe zu aktivieren</string>
 <string name="accessibility_goto">Einstellungen</string>
+<string name="uniqueID">Identifikationsnummer</string>
 </resources>
