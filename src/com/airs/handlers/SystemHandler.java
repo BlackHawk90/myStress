@@ -725,7 +725,7 @@ public class SystemHandler implements com.airs.handlers.Handler
     	    airs.getContentResolver().unregisterContentObserver(smsSentObserver);			
 	}
 	
-	private String getContactByNumber(String number)
+/*	private String getContactByNumber(String number)
 	{
 		try
 		{
@@ -758,7 +758,7 @@ public class SystemHandler implements com.airs.handlers.Handler
 		}
 		
 		return "---";
-	}
+	}*/
 	
 	// The Handler that gets information back from the other threads, initializing phone sensors
 	// We use a handler here to allow for the Acquire() function, which runs in a different thread, to issue an initialization of the invidiual sensors
@@ -898,10 +898,10 @@ public class SystemHandler implements com.airs.handlers.Handler
 	        			caller = new String(intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)); 
 	        			
 	        			// append caller display name, if available
-	        			if (caller != null)
+/*	        			if (caller != null)
 	        				caller = caller.concat(":" + getContactByNumber(caller));        
 	        			else
-	        				caller = caller.concat(":" + "---");        
+	        				caller = caller.concat(":" + "---");*/        
         			}
         			catch(Exception e)
         			{
@@ -921,10 +921,10 @@ public class SystemHandler implements com.airs.handlers.Handler
 	        		callee = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
 	        		
 	    			// append caller display name, if available
-        			if (callee != null)
+/*        			if (callee != null)
         				callee = callee.concat(":" + getContactByNumber(callee));        
         			else
-        				callee = callee.concat(":" + "---");    
+        				callee = callee.concat(":" + "---");*/    
             	}
     			catch(Exception e)
     			{
@@ -948,7 +948,7 @@ public class SystemHandler implements com.airs.handlers.Handler
                 SmsMessage message = SmsMessage.createFromPdu((byte[]) pdus[0]);
                 String Address = message.getOriginatingAddress();
                 
-                smsReceived = new String(Address + ":" + getContactByNumber(Address) + ":" + message.getMessageBody());
+                smsReceived = new String(Address + ":" /*+ getContactByNumber(Address) + ":" */+ message.getMessageBody());
                 
                 // more than one PDU?
                 if (pdus.length >1)
@@ -1008,7 +1008,7 @@ public class SystemHandler implements com.airs.handlers.Handler
     							
     							// avoid concurrent access to this shared variable!
     							// do everything locally first!
-    			                String currentSMS = new String(phoneNoStr + ":" + getContactByNumber(phoneNoStr) + ":" + smsBodyStr);  			                
+    			                String currentSMS = new String(phoneNoStr + ":" /*+ getContactByNumber(phoneNoStr) + ":" */+ smsBodyStr);  			                
     			                String lastSeen = HandlerManager.readRMS("SystemHandler::lastSeen", "");
     			                
     			                boolean seenBefore = true;

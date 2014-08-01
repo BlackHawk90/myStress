@@ -75,9 +75,10 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 	private Semaphore activity_semaphore	= new Semaphore(1);
 	private boolean shutdown = false;
 	
-	private double intervalStart = 0, interval = polltime3;
+	private double measureIntervalStart = 0, measureInterval = 5000;//poll_interval = polltime3, measure_interval = 5000;
 	private float varianceSum, avg, sum;
 	private int count;
+	private boolean polled;
 	
 	private void wait(Semaphore sema)
 	{
@@ -300,7 +301,13 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 					if (activity != activity_old){
 						textread = true;
 						textvalue = activity;
-						activity = activity_old;
+						activity_old = activity;
+						polled = true;
+//						varianceSum = avg = sum = count = 0;
+					}
+					else{
+						polled = true;
+//						varianceSum = avg = sum = count = 0;
 					}
 				}
 		}
@@ -448,12 +455,13 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 		nors = activity;
 		
 		// read polltime
-		polltime  = HandlerManager.readRMS_i("PhoneSensorsHandler::OrientationPoll", 360) * 1000;
-		polltime2 = HandlerManager.readRMS_i("PhoneSensorsHandler::ProximityPoll", 360) * 1000;
-		polltime3 = HandlerManager.readRMS_i("PhoneSensorsHandler::EnvironmentalPoll", 360) * 1000;
-		polltime4 = HandlerManager.readRMS_i("PhoneSensorsHandler::OrientationPoll", 5) * 1000;
+		polltime  = HandlerManager.readRMS_i("PhoneSensorsHandler::OrientationPoll", 30) * 1000;
+		polltime2 = HandlerManager.readRMS_i("PhoneSensorsHandler::ProximityPoll", 30) * 1000;
+		polltime3 = HandlerManager.readRMS_i("PhoneSensorsHandler::EnvironmentalPoll", 30) * 1000;
+//		polltime4 = HandlerManager.readRMS_i("PhoneSensorsHandler::OrientationPoll", 5) * 1000;
 		
-		interval = polltime3;
+//		poll_interval = polltime3;
+		measureIntervalStart = System.currentTimeMillis();
 		
 		// try to open sensor services
 		try
@@ -830,13 +838,19 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
     private SensorEventListener activitylistener = new SensorEventListener(){
     	public void onSensorChanged(SensorEvent event){
     		double timestamp = (double)System.currentTimeMillis();
-    		long x = (long)event.values[0];
-    		long y = (long)event.values[1];
-    		long z = (long)event.values[2];
+    		
+    		if(timestamp >= measureIntervalStart + measureInterval){
+    			measureIntervalStart += measureInterval;
+    		}
+    		else return;
+    		
+    		double x = (double)event.values[0];
+    		double y = (double)event.values[1];
+    		double z = (double)event.values[2];
     		
     		activity_semaphore.release();
     		
-    		if(intervalStart == 0 || (timestamp >= intervalStart + interval)){
+//    		if(pollIntervalStart == 0 || (timestamp >= pollIntervalStart + pollInterval)){
     			if(varianceSum >= 10.0f)
     				activity = "high";
     			else if(varianceSum > 3.0f)
@@ -844,16 +858,21 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
     			else
     				activity = "none";
     			
+//    			varianceSum = avg = sum = count = 0;
+//    			pollIntervalStart += pollInterval;
+//   		}
+    		if(polled = true){
     			varianceSum = avg = sum = count = 0;
-    			intervalStart = timestamp;
+    			polled = false;
     		}
-    		
     		
     		count++;
     		float magnitude = (float)Math.sqrt(x*x + y*y + z*z);
     		float newAvg = (count - 1)*avg/count + magnitude/count;
     		float deltaAvg = newAvg - avg;
-    		varianceSum += (magnitude - newAvg) * (magnitude - newAvg) - 2*(sum - (count-1)*avg) + (count-1)*(deltaAvg*deltaAvg);
+    		varianceSum += (magnitude - newAvg) * (magnitude - newAvg) 
+    				- 2*(sum - (count-1)*avg) 
+    				+ (count-1)*(deltaAvg*deltaAvg);
     		sum += magnitude;
     		avg = newAvg;
     	}
