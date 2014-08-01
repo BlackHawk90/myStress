@@ -370,7 +370,7 @@ For remote recording, download the AIRS application server (see on our website) 
 <string name="WiFi_Interval_on">Poll interval for WiFi scanning in seconds</string>
 <string name="Enable_Accessibility">Enable Accessibility</string>
 <string name="Enable_Accessibility_on">Jumps to System settings to enable the accessibility service required for capturing the IM notifications.</string>
-<string name="accessibility_description">Accessibility service for AIRS local sensing, providing access to the Google Talk and Skype notifications through the NO sensor. It also supports Spotify song changes through the MP/MA/MT sensors.</string>
+<string name="accessibility_description">Notification access for myStress.</string>
 <string name="accessibility_spotify">&#8212;</string>
 
 <string name="Camera">Camera</string>

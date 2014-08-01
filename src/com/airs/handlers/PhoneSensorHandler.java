@@ -48,17 +48,19 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 	private static final int INIT_TEMPERATURE	= 5;
 	private static final int INIT_HUMIDITY 		= 6;
 	private static final int INIT_PEDOMETER		= 7;
+	private static final int INIT_ACTIVITY		= 8;
 
 	private Context nors;
 	private boolean sensor_enable = false;
-	private boolean startedOrientation = false, startedLight = false, startedProximity = false, startedPressure = false, startedTemperature = false, startedHumidity = false, startedPedometer;
+	private boolean startedOrientation = false, startedLight = false, startedProximity = false, startedPressure = false, startedTemperature = false, startedHumidity = false, startedPedometer, startedActivity = false;
 	private SensorManager sensorManager;
 	private android.hardware.Sensor MagField, Accelerometer, Proximity, Light, Pressure, Temperature, Humidity, Pedometer;
 	// polltime for sensor
-	private int polltime = 10000, polltime2 = 10000, polltime3 = 10000;
+	private int polltime = 10000, polltime2 = 10000, polltime3 = 10000, polltime4 = 10000;
 	// sensor values
 	private float azimuth, roll, pitch, proximity, light, pressure, temperature, humidity;
 	private long pedometer;
+	private String activity, activity_old;
 	private float azimuth_old, roll_old, pitch_old, proximity_old, light_old, pressure_old, temperature_old, humidity_old;
 	private long pedometer_last = 0, pedometer_old = -1, step_counter_old = 0;
 	private Semaphore pedometer_semaphore 	= new Semaphore(1);
@@ -70,7 +72,12 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 	private Semaphore azimuth_semaphore 	= new Semaphore(1);
 	private Semaphore roll_semaphore 		= new Semaphore(1);
 	private Semaphore pitch_semaphore 		= new Semaphore(1);
+	private Semaphore activity_semaphore	= new Semaphore(1);
 	private boolean shutdown = false;
+	
+	private double intervalStart = 0, interval = polltime3;
+	private float varianceSum, avg, sum;
+	private int count;
 	
 	private void wait(Semaphore sema)
 	{
@@ -92,8 +99,9 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 	 */
 	public byte[] Acquire(String sensor, String query)
 	{
-		boolean read = false;
+		boolean read = false, textread = false;
 		int value = 0;
+		String textvalue = "";
 		byte [] readings = null;
 		
 		// are we shutting down?
@@ -281,6 +289,20 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 						pedometer_old = pedometer;
 					}					
 				}	
+			if (read == false)
+				if(sensor.equals("AC")){
+					if (!startedActivity){
+						Message msg = mHandler.obtainMessage(INIT_ACTIVITY);
+						mHandler.sendMessage(msg);
+					}
+					
+					wait(activity_semaphore);
+					if (activity != activity_old){
+						textread = true;
+						textvalue = activity;
+						activity = activity_old;
+					}
+				}
 		}
 		
 		// anything to report?
@@ -294,8 +316,13 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 			readings[4] = (byte)((value>>8) & 0xff);
 			readings[5] = (byte)(value & 0xff);
 		}
+		if (textread){
+			StringBuffer reading = new StringBuffer(sensor);
+			reading.append(textvalue);
+			readings = reading.toString().getBytes();
+		}
 
-		return readings;		
+		return readings;
 	}
 	
 	/**
@@ -334,6 +361,9 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 		if (sensor.equals("PD") == true)
 			return "The current step count is " + String.valueOf(pedometer) + "!";
 
+		if (sensor.equals("AC"))
+			return "The current activity is " + String.valueOf(activity) + "!";
+		
 		return null;		
 	}
 	
@@ -368,6 +398,9 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 
 		if (sensor.equals("PD") == true)
 			History.timelineView(nors, "step count [-]", "PD");
+		
+		if (sensor.equals("AC"))
+			History.timelineView(nors, "activity [-]", "AC");
 	}
 
 	
@@ -400,6 +433,8 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 			   SensorRepository.insertSensor(new String("HU"), new String("%"), nors.getString(R.string.HU_d), nors.getString(R.string.HU_e), new String("int"), -1, 0, 50000, true, polltime3, this);	
 		   if (Pedometer != null)
 			   SensorRepository.insertSensor(new String("PD"), new String("-"), nors.getString(R.string.PD_d), nors.getString(R.string.PD_e), new String("int"), -1, 0, 50000, true, polltime, this);	
+		   if (Accelerometer != null)
+			   SensorRepository.insertSensor(new String("AC"), new String("text"), nors.getString(R.string.AC_d), nors.getString(R.string.AC_e), new String("txt"), -1, 0, 50000, true, polltime3, this);
 		}
 	}
 	
@@ -413,9 +448,12 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 		nors = activity;
 		
 		// read polltime
-		polltime  = HandlerManager.readRMS_i("PhoneSensorsHandler::OrientationPoll", 5) * 1000;
-		polltime2 = HandlerManager.readRMS_i("PhoneSensorsHandler::ProximityPoll", 5) * 1000;
-		polltime3 = HandlerManager.readRMS_i("PhoneSensorsHandler::EnvironmentalPoll", 10) * 1000;
+		polltime  = HandlerManager.readRMS_i("PhoneSensorsHandler::OrientationPoll", 360) * 1000;
+		polltime2 = HandlerManager.readRMS_i("PhoneSensorsHandler::ProximityPoll", 360) * 1000;
+		polltime3 = HandlerManager.readRMS_i("PhoneSensorsHandler::EnvironmentalPoll", 360) * 1000;
+		polltime4 = HandlerManager.readRMS_i("PhoneSensorsHandler::OrientationPoll", 5) * 1000;
+		
+		interval = polltime3;
 		
 		// try to open sensor services
 		try
@@ -429,6 +467,7 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 			Temperature	= sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
 			Humidity	= sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
 			Pedometer	= sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+//			Activity	= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 			sensor_enable = true;
 			// arm semaphores
 			wait(pedometer_semaphore); 
@@ -439,7 +478,8 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 			wait(proximity_semaphore); 
 			wait(azimuth_semaphore); 
 			wait(roll_semaphore); 
-			wait(pitch_semaphore); 			
+			wait(pitch_semaphore); 	
+			wait(activity_semaphore);
 		}
 		catch(Exception e)
 		{
@@ -467,6 +507,7 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 		azimuth_semaphore.release();
 		roll_semaphore.release();
 		pitch_semaphore.release();
+		activity_semaphore.release();
 
 		// unregister each sensor
 		if (startedLight == true)
@@ -482,7 +523,9 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 		if (startedHumidity == true)
 	 		sensorManager.unregisterListener(humiditysensorlistener);
 		if (startedPedometer == true)
-	 		sensorManager.unregisterListener(pedometersensorlistener);		
+	 		sensorManager.unregisterListener(pedometersensorlistener);
+		if (startedActivity == true)
+			sensorManager.unregisterListener(activitylistener);
 	}
 
 	// The Handler that gets information back from the other threads, initializing phone sensors
@@ -574,6 +617,14 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
            			}
         	   }
 	           break;  
+           case INIT_ACTIVITY:
+        	   if (startedActivity == false)
+        	   {
+        		   if(Build.VERSION.SDK_INT<Build.VERSION_CODES.KITKAT)
+        			   startedActivity = sensorManager.registerListener(activitylistener, Accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        		   else
+        			   startedActivity = sensorManager.registerListener(activitylistener, Accelerometer, SensorManager.SENSOR_DELAY_NORMAL, 0);
+        	   }
            default:  
            	break;
            }
@@ -774,5 +825,41 @@ public class PhoneSensorHandler implements com.airs.handlers.Handler
 		public void onAccuracyChanged(android.hardware.Sensor sensor, int accuracy) 
 		{
 		}
-    };     
+    };
+    
+    private SensorEventListener activitylistener = new SensorEventListener(){
+    	public void onSensorChanged(SensorEvent event){
+    		double timestamp = (double)System.currentTimeMillis();
+    		long x = (long)event.values[0];
+    		long y = (long)event.values[1];
+    		long z = (long)event.values[2];
+    		
+    		activity_semaphore.release();
+    		
+    		if(intervalStart == 0 || (timestamp >= intervalStart + interval)){
+    			if(varianceSum >= 10.0f)
+    				activity = "high";
+    			else if(varianceSum > 3.0f)
+    				activity = "low";
+    			else
+    				activity = "none";
+    			
+    			varianceSum = avg = sum = count = 0;
+    			intervalStart = timestamp;
+    		}
+    		
+    		
+    		count++;
+    		float magnitude = (float)Math.sqrt(x*x + y*y + z*z);
+    		float newAvg = (count - 1)*avg/count + magnitude/count;
+    		float deltaAvg = newAvg - avg;
+    		varianceSum += (magnitude - newAvg) * (magnitude - newAvg) - 2*(sum - (count-1)*avg) + (count-1)*(deltaAvg*deltaAvg);
+    		sum += magnitude;
+    		avg = newAvg;
+    	}
+    	
+		public void onAccuracyChanged(android.hardware.Sensor sensor, int accuracy) 
+		{
+		}
+    };
 }
