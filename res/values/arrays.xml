@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2011, Dirk Trossen, airs@dirk-trossen.de
+  Copyright (C) 2011, Dirk Trossen, mystress@dirk-trossen.de
 
   This program is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as published by
@@ -106,7 +106,7 @@
     </string-array> 
     <string-array name="uploadfrequency_values">
         <item>Not at all!</item>
-        <item>Minutely</item>
+        <item>12-Hourly</item>
         <item>Hourly</item>
         <item>Daily</item>
         <item>Weekly</item>
@@ -119,8 +119,8 @@
         <item>20</item>
     </string-array> 
     <string-array name="recordinglabel_entries">
+      	<item>Remote</item>
         <item>Local</item>
-        <item>Remote</item>
     </string-array>  
         <string-array name="hitlistduration_entries">
         <item>1 week</item>

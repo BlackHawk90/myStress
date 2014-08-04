@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../com/airs/handlers/CalendarHandler.html" title="class in com.airs.handlers"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../com/airs/handlers/EventButton_selector.html" title="class in com.airs.handlers"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../com/airs/handlers/CalendarHandler.html" title="class in com.myStress.handlers"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../com/airs/handlers/EventButton_selector.html" title="class in com.myStress.handlers"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../index.html?com/airs/handlers/CellHandler.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">com.airs.handlers</div>
+<div class="subTitle">com.myStress.handlers</div>
 <h2 title="Class CellHandler" class="title">Class CellHandler</h2>
 </div>
 <div class="contentContainer">
@@ -90,7 +90,7 @@
 <li>PhoneStateListener</li>
 <li>
 <ul class="inheritance">
-<li>com.airs.handlers.CellHandler</li>
+<li>com.myStress.handlers.CellHandler</li>
 </ul>
 </li>
 </ul>
@@ -101,15 +101,15 @@
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="../../../com/airs/handlers/Handler.html" title="interface in com.airs.handlers">Handler</a></dd>
+<dd><a href="../../../com/airs/handlers/Handler.html" title="interface in com.myStress.handlers">Handler</a></dd>
 </dl>
 <hr>
 <br>
 <pre>public class <span class="strong">CellHandler</span>
 extends PhoneStateListener
-implements <a href="../../../com/airs/handlers/Handler.html" title="interface in com.airs.handlers">Handler</a></pre>
+implements <a href="../../../com/airs/handlers/Handler.html" title="interface in com.myStress.handlers">Handler</a></pre>
 <div class="block">Class to read cellular sensors, specifically the CR, CD, CS, CB, CI, CL, CC sensor</div>
-<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../com/airs/handlers/Handler.html" title="interface in com.airs.handlers"><code>Handler</code></a></dd></dl>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../com/airs/handlers/Handler.html" title="interface in com.myStress.handlers"><code>Handler</code></a></dd></dl>
 </li>
 </ul>
 </div>
@@ -255,7 +255,7 @@ implements <a href="../../../com/airs/handlers/Handler.html" title="interface in
 <div class="block">Method to acquire sensor data</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../com/airs/handlers/Handler.html#Acquire(java.lang.String, java.lang.String)">Acquire</a></code>&nbsp;in interface&nbsp;<code><a href="../../../com/airs/handlers/Handler.html" title="interface in com.airs.handlers">Handler</a></code></dd>
+<dd><code><a href="../../../com/airs/handlers/Handler.html#Acquire(java.lang.String, java.lang.String)">Acquire</a></code>&nbsp;in interface&nbsp;<code><a href="../../../com/airs/handlers/Handler.html" title="interface in com.myStress.handlers">Handler</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>sensor</code> - String of the sensor symbol</dd><dd><code>query</code> - String of the query to be fulfilled - not used here</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../com/airs/handlers/Handler.html#Acquire(java.lang.String, java.lang.String)"><code>Handler.Acquire(java.lang.String, java.lang.String)</code></a></dd></dl>
 </li>
 </ul>
@@ -270,7 +270,7 @@ implements <a href="../../../com/airs/handlers/Handler.html" title="interface in
 <div class="block">Method to share the current value of the given sensor</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../com/airs/handlers/Handler.html#Share(java.lang.String)">Share</a></code>&nbsp;in interface&nbsp;<code><a href="../../../com/airs/handlers/Handler.html" title="interface in com.airs.handlers">Handler</a></code></dd>
+<dd><code><a href="../../../com/airs/handlers/Handler.html#Share(java.lang.String)">Share</a></code>&nbsp;in interface&nbsp;<code><a href="../../../com/airs/handlers/Handler.html" title="interface in com.myStress.handlers">Handler</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>sensor</code> - String of the sensor to be shared</dd>
 <dt><span class="strong">Returns:</span></dt><dd>human-readable String representation of last value</dd></dl>
 </li>
@@ -285,7 +285,7 @@ implements <a href="../../../com/airs/handlers/Handler.html" title="interface in
 <div class="block">Method to view historical chart of the given sensor symbol</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../com/airs/handlers/Handler.html#History(java.lang.String)">History</a></code>&nbsp;in interface&nbsp;<code><a href="../../../com/airs/handlers/Handler.html" title="interface in com.airs.handlers">Handler</a></code></dd>
+<dd><code><a href="../../../com/airs/handlers/Handler.html#History(java.lang.String)">History</a></code>&nbsp;in interface&nbsp;<code><a href="../../../com/airs/handlers/Handler.html" title="interface in com.myStress.handlers">Handler</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>sensor</code> - String of the symbol for which the history is being requested</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../com/airs/handlers/Handler.html#History(java.lang.String)"><code>Handler.History(java.lang.String)</code></a></dd></dl>
 </li>
 </ul>
@@ -300,7 +300,7 @@ implements <a href="../../../com/airs/handlers/Handler.html" title="interface in
 <div class="block">Method to discover sensor symbols supported by a handler</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../com/airs/handlers/Handler.html#Discover()">Discover</a></code>&nbsp;in interface&nbsp;<code><a href="../../../com/airs/handlers/Handler.html" title="interface in com.airs.handlers">Handler</a></code></dd>
+<dd><code><a href="../../../com/airs/handlers/Handler.html#Discover()">Discover</a></code>&nbsp;in interface&nbsp;<code><a href="../../../com/airs/handlers/Handler.html" title="interface in com.myStress.handlers">Handler</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -315,7 +315,7 @@ implements <a href="../../../com/airs/handlers/Handler.html" title="interface in
  Here, we release all semaphores and remove the phone state listener</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../com/airs/handlers/Handler.html#destroyHandler()">destroyHandler</a></code>&nbsp;in interface&nbsp;<code><a href="../../../com/airs/handlers/Handler.html" title="interface in com.airs.handlers">Handler</a></code></dd>
+<dd><code><a href="../../../com/airs/handlers/Handler.html#destroyHandler()">destroyHandler</a></code>&nbsp;in interface&nbsp;<code><a href="../../../com/airs/handlers/Handler.html" title="interface in com.myStress.handlers">Handler</a></code></dd>
 <dt><span class="strong">See Also:</span></dt><dd><a href="../../../com/airs/handlers/Handler.html#destroyHandler()"><code>Handler.destroyHandler()</code></a></dd></dl>
 </li>
 </ul>
@@ -378,8 +378,8 @@ implements <a href="../../../com/airs/handlers/Handler.html" title="interface in
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../com/airs/handlers/CalendarHandler.html" title="class in com.airs.handlers"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../com/airs/handlers/EventButton_selector.html" title="class in com.airs.handlers"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../com/airs/handlers/CalendarHandler.html" title="class in com.myStress.handlers"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../com/airs/handlers/EventButton_selector.html" title="class in com.myStress.handlers"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../index.html?com/airs/handlers/CellHandler.html" target="_top">Frames</a></li>

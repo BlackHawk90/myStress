@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2011, Dirk Trossen, airs@dirk-trossen.de
+  Copyright (C) 2011, Dirk Trossen, mystress@dirk-trossen.de
 
   This program is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as published by
@@ -23,13 +23,13 @@
     <item android:id="@+id/main_about"
           android:icon="@android:drawable/ic_menu_help"
           android:title="@string/Help" />
-    <item android:id="@+id/main_market"
+<!--     <item android:id="@+id/main_market"
           android:icon="@android:drawable/ic_menu_edit"
-          android:title="@string/Rate" />
-    <item android:id="@+id/main_dbadmin"
+          android:title="@string/Rate" /> -->
+    <item android:id="@+id/main_uniqueID"
           android:icon="@drawable/storage"
-          android:title="@string/DB_Admin" />
-    <item android:id="@+id/main_manual"
+          android:title="@string/uniqueID" />
+<!--     <item android:id="@+id/main_manual"
           android:icon="@drawable/manual"
-          android:title="@string/Manual" />
+          android:title="@string/Manual" />  -->
 </menu>

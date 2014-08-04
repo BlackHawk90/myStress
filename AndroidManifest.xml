@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.airs"
-      android:versionName="2.7.9.5" android:versionCode="180" android:sharedUserId="com.airs">
+      package="com.myStress"
+      android:versionName="1.0" android:versionCode="1" android:sharedUserId="com.myStress">
     <supports-screens android:normalScreens="true" android:resizeable="true" android:largeScreens="true" android:smallScreens="true" android:xlargeScreens="true" android:anyDensity="true"></supports-screens>
 	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="20"></uses-sdk>
     
@@ -43,12 +43,12 @@
     <uses-feature android:name="android.hardware.location.GPS" android:required="false" />
     <uses-feature android:name="android.hardware.location" android:required="false" />
 	
-	<application android:icon="@drawable/icon" android:label="@string/app_name" android:name="myStress">
+	<application android:icon="@drawable/icon" android:label="@string/app_name">
 	<meta-data android:name="com.google.android.gms.version"
            android:value="@integer/google_play_services_version" />
 	      
 	    <uses-library android:name="com.google.android.maps" />    
-        <activity android:name="AIRS_tabs" 
+        <activity android:name="myStress_tabs" 
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.NoTitleBar" android:configChanges="orientation|keyboardHidden">
 	          <intent-filter>
@@ -56,9 +56,9 @@
 	              <category android:name="android.intent.category.LAUNCHER" />
 	          </intent-filter>
         </activity>
-     <service android:enabled="true" android:name="AIRS_local" android:exported="false" android:label="AIRS Local Sensing"/>
-     <service android:enabled="true" android:name="AIRS_remote" android:exported="false" android:label="AIRS Remote Sensing"/>
-     <service android:enabled="true" android:name="com.airs.database.AIRS_upload_service" android:exported="false" android:label="AIRS Upload"/>
+     <service android:enabled="true" android:name="myStress_local" android:exported="false" android:label="myStress Local Sensing"/>
+     <service android:enabled="true" android:name="myStress_remote" android:exported="false" android:label="myStress Remote Sensing"/>
+     <service android:enabled="true" android:name="com.myStress.database.myStress_upload_service" android:exported="false" android:label="myStress Upload"/>
      <service
         android:name=".handlers.NotificationHandlerService"
         android:label="@string/app_name"
@@ -71,66 +71,66 @@
 		    android:name="android.accessibilityservice"
 		    android:resource="@xml/accessibilityservice" />
      </service>
-     <activity android:name="AIRS_record_tab" android:exported="false" android:label="@string/tab_Record" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:name="AIRS_settings_tab" android:exported="false" android:label="@string/tab_Config" android:configChanges="orientation|keyboardHidden"></activity>    
-     <activity android:name="AIRS_visualisation" android:exported="false" android:label="Storica" android:configChanges="orientation|keyboardHidden"></activity>    
-     <activity android:name="AIRS_sensorselection" android:exported="false" android:label="@string/Sensor_Selection"></activity> 
-     <activity android:name="Prefs" android:exported="false" android:label="@string/AIRS_Preferences"></activity>
-     <activity android:name="com.airs.database.AIRS_sync" android:exported="false" android:label="@string/main_Sync" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="AIRS_configure_remote" android:exported="true" android:label="@string/Configure_AIRS" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.airs.database.AIRS_backup" android:exported="false" android:label="@string/Backup" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.airs.database.AIRS_restore" android:exported="false" android:label="@string/Restore" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.airs.database.AIRS_index" android:exported="false" android:label="@string/Index" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.airs.database.AIRS_DBAdmin" android:exported="false" android:label="@string/DB_Admin" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:name="AIRS_manual" android:exported="false" android:label="@string/Manual" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:name="com.airs.helper.SelectCameraPathPreference" android:exported="false" android:label="@string/Camera_path_on" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:name="myStress_record_tab" android:exported="false" android:label="@string/tab_Record" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:name="myStress_settings_tab" android:exported="false" android:label="@string/tab_Config" android:configChanges="orientation|keyboardHidden"></activity>    
+     <activity android:name="myStress_visualisation" android:exported="false" android:label="Storica" android:configChanges="orientation|keyboardHidden"></activity>    
+     <activity android:name="myStress_sensorselection" android:exported="false" android:label="@string/Sensor_Selection"></activity> 
+     <activity android:name="Prefs" android:exported="false" android:label="@string/myStress_Preferences"></activity>
+     <activity android:name="com.myStress.database.myStress_sync" android:exported="false" android:label="@string/main_Sync" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="myStress_configure_remote" android:exported="true" android:label="@string/Configure_myStress" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.database.myStress_backup" android:exported="false" android:label="@string/Backup" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.database.myStress_restore" android:exported="false" android:label="@string/Restore" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.database.myStress_index" android:exported="false" android:label="@string/Index" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.database.myStress_DBAdmin" android:exported="false" android:label="@string/DB_Admin" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:name="myStress_manual" android:exported="false" android:label="@string/Manual" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:name="com.myStress.helper.SelectCameraPathPreference" android:exported="false" android:label="@string/Camera_path_on" android:configChanges="orientation|keyboardHidden"></activity>
      
-     <activity android:name="com.airs.visualisations.MapViewerActivity" android:exported="false" android:label="@string/AIRS_Map" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.airs.visualisations.TimelineActivity" android:exported="false" android:label="@string/AIRS_Timeline"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="AIRS_measurements" android:exported="false" android:label="@string/AIRS_Local_Sensing" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="AIRS_remotevalues" android:exported="false" android:label="@string/AIRS_Remote_Sensing" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="AIRS_shortcut" android:exported="true" android:label="Quick AIRS"></activity>
-     <activity android:theme="@android:style/Theme" android:name="com.airs.handlers.MoodButton_selector" android:exported="false" android:label="@string/AIRS_Mood_Selector"  android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.airs.handlers.MoodButton_iconselector" android:exported="false" android:label="@string/AIRS_Mood_Selector"  android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-     <activity android:theme="@android:style/Theme" android:name="com.airs.handlers.EventButton_selector" android:exported="false" android:label="@string/AIRS_Event_Selector" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.airs.handlers.BloodPressureButton_selector" android:exported="false" android:label="@string/AIRS_BloodPressure" android:configChanges="orientation|keyboardHidden" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.airs.handlerUIs.LocationHandlerAPs" android:exported="false" android:label="@string/AdaptiveGPS_Hitlist" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.airs.helper.ConnectGoogleAccount" android:exported="false" android:label="@string/ConnectGoogle" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:name="com.myStress.visualisations.MapViewerActivity" android:exported="false" android:label="@string/myStress_Map" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.visualisations.TimelineActivity" android:exported="false" android:label="@string/myStress_Timeline"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="myStress_measurements" android:exported="false" android:label="@string/myStress_Local_Sensing" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="myStress_remotevalues" android:exported="false" android:label="@string/myStress_Remote_Sensing" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="myStress_shortcut" android:exported="true" android:label="Quick myStress"></activity>
+     <activity android:theme="@android:style/Theme" android:name="com.myStress.handlers.MoodButton_selector" android:exported="false" android:label="@string/myStress_Mood_Selector"  android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.handlers.MoodButton_iconselector" android:exported="false" android:label="@string/myStress_Mood_Selector"  android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+     <activity android:theme="@android:style/Theme" android:name="com.myStress.handlers.EventButton_selector" android:exported="false" android:label="@string/myStress_Event_Selector" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.handlers.BloodPressureButton_selector" android:exported="false" android:label="@string/myStress_BloodPressure" android:configChanges="orientation|keyboardHidden" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.handlerUIs.LocationHandlerAPs" android:exported="false" android:label="@string/AdaptiveGPS_Hitlist" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.helper.ConnectGoogleAccount" android:exported="false" android:label="@string/ConnectGoogle" android:configChanges="orientation|keyboardHidden"></activity>
 
-     <receiver  android:process=":remote" android:name="com.airs.database.AIRS_upload"></receiver>
-     <receiver android:name="com.airs.AIRS_restart">
+     <receiver  android:process=":remote" android:name="com.myStress.database.myStress_upload"></receiver>
+     <receiver android:name="com.myStress.myStress_restart">
 	    <intent-filter>
 	        <action android:name="android.intent.action.PACKAGE_REPLACED"></action>
-	        <data android:scheme="package" android:path="com.airs" />
+	        <data android:scheme="package" android:path="com.myStress" />
 	    </intent-filter>
  	 </receiver>
-     <receiver android:name="com.airs.database.AIRS_upload">
+     <receiver android:name="com.myStress.database.myStress_upload">
 	    <intent-filter>
 	        <action android:name="android.intent.action.BOOT_COMPLETED"></action>
 	    </intent-filter>
  	 </receiver>
-     <receiver android:name="com.airs.handlers.BloodPressureButton_widget" android:label="@string/AIRS_BloodPressure">
+     <receiver android:name="com.myStress.handlers.BloodPressureButton_widget" android:label="@string/myStress_BloodPressure">
          <meta-data android:name="android.appwidget.provider"
-                 android:resource="@xml/airs_widgetprovider_heart"/>
+                 android:resource="@xml/mystress_widgetprovider_heart"/>
          <intent-filter>
              <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
          </intent-filter>
      </receiver>
-     <receiver android:name="com.airs.handlers.EventButton_widget" android:label="@string/AIRS_Event_Selector">
+     <receiver android:name="com.myStress.handlers.EventButton_widget" android:label="@string/myStress_Event_Selector">
          <meta-data android:name="android.appwidget.provider"
-                 android:resource="@xml/airs_widgetprovider"/>
+                 android:resource="@xml/mystress_widgetprovider"/>
          <intent-filter>
              <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
          </intent-filter>
      </receiver>
-     <receiver android:name="com.airs.handlers.MoodButton_widget" android:label="@string/AIRS_Mood_Selector">
+     <receiver android:name="com.myStress.handlers.MoodButton_widget" android:label="@string/myStress_Mood_Selector">
          <meta-data android:name="android.appwidget.provider"
-                 android:resource="@xml/airs_widgetprovider_mood"/>
+                 android:resource="@xml/mystress_widgetprovider_mood"/>
          <intent-filter>
              <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
          </intent-filter>
      </receiver>
-     <activity android:name="com.airs.handlers.EventTextActivity" >
+     <activity android:name="com.myStress.handlers.EventTextActivity" >
 	    <intent-filter>
 	        <action android:name="android.intent.action.SEND" />
 	        <category android:name="android.intent.category.DEFAULT" />

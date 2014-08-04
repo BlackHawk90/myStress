@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2011, Dirk Trossen, airs@dirk-trossen.de
+  Copyright (C) 2011, Dirk Trossen, myStress@dirk-trossen.de
 
   This program is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as published by
@@ -50,12 +50,12 @@
     	android:summaryOff="@string/Local_Storage_off"/>
     <CheckBoxPreference 
     	android:enabled="true" 
-    	android:title="@string/AIRS_intents" 
-    	android:key="AIRSIntents" 
+    	android:title="@string/myStress_intents" 
+    	android:key="myStressIntents" 
     	android:selectable="true" 
     	android:defaultValue="true" 
-    	android:summaryOn="@string/AIRS_intents_on" 
-    	android:summaryOff="@string/AIRS_intents_off"/>
+    	android:summaryOn="@string/myStress_intents_on" 
+    	android:summaryOff="@string/myStress_intents_off"/>
     <CheckBoxPreference 
     	android:enabled="true" 
     	android:title="@string/Wakeup" 
@@ -76,14 +76,14 @@
 	        android:summary="@string/ConnectGoogle2">
 	       <intent
 	        android:action="android.intent.action.MAIN"
-	        android:targetPackage="com.airs"
-	        android:targetClass="com.airs.helper.ConnectGoogleAccount"
+	        android:targetPackage="com.myStress"
+	        android:targetClass="com.myStress.helper.ConnectGoogleAccount"
 	        />
 	    </Preference> 
         <EditTextPreference
 	        android:title="@string/FolderGoogle"
 	        android:summary="@string/FolderGoogle2"
-	        android:defaultValue="AIRS"
+	        android:defaultValue="myStress"
 	        android:key="GDriveFolder" 
 	        android:name="@string/FolderGoogle"/>
         <ListPreference

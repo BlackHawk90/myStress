@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (C) 2011, Dirk Trossen, airs@dirk-trossen.de
+  Copyright (C) 2011, Dirk Trossen, mystress@dirk-trossen.de
 
   This program is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as published by
@@ -20,7 +20,7 @@
     <item android:id="@+id/main_about"
           android:icon="@android:drawable/ic_menu_help"
           android:title="@string/Help" />
-    <item android:id="@+id/templates_save"
+<!--     <item android:id="@+id/templates_save"
           android:icon="@android:drawable/ic_menu_save"
-          android:title="@string/Save_as_Template" />
+          android:title="@string/Save_as_Template" /> -->
     </menu>

@@ -2,6 +2,6 @@
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
     android:accessibilityEventTypes="typeNotificationStateChanged"
     android:accessibilityFeedbackType="feedbackAllMask"
-    android:packageNames="com.airs.handlers"
+    android:packageNames="com.myStress.handlers"
     android:description="@string/accessibility_description"
     android:notificationTimeout="100" />
