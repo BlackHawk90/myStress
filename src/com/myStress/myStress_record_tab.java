@@ -19,15 +19,10 @@ package com.myStress;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Calendar;
-import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -37,9 +32,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -53,17 +46,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.accessibility.AccessibilityManager;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myStress.database.myStress_upload;
 import com.myStress.helper.SerialPortLogger;
-import com.myStress.platform.HandlerUIManager;
 
 /**
  * Activity for the Record tab in the main UI, controlling the recording and managing the templates
@@ -72,10 +61,6 @@ import com.myStress.platform.HandlerUIManager;
  */
 public class myStress_record_tab extends Activity implements OnClickListener
 {
-    // handler for starting local myStress
-	private static final int START_REMOTELY = 3;
-	private static final int UPDATE_DOWNLOAD = 1;
-
 	/**
 	 * expose template for other tabs
 	 */
@@ -84,26 +69,14 @@ public class myStress_record_tab extends Activity implements OnClickListener
 	// Layout Views
     private ImageButton main_record;
     private Spinner main_spinner;
-    private ProgressDialog progressdialog;
 
     // preferences
     private SharedPreferences settings;
   
     // other variables
     private myStress_local 	myStress_locally;
-    private myStress_remote	myStress_remotely;
     private myStress_record_tab	myStress;
     
-//	private MyCustomBaseAdapter customAdapter;
-	private List<String> annotations;
-    private ListView annotation_list;
-    private Button delete_button, shortcut_button, download_button;
-    private ProgressBar pb;
-    private Dialog dialog;
-	private int selected_text = -1;
-	private String[] remote_templates = {"Scenario_1", "Scenario_2", "Scenario_3", "MemCues"};
-	private int remote_file, downloaded_file;  
-
 	/** Called when the activity is first created. 
      * @param savedInstanceState a Bundle of the saved state, according to Android lifecycle model
      */
@@ -124,10 +97,7 @@ public class myStress_record_tab extends Activity implements OnClickListener
 		// is debugging on?
    		SerialPortLogger.setDebugging(settings.getBoolean("Debug", false));
 		SerialPortLogger.debug("myStress debug output at " + Calendar.getInstance().getTime().toString());
-		
-		// initialize HandlerUI Manager
-		HandlerUIManager.createHandlerUIs(this);
-		
+			
         // set content of View
         setContentView(R.layout.recording);
 
@@ -177,17 +147,11 @@ public class myStress_record_tab extends Activity implements OnClickListener
            	editor.putBoolean("myStress_local::copy_template", true);
             // finally commit to storing values!!
             editor.commit();           
-		}
-		// ... and then get template entries
-//        gatherFiles();            
+		}       
 
 	    // start service and connect to it -> then discover the sensors
         getApplicationContext().startService(new Intent(this, myStress_local.class));
-        getApplicationContext().bindService(new Intent(this, myStress_local.class), mConnection, Service.BIND_AUTO_CREATE);   
-
-	    // start service and connect to it -> then discover the sensors
-        getApplicationContext().startService(new Intent(this, myStress_remote.class));
-        getApplicationContext().bindService(new Intent(this, myStress_remote.class), mConnection2, Service.BIND_AUTO_CREATE);   
+        getApplicationContext().bindService(new Intent(this, myStress_local.class), mConnection, Service.BIND_AUTO_CREATE);     
 
 		// check if persistent flag is running, indicating the myStress has been running (and would re-start if continuing)
 		if (settings.getBoolean("myStress_local::running", false) == true)
@@ -207,7 +171,6 @@ public class myStress_record_tab extends Activity implements OnClickListener
     		                editor.commit();
     		                // stop service
  		    			    stopService(new Intent(myStress, myStress_local.class));
- 		    			    stopService(new Intent(myStress, myStress_remote.class));
  		    			    finish();
     		           }
     		       })
@@ -288,7 +251,8 @@ public class myStress_record_tab extends Activity implements OnClickListener
 	                editor.commit();
 	                
 	                // and now show what's new
-	    			HandlerUIManager.AboutDialog(getString(R.string.WhatsNew2) , getString(R.string.WhatsNew));
+	                //FIXME Popup einbauen
+//	    			HandlerUIManager.AboutDialog(getString(R.string.WhatsNew2) , getString(R.string.WhatsNew));
 		        }
 	        }
 	        catch(Exception e)
@@ -302,10 +266,7 @@ public class myStress_record_tab extends Activity implements OnClickListener
 	@Override
     public synchronized void onResume() 
     {
-        super.onResume();
-        
-        // refresh list of template files
-//        gatherFiles();        
+        super.onResume();     
     }
 
 	/** Called when the activity is paused. 
@@ -338,14 +299,6 @@ public class myStress_record_tab extends Activity implements OnClickListener
 		   // unbind from service
 		   getApplicationContext().unbindService(mConnection);
        }
-       
-       if (myStress_remotely!=null)
-       {
-		   if (myStress_remotely.running == false)
-			   getApplicationContext().stopService(new Intent(this, myStress_remote.class));
-		   // unbind from service
-		   getApplicationContext().unbindService(mConnection2);
-       }
     }
     
 	/** Called when the configuration of the activity has changed.
@@ -376,29 +329,30 @@ public class myStress_record_tab extends Activity implements OnClickListener
      */
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) 
-    {    	
-    	Intent intent;
-    	
+    {    	  	
         switch (item.getItemId()) 
         {
         case R.id.main_copyright:
     		try
     		{
-    			HandlerUIManager.AboutDialog("myStress V" + this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName , getString(R.string.Copyright) + getString(R.string.ReleaseNotes));
+    			//FIXME: Popup
+//    			HandlerUIManager.AboutDialog("myStress V" + this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName , getString(R.string.Copyright) + getString(R.string.ReleaseNotes));
     		}
     		catch(Exception e)
     		{
     		}
     		break;
         case R.id.main_about:
-			HandlerUIManager.AboutDialog(getString(R.string.Help) , getString(R.string.RecordAbout));
+			//FIXME: Popup
+//			HandlerUIManager.AboutDialog(getString(R.string.Help) , getString(R.string.RecordAbout));
 			break;
         case R.id.main_uniqueID:
-        	HandlerUIManager.AboutDialog(getString(R.string.uniqueID) , ((TelephonyManager)getApplicationContext()
-    				.getSystemService(TELEPHONY_SERVICE))
-    				.getDeviceId()
-    				.hashCode()
-    				+"");
+			//FIXME: Popup
+//        	HandlerUIManager.AboutDialog(getString(R.string.uniqueID) , ((TelephonyManager)getApplicationContext()
+//    				.getSystemService(TELEPHONY_SERVICE))
+//    				.getDeviceId()
+//    				.hashCode()
+//    				+"");
         	break;
         }
         return false;
@@ -436,78 +390,7 @@ public class myStress_record_tab extends Activity implements OnClickListener
     		break;
     	}
     }
-       
-	// start RSA
-	private void start_sensing()
-	{
-		if (myStress_remotely != null)
-		{
-    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    		builder.setMessage(getString(R.string.Start_remote_sensing))
-    		       .setCancelable(false)
-    		       .setIcon(R.drawable.icon)
-    		       .setPositiveButton(getString(R.string.Yes), new DialogInterface.OnClickListener() 
-    		       {
-    		           public void onClick(DialogInterface dialog, int id) 
-    		           {
-    						// forcefully print out midlet version given in manifest!
-    						SerialPortLogger.debug("- myStress Gateway");
-
-    			        	progressdialog = ProgressDialog.show(myStress_record_tab.this, "Start remote sensing", "Please wait...", true);
-
-    			        	// start service from handler
-    				        Message msg = mHandler.obtainMessage(START_REMOTELY);
-    				        mHandler.sendMessage(msg);
-    		           }
-    		       })
-    		       .setNegativeButton(getString(R.string.No), new DialogInterface.OnClickListener() 
-    		       {
-    		           public void onClick(DialogInterface dialog, int id) 
-    		           {
-    		        	   return;
-    		           }
-    		       });
-    		AlertDialog alert = builder.create();
-    		alert.show();
-		}
-	}
-
-	 // The Handler that gets information back from the other threads, starting the various services from the main thread
-	private final Handler mHandler = new Handler() 
-    {
-       @Override
-       public void handleMessage(Message msg) 
-       {
-           switch (msg.what) 
-           {
-           case START_REMOTELY:
-		        // signal to service to start sensing
-		        myStress_remotely.started = true;
-		        // start service 
-		        startService(new Intent(myStress, myStress_remote.class));
-		        
-		        // stop progress dialog
-	     		progressdialog.cancel();
-
-		        // stop activity
-		        finish();
-		        break;
-           case UPDATE_DOWNLOAD:
-    			// count downloaded files
-        		downloaded_file++;
-            	pb.setProgress(downloaded_file);
-            	// if we got all, dismiss dialog and gather the files from local directory
-            	if (downloaded_file == remote_templates.length)
-            	{
-            		dialog.dismiss();
-//            		gatherFiles();
-            	} 
-            default:  
-           	break;
-           }
-       }
-    };
-    
+        
     // local service connection
     private ServiceConnection mConnection = new ServiceConnection() 
     {
@@ -528,120 +411,11 @@ public class myStress_record_tab extends Activity implements OnClickListener
   	        // see this happen.
   	    	myStress_locally = null;
   	    }
-  	};  
-  	
-    // remote service connection
-    private ServiceConnection mConnection2 = new ServiceConnection() 
-    {
-  	    public void onServiceConnected(ComponentName className, IBinder service) 
-  	    {
-  	        // This is called when the connection with the service has been
-  	        // established, giving us the service object we can use to
-  	        // interact with the service.  Because we have bound to a explicit
-  	        // service that we know is running in our own process, we can
-  	        // cast its IBinder to a concrete class and directly access it.
-  	    	myStress_remotely = ((myStress_remote.LocalBinder)service).getService();
-  	    }
-
-  	    public void onServiceDisconnected(ComponentName className) {
-  	        // This is called when the connection with the service has been
-  	        // unexpectedly disconnected -- that is, its process crashed.
-  	        // Because it is running in our same process, we should never
-  	        // see this happen.
-  	    	myStress_remotely = null;
-  	    }
-  	};  
-  	
-    private class DownloadThread implements Runnable
-    {
-    	private String template_name;
-    	
-    	DownloadThread(String name)
-    	{
-    		template_name = new String(name);
-			new Thread(this).start();
-    	}
-  
-	    public void run()
-	    {
-	    	int total_size = 0;
-	    	File file = null;
-	    	
-			try 
-			{
-				URL url = new URL("http://www.tecvis.co.uk/wp-content/uploads/story_templates/" + template_name);
-				HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-				
-				urlConnection.setRequestMethod("GET");
-				urlConnection.setDoOutput(true);
-	
-				//connect
-				urlConnection.connect();
-	
-				//set the path where we want to save the fileÊÊÊÊÊÊÊÊÊÊ 
-	        	String dirPath = getExternalFilesDir(null).getAbsolutePath() + "/" + "templates";
-	        	File shortcutPath = new File(dirPath);
-	        	if (!shortcutPath.exists())
-	        		shortcutPath.mkdirs();
-	
-	        	//create a new file, to save the downloaded file 
-				file = new File(shortcutPath, template_name);
-				FileOutputStream fileOutput = new FileOutputStream(file);
-	
-    			SerialPortLogger.debugForced("download: created local file " + template_name);
-
-				//Stream used for reading the data from the internet
-				InputStream inputStream = urlConnection.getInputStream();
-	
-				//create a buffer...
-				byte[] buffer = new byte[1024];
-				int bufferLength = 0;
-	
-    			SerialPortLogger.debugForced("download: fetch file " + template_name);
-
-				while ( (bufferLength = inputStream.read(buffer)) > 0 ) 
-				{
-					fileOutput.write(buffer, 0, bufferLength);
-					total_size += bufferLength;
-				} 
-				//close the output stream when complete //
-				fileOutput.close();				
-				
-    			SerialPortLogger.debugForced("download: file " + template_name + " complete with size=" + String.valueOf(total_size));
-		         
-				// now update progress dialog, possibly dismiss and gather files again
-				mHandler.sendMessage(mHandler.obtainMessage(UPDATE_DOWNLOAD));
-			}
-			catch (final Exception e) 
-			{    				
-				// now update progress dialog, possibly dismiss and gather files again
-				mHandler.sendMessage(mHandler.obtainMessage(UPDATE_DOWNLOAD));
-				
-				// remove template file if it has been created
-				if (file != null)
-					if (file.exists() == true)
-						file.delete();
-			}
-	    }
-    }
-    
-    private void showProgress(int max_files)
-    {
-        dialog = new Dialog(this);
-        dialog.setContentView(R.layout.downloadprogress);
-        dialog.setTitle("Download Progress");
-         
-        pb = (ProgressBar)dialog.findViewById(R.id.downloadprogress_progress_bar);
-        pb.setProgress(0);
-        pb.setMax(max_files);
-        dialog.show();
-    }
+  	};    	
     
     private void initializeStart(){
     	AlertDialog.Builder builder;
     	AlertDialog alert;
-	    String dirPath;
-        File shortcutFile;
         
     	// check if persistent flag is running, indicating the myStress has been running (and would re-start if continuing)
 		if (settings.getBoolean("myStress_local::running", false) == true)
@@ -661,7 +435,6 @@ public class myStress_record_tab extends Activity implements OnClickListener
     		                editor.commit();
     		                // stop service
  		    			    stopService(new Intent(myStress, myStress_local.class));
- 		    			    stopService(new Intent(myStress, myStress_remote.class));
  		    			    finish();
     		           }
     		       })

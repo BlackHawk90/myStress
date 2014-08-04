@@ -16,12 +16,12 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 */
 package com.myStress.platform;
 
-import com.myStress.visualisations.MapViewerActivity;
-import com.myStress.visualisations.TimelineActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.myStress.visualisations.MapViewerActivity;
+import com.myStress.visualisations.TimelineActivity;
 
 /**
  * Static class to call the {@link TimelineActivity} and {@link MapViewerActivity} for visualisation

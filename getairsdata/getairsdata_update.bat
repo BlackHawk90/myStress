@@ -1,1 +1,0 @@
-getairsdata.jar airs_settings.txt -u

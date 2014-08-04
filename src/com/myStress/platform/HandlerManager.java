@@ -47,13 +47,13 @@ public class HandlerManager
 	
     /**
      * Creates {@link Handler} entries at the start of the remote or local service
-     * @param nors Reference to the {@link android.content.Context} of the calling activity
+     * @param myStress Reference to the {@link android.content.Context} of the calling activity
      * @return true if successful
      */
-	static public boolean createHandlers(Context nors)
+	static public boolean createHandlers(Context myStress)
 	{		
 	   // store pointer to preferences
-       settings = PreferenceManager.getDefaultSharedPreferences(nors);
+       settings = PreferenceManager.getDefaultSharedPreferences(myStress);
        editor = settings.edit();
 
        // clear array
@@ -65,28 +65,27 @@ public class HandlerManager
 	   // here the handlers are inserted in the field
 	   // the rule is that raw sensors are inserted first before aggregated sensors are inserted.
 	   // this is due to the discovery mechanism since aggregated sensor handlers usually check the availability of the raw sensor in order to become 'visible'	   
-	   handlers[inst_handlers++]  = (Handler)new GPSHandler(nors);	   
-	   handlers[inst_handlers++]  = (Handler)new WeatherHandler(nors);
-//	   handlers[inst_handlers++]  = (Handler)new RandomHandler(nors);
-//	   handlers[inst_handlers++]  = (Handler)new BeaconHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new WifiHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new CellHandler(nors);
-//	   handlers[inst_handlers++]  = (Handler)new EventButtonHandler(nors);
-//	   handlers[inst_handlers++]  = (Handler)new EventTextHandler(nors);
-//	   handlers[inst_handlers++]  = (Handler)new MoodButtonHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new AudioHandler(nors);
-//	   handlers[inst_handlers++]  = (Handler)new HeartMonitorHandler(nors);
-//	   handlers[inst_handlers++]  = (Handler)new MusicPlayerHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new SystemHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new PhoneSensorHandler(nors);
-//	   handlers[inst_handlers++]  = (Handler)new MediaWatcherHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new CalendarHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new BloodPressureButtonHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new NotificationHandler(nors);
-//	   handlers[inst_handlers++]  = (Handler)new KeyLogHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new TextLengthHandler(nors);
-//	   handlers[inst_handlers++]  = (Handler)new TypingSpeedHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new CallLogHandler(nors);
+	   handlers[inst_handlers++]  = (Handler)new GPSHandler(myStress);	   
+	   handlers[inst_handlers++]  = (Handler)new WeatherHandler(myStress);
+//	   handlers[inst_handlers++]  = (Handler)new RandomHandler(myStress);
+//	   handlers[inst_handlers++]  = (Handler)new BeaconHandler(myStress);
+	   handlers[inst_handlers++]  = (Handler)new WifiHandler(myStress);
+	   handlers[inst_handlers++]  = (Handler)new CellHandler(myStress);
+//	   handlers[inst_handlers++]  = (Handler)new EventButtonHandler(myStress);
+//	   handlers[inst_handlers++]  = (Handler)new EventTextHandler(myStress);
+//	   handlers[inst_handlers++]  = (Handler)new MoodButtonHandler(myStress);
+	   handlers[inst_handlers++]  = (Handler)new AudioHandler(myStress);
+//	   handlers[inst_handlers++]  = (Handler)new HeartMonitorHandler(myStress);
+//	   handlers[inst_handlers++]  = (Handler)new MusicPlayerHandler(myStress);
+	   handlers[inst_handlers++]  = (Handler)new SystemHandler(myStress);
+	   handlers[inst_handlers++]  = (Handler)new PhoneSensorHandler(myStress);
+//	   handlers[inst_handlers++]  = (Handler)new MediaWatcherHandler(myStress);
+	   handlers[inst_handlers++]  = (Handler)new CalendarHandler(myStress);
+	   handlers[inst_handlers++]  = (Handler)new NotificationHandler(myStress);
+//	   handlers[inst_handlers++]  = (Handler)new KeyLogHandler(myStress);
+	   handlers[inst_handlers++]  = (Handler)new TextLengthHandler(myStress);
+//	   handlers[inst_handlers++]  = (Handler)new TypingSpeedHandler(myStress);
+	   handlers[inst_handlers++]  = (Handler)new CallLogHandler(myStress);
 	   
 	   return true;
 	}

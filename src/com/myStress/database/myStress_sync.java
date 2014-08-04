@@ -58,7 +58,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myStress.R;
-import com.myStress.platform.HandlerUIManager;
 
 /**
  * Activity to sync the myStress database
@@ -236,7 +235,8 @@ public class myStress_sync extends Activity implements OnClickListener
         switch (item.getItemId()) 
         {
         case R.id.sync_about:
-    		HandlerUIManager.AboutDialog(getString(R.string.main_Sync), getString(R.string.SyncAbout));
+			//FIXME: Popup
+//    		HandlerUIManager.AboutDialog(getString(R.string.main_Sync), getString(R.string.SyncAbout));
     		return true;
         case R.id.sync_setdate:
         	// if regular uploads are selected, do not allow for changing sync date!

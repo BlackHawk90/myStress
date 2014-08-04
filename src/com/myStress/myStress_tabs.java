@@ -84,26 +84,6 @@ public class myStress_tabs extends TabActivity implements OnTabChangeListener, O
 	    tabHost.addTab(spec);
 	    no_tabs++;
 	    
-	    // third tab: settings
-//	    intent = new Intent().setClass(this, myStress_settings_tab.class);
-//	    spec = tabHost.newTabSpec("handlers").setIndicator(getString(R.string.tab_Config),
-//	                      res.getDrawable(R.drawable.general2))
-//	                  .setContent(intent);
-//	    tabHost.addTab(spec);
-//	    // store tab number
-//	    no_tabs++;
-	    
-	    // fourth tab: storica
-//		if (Build.VERSION.SDK_INT>=14)
-//		{
-//		    intent = new Intent().setClass(this, myStress_visualisation.class);
-//		    spec = tabHost.newTabSpec("storica").setIndicator(getString(R.string.tab_Visualise),
-//		                      res.getDrawable(R.drawable.visualise))
-//		                  .setContent(intent);
-//		    tabHost.addTab(spec);
-//		    // store tab number
-//		    no_tabs++;
-//		}
 
 	    // current tab
 	    tabHost.setCurrentTab(currentTab);

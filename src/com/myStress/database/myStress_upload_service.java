@@ -120,7 +120,6 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 
 		// get settings for upload preference
 		wifi_only = settings.getBoolean("UploadWifi", true);
-//		wifi_only = false;
 		
 		// get handle to Google Drive
 		service = getDriveService();
