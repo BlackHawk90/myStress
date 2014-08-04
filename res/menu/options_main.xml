@@ -28,7 +28,7 @@
           android:title="@string/Rate" /> -->
     <item android:id="@+id/main_uniqueID"
           android:icon="@drawable/storage"
-          android:title="@string/uniqueID" />
+          android:title="@+string/uniqueID" />
 <!--     <item android:id="@+id/main_manual"
           android:icon="@drawable/manual"
           android:title="@string/Manual" />  -->

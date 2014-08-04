@@ -50,12 +50,12 @@
     	android:summaryOff="@string/Local_Storage_off"/>
     <CheckBoxPreference 
     	android:enabled="true" 
-    	android:title="@string/myStress_intents" 
+    	android:title="@+string/myStress_intents" 
     	android:key="myStressIntents" 
     	android:selectable="true" 
     	android:defaultValue="true" 
-    	android:summaryOn="@string/myStress_intents_on" 
-    	android:summaryOff="@string/myStress_intents_off"/>
+    	android:summaryOn="@+string/myStress_intents_on" 
+    	android:summaryOff="@+string/myStress_intents_off"/>
     <CheckBoxPreference 
     	android:enabled="true" 
     	android:title="@string/Wakeup" 

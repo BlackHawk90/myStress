@@ -300,7 +300,7 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 					wait(activity_semaphore);
 					if (activity != activity_old){
 						textread = true;
-						textvalue = activity;
+						textvalue = activity+" "+varianceSum;
 						activity_old = activity;
 						polled = true;
 //						varianceSum = avg = sum = count = 0;
@@ -861,7 +861,7 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 //    			varianceSum = avg = sum = count = 0;
 //    			pollIntervalStart += pollInterval;
 //   		}
-    		if(polled = true){
+    		if(polled == true){
     			varianceSum = avg = sum = count = 0;
     			polled = false;
     		}

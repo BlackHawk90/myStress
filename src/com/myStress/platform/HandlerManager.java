@@ -83,10 +83,10 @@ public class HandlerManager
 	   handlers[inst_handlers++]  = (Handler)new CalendarHandler(nors);
 	   handlers[inst_handlers++]  = (Handler)new BloodPressureButtonHandler(nors);
 	   handlers[inst_handlers++]  = (Handler)new NotificationHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new KeyLogHandler(nors);
+//	   handlers[inst_handlers++]  = (Handler)new KeyLogHandler(nors);
 	   handlers[inst_handlers++]  = (Handler)new TextLengthHandler(nors);
-	   handlers[inst_handlers++]  = (Handler)new TypingSpeedHandler(nors);
-	   
+//	   handlers[inst_handlers++]  = (Handler)new TypingSpeedHandler(nors);
+	   handlers[inst_handlers++]  = (Handler)new CallLogHandler(nors);
 	   
 	   return true;
 	}

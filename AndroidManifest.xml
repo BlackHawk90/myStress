@@ -75,9 +75,9 @@
      <activity android:name="myStress_settings_tab" android:exported="false" android:label="@string/tab_Config" android:configChanges="orientation|keyboardHidden"></activity>    
      <activity android:name="myStress_visualisation" android:exported="false" android:label="Storica" android:configChanges="orientation|keyboardHidden"></activity>    
      <activity android:name="myStress_sensorselection" android:exported="false" android:label="@string/Sensor_Selection"></activity> 
-     <activity android:name="Prefs" android:exported="false" android:label="@string/myStress_Preferences"></activity>
+     <activity android:name="Prefs" android:exported="false" android:label="@+string/myStress_Preferences"></activity>
      <activity android:name="com.myStress.database.myStress_sync" android:exported="false" android:label="@string/main_Sync" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="myStress_configure_remote" android:exported="true" android:label="@string/Configure_myStress" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="myStress_configure_remote" android:exported="true" android:label="@+string/Configure_myStress" android:configChanges="orientation|keyboardHidden"></activity>
      <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.database.myStress_backup" android:exported="false" android:label="@string/Backup" android:configChanges="orientation|keyboardHidden"></activity>
      <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.database.myStress_restore" android:exported="false" android:label="@string/Restore" android:configChanges="orientation|keyboardHidden"></activity>
      <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.database.myStress_index" android:exported="false" android:label="@string/Index" android:configChanges="orientation|keyboardHidden"></activity>
@@ -85,15 +85,15 @@
      <activity android:name="myStress_manual" android:exported="false" android:label="@string/Manual" android:configChanges="orientation|keyboardHidden"></activity>
      <activity android:name="com.myStress.helper.SelectCameraPathPreference" android:exported="false" android:label="@string/Camera_path_on" android:configChanges="orientation|keyboardHidden"></activity>
      
-     <activity android:name="com.myStress.visualisations.MapViewerActivity" android:exported="false" android:label="@string/myStress_Map" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.visualisations.TimelineActivity" android:exported="false" android:label="@string/myStress_Timeline"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="myStress_measurements" android:exported="false" android:label="@string/myStress_Local_Sensing" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="myStress_remotevalues" android:exported="false" android:label="@string/myStress_Remote_Sensing" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:name="com.myStress.visualisations.MapViewerActivity" android:exported="false" android:label="@+string/myStress_Map" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.visualisations.TimelineActivity" android:exported="false" android:label="@+string/myStress_Timeline"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="myStress_measurements" android:exported="false" android:label="@+string/myStress_Local_Sensing" android:configChanges="orientation|keyboardHidden"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="myStress_remotevalues" android:exported="false" android:label="@+string/myStress_Remote_Sensing" android:configChanges="orientation|keyboardHidden"></activity>
      <activity android:theme="@android:style/Theme.Dialog" android:name="myStress_shortcut" android:exported="true" android:label="Quick myStress"></activity>
-     <activity android:theme="@android:style/Theme" android:name="com.myStress.handlers.MoodButton_selector" android:exported="false" android:label="@string/myStress_Mood_Selector"  android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.handlers.MoodButton_iconselector" android:exported="false" android:label="@string/myStress_Mood_Selector"  android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-     <activity android:theme="@android:style/Theme" android:name="com.myStress.handlers.EventButton_selector" android:exported="false" android:label="@string/myStress_Event_Selector" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.handlers.BloodPressureButton_selector" android:exported="false" android:label="@string/myStress_BloodPressure" android:configChanges="orientation|keyboardHidden" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+     <activity android:theme="@android:style/Theme" android:name="com.myStress.handlers.MoodButton_selector" android:exported="false" android:label="@+string/myStress_Mood_Selector"  android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.handlers.MoodButton_iconselector" android:exported="false" android:label="@+string/myStress_Mood_Selector"  android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+     <activity android:theme="@android:style/Theme" android:name="com.myStress.handlers.EventButton_selector" android:exported="false" android:label="@+string/myStress_Event_Selector" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.handlers.BloodPressureButton_selector" android:exported="false" android:label="@+string/myStress_BloodPressure" android:configChanges="orientation|keyboardHidden" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
      <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.handlerUIs.LocationHandlerAPs" android:exported="false" android:label="@string/AdaptiveGPS_Hitlist" android:configChanges="orientation|keyboardHidden"></activity>
      <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.helper.ConnectGoogleAccount" android:exported="false" android:label="@string/ConnectGoogle" android:configChanges="orientation|keyboardHidden"></activity>
 

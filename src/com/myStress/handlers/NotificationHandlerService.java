@@ -16,6 +16,16 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 */
 package com.myStress.handlers;
 
+import java.net.URL;
+import java.net.URLEncoder;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -367,8 +377,26 @@ public class NotificationHandlerService extends AccessibilityService
 	    		// Sentimentanalyse
 	    		AlchemyAPI_NamedEntityParams nep = new AlchemyAPI_NamedEntityParams();
 	    		nep.setSentiment(true);
-	    		Document doc = null;
-    			doc = api.TextGetTextSentiment(translatedText, nep);
+	    		
+	    		try{
+		    		HttpClient client = new DefaultHttpClient();
+		    		String getURL = "https://loudelement-free-natural-language-processing-service.p.mashape.com/nlp-text/?text="+URLEncoder.encode(translatedText, "UTF-8");
+		    		HttpGet get = new HttpGet(getURL);
+		    		get.setHeader("X-Mashape-Key", "UfXaXsn0q9mshs2S9vlj2RCA1gzSp1kFZJKjsnA8WvonNOBW7T");
+		    		HttpResponse responseGet = client.execute(get);
+		    		HttpEntity  resEntityGet = responseGet.getEntity();
+		    		if(resEntityGet != null){
+		    			String resString = EntityUtils.toString(resEntityGet);
+		    			JSONObject result = new JSONObject(resString);
+		    			type = result.getString("sentiment-text");
+		    			score = result.getDouble("sentiment-score");
+		    		}
+	    		} catch(Exception e){
+	    			e.printStackTrace();
+	    		}
+	    		
+	    		// old api
+/*	    		Document doc = api.TextGetTextSentiment(translatedText, nep);
     			NodeList list = doc.getFirstChild().getChildNodes();
     			for(int i = 0; i < list.getLength();i++) {
     				Node item = list.item(i);
@@ -385,14 +413,15 @@ public class NotificationHandlerService extends AccessibilityService
     						score = 0;
     					break;
     				}
-    			}
+    			}*/
+    			
     			Log.e("myStress", "sentiment: "+type+" with score "+score);
     		}catch(Exception e){
     			Log.e("myStress", e.getMessage());
     		}
     		
     		Intent intent = new Intent("com.myStress.accessibility");
-    		intent.putExtra("TextLength", text.length() + ":" + speed + ":" + type + ":" + score);
+    		intent.putExtra("TextLength", text.length() + ":" + speed*60 + ":" + type + ":" + score);
     		
 //    		maxTextLength = 0;
 //    		typedText = "";

@@ -895,19 +895,19 @@ public class SystemHandler implements com.myStress.handlers.Handler
         		{
         			try
         			{
-	        			caller = new String(intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)); 
+	        			caller = new String(intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER));
 	        			
 	        			// append caller display name, if available
 /*	        			if (caller != null)
-	        				caller = caller.concat(":" + getContactByNumber(caller));        
+	        				caller = caller.concat(":" + getContactByNumber(caller));
 	        			else
-	        				caller = caller.concat(":" + "---");*/        
+	        				caller = caller.concat(":" + "---");*/
         			}
         			catch(Exception e)
         			{
         				caller = new String("unknown:---");
         			}
-        				
+        			
     				caller_semaphore.release();			// release semaphore
         		}
         		return;
@@ -924,7 +924,7 @@ public class SystemHandler implements com.myStress.handlers.Handler
 /*        			if (callee != null)
         				callee = callee.concat(":" + getContactByNumber(callee));        
         			else
-        				callee = callee.concat(":" + "---");*/    
+        				callee = callee.concat(":" + "---");*/
             	}
     			catch(Exception e)
     			{
