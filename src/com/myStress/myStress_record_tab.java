@@ -110,6 +110,10 @@ public class myStress_record_tab extends Activity implements OnClickListener
         // now initialise the upload timer
         myStress_upload.setTimer(getApplicationContext());
         
+	    // start service and connect to it -> then discover the sensors
+        getApplicationContext().startService(new Intent(this, myStress_local.class));
+        getApplicationContext().bindService(new Intent(this, myStress_local.class), mConnection, Service.BIND_AUTO_CREATE);   
+        
         // copy default template 
 		if (settings.getBoolean("myStress_local::copy_template", false) == false)
 		{
@@ -149,9 +153,7 @@ public class myStress_record_tab extends Activity implements OnClickListener
             editor.commit();           
 		}       
 
-	    // start service and connect to it -> then discover the sensors
-        getApplicationContext().startService(new Intent(this, myStress_local.class));
-        getApplicationContext().bindService(new Intent(this, myStress_local.class), mConnection, Service.BIND_AUTO_CREATE);     
+  
 
 		// check if persistent flag is running, indicating the myStress has been running (and would re-start if continuing)
 		if (settings.getBoolean("myStress_local::running", false) == true)
@@ -259,6 +261,10 @@ public class myStress_record_tab extends Activity implements OnClickListener
 	        {
 	        }  
 		}
+		
+		int uploadIntervall = Integer.parseInt(settings.getString("UploadFrequency", "30"));
+		if(uploadIntervall != 30)
+			main_spinner.setSelection(1);
     }
 
 	/** Called when the activity is resumed. 

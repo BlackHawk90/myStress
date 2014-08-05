@@ -621,6 +621,8 @@ public class myStress_sync extends Activity implements OnClickListener
 		    			
 		    			// now move to next row
 		    			values.moveToNext();
+		    			
+		    			at_least_once_written = true;
 		    		}	
 		    		
 		    		// increase counter
@@ -797,6 +799,8 @@ public class myStress_sync extends Activity implements OnClickListener
 		    			
 		    			// now move to next row
 		    			values.moveToNext();
+		    			
+		    			at_least_once_written = true;
 		    		}	
 		    				        
 			        // close values to free up memory

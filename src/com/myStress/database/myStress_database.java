@@ -26,7 +26,7 @@ public class myStress_database extends SQLiteOpenHelper
 	 * Name of myStress database
 	 */
 	public static final String DATABASE_NAME = "myStress";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 	/**
 	 * name of main DB table with recording values
 	 */
