@@ -69,7 +69,6 @@
         </intent-filter>
      </service>
      <activity android:name="myStress_record_tab" android:exported="false" android:label="@string/tab_Record" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:name="com.myStress.database.myStress_sync" android:exported="false" android:label="@string/main_Sync" android:configChanges="orientation|keyboardHidden"></activity>
      <activity android:name="com.myStress.helper.SelectCameraPathPreference" android:exported="false" android:label="@string/Camera_path_on" android:configChanges="orientation|keyboardHidden"></activity>
      
      <activity android:name="com.myStress.visualisations.MapViewerActivity" android:exported="false" android:label="@+string/myStress_Map" android:configChanges="orientation|keyboardHidden"></activity>

@@ -976,13 +976,7 @@ public class myStress_local extends Service
 		 for (i=0;i<sensors.getCount();i++)
 			if (mSensorsArrayList.get(i).checked == true)
 				j++;
-		 
-		 if (j == 0)
-		 {
-     		Toast.makeText(getApplicationContext(), getString(R.string.Enable_at_least_one_sensor), Toast.LENGTH_LONG).show();
-     		return false;
-		 }
-		 	    
+		 	 	    
 		 notification = new Notification(R.drawable.notification_icon, getString(R.string.Started_myStress), System.currentTimeMillis());
 
 		 // create pending intent for starting the activity

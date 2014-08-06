@@ -2,84 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" >
-
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+	>	
         <ImageButton
             android:id="@+id/button_record"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="fill_vertical"
             android:layout_margin="20dp"
-            android:background="#ff000000"
             android:clickable="true"
             android:contentDescription="Recording"
             android:hapticFeedbackEnabled="true"
             android:onClick="onClick"
+            android:background="@null" 
             android:src="@drawable/start_rectangular" />
 
         <Spinner
             android:id="@+id/spinner_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
             android:entries="@array/recordinglabel_entries"
             android:prompt="@string/recording_prompt"
             android:spinnerMode="dialog" />
-
-    </LinearLayout>
-
-<!--     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="5dp"
-        android:text="@string/Select_template_and_action"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold" /> -->
-
-<!--     <ListView
-        android:id="@+id/templates_list"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_margin="5dp"
-        android:layout_weight="1"
-        android:clickable="true"
-        android:dividerHeight="1dp"
-        android:fastScrollEnabled="true"
-        android:footerDividersEnabled="true"
-        android:headerDividersEnabled="true"
-        android:stackFromBottom="false" /> -->
-
-<!--     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp" >
-
-        <Button
-            android:id="@+id/templates_delete"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/Delete" />
-
-        <Button
-            android:id="@+id/templates_shortcut"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/Shortcut" />
-
-        <Button
-            android:id="@+id/templates_download"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/Download" />
-    </LinearLayout> -->
-
 </LinearLayout>

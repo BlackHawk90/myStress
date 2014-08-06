@@ -1,35 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="app_name">myStress</string>
-<string name="Copyright">Copyrightinhalt</string>
+<string name="Copyright">Copyright</string>
+<string name="ReleaseNotes">ReleaseNotes</string>
 <string name="tab_Record">Aufnahme</string>
 <string name="tab_Sync">Sync</string>
 <string name="main_About">Über</string>
 <string name="main_Sync">Synchronisiere Aufnahme</string>
 <string name="Help">Hilfe</string>
 <string name="recording_prompt">Typ der Aufnahme</string>
+
 <string name="MapAbout">Zeigt einen Pfad der GPS Aufzeichnungen. Du kannst auf eine Markierung klicken für mehr Information. Du kannst die Karte auf Deine momentane oder die letzte bekannte Position zentrieren (durch die Knöpfe oben rechts). Du kannst auch zwischen Satelliten- und Kartendarstellung umschalten durch die Menüeinträge.</string>
-<string name="ManualAbout">Zeigt das myStress Benutzerhandbuch (leider nur in Englisch).\nDu brauchst Internetzugang, um die Seite anzuzeigen. Du kannst verschiedene Handbuchkapitel anklicken wie jede andere Webseite. Drücke die BACK Taste, um von Kapiteln zurück zu gehen oder das Manual zu verlassen im Übersichtskapitel.</string>
 <string name="RecordAbout">Starte eine Aufzeichnung und wähle den Modus der Aufzeichnung.\n\nDu kannst auch <b>Muster</b> laden oder löschen, die Du zuvor gespeichert hattest. Du kannst auch Shortcuts zu einem ausgewählten Muster erstellen. Diese Shortcuts werden auf dem Heimbildschirm dargestellt. Wenn Du auf ein Muster klickst, wird dieses automatisch geladen.\n\nZusätzlich zur Erstellung von eigenen Mustern, kannst Du auch Beispiele von unserem Server <b>herunterladen</b>.</string>
 <string name="LocalAbout">Zeigt die Sensoren, die im lokalen Aufnahmemodus verfügbar sind.\nWähle die Sensoren die Du aufzeichnen willst. Durch das Menü kannst Du alle Sensoren anwählen oder alle Anwahlen löschen. Du kannst auch Informationen über die Sensoren ansehen, wie z.B. Typ, Wertebereiche etc, die entdeckt wurden.</string>
 <string name="ValuesAbout">Zeigt die momentanen Werte der Sensoren im lokalen Aufnahmemodus an.\nVon hier aus kannst Du das Programm verlassen oder die Anzeige mit der <b>ZURÜCK</b> Taste verlassen!\Du kannst auch die Anzeige pausieren oder wiederaufnehmen (dies stoppt jedoch nicht den Dienst, der die Werte aufzeichnet in der Datenbank).</string>
-<string name="RemoteAbout">Zeigt die Anzahl der Werte übertragen, zusammen mit den kBytes, im Remote Modus.\nVon hier aus kannst Du das Programm verlassen oder die Anzeige mit der <b>ZURÜCK</b> Taste verlassen!</string>
-<string name="MoodAbout">Wähle die Gemütsstimmung aus in der Du Dich befindest. Deine Aufnahme wird mit einem Zeitstempel versehen mit dem <b>MO</b> Sensor.\nVerlasse die Auswahl mit der <b>ZURÜCK</b> Taste\nDu kannst auch Deine eigene Stimmung bestimmen mit dem Textfeld am unteren Rand.</string>
-<string name="EventAbout">Wähle das Ereignis, dass Du aufzeichen willst. Deine Auswahl wird mit einem Zeitstempel versehen mit dem <b>EB</b> Sensor.\nVerlasse die Auswahl mit der <b>ZURÜCK</b> Taste!\nDu kannst Dein eigenes Ereignis mit dem Textfeld am unteren Rand eingeben. Du kannst einen Eintrag löschen, indem Du lange auf den Eintrag klickst.\n\nmyStress speichert Deine letzte Einträge permanent.</string>
 <string name="TimelineAbout">Zeigt den historischen Zeitverlauf des angeklickten Sensors. Du kannst die Anzahl der angezeigten Werte in den Einstellungen ändern.\nVerlasse die Anzeige mit der <b>ZURÜCK</b> Taste!</string>
-<string name="DBadminAbout">Wähle eine der drei Datenbankoperationen: <b>Speichern</b>, <b>Wiederherstellen</b> or <b>Index</b>. Du kannst die Datenbank nur einmal indizieren und diese Operation kann nicht rückgängig gemacht werden.</string>
 <string name="SyncAbout">Erlaubt die Daten seit der letzten Synchronisierung zu sichern.\n\nDu kannst das letzte Synchronisierungsdatum auch manuell ändern für den Fall, dass Du wieder synchronisieren musst.</string>
-<string name="AdaptiveGPSAbout">Diese Liste zeigt die meistbesuchten WiFi APs über eine gegebene Periode an. Es werden nur APs angezeigt an die Du Dich angeschlossen hast!</string>
-<string name="HandlersList">Wähle die Sensoren aus, die Du aufzeichnen willst. Außerdem kannst Du hier verschiedene Einstellungen der Sensoren ändern! Weiterhin kannst Du generelle Einstellungen ändern.</string>
-<string name="Sensor_Selection">Sensorenauswahl</string>
-<string name="HandlerDescription">Handlerbild</string>
-<string name="Online_Manual">Onlineanleitung</string>
 <string name="Yes">Ja</string>
 <string name="No">Nein</string>
 <string name="OK">OK</string>
 <string name="Cancel">Abbruch</string>
-<string name="Select">Wähle</string>
-<string name="Duration">Dauer</string>
+
+<string name="Getting_Started">Anfangen</string>
+<string name="Getting_Started2">Beschreibung\n
+    Start
+</string>
 
 <string name="sensed">aufgezeichnet</string>
 <string name="sensed2">mal\nLetzte Aufnahme um</string>
@@ -38,10 +32,8 @@
 <string name="Sensor_invalid2">Sensor ungültig - Grund: unbekannt</string>
 <string name="Sensor_suspended">Sensor angehalten - Grund:</string>
 <string name="Sensor_suspended2">Sensor angehalten - Grund: unbekannt</string>
-<string name="Enable_at_least_one_sensor">Du musst mindestens einen Sensor auswählen bevor Du Aufnahmen startest!</string>
 <string name="Started_myStress">Startet myStress</string>
 <string name="Stop_myStress">Stop myStress</string>
-<string name="myStress_Remote_Sensing">myStress Remote Aufnahmen</string>
 <string name="myStress_Local_Sensing">myStress Lokale Aufnahmen</string>
 <string name="myStress_Sensing">myStress Aufnahmen</string>
 <string name="running_since">&#8230;läuft seit&#8230;</string>
@@ -60,23 +52,7 @@
 <string name="Snapshot_only_pictures">Kann nur Bilder sharen!</string>
 <string name="Measurements_share">Share myStress Aufnahmen via:</string>
 <string name="myStress_running_exit">myStress läuft momentan.\nMöchtest Du die mometanen Aufzeichnungen unterbrechen and neu starten? Du musst myStress dann neu starten.</string>
-<string name="myStress_running_exit2">myStress läuft momentan.\nMöchtest Du die mometanen Aufzeichnungen unterbrechen and neu starten? Du musst den Shortcut dann neu starten.</string>
 <string name="myStress_started_local">myStress lokale Aufzeichnungen gestartet!\nDu kannst die momentanen Werte in der Benachtigungsleiste sehen, wenn Du auf das myStress Symbol klickst.</string>
-<string name="Delete_template">Lösche Muster</string>
-<string name="At_least_one_template">Du brauchst mindestens ein gespeichertes Muster, dass in der Liste angewählt ist, bevor Du einen Shortcut erstellen kannst!</string>
-<string name="At_least_one_template2">Du brauchst mindestens ein gespeichertes Muster, dass in der Liste angewählt ist, bevor Du einen Shortcut löschen kannst!</string>
-<string name="Created_shortcut">Habe einen myStress Shortcut auf dem Heimbildschirm erstellt!</string>
-<string name="Configured_myStress">Habe ein myStress Muster und Shortcut auf dem Heimbildschirm erstellt!</string>
-<string name="Configure_myStress">Konfiguriere myStress&#8230;bitte warten</string>
-<string name="Load_template">Lade Muster</string>
-<string name="Load_template2">Das Laden des Musters wird die momentanen Einstellungen überschreiben!\nBist Du sicher?</string>
-<string name="Save_template">Dateinamen um Muster zu speichern</string>
-<string name="Saved_settings">Muster gespeichert</string>
-<string name="Restored_settings">Muster wiederhergestellt</string>
-<string name="Start_remote_sensing">Bist Du sicher, dass Du Internet-basierte Aufnahmen starten willst?\n\nmyStress wird versuchen den entfernten Anwendungsserver zu erreichen, während myStress blockieren wird bis der Verbindungsversuch scheitert.</string>
-<string name="Sensing_not_running">Aufnahmen ist nicht am Laufen!\nDer Dienst ist möglicherweise abgestürtzt!</string>
-<string name="Gathering_sensors">Suche nach lokalen Sensoren</string>
-<string name="Please_wait">Bitte warte&#8230;</string>
 <string name="Cannot_find_storage">Kann keinen externen Speicher finden!</string>
 <string name="Last_sync">Letzte sync:</string>
 <string name="Set_sync_date">Setze Sync Datum</string>
@@ -87,19 +63,8 @@
 <string name="No_values_to_synchronise">Es gibt nichts zu synchronisieren!</string>
 <string name="Regular_sync">Du hast das automatische Hochladen zu GDrive ausgewählt in den generellen Einstellungen und kannst daher nicht manuell synchronieren!</string>
 <string name="Temp_sync_file">Temp Datei (kB):</string>
-<string name="Sync_upload">Aufzeichnungen zum Google Drive hochgeladen!</string>
-<string name="Sync_uploading">Aufzeichnungen werden hochgeladen</string>
-<string name="Sync_progress">Fortschritt :</string>
-<string name="myStress_Map">myStress Kartenanblick</string>
 <string name="First_sensing">Erste Aufnahme um</string>
 <string name="First_sensing2">mit Wert :</string>
-<string name="Delete_event">Möchtest Du diese Anmerkung von der Liste löschen?</string>
-<string name="Camera_error">Kann nicht auf die Kamera zugreifen!</string>
-<string name="Shortcut_not_found">Kann die Shortcut Datei nicht finden! Bitte stelle den Shortcut wieder neu her.</string>
-<string name="Select_Sensors">Wähle Sensoren</string>
-<string name="Select_Sensors2">Wähle die Sensoren aus, die Du aufzeichnen willst</string>
-<string name="myStress_mood_selection2">Letzte: </string>
-<string name="Recorded_shared_text">Text wurde erfolgreich aufgezeichnet!</string>
 <string name="previous_item">&lt;</string>
 <string name="next_item">&gt;</string>
 <string name="Timeline_Viewer3">Minimale Zeit</string>
@@ -107,10 +72,18 @@
 <string name="TimeFormat2">%H:%M:%S</string>
 
 <!-- buttons and other UI elements -->
-<string name="transferred">kBytes übertragen :</string>
 <string name="Sync_hint">Falls Du wieder synchronisieren willst, definiere Synchronisierungsdatum im Optionsmenü!</string>
+<string name="Pause">Pause</string>
+<string name="Resume">Weiter</string>
+<string name="Info">Info</string>
+<string name="Map_View">Kartenanblick</string>
+<string name="Satellite_View">Satelittenanblick</string>
+<string name="Toggle_Path">Wechsle Pfad</string>
 <string name="Set_Sync_Date">Setze Sync Datum</string>
+<string name="Back">Zurück</string>
 
+<string name="Camera_path_on">Wähle ein Bild vom Kameraverzeichnis</string>
+<string name="Camera_path_select">Wähle ein Bild vom Kameraverzeichnis um den korrekten Dateipfad zu bestimmen!</string>
 
 <!-- sensor descriptions and explanations -->
 <string name="AC_d">Aktivität</string>
@@ -177,16 +150,12 @@
 <string name="ML_e">Bestimmt das Album der momentan gespielten Musik.</string>
 <string name="MT_d">Momentanes Lied</string>
 <string name="MT_e">Bestimmt das Lied der momentan gespielten Musik.</string>
-<string name="KL_d">Tastatureingaben</string>
-<string name="KL_e">Loggt mit, wie oft der Nutzer die Löschen-Taste betätigt.</string>
 <string name="NO_d">Benachrichtigung</string>
 <string name="NO_e">Bestimmt Informationen über Benachrichtigungen von Skype und Google Hangout.</string>
 <string name="PH_d">Anrufliste</string>
 <string name="PH_e">Bestimmt Anrufe sowie deren Dauer.</string>
 <string name="TL_d">Textlänge</string>
 <string name="TL_e">Bestimmt die Länge jeder eingetippten Nachricht.</string>
-<string name="TS_d">Tippgeschwindigkeit</string>
-<string name="TS_e">Bestimmt die Tippgeschwindigkeit bei der Texteingabe.</string>
 <string name="AZ_d">Azimut</string>
 <string name="AZ_e">Bestimmt das Handys Azimut - der Winkel in Bezug zum magnetischen Pol.</string>
 <string name="PI_d">Neigung</string>
@@ -262,9 +231,11 @@
 
 <string name="debug_setting">false</string>
 <string name="activatedSensors">AC;AS;AF;Ba;BC;BM;CA;CR;CD;CL;CC;GI;GS;HU;PH;RO;PI;LI;Az;PR;PU;PD;TR;TU;NO;TL;Rm;Sc;IC;OC;SR;SS;TM;WC;VI</string>
-
 <string name="accessibility_titel">Bitte aktivieren Sie die Bedienhilfe</string>
 <string name="accessibility_message">Damit die Applikation korrekt arbeiten kann, würden wir Sie bitten die Bedienhilfe zu aktivieren</string>
 <string name="accessibility_goto">Einstellungen</string>
 <string name="uniqueID">Identifikationsnummer</string>
+<string name="accessibility_description">Bedienungshilfe für myStress Aufzeichnungen</string>
+<string name="accessibility_spotify">&#8212;</string>
+
 </resources>

@@ -180,30 +180,6 @@ public class myStress_record_tab extends Activity implements OnClickListener
     	    {	    	
     	    }
 		}
-		else
-		{
-	        // check if app has been updated, assuming that it is not the first start
-	        try
-	        {
-	        	// is stored version code different from the package's?
-		        if (this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode != settings.getInt("Version", 0))
-		        {
-		        	// get editor for settings
-		        	Editor editor = settings.edit();
-	    			// put version code into store
-	                editor.putInt("Version", this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode);
-	                
-	                // finally commit to storing values!!
-	                editor.commit();
-	                
-	                // and now show what's new
-	                PopUpManager.AboutDialog(getString(R.string.WhatsNew2) , getString(R.string.WhatsNew), this);
-		        }
-	        }
-	        catch(Exception e)
-	        {
-	        }  
-		}
     }
 
 	/** Called when the activity is resumed. 
