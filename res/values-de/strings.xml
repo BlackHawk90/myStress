@@ -1,48 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013, TecVis LP, support@tecvis.co.uk
-
-  This program is free software; you can redistribute it and/or modify it
-  under the terms of the GNU Lesser General Public License as published by
-  the Free Software Foundation as version 2.1 of the License.
-
-  This program is distributed in the hope that it will be useful, but WITHOUT
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
-  License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this library; if not, write to the Free Software Foundation, Inc.,
-  59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
- -->
 <resources>
 <string name="app_name">myStress</string>
-<string name="Copyright">&#169; 2004-2006 Nokia Corp.\n&#169; 2008-2012 Dirk Trossen; \n&#169; 2013-2014 TecVis LP
-\n\nKontakt: dot@tecvis.co.uk
-\n\nFolge Uns in Twitter unter @tecvis
-\n\nFacebook: http://www.facebook.com/tecvisuk
-\n\nAnleitung (in Englisch): http://tecvis.co.uk/software-2/myStress/
-\n\nmyStress Quellcode ist lizenziert unter der LGPL 2.0 license und ist auf Github verfügbar. Für mehr Informationen bzgl. der Lizenz, siehe <b>license.txt</b>!
-\n\nSpezielle Anerkennung für Dana Pavel, die durch die Benutzung von myStress für ihre Forschungsarbeit (http://dalore.me.uk/Dana/research-areas) viele neue Features beigetragen hat (wie z.B. die Widgets für Anmerkungen), sowohl als auch die Stabilität von myStress erhöht hat!
-\n\nDie Autoren sind nicht für Missbrauch von myStress verantwortlich, z.B. für Überwachungszwecke. Die Operation von myStress wird durch ein Symbol in der oberen Titelleiste angezeigt, um Benutzer auf Aufnahmen aufmerksam zu machen!
-</string>
+<string name="Copyright">Copyrightinhalt</string>
 <string name="tab_Record">Aufnahme</string>
-<string name="tab_Config">Konfig</string>
 <string name="tab_Sync">Sync</string>
-<string name="tab_Visualise">Visualisiere</string>
 <string name="main_About">Über</string>
 <string name="main_Sync">Synchronisiere Aufnahme</string>
 <string name="Help">Hilfe</string>
 <string name="recording_prompt">Typ der Aufnahme</string>
-<string name="main_Configure">Generelle Einstellungen</string>
-<string name="main_Configure2">Bestimme generelle Einstellungen wie z.B. Server IP, Überwachungsfunktion und andere.</string>
-<string name="GeneralSettings">\'Server\' bestimmt die Adresse des myStress Anwendungsservers (muss öffentlich sein), zusammen mit dem Port.\n\n
-\'Lokale Anzeige\' wechselt die Ausgabe von Sensordaten im lokalen Aufnahmemodus\n\n
-\'Lokale Speicherung\' wechselt die lokale Speicherung von Daten im lokalen Aufnahmemodus. \n\n
-\'Sensorengeschichte\' bestimmt die Anzahl der Daten, die im lokalen Aufnahmemodus angezeigt werden.\n\n
-\'Wakeup\' zeichnet nur dann auf, wenn andere Benutzeraktivitäten existieren.\n\n
-\'Erinnerungsintervall\' bestimmt das Intervall, dass den Benutzer an die Aufzeichnung erinnert durch Vibration und LED Anzeige (0 schaltet die Benachrichtungen ab)\n\n
-\'Debug\' schaltet Debugaufzeichnungen an/aus. \n</string>
 <string name="MapAbout">Zeigt einen Pfad der GPS Aufzeichnungen. Du kannst auf eine Markierung klicken für mehr Information. Du kannst die Karte auf Deine momentane oder die letzte bekannte Position zentrieren (durch die Knöpfe oben rechts). Du kannst auch zwischen Satelliten- und Kartendarstellung umschalten durch die Menüeinträge.</string>
 <string name="ManualAbout">Zeigt das myStress Benutzerhandbuch (leider nur in Englisch).\nDu brauchst Internetzugang, um die Seite anzuzeigen. Du kannst verschiedene Handbuchkapitel anklicken wie jede andere Webseite. Drücke die BACK Taste, um von Kapiteln zurück zu gehen oder das Manual zu verlassen im Übersichtskapitel.</string>
 <string name="RecordAbout">Starte eine Aufzeichnung und wähle den Modus der Aufzeichnung.\n\nDu kannst auch <b>Muster</b> laden oder löschen, die Du zuvor gespeichert hattest. Du kannst auch Shortcuts zu einem ausgewählten Muster erstellen. Diese Shortcuts werden auf dem Heimbildschirm dargestellt. Wenn Du auf ein Muster klickst, wird dieses automatisch geladen.\n\nZusätzlich zur Erstellung von eigenen Mustern, kannst Du auch Beispiele von unserem Server <b>herunterladen</b>.</string>
@@ -66,41 +31,6 @@
 <string name="Select">Wähle</string>
 <string name="Duration">Dauer</string>
 
-<string name="Getting_Started">Anfangen</string>
-<string name="Getting_Started2">Lokale Aufnahmen:\n
-- wähle \'Lifelogging\' für Lifelogging Einstellungen\n
-- drücke \'Shortcut\', um einen Shortcut auf dem Hauptbildschirm zu erstellen\n
-- plaziere die myStress Anmerkungen und Stimmungswidgets auf dem Hauptbildschirm für Anmerkungen\n
-- ändere gegenenfalls Einstellungen wie z.B. WiFi Namen zur Liste der adaptiven GPS Einstellungen hinzuzufügen!\n
-- starte myStress lokale Aufzeichnungen vom Hauptbildschirm mit dem erzeugten Shortcutsymbol!\n
-- für Visualisierungen der Aufzeichnungen, lade unsere Storica app herunter von http://play.google.com/store/apps/details?id=com.storica\n
-- für mehr Informationen, siehe http://tecvis.co.uk/software/storica/tips-for-recording\n\n
-Für entfernte Aufnahmen, lade den myStress Anwendungsserver vom Internet (siehe auf unsere Website) und lese das myStress Manual durch das Optionsmenü\n
-</string>
-
-<string name="ConnectGoogle">Google Account</string>
-<string name="ConnectGoogle2">Verbinde zu Google Account für GDrive Backup</string>
-<string name="ConnectGoogle3">Warte bitte um sich mit dem Google Konto zu verbinden!</string>
-<string name="ConnectGoogle4">Kann keine Google Kontoinformationen auf diesem Gerät finden!</string>
-<string name="ConnectGoogle5">Zugriff muss erlaubt werden, damit die Hochladefunktion funktionieren kann!</string>
-<string name="FolderGoogle">Hochladeverzeichnis</string>
-<string name="FolderGoogle2">Wähle das Verzeichnis im GDrive Hauptverzeichnis zum Hochladen - es wird angelegt, falls es nicht existiert. Diese Einstellung existiert für jedes Aufzeichnungsmuster!</string>
-<string name="Cannot_backup">Kann die Datenbank nicht sichern wenn myStress läuft!</string>
-<string name="Cannot_restore">Kann die Datenbank nicht wiederherstellen wenn myStress läuft!</string>
-<string name="Backup_recordings">Sicherung</string>
-<string name="Restore_recordings">Wiederherstellen</string>
-<string name="Starting_restore">Starte Wiederherstellung</string>
-<string name="Starting_backup">Starte Sicherung</string>
-<string name="Cannot_create_backup">Kann Sicherungsdatei nicht erstellen (möglicherweise ein Zugriffsfehler oder die externe Karte konnte nicht gefunden werden)!</string>
-<string name="Finished_backup">Sicherung erfolgreich beendet!</string>
-<string name="Backup_status">Sichere DB der Größe</string>
-<string name="Restore_status">Wiederherstellen DB der Größe</string>
-<string name="Index_DB">Datenbankindizierung</string>
-<string name="Index_DB_message">Indizieren der Datenbank beschleunigt Visualisierungen gewaltig, wird allerdings die Größe um ca 60% erhöhen! Du brauchst nur einmal zu indizieren.\n\nMöchtest Du fortfahren?</string>
-<string name="Cannot_index">Kann DB nicht indizieren (möglicherweise ein Zugriffsfehler oder die externe Karte konnte nicht gefunden werden)!</string>
-<string name="Cannot_restore2">Kann DB nicht wiederherstellen (möglicherweise ein Zugriffsfehler oder die externe Karte konnte nicht gefunden werden)!</string>
-<string name="Finished_indexing">Indizierung erfolgreich beendet!</string>
-<string name="Finished_restore">Wiederherstellen erfolgreich beendet!</string>
 <string name="sensed">aufgezeichnet</string>
 <string name="sensed2">mal\nLetzte Aufnahme um</string>
 <string name="sensed3">mit Wert:\n</string>
@@ -176,230 +106,11 @@ Für entfernte Aufnahmen, lade den myStress Anwendungsserver vom Internet (siehe
 <string name="Timeline_Viewer4">Maximale Zeit</string>
 <string name="TimeFormat2">%H:%M:%S</string>
 
-<!-- handler UIs -->
- 
-<string name="AudioHandlerUI_name">Audio Sampling</string>
-<string name="AudioHandlerUI_description">Umgebungsgeräusche (Pegel und Frequenz)</string>
-<string name="AudioHandlerUI_about">Zeichnet die Umgebungsgeräusche auf.\n\nThe Werte sind Frequenz oder Durchschnittspegel.\nDie Aufnahmerate und das Interval der Aufnahmen kann bestimmt, um den Batterieverbrauch zu optimisieren.</string>
-
-<string name="BeaconHandlerUI_name">Bluetooth Geräte</string>
-<string name="BeaconHandlerUI_description">Umgebene BT Geräte</string>
-<string name="BeaconHandlerUI_about">Zeichnet umgebene BT Geräte auf.\n\nDie Werte sind im Format MAC::Namen für jedes entdeckte Gerät.\nAlle Arten von Geräte werden versucht zu identifizieren.\nDer Benutzer kann gefragt werden, ob BT angeschaltet werden soll für den Fall dass es angeschaltet ist.</string>
-
-<string name="CalendarHandlerUI_name">Kalendar</string>
-<string name="CalendarHandlerUI_description">Ereignisse Deiner Kalendareinträge</string>
-<string name="CalendarHandlerUI_about">Liest Kalendareinträge von Deinem verfügbaren Kalendar!\nDu kannst die verschiedenen Kalendar auswählen, von denen myStress auszeichnen soll. Die Kalendareinträge werden regelmäßig abgefragt.</string>
-
-<string name="DeviceInfoHandlerUI_name">Geräte Informationen</string>
-<string name="DeviceInfoHandlerUI_description">Verschiedene handy-basierte Information wie Orientierung, RAM, Batterie etc etc</string>
-<string name="DeviceInfoHandlerUI_about">Liest verschiedene handy-basierte Sensoren und Systeminformationen wie RAM, Programme, Batterie etc.\n\nOrientierung ist nur unterstützt für Modelle mit Kompass.</string>
-
-<string name="EnvironmentalSensorsHandlerUI_name">Umwelt Sensoren</string>
-<string name="EnvironmentalSensorsHandlerUI_description">Liest verschiedene Umgebungsinformation, wie Licht, Barometer, und Wetterbedingungen am momentanen Standort</string>
-<string name="EnvironmentalSensorsHandlerUI_about">Liest verschiedene Umgebungsinformation, wie Licht, Barometer, und Wetterbedingungen (Temperatur, Luftfeuchtigkeit, &#8230;)) am momentanen Standort durch einen Internet-basierten Wetterdienst.</string>
-
-<string name="EventButtonHandlerUI_name">Ereignis Knopf</string>
-<string name="EventButtonHandlerUI_description">Ein Knopf für den Heimschirm, der bedeutungsvolle Ereignisse markieren kann.</string>
-<string name="EventButtonHandlerUI_about">Erlaubt die Markierung von bedeutungsvollen Ereignisses durch ein Widget auf dem Heimschirm.\n\nDu kannst eigene bedeutungsvolle Beschreibungen eingeben für das markierte Ereignis.\nmyStress speichert die zuletzt definierten Beschreibungen, wobei die maximale Anzahl hier bestimmt werden kann.</string>
-
-<string name="HeartMonitorHandlerUI_name">Pulsmonitor</string>
-<string name="HeartMonitorHandlerUI_description">HxM BT Pulsmonitor von Zephyr, der Puls und momentane Geschwindigkeit unterstützt</string>
-<string name="HeartMonitorHandlerUI_about">Liest Pulswerte vom Zephyr Pulsmonitor\n\nDu kannst das Lesen hier einschalten und auch das Gerät auswählen.</string>
-
-<string name="LocationHandlerUI_name">Standort</string>
-<string name="LocationHandlerUI_description">Verschiedene Standortquellen wie GPS, Wifi und Mobilinformationen</string>
-<string name="LocationHandlerUI_about">Liest standortbezogene Information.\n\nDie Werte sind Standortinformation über GPS, WiFi und Mobilfunkinformationen.\nDas letztere ist eine einfache Zahl, GPS ist Länge/Breite und WLAN kann die MAC Adresse, SSID und Signalstärke von gefundenen Zugangspunkten lesen. \n\nDie Eintellungen erlauben verschiedene Abfrageintervalle für GPS and WiFi zu wählen. Außerdem kannst Du auch den Assisted-GPS Modus zwingen, regelmäßig die neuesten Daten vom Internet zu laden.</string>
-
-<string name="MediaWatcherHandlerUI_name">Mediumverzeichnisse</string>
-<string name="MediaWatcherHandlerUI_description">Beobachtet verschiedene Mediumverzeichnisse, wie für Kamera, Musik, &#8230;</string>
-<string name="MediaWatcherHandlerUI_about">Beobachtet verschiedene Mediumverzeichnisse.\n\nKamera, Musik, und andere Verzeichnisse kann bzl. dem Erstellen von neuen Dateien beobachtet werden (wie z.B. bei dem Knipsen eines Bildes).\nUm den richtigen Kamerapfad einzustellen, gehe in die Galerie und zeige ein Bild an dass Du geknipst hast. Dann zeige die \'Details\' an und schaue nach dem \'Pfad\' Eintrag. Wähle jetzt den gesamten Pfad (ohne den Dateinamen) für den Eintrag des Kamerapfades!</string>
-
-<string name="NotificationHandlerUI_name">IM/Spotify Benachrichtigungen</string>
-<string name="NotificationHandlerUI_description">Zeichnet Benachrichtigungen von Instant Messaging Programmen (momentan nur Skype und Google Talk) udn Spotify auf</string>
-<string name="NotificationHandlerUI_about">Zeichnet Benachrichtigungen von Instant Messaging Programmen auf.\n\nMomentan, nur Skype und Google Talk werden unterstützt. Skype gibt nur den Namen Deines Kontakts an, während Google Talk den Namen und die Nachricht aufzeichnet\nSpotify unterstützt die Aufzeichung von Song und Artist (keine Albuminformationen werden unterstützt).\nDer Sensor ist als sog. Accessibility Dienst implementiert. Daher musst Du diesen Dienst separat einschalten in den Systemeinstellungen von Android (der Entrag in den Einstellungen hier wird Dich automatisch zu den Systemeinstellungen führen).</string>
-
 <!-- buttons and other UI elements -->
-<string name="Backup">Sichern</string>
-<string name="Restore">Wiederherstellen</string>
-<string name="Index">Index</string>
-<string name="Puls">Puls:</string>
-<string name="Select_template_and_action">Wähle Muster und Aktion</string>
-<string name="Delete">Lösche</string>
-<string name="Shortcut">Shortcut</string>
-<string name="Download">Laden</string>
-<string name="Values"># Werte:</string>
 <string name="transferred">kBytes übertragen :</string>
 <string name="Sync_hint">Falls Du wieder synchronisieren willst, definiere Synchronisierungsdatum im Optionsmenü!</string>
-<string name="Save_as_Template">Speichere als Muster</string>
-<string name="Pause">Pause</string>
-<string name="Resume">Weiter</string>
-<string name="Exit">Verlassen</string>
-<string name="Select_all">Alle auswählen</string>
-<string name="Unselect_all">Auswahlen löschen</string>
-<string name="Info">Info</string>
-<string name="DB_Admin">DB Admin</string>
-<string name="Manual">Anleitung</string>
-<string name="Rate">Bewerte myStress</string>
-<string name="Map_View">Kartenanblick</string>
-<string name="Satellite_View">Satelittenanblick</string>
-<string name="Toggle_Path">Wechsle Pfad</string>
 <string name="Set_Sync_Date">Setze Sync Datum</string>
-<string name="Back">Zurück</string>
-<string name="Forward">Vorwärts</string>
 
-<!-- general settings preference elements -->
-<string name="General_Settings">myStress Generelle Einstellungen</string>
-<string name="Remote_Settings">myStress Remote Einstellungen</string>
-<string name="Address_server">Adresse des myStress Anwendungsservers</string>
-<string name="Server_name">Servername</string>
-<string name="Port_server">Port des myStress Anwendungsservers</string>
-<string name="Port_number">Portnummer</string>
-<string name="Local_Settings">myStress Lokale Einstellungen</string>
-<string name="Local_Display">Lokale Anzeige</string>
-<string name="Local_Display_on">Zeige Werte der Sensoren an die Du ausgewählt hast</string>
-<string name="Local_Display_off">Zeige keine Werte an, nur die Anzahl der Messungen</string>
-<string name="Local_Storage">Lokaler Speicher</string>
-<string name="Local_Storage_on">Speichere Werte der Sensoren in interner SQLite Datenbank</string>
-<string name="Local_Storage_off">Speichere keine Sensorenwerte</string>
-<string name="Sync_Settings">Synchronisierungseinstellungen</string>
-<string name="UploadFrequency">Frequenz des Hochladens</string>
-<string name="UploadFrequency_on">Bestimme wie häufig Daten zu GDrive hochgeladen werden sollen (oder auch gar nicht!)</string>
-<string name="Upload_Wifi">Nur über Wifi hochladen</string>
-<string name="myStress_intents">myStress Intents</string>
-<string name="myStress_intents_on">Sende Systemintents für, z.B. externe Regelmachine wie myStress Ruler</string>
-<string name="myStress_intents_off">Sende keine Systemintents</string>
-<string name="Wakeup">Aufwecken</string>
-<string name="Wakeup_on">Wecke Handy während der Auszeichnung nur wenn andere Benutzeraktivität existiert</string>
-<string name="Wakeup_off">Handy geht nicht schlafen (zeichnet ununterbrochen auf)</string>
-<string name="Battery_kill">Batteriegrenze für Abbruch [%]</string>
-<string name="Battery_kill_on">Bricht myStress Aufzeichnung ab, wenn Batterie unter angegebene Grenze sinkt um Batterie zu sparen (0 = ausschalten)</string>
-<string name="Reminder_Settings">Erinnergungseinstellungen</string>
-<string name="Reminder_Interval">Erinnerungsintervall [s]</string>
-<string name="Reminder_Interval_on">Intervall für Erinnerungen das myStress aufzeichnet (0 = ausschalten)</string>
-<string name="Vibrate">Vibration</string>
-<string name="Vibrate_on">Vibration als Erinnerung</string>
-<string name="Vibrate_off">Keine Vibration</string>
-<string name="Lights">LED</string>
-<string name="Lights_on">Benutze Benachrichtungslicht als Erinnerung</string>
-<string name="Lights_off">Benutze Benachrichtungslicht nicht als Erinnerung</string>
-<string name="Color_Code">LED Farbcode</string>
-<string name="Color_Code_on">Farbcode der LED Benachrichtigung</string>
-<string name="Debug">Debug</string>
-<string name="Debug_on">Schreibe Debugnachrichten in myStress_debug.txt</string>
-<string name="Debug_off">Keine Debugnachrichten</string>
-
-<!-- handler settings preference elements -->
-<string name="Sampling_Rate">Samplingrate [Hz]</string>
-<string name="Sampling_Rate_on">Samplingrate für die Geräuschsaufnahmen in Hertz</string>
-<string name="Choose_Sampling_Rate">Wähle Samplingrate</string>
-<string name="Audio_Interval">Audiointervall [s]</string>
-<string name="Audio_Interval_on">Intervall mit dem Audio gemessen wird in Sekunden</string>
-<string name="Sound_Adjustment">Audiodruckanpassung [dB]</string>
-<string name="Sound_Adjustment_on">Anpassung in dB für Audiodruckpegel</string>
-<string name="Enable_BT">BT Verwendung</string>
-<string name="Enable_BT_on">Schalte BT ein, falls ausgeschaltet</string>
-<string name="Enable_BT_off">Schalte BT nicht ein</string>
-<string name="Ask_before_enabling">Frage vor dem Einschalten</string>
-<string name="Ask_before_enabling_on">Frage um Benutzererlaubnis um BT einzuschalten</string>
-<string name="Ask_before_enabling_off">Schalte BT ein ohne ausdrückliche Benutzererlaubnis</string>
-<string name="BT_Interval">BT Intervall [s]</string>
-<string name="BT_Interval_on">Intervall mit dem BT abgefragt wird in Sekunden</string>
-<string name="Calendar_Selection">Kalendarauswahl</string>
-<string name="Calendar_Selection_on">Wähle die Kalendar, die beobachtet werden sollen</string>
-<string name="Calendar_Selection_title">Wähle Kalendar</string>
-<string name="Orientation_Interval">Intervall für Orientisierungssensor [s]</string>
-<string name="Orientation_Interval_on">Abfrageintervall für Orientisierungssensor in Sekunden</string>
-<string name="Proximity_Interval">Intervall für Proximitysensor[s]</string>
-<string name="Proximity_Interval_on">Abfrageintervall für Proximitysensor in Sekunden</string>
-<string name="System_Poll_Interval">System Intervall [s]</string>
-<string name="System_Poll_Interval_on">Abfrageintervall für System Information wie RAM, Programme, etc</string>
-<string name="Sensor_Interval">Sensoren Intervall [s]</string>
-<string name="Sensor_Interval_on">Abfrageintervall für Licht und Barometer Sensoren in Sekunden</string>
-<string name="Weather_Interval">Wetterintervall [min]</string>
-<string name="Weather_Interval_on">Abfrageintervall für Wetterabfragen in Minuten</string>
-<string name="GPS_Accuracy">GPS Genauigkeit [m]</string>
-<string name="GPS_Accuracy_on">Erneuere Wetterinformation nachdem eine gewisse Entfernung überwunden wurde (oder immer)</string>
-<string name="GPS_Accuracy_on2">Genauigkeit für GPS in Meter</string>
-<string name="GPS_Accuracy_title">Entfernungsgenauigkeit</string>
-<string name="Event_Descriptions">Beschreibungen für Ereignisse [1..50]</string>
-<string name="Event_Descriptions_on">Maximale Anzahl von Ereignissbeschreibungen die gespeichert werden</string>
-<string name="Sort_Annotations">Sortiere Beschreibungen</string>
-<string name="Sort_Annotations_on">Sortiere Beschreibungen in der Liste von Ereignissen</string>
-<string name="Sort_Annotations_off">Keine Sortierung der Beschreibungen in der Liste von Ereignissen</string>
-<string name="Enable_Heartmonitor">Benutzung des Pulsmonitors</string>
-<string name="Enable_Heartmonitor_on">Benutze Pulsmonitor mit dem Versuch beim myStress Start zu verbinden</string>
-<string name="Enable_Heartmonitor_off">Benutze den Pulsmonitor nicht!</string>
-<string name="Enable_QSensor">Benutzung des Q Sensors</string>
-<string name="Enable_qsensor_on">Benutze Q Sensor mit dem Versuch beim myStress Start zu verbinden</string>
-<string name="Enable_qsensor_off">Benutze den Pulsmonitor nicht!</string>
-<string name="Device_Selection">Geräteauswahl</string>
-<string name="Device_Selection_on">Wähle eines der möglichen Geräte, dass benutzt werden soll. Du musst mit dem Gerät zumindest einmal verbunden gewesen sein über die Systemeinstellungen! Stelle auch sicher, dass das Gerät eingeschaltet ist wenn Du die myStress Aufnahmen startest.</string>
-<string name="Device_Selection_title">Wähle Gerät</string>
-<string name="Averaging_Window">Durchschnittsfenster</string>
-<string name="Averaging_Window_on">Zeitfenster für Durchschnittswerte der Pulsmessungen., glättet die Werte und verringert die Anzahl der Aufzeichnungen.</string>
-<string name="Averaging_Window_title">Wähle Fenster [s]</string>
-<string name="Enable_GPS">GPS</string>
-<string name="Enable_GPS_on">GPS soll in Sensorliste erscheinen</string>
-<string name="Enable_GPS_off">Benutze kein GPS</string>
-<string name="Use_Network_Location">Netzwerkinformation für Standorte</string>
-<string name="Use_Network_Location_on">Benutzt WiFi und Netzwerkinformation für Standorte</string>
-<string name="Use_Network_Location_off">Benutze nur GPS</string>
-<string name="AdaptiveGPS">Adaptives GPS</string>
-<string name="AdaptiveGPS_on">Benutzt WiFi um GPS zeitweilig abzuschalten, um die Batterielebenszeit zu erhöhen. Dies kann zu Verzögerungen führen, den GPS Standort zu bestimmen, da GPS wieder neustarten muss.</string>
-<string name="AdaptiveGPS_off">Benutzt keine WiFi Informationen, um GPS zeitweilig abzuschalten.</string>
-<string name="AdaptiveGPS_Selection">WiFi Auswahl</string>
-<string name="AdaptiveGPS_Selection_on">Wähle WiFi Zugangspunkte in deren Nähe GPS Aufzeichnungen zeitweilig ausgeschaltet wird. Du musst den WI Sensor ausgewählt haben für den adaptiven Modus.</string>
-<string name="AdaptiveGPS_Hitlist">Meistbesuchte WiFis</string>
-<string name="AdaptiveGPS_Hitlist_on">Zeigt die meistbesuchten WiFis, um die adaptive GPS Funktion zu optimieren.</string>
-<string name="AdaptiveGPS_Hitlist_Click">Klicke länger auf irgendeinen Eintrag um zu sehen wie oft dieser WiFi Standort besucht wurde.</string>
-<string name="AdaptiveGPS_Selection_title">Wähle WiFi</string>
-<string name="AdaptiveGPS_NoWifi">Verbinde zu mindestens einem WiFi!</string>
-<string name="AdaptiveGPS_NothingFound">Kann keine jüngsten WiFi Aufzeichnungen finden - zeichne den WI Sensor für eine Zeit auf!</string>
-<string name="GPS_Interval">GPS Intervall [s]</string>
-<string name="GPS_Interval_on">Abfrageintervall für GPS Standorte in Sekunden</string>
-<string name="AGPS_Refresh_Interval">AGPS Intervall [h]</string>
-<string name="AGPS_Refresh_Interval_on">Intervall, um eine AGPS Erneuerung zu erzwingen (0 = ausschalten)</string>
-<string name="Enable_WiFi">WiFi Benutzung</string>
-<string name="Enable_WiFi_on">Schalte WiFi durch myStress ein, falls es ausgeschaltet ist</string>
-<string name="Enable_WiFi_off">Schalte WiFi nicht ein!</string>
-<string name="Prevent_WiFi_Sleep">WiFi Schlafmodus</string>
-<string name="Prevent_WiFi_Sleep_on">Verhindere WiFi Schlafmodus</string>
-<string name="Prevent_WiFi_Sleep_off">Lasse WiFi schlafen, wie in den Systemeinstellungen bestimmt</string>
-<string name="WiFi_Interval">WiFi Intervall [s]</string>
-<string name="WiFi_Interval_on">Abfrageintervall für WiFi Scans in Sekunden</string>
-<string name="Enable_Accessibility">Accessibility</string>
-<string name="Enable_Accessibility_on">Springt zu den Systemeinstellungen, um die Bedienungshilfen für myStress einzuschalten. Dieser wird für IM Nachrichten benötigt.</string>
-<string name="accessibility_description">Bedienungshilfe für myStress Aufzeichnungen mit Zugriff auf Google Talk und Skype Benachrichtigungen durch den NO Sensor. Spotify ist auch unterstützt durch die MP/MA/MT Sensoren.</string>
-<string name="accessibility_spotify">&#8212;</string>
-
-<string name="Camera">Kamera</string>
-<string name="Camera_on">Beobachte Kameraverzeichnis</string>
-<string name="Camera_off">Keine Beobachtung des Kameraverzeichnisses</string>
-<string name="Camera_Default">Kamerapfad</string>
-<string name="Camera_Default_on">Benutze den Standardpfad des Systems</string>
-<string name="Camera_Default_off">Definiere eigenen Kamerapfad</string>
-<string name="Camera_path">Bestimme Kamerapfad</string>
-<string name="Camera_path_on">Wähle ein Bild vom Kameraverzeichnis</string>
-<string name="Camera_path_select">Wähle ein Bild vom Kameraverzeichnis um den korrekten Dateipfad zu bestimmen!</string>
-<string name="Camera_path_select2">Konnte das Verzeichnis nicht bestimmen! Hast Du ein Bild vom Handy ausgewählt?</string>
-
-<string name="Pictures">Bilder</string>
-<string name="Pictures_on">Beobachte Bilderverzeichnis</string>
-<string name="Pictures_off">Keine Beobachtung des Bilderverzeichnisses</string>
-<string name="Pictures_path">Bilderpfad</string>
-<string name="Pictures_path_on">Bestimme den Pfad für Bilder</string>
-
-<string name="Videos">Video</string>
-<string name="Videos_on">Beobachte Videoverzeichnis</string>
-<string name="Videos_off">Keine Beobachtung des Videoverzeichnisses</string>
-<string name="Videos_path">Videopfad</string>
-<string name="Videos_path_on">Bestimme den Pfad für Videos</string>
-
-<string name="Music">Musik</string>
-<string name="Music_on">Beobachte Musikverzeichnis</string>
-<string name="Music_off">Keine Beobachtung des Musikverzeichnisses</string>
-<string name="Music_path">Musikpfad</string>
-<string name="Music_path_on">Bestimme den Pfad für Musik</string>
 
 <!-- sensor descriptions and explanations -->
 <string name="AC_d">Aktivität</string>
@@ -549,47 +260,6 @@ Für entfernte Aufnahmen, lade den myStress Anwendungsserver vom Internet (siehe
 <string name="WC_d">WLAN verbunden</string>
 <string name="WC_e">Bestimmt ob das Handy momentan an WiFi angeschlossen ist (1, wenn ja, 0, wenn nicht).</string>
 
-<!-- activity labels -->
-<string name="myStress_Timeline">myStress Zeitverlauf</string>
-<string name="myStress_Mood_Selector">myStress Stimmungsauswahl</string>
-<string name="myStress_Event_Selector">myStress Ereignisauswahl</string>
-<string name="myStress_Heartrate">myStress Puls</string>
-<string name="myStress_BloodPressure">myStress Blutdruck</string>
-<string name="myStress_Preferences">myStress Einstellungen</string>
-<string name="myStress_Events">myStress Ereignisse</string>
-
-<!-- mood labels -->
-<string name="Very_Happy">Sehr glücklich</string>
-<string name="Happy">Glücklich</string>
-<string name="Feeling_Good">Gutes Gefühl</string>
-<string name="Positively_Excited">Positiv Aufgeregt</string>
-<string name="Confused">Verwirrt</string>
-<string name="Anxious">Ängstlich</string>
-<string name="Doubtful">Zweifelnd</string>
-<string name="Not_Sure">Nicht sicher</string>
-<string name="Upset">Verärgert</string>
-<string name="Not_Happy">Nicht glücklich</string>
-<string name="Annoyed">Sauer</string>
-<string name="Shocked">Schockiert</string>
-<string name="Tired">Müde</string>
-<string name="Sad">Traurig</string>
-<string name="Very_Sad">Sehr traurig</string>
-<string name="Angry">Sauer</string>
-<string name="Ashamed">Beschämt</string>
-<string name="Bored">Gelangweilt</string>
-<string name="Disappointed">Enttäuscht</string>
-<string name="Embarrassed">Peinlich</string>
-<string name="Giggly">Kichernd</string>
-<string name="Scared">Angstvoll</string>
-<string name="Sick">Krank</string>
-<string name="Sleepy">Schläfrig</string>
-<string name="Staring">Starren</string>
-<string name="Surprised">Überrascht</string>
-<string name="Worried">Besorgt</string>
-
-<!-- visualisation tab -->
-<string name="Get_storica">Hole Dir Storica!</string>
-<string name="Storica_description">Zusätzlich zu den kurzzeitgen Visualisierungen in myStress kannst Du Deine myStress Aufnahmen auch mit engagierten Multimediagrafiken verarbeiten und anzeigen lassen. Dazu benötigst Du die Storica Anwendung - drücke auf das Bild unten und lade es vom PlayStore!</string>
 <string name="debug_setting">false</string>
 <string name="activatedSensors">AC;AS;AF;Ba;BC;BM;CA;CR;CD;CL;CC;GI;GS;HU;PH;RO;PI;LI;Az;PR;PU;PD;TR;TU;NO;TL;Rm;Sc;IC;OC;SR;SS;TM;WC;VI</string>
 

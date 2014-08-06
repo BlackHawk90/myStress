@@ -1,10 +1,14 @@
-README for AIRS (Android Remote Sensing Platform)
+README for myStress
 --------------------------------------------------------------------------
 
-This repository contains the source code (and compiled APK) of the Android Remote Sensing (AIRS) platform. The platform allows for recording a variety of phone-based as well as attached sensor information. It originated from the Nokia Remote Sensing (NORS) platform which is hosted at http://sourceforge.com/projects/nors
+This repository contains the source code (and compiled APK) of myStress. The Application allows the recording of a variety of phone-based, application-based as well as attached sensor information. 
 
-Currently, the application server for the remote sensing part of AIRS is not yet included in the distributed - please use the NORS application server which works with AIRS!
+It is based on the Android Remote Sensing (AIRS) platform which is hosted at https://github.com/dirktrossen/AIRS and the funf Open Sensing Framework which is hosted at https://code.google.com/p/funf-open-sensing-framework/
 
-Refer to the ReleaseNotes.txt for changes, starting from NORS
+This Application was developed at the FIM Research Center in Cooperation with the Elite Graduate Program Finance & Information Management. 
+
+The objective of this research process is the unobtrusivly recognition and prediction of stress.
+
+Refer to the ReleaseNotes.txt for changes
 
 Refer to the license.txt for the GPL/LGPL license that applies for this project!

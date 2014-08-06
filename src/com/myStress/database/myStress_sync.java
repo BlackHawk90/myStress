@@ -1,25 +1,10 @@
-/*
-Copyright (C) 2012, Dirk Trossen, myStress@dirk-trossen.de
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation as version 2.1 of the License.
-
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
-License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
-*/
 package com.myStress.database;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -58,6 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myStress.R;
+import com.myStress.helper.PopUpManager;
 
 /**
  * Activity to sync the myStress database
@@ -235,8 +221,7 @@ public class myStress_sync extends Activity implements OnClickListener
         switch (item.getItemId()) 
         {
         case R.id.sync_about:
-			//FIXME: Popup
-//    		HandlerUIManager.AboutDialog(getString(R.string.main_Sync), getString(R.string.SyncAbout));
+        	PopUpManager.AboutDialog(getString(R.string.main_Sync), getString(R.string.SyncAbout),this);
     		return true;
         case R.id.sync_setdate:
         	// if regular uploads are selected, do not allow for changing sync date!
@@ -479,7 +464,7 @@ public class myStress_sync extends Activity implements OnClickListener
 	     {
 	    	String query;
 			int t_column, s_column, v_column;
-			int uploadCounter = Integer.parseInt(settings.getString("UploadCounter", "1"));
+			String uploadCounter = new DecimalFormat("000").format(Double.parseDouble(settings.getString("UploadCounter", "1")));
 			Cursor values;
 			String value, symbol;
 			String line_to_write;
@@ -621,8 +606,6 @@ public class myStress_sync extends Activity implements OnClickListener
 		    			
 		    			// now move to next row
 		    			values.moveToNext();
-		    			
-		    			at_least_once_written = true;
 		    		}	
 		    		
 		    		// increase counter
@@ -799,8 +782,6 @@ public class myStress_sync extends Activity implements OnClickListener
 		    			
 		    			// now move to next row
 		    			values.moveToNext();
-		    			
-		    			at_least_once_written = true;
 		    		}	
 		    				        
 			        // close values to free up memory

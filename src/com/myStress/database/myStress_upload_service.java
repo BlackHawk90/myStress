@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -66,7 +67,7 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 	private String currentFilename;
 	// GDrive folder
 	private String GDrive_Folder;
-	private int uploadCounter;
+	private String uploadCounter;
 	
 	public class LocalBinder extends Binder {
 		myStress_upload_service getService() {
@@ -116,7 +117,8 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 		editor = settings.edit();
 		
 		//Get next UploadCounter
-		uploadCounter = Integer.parseInt(settings.getString("UploadCounter", "1"));
+		uploadCounter = new DecimalFormat("000").format(Double.parseDouble(settings.getString("UploadCounter", "1")));
+
 
 		// get settings for upload preference
 		wifi_only = settings.getBoolean("UploadWifi", true);

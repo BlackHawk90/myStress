@@ -1,19 +1,3 @@
-/*
-Copyright (C) 2012-2013, Dirk Trossen, myStress@dirk-trossen.de
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation as version 2.1 of the License.
-
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
-License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
-*/
 package com.myStress;
 
 import java.io.File;
@@ -52,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myStress.database.myStress_upload;
+import com.myStress.helper.PopUpManager;
 import com.myStress.helper.SerialPortLogger;
 
 /**
@@ -108,52 +93,11 @@ public class myStress_record_tab extends Activity implements OnClickListener
         main_spinner = (Spinner)findViewById(R.id.spinner_record);
                              
         // now initialise the upload timer
-        myStress_upload.setTimer(getApplicationContext());
-        
+        myStress_upload.setTimer(getApplicationContext());    
+
 	    // start service and connect to it -> then discover the sensors
         getApplicationContext().startService(new Intent(this, myStress_local.class));
-        getApplicationContext().bindService(new Intent(this, myStress_local.class), mConnection, Service.BIND_AUTO_CREATE);   
-        
-        // copy default template 
-		if (settings.getBoolean("myStress_local::copy_template", false) == false)
-		{
-			try
-			{
-		        File external_storage = getExternalFilesDir(null);
-		        if (external_storage != null)
-		        {
-	            	String dirPath = external_storage.getAbsolutePath() + "/" + "templates";
-	            	File shortcutPath = new File(dirPath);
-	            	if (!shortcutPath.exists())
-	            		shortcutPath.mkdirs();
-
-					// copy default template		
-	                InputStream src = getAssets().open("Lifelogging");
-					FileOutputStream dst = new FileOutputStream(new File(dirPath, "Lifelogging"));
-
-					int copy;
-					do
-					{
-						copy = src.read();
-						if (copy != -1)
-							dst.write(copy);
-					}while(copy != -1);
-	                src.close();
-	                dst.close();	 	                
-		        }
-			}
-			catch(Exception e)
-			{
-				Log.e("myStress", e.toString());
-			}
-			// clear persistent flag
-           	Editor editor = settings.edit();
-           	editor.putBoolean("myStress_local::copy_template", true);
-            // finally commit to storing values!!
-            editor.commit();           
-		}       
-
-  
+        getApplicationContext().bindService(new Intent(this, myStress_local.class), mConnection, Service.BIND_AUTO_CREATE);     
 
 		// check if persistent flag is running, indicating the myStress has been running (and would re-start if continuing)
 		if (settings.getBoolean("myStress_local::running", false) == true)
@@ -253,18 +197,13 @@ public class myStress_record_tab extends Activity implements OnClickListener
 	                editor.commit();
 	                
 	                // and now show what's new
-	                //FIXME Popup einbauen
-//	    			HandlerUIManager.AboutDialog(getString(R.string.WhatsNew2) , getString(R.string.WhatsNew));
+	                PopUpManager.AboutDialog(getString(R.string.WhatsNew2) , getString(R.string.WhatsNew), this);
 		        }
 	        }
 	        catch(Exception e)
 	        {
 	        }  
 		}
-		
-		int uploadIntervall = Integer.parseInt(settings.getString("UploadFrequency", "30"));
-		if(uploadIntervall != 30)
-			main_spinner.setSelection(1);
     }
 
 	/** Called when the activity is resumed. 
@@ -341,24 +280,21 @@ public class myStress_record_tab extends Activity implements OnClickListener
         case R.id.main_copyright:
     		try
     		{
-    			//FIXME: Popup
-//    			HandlerUIManager.AboutDialog("myStress V" + this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName , getString(R.string.Copyright) + getString(R.string.ReleaseNotes));
+    			PopUpManager.AboutDialog("myStress V" + this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName , getString(R.string.Copyright) + getString(R.string.ReleaseNotes), this);
     		}
     		catch(Exception e)
     		{
     		}
     		break;
         case R.id.main_about:
-			//FIXME: Popup
-//			HandlerUIManager.AboutDialog(getString(R.string.Help) , getString(R.string.RecordAbout));
+        	PopUpManager.AboutDialog(getString(R.string.Help) , getString(R.string.RecordAbout), this);
 			break;
         case R.id.main_uniqueID:
-			//FIXME: Popup
-//        	HandlerUIManager.AboutDialog(getString(R.string.uniqueID) , ((TelephonyManager)getApplicationContext()
-//    				.getSystemService(TELEPHONY_SERVICE))
-//    				.getDeviceId()
-//    				.hashCode()
-//    				+"");
+        	PopUpManager.AboutDialog(getString(R.string.uniqueID) , ((TelephonyManager)getApplicationContext()
+    				.getSystemService(TELEPHONY_SERVICE))
+    				.getDeviceId()
+    				.hashCode()
+    				+"",this);
         	break;
         }
         return false;
