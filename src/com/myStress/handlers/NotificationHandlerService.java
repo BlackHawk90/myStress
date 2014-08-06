@@ -1,6 +1,22 @@
+/*
+Copyright (C) 2013, TecVis LP, support@tecvis.co.uk
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation as version 2.1 of the License.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this library; if not, write to the Free Software Foundation, Inc.,
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+*/
 package com.myStress.handlers;
 
-import java.net.URL;
+//import java.net.URL;
 import java.net.URLEncoder;
 
 import org.apache.http.HttpEntity;
@@ -10,9 +26,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+//import org.w3c.dom.Document;
+//import org.w3c.dom.Node;
+//import org.w3c.dom.NodeList;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
@@ -35,6 +51,7 @@ import com.myStress.R;
  */
 public class NotificationHandlerService extends AccessibilityService
 {	
+	NotificationHandlerService service;
 	boolean started = true;
 //	boolean typing = false;
 	boolean newText = false;
@@ -42,7 +59,7 @@ public class NotificationHandlerService extends AccessibilityService
 //	int typedChars;
 //	int maxTextLength;
 	String typedText;
-	boolean sending1 = false, sending2 = false;
+	boolean wasending1 = false, wasending2 = false, sending = false, mailsending = false;
 	boolean sent = false;//, old = false;
 //	boolean sending = false, sent = false, clicked = false;
 //	double sendingTimeout;
@@ -51,7 +68,6 @@ public class NotificationHandlerService extends AccessibilityService
 	String alchemyApiKey = "d8c9013818eb2aeb7baa7ad558f7487db4ded10c";
 	AlchemyAPI api = AlchemyAPI.GetInstanceFromString(alchemyApiKey);
 	
-	Context context2;
 	
 	/**
 	 * Called when an accessibility event occurs - here, we check the particular component packages that fired the event, filtering out the ones we support
@@ -62,8 +78,10 @@ public class NotificationHandlerService extends AccessibilityService
 	public void onAccessibilityEvent(AccessibilityEvent event)
 	{
 		int eventType = event.getEventType();
+		String packageName = event.getPackageName().toString();
+		String className = event.getClassName().toString();
 		
-    	Log.e("myStress", "notification: " + event.getPackageName().toString() + ", " + eventType + ", " + event.getClassName());
+    	Log.e("myStress", "notification: " + packageName + ", " + eventType + ", " + className);
 	    if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED){
 	    	processNotification(event);
 	    }
@@ -73,13 +91,29 @@ public class NotificationHandlerService extends AccessibilityService
 	    	String text = event.getText().toString();
 	    	String beforeText = event.getBeforeText().toString();
 	    	text = text.substring(1, text.length()-1);
-
-			if(sending1 && text.length() == 1){//< typedText.length()){
-		    	sending2 = true;
-		    	sendButtonClicked();
-		    	sent = true;
+	    	
+			if(packageName.equals("com.whatsapp")){
+				if(wasending1 && text.length() == 1){//< typedText.length()){
+			    	wasending2 = true;
+			    	sendButtonClicked(packageName);
+				}
 			}
-			else sending1 = false;
+			else if(packageName.equals("com.facebook.orca")){
+				wasending1 = false;
+			}
+			else if(packageName.equals("com.facebook.katana")){
+				wasending1 = false;
+			}
+			else if(packageName.equals("com.android.email")){
+				wasending1=false;
+			}
+			else{
+				wasending1 = false;
+				if(text.length() == 0){
+					sending = true;
+					sendButtonClicked(packageName);
+				}
+			}
 	    	
 	    	boolean del;
 	    	int length_diff = text.length()-beforeText.length();
@@ -112,34 +146,54 @@ public class NotificationHandlerService extends AccessibilityService
 	    	}
 	    }
 	    else if(eventType == AccessibilityEvent.TYPE_VIEW_CLICKED){
-	    	if(event.getPackageName().toString().compareTo("com.whatsapp") == 0){
-	    		String className = event.getClassName().toString();
+	    	if(packageName.equals("com.whatsapp")){
 	    		if(className.equals("android.widget.ImageButton")){
-    				sending1 = true;
+    				wasending1 = true;
 		    	}
 	    		else if(className.equals("com.whatsapp.EmojiPicker$EmojiImageView")){
-	    			sending1 = false;
-	    			sending2 = false;
+	    			wasending1 = false;
+	    			wasending2 = false;
 	    		}
 	    		else if(className.equals("android.widget.ListView") || className.equals("android.widget.ImageView"));
 	    		else{
-	    			if(sending1) sending2 = true;
+	    			if(wasending1) wasending2 = true;
 	    		}
 	    	}
 	    	else{
-	    		if(sending1) sending2 = true;
+	    		if(wasending1) wasending2 = true;
+	    		
+		    	if(packageName.equals("com.facebook.orca")){
+		    		if(className.equals("com.facebook.orca.compose.ComposerButton")){
+		    			sending = true;
+		    			sendButtonClicked(packageName);
+		    		}
+		    	}
+		    	else if(packageName.equals("com.facebook.katana")){
+		    		if(className.equals("com.facebook.widget.text.SimpleVariableTextLayoutView")){
+		    			sending = true;
+		    			sendButtonClicked(packageName);
+		    		}
+		    	}
+		    	else if(packageName.equals("com.android.email")){
+		    		if(className.equals("android.widget.ImageButton")){
+		    			if(!event.getText().toString().equals("")){
+		    				sending = true;
+		    				sendButtonClicked(packageName);
+		    			}
+		    		}
+		    	}
 	    	}
 	    }
 	    else if(eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED){
-	    	if(sending1){
-	    		sending2=true;
-	    		sendButtonClicked();
+	    	if(wasending1){
+	    		wasending2=true;
+	    		sendButtonClicked(packageName);
 	    		sent = true;
 	    	}
 	    }
 	    
 	    if(sent == false){
-	    	sendButtonClicked();
+	    	sendButtonClicked(packageName);
 	    }
 	    sent = false;
 	}
@@ -169,6 +223,7 @@ public class NotificationHandlerService extends AccessibilityService
 //	    info.packageNames = new String[] {"com.myStress.helpers" };
 //	    info.packageNames = new String[] {"com.skype.raider", "com.google.android.gsf" };
 
+	    service = this;
 	    Log.e("myStress", "NotificationHandlerService connected");
 	    
 	    setServiceInfo(info);
@@ -176,9 +231,19 @@ public class NotificationHandlerService extends AccessibilityService
 		Translate.setClientId("myStress");
 		Translate.setClientSecret("ZwRLv7hsttnjqql26s7MglS8enqHG5Wi+uLfzt7Jsgw=");
 	}
+	
+	protected void onServiceDisconnected(){
+		service = null;
+		Log.e("myStress", "NotificationHandlerService disconnected");
+	}
+	
+	protected void onUnbind(){
+		service = null;
+		Log.e("myStress", "NotificationHandlerService unbound");
+	}
     
-    public void sendButtonClicked(){
-		if(sending1 && sending2){
+    public void sendButtonClicked(String packageName){
+		if((wasending1 && wasending2) || sending){
 //	    	if(typing == true){
 			double typingDuration;
 			double typingSpeed = 0;
@@ -191,10 +256,12 @@ public class NotificationHandlerService extends AccessibilityService
 //	    	}
 	    	
 	    	if(typedText.length() > 0){
-	    		new SAThread(typedText, typingSpeed);
+	    		new SAThread(typedText, typingSpeed, packageName);
 	    	}
-			sending1 = false;
-			sending2 = false;
+			wasending1 = false;
+			wasending2 = false;
+			sending = false;
+			sent = true;
 		}
     }
     
@@ -297,7 +364,6 @@ public class NotificationHandlerService extends AccessibilityService
         @Override
         public void onReceive(Context context, Intent intent) 
         {
-        	context2 = context;
             String action = intent.getAction();
 
             // if anything sent from the accessbility service
@@ -341,10 +407,12 @@ public class NotificationHandlerService extends AccessibilityService
 	private class SAThread implements Runnable {
 		String text;
 		double speed;
+		String packageName;
 		
-		SAThread(String text, double speed) {
+		SAThread(String text, double speed, String packageName) {
 			this.text = text;
 			this.speed = speed;
+			this.packageName = packageName;
 			new Thread(this).start();
 		}
 
@@ -405,7 +473,7 @@ public class NotificationHandlerService extends AccessibilityService
     		}
     		
     		Intent intent = new Intent("com.myStress.accessibility");
-    		intent.putExtra("TextLength", text.length() + ":" + speed*60 + ":" + type + ":" + score);
+    		intent.putExtra("TextLength", packageName + ":" + text.length() + ":" + speed*60 + ":" + type + ":" + score);
     		
 //    		maxTextLength = 0;
 //    		typedText = "";
