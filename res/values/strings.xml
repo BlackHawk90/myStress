@@ -1,14 +1,35 @@
+<!--
+Copyright (C) 2011, Dirk Trossen, airs@dirk-trossen.de
+Copyright (C) 2014, FIM Research Center, myStress@fim-rc.de
+-
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation as version 2.1 of the License.
+-
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+License for more details.
+-
+You should have received a copy of the GNU Lesser General Public License
+along with this library; if not, write to the Free Software Foundation, Inc.,
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
 <resources>
 <string name="app_name">myStress</string>
-<string name="Copyright">Copyright</string>
-<string name="ReleaseNotes">ReleaseNotes</string>
+<string name="Copyright">&#169; 2004-2006 Nokia Corp.\n&#169; 2008-2012 Dirk Trossen \n&#169; 2013-2014 TecVis LP \n&#169; 2014 FIM Research Center
+\n\nContact: myStress@fim-rc.de
+\n\nManual: ADD LINK
+\n\nmyStress source code is licensed under LGPL 2.0 license and soon hosted on Github. For more information on license terms, review <b>license.txt</b>!
+\n\nThis Application was developed at the FIM Research Center in cooperation with the Elite Graduate Program Finance and Information Management. 
+\n\nThe objective of this research process is the unobtrusivly recognition and prediction of stress.
+\n\nNOTE that the authors assume no responsibility for any potential misuse of this software for spying purposes. The operation is exposed through notification bar icons in order to make users aware of ongoing recordings!</string>
 <string name="tab_Record">Record</string>
 <string name="tab_Sync">Sync</string>
 <string name="main_About">About</string>
 <string name="main_Sync">Synchronising Recordings</string>
 <string name="Help">Help</string>
 <string name="recording_prompt">Type of Recording</string>
-
 <string name="MapAbout">Shows a path of recent GPS recording. You can click on a marker for more information. You can center the map either on your current location or the last stored one (using the buttons on the top right). You can also switch between map or satellite view with the appropriate options menu item.</string>
 <string name="RecordAbout">Start recording here, selecting the mode of recording you would like.\n\nYou can also load and delete <b>templates</b> that you stored as well as create shortcuts to a selected template on your launcher screen. Clicking on a template will automatically load the template.\n\nInstead of defining your own templates, you can also <b>download</b> examples from the TecVis server.</string>
 <string name="LocalAbout">Shows the sensors available in local sensing mode.\nChoose the sensors you would like to record. Through the menu, you can select and unselect all sensors (for a clean sheet) as well as look at the sensor repository, giving you information on type, value ranges etc of the sensors that were discovered.</string>

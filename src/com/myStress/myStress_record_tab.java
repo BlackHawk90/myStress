@@ -1,8 +1,23 @@
+/*
+Copyright (C) 2012-2013, Dirk Trossen, airs@dirk-trossen.de
+Copyright (C) 2014, FIM Research Center, myStress@fim-rc.de
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation as version 2.1 of the License.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this library; if not, write to the Free Software Foundation, Inc.,
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+*/
+
 package com.myStress;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -19,8 +34,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
 import android.telephony.TelephonyManager;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
@@ -256,7 +273,7 @@ public class myStress_record_tab extends Activity implements OnClickListener
         case R.id.main_copyright:
     		try
     		{
-    			PopUpManager.AboutDialog("myStress V" + this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName , getString(R.string.Copyright) + getString(R.string.ReleaseNotes), this);
+    			PopUpManager.AboutDialog("myStress V" + this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName , getString(R.string.Copyright), this);
     		}
     		catch(Exception e)
     		{
@@ -287,7 +304,7 @@ public class myStress_record_tab extends Activity implements OnClickListener
     	{
     	case R.id.button_record:
             //checks if ACCESSIBILITY_SERVICE is activated
-    		if(!((AccessibilityManager)getApplicationContext().getSystemService(ACCESSIBILITY_SERVICE)).isEnabled()) {
+    		if(!isAccessibilityEnabled()) {
                 if(!startAccessibility())
                 	return;
     		}
@@ -407,5 +424,44 @@ public class myStress_record_tab extends Activity implements OnClickListener
         
         return ((AccessibilityManager)getApplicationContext().getSystemService(ACCESSIBILITY_SERVICE)).isEnabled();
     }
+    
+    private boolean isAccessibilityEnabled(){
+    int accessibilityEnabled = 0;
+    boolean accessibilityFound = false;
+    try {
+        accessibilityEnabled = Settings.Secure.getInt(this.getContentResolver(),android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+    } catch (SettingNotFoundException e) {
+        Log.e("myStress", "Error finding setting, default accessibility to not found: " + e.getMessage());
+        return false;
+    }
+
+    TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
+
+    if (accessibilityEnabled==1){
+        Log.d("myStress", "***ACCESSIBILIY IS ENABLED***: ");
+
+
+         String settingValue = Settings.Secure.getString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+         Log.d("myStress", "Setting: " + settingValue);
+         if (settingValue != null) {
+             TextUtils.SimpleStringSplitter splitter = mStringColonSplitter;
+             splitter.setString(settingValue);
+             while (splitter.hasNext()) {
+                 String accessabilityService = splitter.next();
+                 Log.d("myStress", "Setting: " + accessabilityService);
+                 if (accessabilityService.equalsIgnoreCase("com.myStress/com.myStress.handlers.NotificationHandlerService")){
+                     Log.d("myStress", "We've found the correct setting - accessibility is switched on!");
+                     return true;
+                 }
+             }
+         }
+
+        Log.d("myStress", "***END***");
+    }
+    else{
+        Log.d("myStress", "***ACCESSIBILIY IS DISABLED***");
+    }
+    return accessibilityFound;
+}
 }
 

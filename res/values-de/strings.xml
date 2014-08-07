@@ -1,7 +1,28 @@
+<!--
+Copyright (C) 2011, Dirk Trossen, airs@dirk-trossen.de
+Copyright (C) 2014, FIM Research Center, myStress@fim-rc.de
+-
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation as version 2.1 of the License.
+-
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+License for more details.
+-
+You should have received a copy of the GNU Lesser General Public License
+along with this library; if not, write to the Free Software Foundation, Inc.,
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
 <resources>
 <string name="app_name">myStress</string>
-<string name="Copyright">Copyright</string>
-<string name="ReleaseNotes">ReleaseNotes</string>
+<string name="Copyright">&#169; 2004-2006 Nokia Corp.\n&#169; 2008-2012 Dirk Trossen \n&#169; 2013-2014 TecVis LP \n&#169; 2014 FIM Research Center
+\n\nKontakt: myStress@fim-rc.de
+\n\nAnleitung: LINK EINBAUEN
+\n\nmyStress Quellcode ist lizenziert unter der LGPL 2.0 license und demnächst auf Github verfügbar. Für mehr Informationen bzgl. der Lizenz, siehe <b>license.txt</b>!
+\n\nDie Anwendung wurde im Rahmen einer Forschungsarbeit am Kernkompetenzzentrum Finanz- und Informationsmanagement in Kooperation mit dem Elitenetzwerkstudiengagn Finance and Information Management entwicklet und basiert auf der Android Remote Sensing (AIRS) platform
+\n\nDie Autoren sind nicht für Missbrauch von myStress verantwortlich, z.B. für Überwachungszwecke. Die Operation von myStress wird durch ein Symbol in der oberen Titelleiste angezeigt, um Benutzer auf Aufnahmen aufmerksam zu machen!</string>
 <string name="tab_Record">Aufnahme</string>
 <string name="tab_Sync">Sync</string>
 <string name="main_About">Über</string>
