@@ -422,12 +422,11 @@ public class myStress_record_tab extends Activity implements OnClickListener
 
         alertDialog.show();
         
-        return ((AccessibilityManager)getApplicationContext().getSystemService(ACCESSIBILITY_SERVICE)).isEnabled();
+        return isAccessibilityEnabled();
     }
     
     private boolean isAccessibilityEnabled(){
     int accessibilityEnabled = 0;
-    boolean accessibilityFound = false;
     try {
         accessibilityEnabled = Settings.Secure.getInt(this.getContentResolver(),android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
     } catch (SettingNotFoundException e) {
@@ -438,30 +437,20 @@ public class myStress_record_tab extends Activity implements OnClickListener
     TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
 
     if (accessibilityEnabled==1){
-        Log.d("myStress", "***ACCESSIBILIY IS ENABLED***: ");
-
-
          String settingValue = Settings.Secure.getString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-         Log.d("myStress", "Setting: " + settingValue);
          if (settingValue != null) {
              TextUtils.SimpleStringSplitter splitter = mStringColonSplitter;
              splitter.setString(settingValue);
              while (splitter.hasNext()) {
                  String accessabilityService = splitter.next();
-                 Log.d("myStress", "Setting: " + accessabilityService);
                  if (accessabilityService.equalsIgnoreCase("com.myStress/com.myStress.handlers.NotificationHandlerService")){
-                     Log.d("myStress", "We've found the correct setting - accessibility is switched on!");
                      return true;
                  }
              }
          }
+    }
 
-        Log.d("myStress", "***END***");
-    }
-    else{
-        Log.d("myStress", "***ACCESSIBILIY IS DISABLED***");
-    }
-    return accessibilityFound;
+    return false;
 }
 }
 
