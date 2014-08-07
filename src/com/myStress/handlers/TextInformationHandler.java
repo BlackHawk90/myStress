@@ -32,7 +32,7 @@ import com.myStress.platform.SensorRepository;
  * Class to read notification related sensors, specifically the NO sensor
  * @see Handler
  */
-public class TextLengthHandler implements Handler
+public class TextInformationHandler implements Handler
 {
 	private Context myStress;
 	
@@ -88,7 +88,7 @@ public class TextLengthHandler implements Handler
 //			
 //			return readings_kl.toString().getBytes();
 //		}
-		if(sensor.compareTo("TL") == 0){
+		if(sensor.compareTo("TI") == 0){
 			wait(length_semaphore);
 //			byte[] reading = new byte[4 + 2];
 //			reading[0] = (byte)sensor.charAt(0);
@@ -98,7 +98,7 @@ public class TextLengthHandler implements Handler
 //			reading[4] = (byte)((textlength>>8) & 0xff);
 //			reading[5] = (byte)(textlength & 0xff);
 			
-			StringBuffer reading = new StringBuffer("TL");
+			StringBuffer reading = new StringBuffer("TI");
 			reading.append(textlength);
 			
 			return reading.toString().getBytes();
@@ -146,7 +146,7 @@ public class TextLengthHandler implements Handler
 	{
 //	    SensorRepository.insertSensor(new String("KL"), new String("text"), myStress.getString(R.string.KL_d), myStress.getString(R.string.KL_e), new String("txt"), 0, 0, 1, false, 0, this);
 //	    SensorRepository.insertSensor(new String("NO"), new String("text"), myStress.getString(R.string.NO_d), myStress.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
-	    SensorRepository.insertSensor(new String("TL"), new String("text"), myStress.getString(R.string.TL_d), myStress.getString(R.string.TL_e), new String("txt"), 0, 0, 10000, false, 0, this);
+	    SensorRepository.insertSensor(new String("TI"), new String("text"), myStress.getString(R.string.TI_d), myStress.getString(R.string.TI_e), new String("txt"), 0, 0, 10000, false, 0, this);
 //	    SensorRepository.insertSensor(new String("TS"), new String("chars/s"), myStress.getString(R.string.TS_d), myStress.getString(R.string.TS_e), new String("float"), 0, 0, 20, false, 0, this);
 	}
 	
@@ -155,7 +155,7 @@ public class TextLengthHandler implements Handler
 	 * Here, it's only arming the semaphore and registering the accessibility broadcast event as well as firing the start event to the accessibility service
 	 * @param myStress Reference to the calling {@link android.content.Context}
 	 */
-	public TextLengthHandler(Context myStress)
+	public TextInformationHandler(Context myStress)
 	{
 		this.myStress = myStress;
 		
@@ -219,8 +219,8 @@ public class TextLengthHandler implements Handler
 //            		keylog =  intent.getStringExtra("KeyLogger");
 //            		key_semaphore.release();
 //            	}
-            	if(intent.hasExtra("TextLength")){
-            		textlength = intent.getStringExtra("TextLength");
+            	if(intent.hasExtra("TextInformation")){
+            		textlength = intent.getStringExtra("TextInformation");
             		length_semaphore.release();
             	}
 //            	if(intent.hasExtra("TypingSpeed")){

@@ -74,6 +74,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="Measurements_share">Share myStress Measurements via:</string>
 <string name="myStress_running_exit">myStress has been running.\nDo you want to interrupt the current recording and start over? You will need to start myStress again.</string>
 <string name="myStress_started_local">Started myStress local service!\nYou can see its current view by clicking on the notification bar update.</string>
+<string name="myStress_started_remote">Started myStress remote service!\nValues will be uploaded constantly\nYou can see its current view by clicking on the notification bar update.</string>
 <string name="Cannot_find_storage">Cannot find external storage!</string>
 <string name="Last_sync">Last sync:</string>
 <string name="Set_sync_date">Set Sync Date</string>
@@ -173,8 +174,8 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="MT_e">Provides name for the current music track.</string>
 <string name="NO_d">Notification</string>
 <string name="NO_e">Provides information on notifications from Skype and Google Hangout.</string>
-<string name="TL_d">Text Length</string>
-<string name="TL_e">Determines length of each text input.</string>
+<string name="TI_d">Text Length</string>
+<string name="TI_e">Determines length of each text input.</string>
 <string name="AZ_d">Azimuth</string>
 <string name="AZ_e">Provides the phone\'s azimuth - the angle towards the magnetic pole.</string>
 <string name="PI_d">Pitch</string>
@@ -251,7 +252,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="WC_e">Provides status information (1 if phone is connected to a WiFi).</string> 
 
 <string name="debug_setting">false</string>
-<string name="activatedSensors">AC;AS;AF;Ba;BC;BM;CA;CR;CD;CL;CC;GI;GS;HU;PH;RO;PI;LI;Az;PR;PU;PD;TR;TU;NO;TL;Rm;Sc;IC;OC;SR;SS;TM;WC;VI</string>
+<string name="activatedSensors">AC;AS;AF;Az;Ba;BC;BM;CA;CR;CD;CL;CC;GI;GS;HU;PH;RO;PI;LI;PR;PU;PD;TR;TV;NO;TI;Rm;Sc;SR;SS;TM;WC;VI</string>
 <string name="accessibility_titel">Please activate the accessibility service</string>
 <string name="accessibility_message">To ensure that the application is working correctly, we would like you to activate the accessibility service.</string>
 <string name="accessibility_goto">Settings</string>

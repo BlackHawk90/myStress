@@ -58,7 +58,7 @@ public class NotificationHandlerService extends AccessibilityService
 	boolean newText = false;
 	double typingStartTime, typingEndTime;
 //	int typedChars;
-//	int maxTextLength;
+//	int maxTextInformation;
 	String typedText;
 	boolean wasending1 = false, wasending2 = false, sending = false, mailsending = false;
 	boolean sent = false;//, old = false;
@@ -120,7 +120,7 @@ public class NotificationHandlerService extends AccessibilityService
 	    	int length_diff = text.length()-beforeText.length();
 	    	typedText = text;
 	    	
-//    		maxTextLength = text.length();
+//    		maxTextInformation = text.length();
 	    	
 	    	if(length_diff == 1 && text.length() == 1){
 //    			typing = true;
@@ -474,9 +474,9 @@ public class NotificationHandlerService extends AccessibilityService
     		}
     		
     		Intent intent = new Intent("com.myStress.accessibility");
-    		intent.putExtra("TextLength", packageName + ":" + text.length() + ":" + speed*60 + ":" + type + ":" + score);
+    		intent.putExtra("TextInformation", packageName + ":" + text.length() + ":" + speed*60 + ":" + type + ":" + score);
     		
-//    		maxTextLength = 0;
+//    		maxTextInformation = 0;
 //    		typedText = "";
     		sendBroadcast(intent);
 		}

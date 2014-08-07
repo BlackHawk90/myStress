@@ -23,6 +23,7 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Service;
+import android.app.TabActivity;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,9 +47,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.accessibility.AccessibilityManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +65,7 @@ import com.myStress.helper.SerialPortLogger;
  *
  * @see         myStress_local
  */
-public class myStress_record_tab extends Activity implements OnClickListener
+public class myStress_record_tab extends Activity implements OnClickListener, OnItemSelectedListener
 {
 	/**
 	 * expose template for other tabs
@@ -106,8 +110,11 @@ public class myStress_record_tab extends Activity implements OnClickListener
         // get buttons and set onclick listener
         main_record = (ImageButton)findViewById(R.id.button_record);
         main_record.setOnClickListener(this);
+        
         // get spinner
         main_spinner = (Spinner)findViewById(R.id.spinner_record);
+        main_spinner.setSelection(settings.getInt("SpinnerPosition", 0));
+        main_spinner.setOnItemSelectedListener(this);
                              
         // now initialise the upload timer
         myStress_upload.setTimer(getApplicationContext());    
@@ -236,6 +243,9 @@ public class myStress_record_tab extends Activity implements OnClickListener
 			   getApplicationContext().stopService(new Intent(this, myStress_local.class));
 		   // unbind from service
 		   getApplicationContext().unbindService(mConnection);
+		   
+		   myStress_upload.setTimer(this);
+		   Log.e("myStress", "App destroyed");
        }
     }
     
@@ -312,12 +322,14 @@ public class myStress_record_tab extends Activity implements OnClickListener
     		if (main_spinner.getSelectedItemPosition() == 0)
     		{
     			editor.putString("UploadFrequency", "30");
+   		   		editor.putInt("SpinnerPosition", main_spinner.getSelectedItemPosition());
     			myStress_upload.setTimer(getApplicationContext());
     			initializeStart();
     		}
     		else
     		{
     			editor.putString("UploadFrequency", "0");
+   		   		editor.putInt("SpinnerPosition", main_spinner.getSelectedItemPosition());
     			myStress_upload.setTimer(getApplicationContext());
     			initializeStart();
     		}
@@ -391,8 +403,10 @@ public class myStress_record_tab extends Activity implements OnClickListener
     			// merely restart without GUI
     			myStress_locally.Restart(false);
                 // service running message
-    			if (settings.getBoolean("myStress_local::running", false) == true)
+    			if (settings.getString("UploadFrequency", "30").equals("0"))
     				Toast.makeText(getApplicationContext(), getString(R.string.myStress_started_local), Toast.LENGTH_LONG).show();     
+    			else
+    				Toast.makeText(getApplicationContext(), getString(R.string.myStress_started_remote), Toast.LENGTH_LONG).show();     
                	// finish UI
     			finish();
     		}
@@ -452,5 +466,24 @@ public class myStress_record_tab extends Activity implements OnClickListener
 
     return false;
 }
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position,
+			long id) {
+		Editor editor = settings.edit();
+		
+		if (main_spinner.getSelectedItemPosition() == 0) 
+	   		editor.putInt("SpinnerPosition", main_spinner.getSelectedItemPosition());
+		else
+	   		editor.putInt("SpinnerPosition", main_spinner.getSelectedItemPosition());
+		
+		editor.commit();
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

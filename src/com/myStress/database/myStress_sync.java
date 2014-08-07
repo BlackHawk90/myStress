@@ -302,7 +302,7 @@ public class myStress_sync extends Activity implements OnClickListener
     public void onClick(View v) 
     {
     	// if regular uploads are selected, do not allow for manual sync
-    	if (Integer.valueOf(settings.getString("UploadFrequency", "0")) != 0)
+    	if (settings.getInt("SpinnerPosition", 0) == 0)
     	{
 	  		Toast.makeText(getApplicationContext(), getString(R.string.Regular_sync), Toast.LENGTH_LONG).show();
 	  		return;
@@ -482,7 +482,8 @@ public class myStress_sync extends Activity implements OnClickListener
 	     {
 	    	String query;
 			int t_column, s_column, v_column;
-			String uploadCounter = new DecimalFormat("000").format(Double.parseDouble(settings.getString("UploadCounter", "1")));
+			double uploadCounterDouble = Double.parseDouble(settings.getString("UploadCounter", "1"));
+			String uploadCounterString = new DecimalFormat("000").format(uploadCounterDouble);
 			Cursor values;
 			String value, symbol;
 			String line_to_write;
@@ -499,7 +500,7 @@ public class myStress_sync extends Activity implements OnClickListener
 	        				.getSystemService(TELEPHONY_SERVICE))
 	        				.getDeviceId()
 	        				.hashCode()
-	        				)+ "_" + uploadCounter + ".txt");
+	        				)+ "_" + uploadCounterString);
 	
 			read_data_entries = 0;
 			try
@@ -633,10 +634,15 @@ public class myStress_sync extends Activity implements OnClickListener
 			        Message update_msg = mHandler.obtainMessage(UPDATE_VALUES);
 			        update_msg.setData(bundle);
 			        mHandler.sendMessage(update_msg);
-			        editor.putString("UploadCounter", "" + (uploadCounter+1));
 			        
+			        if(number_values>0) {
+			        	at_least_once_written =true;
+			        	editor.putString("UploadCounter", "" + (uploadCounterDouble+1));
+			        }
 			        // close values to free up memory
 			        values.close();
+			        
+			       
 			        
 			        syncing = SYNC_FINISHED;
 				}
@@ -804,6 +810,9 @@ public class myStress_sync extends Activity implements OnClickListener
 		    				        
 			        // close values to free up memory
 			        values.close();
+			        
+			        if(number_values>0) 
+			        	at_least_once_written =true;
 			        
 			        syncing = SYNC_FINISHED;			       
 				}

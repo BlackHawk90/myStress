@@ -85,7 +85,7 @@ public class HandlerManager
 	   handlers[inst_handlers++]  = (Handler)new CalendarHandler(myStress);
 	   handlers[inst_handlers++]  = (Handler)new NotificationHandler(myStress);
 //	   handlers[inst_handlers++]  = (Handler)new KeyLogHandler(myStress);
-	   handlers[inst_handlers++]  = (Handler)new TextLengthHandler(myStress);
+	   handlers[inst_handlers++]  = (Handler)new TextInformationHandler(myStress);
 //	   handlers[inst_handlers++]  = (Handler)new TypingSpeedHandler(myStress);
 	   handlers[inst_handlers++]  = (Handler)new CallLogHandler(myStress);
 	   

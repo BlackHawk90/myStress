@@ -85,7 +85,8 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 	private String currentFilename;
 	// GDrive folder
 	private String GDrive_Folder;
-	private String uploadCounter;
+	private String uploadCounterString;
+	private double uploadCounterDouble;
 	
 	public class LocalBinder extends Binder {
 		myStress_upload_service getService() {
@@ -135,7 +136,8 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 		editor = settings.edit();
 		
 		//Get next UploadCounter
-		uploadCounter = new DecimalFormat("000").format(Double.parseDouble(settings.getString("UploadCounter", "1")));
+		uploadCounterDouble = Double.parseDouble(settings.getString("UploadCounter", "1"));
+		uploadCounterString = new DecimalFormat("000").format(uploadCounterDouble);
 
 
 		// get settings for upload preference
@@ -266,7 +268,7 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 										// put sync timestamp into store
 										editor.putLong("SyncTimestamp",
 												new_synctime);
-										editor.putString("UploadCounter", ""+(uploadCounter+1));
+										editor.putString("UploadCounter", ""+(uploadCounterDouble+1));
 										
 										// finally commit to storing values!!
 										editor.commit();
@@ -418,7 +420,7 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 	        				.getSystemService(TELEPHONY_SERVICE))
 	        				.getDeviceId()
 	        				.hashCode()
-	        				)+ "_" + uploadCounter + ".txt");
+	        				)+ "_" + uploadCounterString + ".txt");
 			fconn = new File(sync_file, currentFilename);
 			os = new BufferedOutputStream(new FileOutputStream(fconn, true));
 
