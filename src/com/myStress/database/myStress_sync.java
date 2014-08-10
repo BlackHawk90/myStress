@@ -462,17 +462,6 @@ public class myStress_sync extends Activity implements OnClickListener
 		        }
 
 		        sync_file = new File(external_storage, "myStress_temp");
-	
-				// get files in directory
-				String [] file_list = sync_file.list(null);
-				
-				// remove files in myStress_temp directory
-				if (file_list != null)
-					for (i=0;i<file_list.length;i++)
-					{
-						File remove = new File(sync_file, file_list[i]);
-						remove.delete();
-					}
 				
 		        SyncValues();
 		        SyncNotes();

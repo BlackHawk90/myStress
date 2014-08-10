@@ -57,6 +57,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myStress.database.myStress_upload;
+import com.myStress.database.myStress_upload_service;
 import com.myStress.helper.PopUpManager;
 import com.myStress.helper.SerialPortLogger;
 
@@ -244,7 +245,7 @@ public class myStress_record_tab extends Activity implements OnClickListener, On
 		   // unbind from service
 		   getApplicationContext().unbindService(mConnection);
 		   
-		   myStress_upload.setTimer(this);
+		   myStress_locally.stopService(new Intent(myStress_locally, myStress_upload.class));  
 		   Log.e("myStress", "App destroyed");
        }
     }

@@ -83,8 +83,7 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 	private Context context;
 	private boolean wifi_only;
 	private String currentFilename;
-	// GDrive folder
-	private String GDrive_Folder;
+
 	private String uploadCounterString;
 	private double uploadCounterDouble;
 	
@@ -146,14 +145,6 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 		// get handle to Google Drive
 		service = getDriveService();
 
-		// get Google drive folder
-		GDrive_Folder = settings.getString("GDriveFolder", "myStress_" + settings.getString("UniqueID", "" +
-        		((TelephonyManager)getApplicationContext()
-        				.getSystemService(TELEPHONY_SERVICE))
-        				.getDeviceId()
-        				.hashCode()
-        				));
-
 		if (service != null) {
 			try {
 				// get database
@@ -185,7 +176,6 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 		}
 
 		public void run() {
-			com.google.api.services.drive.model.File myStress_dir = null;
 			com.google.api.services.drive.model.File body;
 			com.google.api.services.drive.model.File file;
 			java.io.File fileContent;
@@ -203,31 +193,6 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 
 						// only if right network is available, try to upload
 						if (right_network == true) {
-							Log.v("myStress",
-									"trying to find myStress recordings directory");
-
-							List<com.google.api.services.drive.model.File> files = service
-									.files()
-									.list()
-									.setQ("mimeType = 'application/vnd.google-apps.folder' AND trashed=false AND 'root' in parents")
-									.execute().getItems();
-							for (com.google.api.services.drive.model.File f : files) {
-								if (f.getTitle().compareTo(GDrive_Folder) == 0)
-									myStress_dir = f;
-							}
-
-							if (myStress_dir == null) {
-								Log.v("myStress",
-										"...need to create myStress recordings directory");
-
-								// create myStress recordings directory
-								body = new com.google.api.services.drive.model.File();
-								body.setTitle(GDrive_Folder);
-								body.setMimeType("application/vnd.google-apps.folder");
-								myStress_dir = service.files().insert(body)
-										.execute();
-							}
-
 							// File's binary content
 							fileContent = new java.io.File(share_file.getPath());
 							mediaContent = new FileContent("text/plain",
@@ -237,8 +202,6 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 							body = new com.google.api.services.drive.model.File();
 							body.setTitle(fileContent.getName());
 							body.setMimeType("text/plain");
-							body.setParents(Arrays.asList(new ParentReference()
-									.setId(myStress_dir.getId())));
 
 							Log.v("myStress", "...trying to upload myStress recordings");
 
@@ -259,7 +222,6 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 								if (right_network == true) {
 									// now execute the upload
 									file = insert.execute();
-									insertPermission(service, file.getId());
 									if (file != null) {
 										Log.v("myStress",
 												"...writing new sync timestamp");
@@ -309,7 +271,8 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 			}
 
 			// set timer again
-			myStress_upload.setTimer(context);
+			if(settings.getBoolean("myStress_local::running", false) == true)
+				myStress_upload.setTimer(context);
 
 			// now stop the overall service all together!
 			stopSelf();
@@ -385,6 +348,7 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 
 		// get timestamp of last sync
 		synctime = settings.getLong("SyncTimestamp", 0);
+		currenttime = synctime;
 
 		// sync until just about now!
 		new_synctime = System.currentTimeMillis();

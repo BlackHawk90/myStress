@@ -66,6 +66,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myStress.database.myStress_database;
+import com.myStress.database.myStress_upload;
+import com.myStress.database.myStress_upload_service;
 import com.myStress.helper.SerialPortLogger;
 import com.myStress.helper.Waker;
 import com.myStress.platform.HandlerManager;
@@ -804,8 +806,9 @@ public class myStress_local extends Service
 	   	// if registered for screen activity or battery level -> unregister
 	   	if (registered == true)
 	         unregisterReceiver(mReceiver);	   	 
-
+  	
  		SerialPortLogger.debug("myStress_local::finished destroying service!");
+ 		
 	}
 	
 	@Override

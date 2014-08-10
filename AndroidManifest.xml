@@ -1,99 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.myStress"
-      android:versionName="1.0" android:versionCode="1" android:sharedUserId="com.myStress">
-    <supports-screens android:normalScreens="true" android:resizeable="true" android:largeScreens="true" android:smallScreens="true" android:xlargeScreens="true" android:anyDensity="true"></supports-screens>
-	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="20"></uses-sdk>
-    
-	<uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
-    <uses-permission android:name="android.permission.READ_CALENDAR"></uses-permission>
-	<uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-	<uses-permission android:name="android.permission.GET_TASKS"></uses-permission>
-	<uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"></uses-permission>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
-	<uses-permission android:name="android.permission.VIBRATE"></uses-permission>
-	<uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-	<uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
-	<uses-permission android:name="android.permission.READ_SMS"></uses-permission>
-	<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
-	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
-	<uses-permission android:name="android.permission.BATTERY_STATS"></uses-permission>
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-	<uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
-	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
-	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"></uses-permission>
-	<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
-	<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
-	
-	<uses-feature android:name="android.hardware.telephony" android:required="false" />
-    <uses-feature android:name="android.hardware.telephony.gsm" android:required="false" />
-    <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
-    <uses-feature android:name="android.hardware.wifi" android:required="false" />
-    <uses-feature android:name="android.hardware.microphone" android:required="false" />
-    <uses-feature android:name="android.hardware.sensor.proximity" android:required="false" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
-    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
-    <uses-feature android:name="android.hardware.location.NETWORK" android:required="false" />
-    <uses-feature android:name="android.hardware.location.GPS" android:required="false" />
-    <uses-feature android:name="android.hardware.location" android:required="false" />
-	
-	<application android:icon="@drawable/icon" android:label="@string/app_name">
-	<meta-data android:name="com.google.android.gms.version"
-           android:value="@integer/google_play_services_version" />
-	      
-	    <uses-library android:name="com.google.android.maps" />    
-        <activity android:name="myStress_tabs" 
-                  android:label="@string/app_name"
-                  android:theme="@android:style/Theme.NoTitleBar" android:configChanges="orientation|keyboardHidden">
-	          <intent-filter>
-	              <action android:name="android.intent.action.MAIN" />
-	              <category android:name="android.intent.category.LAUNCHER" />
-	          </intent-filter>
-        </activity>
-     <service android:enabled="true" android:name="myStress_local" android:exported="false" android:label="myStress Local Sensing"/>
-     <service android:enabled="true" android:name="com.myStress.database.myStress_upload_service" android:exported="false" android:label="myStress Upload"/>
-     <service
-        android:name=".handlers.NotificationHandlerService"
-        android:label="@string/app_name"
-        android:enabled="true"
-        android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" 
-        android:description="@string/accessibility_description">
-        <intent-filter>
-            <action android:name="android.accessibilityservice.AccessibilityService" />
-        </intent-filter>
-        
-        <meta-data
-            android:name="android.accessibilityservice"
-            android:resource="@xml/notificationhandlerservice" 
-            android:description="@string/accessibility_description"
-            />
-     </service>
-     <activity android:name="myStress_record_tab" android:exported="false" android:label="@string/tab_Record" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:name="com.myStress.database.myStress_sync" android:exported="false" android:label="@string/main_Sync" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:name="com.myStress.helper.SelectCameraPathPreference" android:exported="false" android:label="@string/Camera_path_on" android:configChanges="orientation|keyboardHidden"></activity>
-     
-     <activity android:name="com.myStress.visualisations.MapViewerActivity" android:exported="false" android:label="@+string/myStress_Map" android:configChanges="orientation|keyboardHidden"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="com.myStress.visualisations.TimelineActivity" android:exported="false" android:label="@+string/myStress_Timeline"></activity>
-     <activity android:theme="@android:style/Theme.Dialog" android:name="myStress_measurements" android:exported="false" android:label="@+string/myStress_Local_Sensing" android:configChanges="orientation|keyboardHidden"></activity>
+    package="com.myStress"
+    android:sharedUserId="com.myStress"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
-     <receiver  android:process=":remote" android:name="com.myStress.database.myStress_upload"></receiver>
-     <receiver android:name="com.myStress.myStress_restart">
-	    <intent-filter>
-	        <action android:name="android.intent.action.PACKAGE_REPLACED"></action>
-	        <data android:scheme="package" android:path="com.myStress" />
-	    </intent-filter>
- 	 </receiver>
-     <receiver android:name="com.myStress.database.myStress_upload">
-	    <intent-filter>
-	        <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-	    </intent-filter>
- 	 </receiver>
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" >
+    </supports-screens>
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="20" >
+    </uses-sdk>
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.READ_CALENDAR" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.GET_TASKS" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.READ_SMS" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.BLUETOOTH" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.BATTERY_STATS" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" >
+    </uses-permission>
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.telephony.gsm"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.sensor.proximity"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.NETWORK"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.GPS"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false" />
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <uses-library android:name="com.google.android.maps" />
+
+        <activity
+            android:name="myStress_tabs"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="myStress_local"
+            android:enabled="true"
+            android:exported="false"
+            android:label="myStress Local Sensing" />
+        <service
+            android:name="com.myStress.database.myStress_upload_service"
+            android:enabled="true"
+            android:exported="false"
+            android:label="myStress Upload" />
+        <service
+            android:name=".handlers.NotificationHandlerService"
+            android:description="@string/accessibility_description"
+            android:enabled="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:description="@string/accessibility_description"
+                android:resource="@xml/notificationhandlerservice" />
+        </service>
+
+        <activity
+            android:name="myStress_record_tab"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:label="@string/tab_Record" >
+        </activity>
+        <activity
+            android:name="com.myStress.database.myStress_sync"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:label="@string/main_Sync" >
+        </activity>
+        <activity
+            android:name="com.myStress.helper.SelectCameraPathPreference"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:label="@string/Camera_path_on" >
+        </activity>
+        <activity
+            android:name="com.myStress.visualisations.MapViewerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:label="@+string/myStress_Map" >
+        </activity>
+        <activity
+            android:name="com.myStress.visualisations.TimelineActivity"
+            android:exported="false"
+            android:label="@+string/myStress_Timeline"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name="myStress_measurements"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:label="@+string/myStress_Local_Sensing"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+
+        <receiver
+            android:name="com.myStress.database.myStress_upload"
+            android:process=":remote" >
+        </receiver>
+        <receiver android:name="com.myStress.myStress_restart" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" >
+                </action>
+
+                <data
+                    android:path="com.myStress"
+                    android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.myStress.database.myStress_upload" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" >
+                </action>
+            </intent-filter>
+        </receiver>
     </application>
-</manifest> 
+
+</manifest>
