@@ -306,11 +306,9 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 						textvalue = activity+" "+varianceSum;
 						activity_old = activity;
 						polled = true;
-//						varianceSum = avg = sum = count = 0;
 					}
 					else{
 						polled = true;
-//						varianceSum = avg = sum = count = 0;
 					}
 				}
 		}

@@ -81,12 +81,15 @@ public class CallLogHandler implements Handler
 			
 			StringBuffer reading = new StringBuffer("PH");
 			
-			while(i>0){
-				reading.append(entries[i-1]+";");
-				i--;
+			if(i==0) readings = null;
+			else{
+				while(i>0){
+					reading.append(entries[i-1]+";");
+					i--;
+				}
+				
+				readings = reading.toString().getBytes();
 			}
-			
-			readings = reading.toString().getBytes();
 		}
 		
 		return readings;

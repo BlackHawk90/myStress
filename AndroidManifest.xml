@@ -212,6 +212,7 @@
                 </action>
             </intent-filter>
         </receiver>
+        <activity android:name=".handlers.StressLevel_selector" android:configChanges="orientation|keyboardHidden"></activity>
     </application>
 
 </manifest>

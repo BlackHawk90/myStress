@@ -88,6 +88,7 @@ public class HandlerManager
 	   handlers[inst_handlers++]  = (Handler)new TextInformationHandler(myStress);
 //	   handlers[inst_handlers++]  = (Handler)new TypingSpeedHandler(myStress);
 	   handlers[inst_handlers++]  = (Handler)new CallLogHandler(myStress);
+	   handlers[inst_handlers++]  = (Handler)new StressLevelHandler(myStress);
 	   
 	   return true;
 	}
