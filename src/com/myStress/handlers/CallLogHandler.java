@@ -42,7 +42,7 @@ public class CallLogHandler implements Handler
 	private Context myStress;
 	// create field that holds acquisition data
 	private byte[] readings;
-	private int polltime=360000;
+	private int polltime=1000*60*6;
 	private Long lastUpdate;
 	
 	/**
@@ -137,7 +137,7 @@ public class CallLogHandler implements Handler
 	{
 		this.myStress = myStress;
 		// read polltime
-		polltime = HandlerManager.readRMS_i("CallLogHandler::SamplingRate", 30) * 1000;
+		polltime = HandlerManager.readRMS_i("CallLogHandler::SamplingRate", 60*6) * 1000;
 		lastUpdate = System.currentTimeMillis();
 	}
 	

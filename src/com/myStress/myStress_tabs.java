@@ -39,7 +39,6 @@ import android.widget.TabHost.OnTabChangeListener;
 import com.myStress.database.myStress_sync;
 import com.myStress.database.myStress_upload;
 
-@SuppressWarnings("deprecation")
 /**
  * Activity to hosts the various tabs
  * @see myStress_record_tab

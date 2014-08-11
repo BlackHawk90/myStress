@@ -132,12 +132,12 @@
             android:name="myStress_local"
             android:enabled="true"
             android:exported="false"
-            android:label="myStress Local Sensing" />
+            android:label="@string/localSensing" />
         <service
             android:name="com.myStress.database.myStress_upload_service"
             android:enabled="true"
             android:exported="false"
-            android:label="myStress Upload" />
+            android:label="@string/myStressUpload" />
         <service
             android:name=".handlers.NotificationHandlerService"
             android:description="@string/accessibility_description"
@@ -176,19 +176,19 @@
             android:name="com.myStress.visualisations.MapViewerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="false"
-            android:label="@+string/myStress_Map" >
+            android:label="@string/myStress_Map" >
         </activity>
         <activity
             android:name="com.myStress.visualisations.TimelineActivity"
             android:exported="false"
-            android:label="@+string/myStress_Timeline"
+            android:label="@string/myStress_Timeline"
             android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity
             android:name="myStress_measurements"
             android:configChanges="orientation|keyboardHidden"
             android:exported="false"
-            android:label="@+string/myStress_Local_Sensing"
+            android:label="@string/myStress_Local_Sensing"
             android:theme="@android:style/Theme.Dialog" >
         </activity>
 

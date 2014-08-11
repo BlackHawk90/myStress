@@ -19,7 +19,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="app_name">myStress</string>
 <string name="Copyright">&#169; 2004-2006 Nokia Corp.\n&#169; 2008-2012 Dirk Trossen \n&#169; 2013-2014 TecVis LP \n&#169; 2014 FIM Research Center
 \n\nKontakt: myStress@fim-rc.de
-\n\nAnleitung: LINK EINBAUEN
+\n\nHäufig gestellte Fragen: http://goo.gl/bkZkgF
 \n\nmyStress Quellcode ist lizenziert unter der LGPL 2.0 license und demnächst auf Github verfügbar. Für mehr Informationen bzgl. der Lizenz, siehe <b>license.txt</b>!
 \n\nDie Anwendung wurde im Rahmen einer Forschungsarbeit am Kernkompetenzzentrum Finanz- und Informationsmanagement in Kooperation mit dem Elitenetzwerkstudiengagn Finance and Information Management entwicklet und basiert auf der Android Remote Sensing (AIRS) platform
 \n\nDie Autoren sind nicht für Missbrauch von myStress verantwortlich, z.B. für Überwachungszwecke. Die Operation von myStress wird durch ein Symbol in der oberen Titelleiste angezeigt, um Benutzer auf Aufnahmen aufmerksam zu machen!</string>
@@ -29,9 +29,10 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="main_Sync">Synchronisiere Aufnahme</string>
 <string name="Help">Hilfe</string>
 <string name="recording_prompt">Typ der Aufnahme</string>
-
 <string name="MapAbout">Zeigt einen Pfad der GPS Aufzeichnungen. Du kannst auf eine Markierung klicken für mehr Information. Du kannst die Karte auf Deine momentane oder die letzte bekannte Position zentrieren (durch die Knöpfe oben rechts). Du kannst auch zwischen Satelliten- und Kartendarstellung umschalten durch die Menüeinträge.</string>
-<string name="RecordAbout">Starte eine Aufzeichnung und wähle den Modus der Aufzeichnung.\n\nDu kannst auch <b>Muster</b> laden oder löschen, die Du zuvor gespeichert hattest. Du kannst auch Shortcuts zu einem ausgewählten Muster erstellen. Diese Shortcuts werden auf dem Heimbildschirm dargestellt. Wenn Du auf ein Muster klickst, wird dieses automatisch geladen.\n\nZusätzlich zur Erstellung von eigenen Mustern, kannst Du auch Beispiele von unserem Server <b>herunterladen</b>.</string>
+<string name="RecordAbout">Wähle den Modus und starte eine Aufzeichnung.
+\n\nBei der Auswahl -Remote- werden alle erfassten Daten in 12 Stunden Intervallen bei aktivierter WLAN-Verbindung auf ein GDrive geladen.
+\n\nBei der Auswahl -Local- verbleiben alle erfassten Daten auf dem Smartphone, jedoch ist eine regelmäßige, manuelle Synchronisierung der Daten ist notwendig.</string>
 <string name="LocalAbout">Zeigt die Sensoren, die im lokalen Aufnahmemodus verfügbar sind.\nWähle die Sensoren die Du aufzeichnen willst. Durch das Menü kannst Du alle Sensoren anwählen oder alle Anwahlen löschen. Du kannst auch Informationen über die Sensoren ansehen, wie z.B. Typ, Wertebereiche etc, die entdeckt wurden.</string>
 <string name="ValuesAbout">Zeigt die momentanen Werte der Sensoren im lokalen Aufnahmemodus an.\nVon hier aus kannst Du das Programm verlassen oder die Anzeige mit der <b>ZURÜCK</b> Taste verlassen!\Du kannst auch die Anzeige pausieren oder wiederaufnehmen (dies stoppt jedoch nicht den Dienst, der die Werte aufzeichnet in der Datenbank).</string>
 <string name="TimelineAbout">Zeigt den historischen Zeitverlauf des angeklickten Sensors. Du kannst die Anzahl der angezeigten Werte in den Einstellungen ändern.\nVerlasse die Anzeige mit der <b>ZURÜCK</b> Taste!</string>
@@ -41,9 +42,14 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="OK">OK</string>
 <string name="Cancel">Abbruch</string>
 
-<string name="Getting_Started">Anfangen</string>
-<string name="Getting_Started2">Beschreibung\n
-    Start
+<string name="Getting_Started">Vor dem ersten Start</string>
+<string name="Getting_Started2">Vielen Dank für die Teilnahme an unserem Forschungsprojekt.
+\n\nDie Anwendung wurde im Rahmen einer Forschungsarbeit am Kernkompetenzzentrum Finanz- und Informationsmanagement in Kooperation mit dem Elitenetzwerkstudiengagn Finance and Information Management entwicklet.
+\n\nZiel dieses Projekts ist es, mithilfe eines Smartphones zu erkennen, wie gestresst der Besitzer ist.
+\n\nDie aktuelle Version von myStress dient zunächst der Erfassung von Sensordaten sowie empfundenem Stress, um stressrelevante Merkmale zu bestimmen.
+\n\nNach einmaligem Start läuft myStress größtenteils im Hintergrund und erfasst dort in 6-Minuten-Intervallen die Werte der integrierten Sensoren.
+\n\nDreimal täglich wird der Benutzer gebeten, vier kurze Fragen zu seinem aktuellen Stressempfinden zu beantworten.
+\n\n\nWeitere Fragen werden im FAQ beantwortet http://goo.gl/bkZkgF oder per Mail an myStress@fim-rc.de
 </string>
 
 <string name="sensed">aufgezeichnet</string>
@@ -94,7 +100,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="TimeFormat2">%H:%M:%S</string>
 
 <!-- buttons and other UI elements -->
-<string name="Sync_hint">Falls Du wieder synchronisieren willst, definiere Synchronisierungsdatum im Optionsmenü!</string>
+<string name="Sync_hint">Falls Du wieder synchronisieren willst, definiere ein Synchronisierungsdatum im Optionsmenü!</string>
 <string name="Pause">Pause</string>
 <string name="Resume">Weiter</string>
 <string name="Info">Info</string>
@@ -261,7 +267,10 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="uniqueID">Identifikationsnummer</string>
 <string name="accessibility_description">Bedienungshilfe für myStress Aufzeichnungen</string>
 <string name="accessibility_spotify">&#8212;</string>
-
+<string name="localSensing">myStress Local Sensing</string>
+<string name="myStressUpload">myStress Upload</string>
+<string name="myStress_Map">myStress Mapp</string>
+<string name="myStress_Timeline">myStress Timeline</string>
 <string name="notnow">In 15 Min.</string>
 <string name="skip">Diesmal nicht</string>
 <string name="q_intro">Wie oft hatten Sie seit dem letzten Messpunkt das Gefühl, &#8230;</string>

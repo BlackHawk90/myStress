@@ -75,7 +75,7 @@ public class myStress_upload extends BroadcastReceiver
 	        	upload = true;
 	        	break;
 	        case 30:
-	        	synctime += MINUTELY;
+	        	synctime += HALFDAYLY;
 	        	upload = true;
 	        	break;
 	    	default:

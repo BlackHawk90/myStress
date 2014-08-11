@@ -7,6 +7,8 @@ It is based on the Android Remote Sensing (AIRS) platform which is hosted at htt
 
 This Application was developed at the FIM Research Center in Cooperation with the Elite Graduate Program Finance & Information Management. 
 
+For further information, please have a look at the FAQs (only in german!): http://goo.gl/bkZkgF 
+
 The objective of this research process is the unobtrusivly recognition and prediction of stress.
 
 Refer to the ReleaseNotes.txt for changes

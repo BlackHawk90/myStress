@@ -763,8 +763,6 @@ public class myStress_sync extends Activity implements OnClickListener
 			    		return;
 					}
 						
-			        Log.e("myStress", "...reading next batch!");
-
 					// move to first row to start
 		    		values.moveToFirst();
 		    		// read DB values into arrays

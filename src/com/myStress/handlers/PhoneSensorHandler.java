@@ -59,7 +59,7 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 	private SensorManager sensorManager;
 	private android.hardware.Sensor MagField, Accelerometer, Proximity, Light, Pressure, Temperature, Humidity, Pedometer;
 	// polltime for sensor
-	private int polltime = 10000, polltime2 = 10000, polltime3 = 10000, polltime4 = 10000;
+	private int polltime = 1000*60*6, polltime2 = 1000*60*6, polltime3 = 1000*60*6;
 	// sensor values
 	private float azimuth, roll, pitch, proximity, light, pressure, temperature, humidity;
 	private long pedometer;
@@ -456,12 +456,10 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 		nors = activity;
 		
 		// read polltime
-		polltime  = HandlerManager.readRMS_i("PhoneSensorsHandler::OrientationPoll", 30) * 1000;
-		polltime2 = HandlerManager.readRMS_i("PhoneSensorsHandler::ProximityPoll", 30) * 1000;
-		polltime3 = HandlerManager.readRMS_i("PhoneSensorsHandler::EnvironmentalPoll", 30) * 1000;
-//		polltime4 = HandlerManager.readRMS_i("PhoneSensorsHandler::OrientationPoll", 5) * 1000;
+		polltime  = HandlerManager.readRMS_i("PhoneSensorsHandler::OrientationPoll", 60*6) * 1000;
+		polltime2 = HandlerManager.readRMS_i("PhoneSensorsHandler::ProximityPoll", 60*6) * 1000;
+		polltime3 = HandlerManager.readRMS_i("PhoneSensorsHandler::EnvironmentalPoll", 60*6) * 1000;
 		
-//		poll_interval = polltime3;
 		measureIntervalStart = System.currentTimeMillis();
 		
 		// try to open sensor services
@@ -476,7 +474,6 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 			Temperature	= sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
 			Humidity	= sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
 			Pedometer	= sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-//			Activity	= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 			sensor_enable = true;
 			// arm semaphores
 			wait(pedometer_semaphore); 
