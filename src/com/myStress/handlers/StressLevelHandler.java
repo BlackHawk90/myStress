@@ -195,6 +195,7 @@ public class StressLevelHandler implements Handler
         {
             if (intent.getAction().equals("com.myStress.stresslevel")) 
             {
+            	
             	Event = intent.getStringExtra("StressLevel");
 
             	stress_semaphore.release();		// release semaphore
