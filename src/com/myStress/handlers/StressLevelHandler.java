@@ -42,7 +42,7 @@ public class StressLevelHandler implements Handler
 	private Vibrator vibrator;
 	private boolean registered = false, shutdown = false, juststarted = false;
 	private boolean processed_sm = false, processed_sl = false;
-	private int polltime = 60000;
+	private int polltime = 3600000;
 	
 	private void wait(Semaphore sema)
 	{
@@ -115,7 +115,7 @@ public class StressLevelHandler implements Handler
 				if(status == null) return null;
 				if(status.equals("snooze")){
 					try{
-						Thread.sleep(15000);
+						Thread.sleep(900000);
 						return Acquire("SL",null);
 					}catch(Exception e){
 						Log.e("myStress", e.getMessage());

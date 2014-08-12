@@ -25,6 +25,7 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.myStress.R;
 import com.myStress.helper.FFT;
@@ -143,7 +144,7 @@ public class CallAudioHandler implements Handler
 			return;
 		
 		// here some midlet property check as to whether or not audio capture is supported
-		SensorRepository.insertSensor(new String("AU"), new String("text"), myStress.getString(R.string.AU_d), myStress.getString(R.string.AU_e), new String("int"), 0, 0, 15000, true, 0, this);
+		SensorRepository.insertSensor(new String("AU"), new String("text"), myStress.getString(R.string.AU_d), myStress.getString(R.string.AU_e), new String("txt"), 0, 0, 15000, true, 0, this);
 	}
 	
 	/**
@@ -188,6 +189,8 @@ public class CallAudioHandler implements Handler
 				bufferSize);
 	    prevSecs = (double)System.currentTimeMillis()/1000.0d;
 	    audioRecorder.startRecording();
+	    
+	    available = true;
 	}
 	
 	/**
@@ -247,7 +250,7 @@ public class CallAudioHandler implements Handler
     		}
 //    		data.addProperty(L1_NORM, accum/fN);
     		// Write L1_NORM
-    		audiofeatures += accum/fN;
+    		audiofeatures += accum/fN + ":";
 
     		// L2-norm
     		accum = 0;
@@ -257,7 +260,7 @@ public class CallAudioHandler implements Handler
     		}
 //    		data.addProperty(L2_NORM, Math.sqrt(accum/fN));
     		// Write L2_NORM
-    		audiofeatures += Math.sqrt(accum/fN);
+    		audiofeatures += Math.sqrt(accum/fN) + ":";
 
     		// Linf-norm
     		accum = 0;
@@ -267,8 +270,8 @@ public class CallAudioHandler implements Handler
     		}
 //    		data.addProperty(LINF_NORM, Math.sqrt(accum));
     		// Write LINF_NORM
-    		audiofeatures += ":Linf="+Math.sqrt(accum);
-
+    		audiofeatures += Math.sqrt(accum) + ":";
+    		
     		// Frequency analysis
     		Arrays.fill(fftBufferR, 0);
     		Arrays.fill(fftBufferI, 0);
@@ -301,16 +304,19 @@ public class CallAudioHandler implements Handler
 //    		Gson gson = getGson();
 //    		data.add(PSD_ACROSS_FREQUENCY_BANDS, gson.toJsonTree(psdAcrossFrequencyBands));
     		// Write PSD
-    		for(int i=0;i<FREQ_BANDEDGES.length-1;i++)
+    		int i=0;
+    		for(;i<FREQ_BANDEDGES.length-2;i++)
     			audiofeatures += psdAcrossFrequencyBands[i]+",";
+    		audiofeatures += psdAcrossFrequencyBands[i]+":";
     		
     		// Get MFCCs
     		featureCepstrum = featureMFCC.cepstrum(fftBufferR, fftBufferI);
     		// Write MFCCs
-    		for(int i=0;i<MFCCS_VALUE-1;i++)
-    			audiofeatures += featureCepstrum[i];
+    		for(i=0;i<MFCCS_VALUE-2;i++)
+    			audiofeatures += featureCepstrum[i]+",";
+    		audiofeatures += featureCepstrum[i]+"";
 //    		data.add(MFCCS, gson.toJsonTree(featureCepstrum));
-
+    		Log.e("myStress",audiofeatures);
 	    }
 
 	}
