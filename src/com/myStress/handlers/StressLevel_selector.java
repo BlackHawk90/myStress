@@ -22,19 +22,12 @@ import java.util.Random;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -51,13 +44,13 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 	// private TextView mTitle;
 	// private TextView mTitle2;
 	// private Editor editor;
+	
+	// Singleton
+//	private static StressLevel_selector instance = null;
 
 	// preferences
-	private SharedPreferences settings;
-	private String stress = null;
-	private boolean fullfilled = false;
-	private boolean snoozed = false;
-	private boolean notnow = false;
+//	private SharedPreferences settings;
+	private String stress = null, status = null;
 
 	private boolean bSlider1Moved = false;
 	private boolean bSlider2Moved = false;
@@ -83,14 +76,14 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 
 		// read preferences
-		settings = PreferenceManager.getDefaultSharedPreferences(this);
+//		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		// editor = settings.edit();
 
 		// read last selected mood value
-		try {
-			stress = settings.getString("StressLevelHandler::Mood", "Happy");
-		} catch (Exception e) {
-		}
+//		try {
+//			stress = settings.getString("StressLevelHandler::Mood", "Happy");
+//		} catch (Exception e) {
+//		}
 
 		// set window title
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -203,22 +196,33 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 	 */
 	@Override
 	public void onDestroy() {
-		stress = "";
-		int[] values = {seekBar1.getProgress(),  seekBar2.getProgress(),  seekBar3.getProgress() , seekBar4.getProgress()};
-		for(int i = 0; i < 4; i++){
-			if(i == 3)
-				stress += values[index[i]];
-			else
-				stress += values[index[i]] + ":";
+		Intent intent;
+		if(status.equals("polled")){
+			stress = "";
+			int[] values = {seekBar1.getProgress(),  seekBar2.getProgress(),  seekBar3.getProgress() , seekBar4.getProgress()};
+			for(int i = 0; i < 4; i++){
+				if(i == 3)
+					stress += values[index[i]];
+				else
+					stress += values[index[i]] + ":";
+			}
+			
+			intent = new Intent("com.myStress.stresslevel");
+			intent.putExtra("StressLevel", stress);
+			intent.putExtra("StressMeta", status);
+		}
+		else{
+			intent = new Intent("com.myStress.stresslevel");
+			intent.putExtra("StressMeta", status);
 		}
 		
 		// send broadcast intent to signal end of selection to mood button
 		// handler
-		Intent intent = new Intent("com.myStress.stresslevel");
-		intent.putExtra("StressLevel", stress);
-
+		
 		sendBroadcast(intent);
-
+		
+		stress = "";
+		status = "";
 		// now destroy activity
 		super.onDestroy();
 	}
@@ -241,8 +245,10 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 				bSlider2Moved = false;
 				bSlider3Moved = false;
 				bSlider4Moved = false;
-
-				Thread.sleep(100);
+				
+				status="snooze";
+				
+				finish();
 				break;
 			} catch (Exception e) {
 				Log.e("myStress", e.getMessage());
@@ -252,7 +258,10 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 			bSlider2Moved = false;
 			bSlider3Moved = false;
 			bSlider4Moved = false;
-
+			
+			status = "skip";
+			
+			finish();
 			break;
 
 		}
@@ -282,8 +291,10 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 			bSlider2Moved = false;
 			bSlider3Moved = false;
 			bSlider4Moved = false;
-
-			this.onDestroy();
+			
+			status="polled";
+			
+			finish();
 		}
 	}
 

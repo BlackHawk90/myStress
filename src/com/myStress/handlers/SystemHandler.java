@@ -37,8 +37,6 @@ import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.ContactsContract.Contacts;
-import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -764,16 +762,15 @@ public class SystemHandler implements com.myStress.handlers.Handler
 	// The Handler that gets information back from the other threads, initializing phone sensors
 	// We use a handler here to allow for the Acquire() function, which runs in a different thread, to issue an initialization of the invidiual sensors
 	// since registerListener() can only be called from the main Looper thread!!
-	private final Handler mHandler = new Handler() 
-    {
+	private final Handler mHandler = new Handler(new Handler.Callback(){
        @Override
-       public void handleMessage(Message msg) 
+       public boolean handleMessage(Message msg) 
        {     
     	   IntentFilter intentFilter;
     	   
     	   // we are shutting down
     	   if (shutdown == true)
-    		   return;
+    		   return true;
     	   
            switch (msg.what) 
            {
@@ -825,10 +822,9 @@ public class SystemHandler implements com.myStress.handlers.Handler
            default:  
            		break;
            }
-           
-
+           return true;
        }
-    };
+    });
 
 		
 	private final BroadcastReceiver SystemReceiver = new BroadcastReceiver() 

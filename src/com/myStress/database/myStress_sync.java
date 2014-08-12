@@ -47,7 +47,6 @@ import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -101,7 +100,7 @@ public class myStress_sync extends Activity implements OnClickListener
 	private File fconn;				// public for sharing file when exiting
 	private BufferedOutputStream os = null;
 	private boolean at_least_once_written = false;
-	private long currenttime, currentstart = 0;
+	private long currenttime;
     private WakeLock wl;
     private int syncing = NO_SYNC;
     private Context context;
@@ -350,10 +349,9 @@ public class myStress_sync extends Activity implements OnClickListener
     }   
 	
 	// The Handler that gets information back from the other threads, updating the values for the UI
-	private final Handler mHandler = new Handler() 
-    {
+	private final Handler mHandler = new Handler(new Handler.Callback(){
        @Override
-       public void handleMessage(Message msg) 
+       public boolean handleMessage(Message msg) 
        {
 	       Intent chosen;
 
@@ -438,8 +436,9 @@ public class myStress_sync extends Activity implements OnClickListener
            default:  
            	break;
            }
+           return true;
        }
-    };
+    });
 
 	private class SyncThread implements Runnable
 	{
@@ -449,8 +448,6 @@ public class myStress_sync extends Activity implements OnClickListener
 		}
 	     public void run()
 	     {
-	    	  	int i;
-	    	 
 		    	// path for templates
 		        external_storage = getExternalFilesDir(null);
 		        
@@ -479,9 +476,9 @@ public class myStress_sync extends Activity implements OnClickListener
 			byte[] writebyte;
 			int number_values;
 			int i;
-			long currentmilli;
+//			long currentmilli;
 			Calendar cal = Calendar.getInstance();
-			boolean set_timestamp = true;
+//			boolean set_timestamp = true;
 			// use handler to start activity
 	        Message finish2_msg = mHandler.obtainMessage(FINISH_NO_VALUES_ACTIVITY);
 	        String currentFilename = new String(settings.getString("UniqueID", "" +
@@ -495,7 +492,7 @@ public class myStress_sync extends Activity implements OnClickListener
 			try
 			{
 		    	// use current milliseconds for filename
-		    	currentmilli = System.currentTimeMillis();
+//		    	currentmilli = System.currentTimeMillis();
 		    	// open file in public directory
 		    	sync_file = new File(external_storage, "myStress_temp");
 		    	// make sure that path exists
@@ -508,7 +505,7 @@ public class myStress_sync extends Activity implements OnClickListener
 				share_file = Uri.fromFile(fconn);	
 
 		    	// set timestamp when we will have found the first timestamp
-		    	set_timestamp = true;
+//		    	set_timestamp = true;
 				currenttime = synctime;
 		    	
 				while (syncing == SYNC_STARTED)

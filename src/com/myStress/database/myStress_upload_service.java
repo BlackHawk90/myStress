@@ -21,7 +21,7 @@ package com.myStress.database;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
+//import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -58,8 +58,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.IOUtils;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
-import com.google.api.services.drive.model.ParentReference;
-import com.google.api.services.drive.model.Permission;
+//import com.google.api.services.drive.model.Permission;
 import com.myStress.helper.Waker;
 
 @SuppressLint("NewApi")
@@ -659,7 +658,7 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 	 *            The value "owner", "writer" or "reader".
 	 * @return The inserted permission if successful, {@code null} otherwise.
 	 */
-	private static Permission insertPermission(Drive service, String fileId) {
+/*	private static Permission insertPermission(Drive service, String fileId) {
 		Permission newPermission = new Permission();
 
 		newPermission.setValue("stressapp.fim@gmail.com");
@@ -673,5 +672,5 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 	        Log.e("myStress","Error on setting Permission for GDrive-File: " + e.getMessage());
 		}
 		return null;
-	}
+	}*/
 }

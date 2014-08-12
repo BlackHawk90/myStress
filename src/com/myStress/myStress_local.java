@@ -66,8 +66,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myStress.database.myStress_database;
-import com.myStress.database.myStress_upload;
-import com.myStress.database.myStress_upload_service;
 import com.myStress.helper.SerialPortLogger;
 import com.myStress.helper.Waker;
 import com.myStress.platform.HandlerManager;

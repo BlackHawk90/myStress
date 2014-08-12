@@ -20,13 +20,11 @@ package com.myStress.handlers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.CallLog.Calls;
 
 import com.myStress.R;
 import com.myStress.platform.HandlerManager;
@@ -68,7 +66,7 @@ public class CallLogHandler implements Handler
 				callDate = cur.getLong(cur.getColumnIndex(android.provider.CallLog.Calls.DATE));
 				if(callDate < lastUpdate) break;
 				
-				SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.GERMANY);
 				String dateString = formatter.format(new Date(callDate));
 				
 				entries[i] = dateString;

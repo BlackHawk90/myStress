@@ -129,7 +129,7 @@ public class CalendarHandler implements Handler {
 	 *            Reference to the calling {@link android.content.Context}
 	 */
 	public CalendarHandler(Context nors) {
-		String storedCalendars;
+//		String storedCalendars;
 		// store for later
 		myStress = nors;
 

@@ -36,10 +36,12 @@ import android.util.Log;
 public class StressLevelHandler implements Handler
 {
 	private Context nors;
-	private String Event, old_Event;
+	private String Event, old_Event, status;
 	private Semaphore stress_semaphore 	= new Semaphore(1);
+	private Semaphore meta_semaphore 	= new Semaphore(1);
 	private Vibrator vibrator;
-	private boolean registered = false, shutdown = false;
+	private boolean registered = false, shutdown = false, juststarted = false;
+	private boolean processed_sm = false, processed_sl = false;
 	private int polltime = 60000;
 	
 	private void wait(Semaphore sema)
@@ -64,56 +66,87 @@ public class StressLevelHandler implements Handler
 	{
 		long[] pattern = {0l, 450l, 250l, 450l, 250l, 450l};
 		StringBuffer readings;
+		juststarted = false;
 
 		// are we shutting down?
 		if (shutdown == true)
 			return null;
-
-		// event button?
-		if(sensor.compareTo("SL") == 0)
+		
+		// not yet registered -> then do so!!
+		if (registered == false)
 		{
-			// not yet registered -> then do so!!
-			if (registered == false)
-			{
-				// check intents and set booleans for discovery
-				IntentFilter intentFilter = new IntentFilter("com.myStress.stresslevel");
-		        nors.registerReceiver(SystemReceiver, intentFilter);
-//		        intentFilter = new IntentFilter("com.myStess.eventselected");
-//		        nors.registerReceiver(SystemReceiver, intentFilter);
-		        registered = true;
+			// check intents and set booleans for discovery
+			IntentFilter intentFilter = new IntentFilter("com.myStress.stresslevel");
+	        nors.registerReceiver(SystemReceiver, intentFilter);
+//	        intentFilter = new IntentFilter("com.myStess.eventselected");
+//	        nors.registerReceiver(SystemReceiver, intentFilter);
+	        registered = true;
+	        juststarted = true;
+		}
+		
+		if(sensor.equals("SL"))
+		{
+			if(!juststarted){
+				try{
+					Intent startintent = new Intent(nors, StressLevel_selector.class);
+					startintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					nors.startActivity(startintent);
+					// vibrate with pattern
+					vibrator.vibrate(pattern, -1);
+				} catch(Exception e){
+					Log.e("myStress", e.getMessage());
+				}
 			}
+			else stress_semaphore.release();
 			
-			try{
-				Intent startintent = new Intent(nors, StressLevel_selector.class);
-				startintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				nors.startActivity(startintent);
-			} catch(Exception e){
-				Log.e("myStress", e.getMessage());
-			}
-            
 			wait(stress_semaphore); // block until semaphore available -> fired
-
+			
 			if (Event != null)
 			{
 				// prepare readings
 				readings = new StringBuffer(sensor);
 				readings.append(Event);
 				
-				// vibrate with pattern
-				vibrator.vibrate(pattern, -1);
-				
-				// garbage collect mood string
-				Event = null;
+				clear();
 		        
 				return readings.toString().getBytes();
 			}
-			else 
-				return null;
+			else{
+				if(status == null) return null;
+				if(status.equals("snooze")){
+					try{
+						Thread.sleep(15000);
+						return Acquire("SL",null);
+					}catch(Exception e){
+						Log.e("myStress", e.getMessage());
+					}
+				}
+			}
+		}
+		else if(sensor.equals("SM")){
+			wait(meta_semaphore);
+				
+			if(status != null){
+				StringBuffer sm_readings = new StringBuffer(sensor);
+				sm_readings.append(status);
+				
+				processed_sm=true;
+				clear();
+				
+				return sm_readings.toString().getBytes();
+			}
 		}
 		
 		return null;
 	}
 	
+	private void clear() {
+		if(processed_sm && processed_sl){
+			Event = null;
+			status = null;
+		}
+	}
+
 	/**
 	 * Method to share the last value of the given sensor
 	 * @param sensor String of the sensor symbol to be shared
@@ -146,7 +179,8 @@ public class StressLevelHandler implements Handler
 	 */
 	public void Discover()
 	{
-		SensorRepository.insertSensor(new String("SL"), new String("Event"), nors.getString(R.string.SL_d), nors.getString(R.string.SL_e), new String("str"), 0, 0, 1, false, polltime, this);
+		SensorRepository.insertSensor(new String("SL"), new String("Level"), nors.getString(R.string.SL_d), nors.getString(R.string.SL_e), new String("str"), 0, 0, 1, false, polltime, this);
+		SensorRepository.insertSensor(new String("SM"), new String("Meta"), nors.getString(R.string.SM_d), nors.getString(R.string.SM_e), new String("str"), 0, 0, 1, false, 0, this);
 	}
 	
 	/**
@@ -160,7 +194,8 @@ public class StressLevelHandler implements Handler
 		try
 		{
 			// charge the semaphores to block at next call!
-			wait(stress_semaphore); 
+			wait(stress_semaphore);
+			wait(meta_semaphore);
 
 			// get system service for Vibrator
 			vibrator = (Vibrator)nors.getSystemService(Context.VIBRATOR_SERVICE);			
@@ -184,8 +219,12 @@ public class StressLevelHandler implements Handler
 		if (registered == true)
 		{
 			Event = null;
+			status = null;
 			nors.unregisterReceiver(SystemReceiver);
 		}
+		
+		stress_semaphore.release();
+		meta_semaphore.release();
 	}
 		
 	private final BroadcastReceiver SystemReceiver = new BroadcastReceiver() 
@@ -193,12 +232,14 @@ public class StressLevelHandler implements Handler
         @Override
         public void onReceive(Context context, Intent intent) 
         {
-            if (intent.getAction().equals("com.myStress.stresslevel")) 
+            if (intent.getAction().equals("com.myStress.stresslevel"))
             {
-            	
-            	Event = intent.getStringExtra("StressLevel");
-
-            	stress_semaphore.release();		// release semaphore
+            	if(intent.hasExtra("StressLevel")){
+	            	Event = intent.getStringExtra("StressLevel");
+            	}
+        		status = intent.getStringExtra("StressMeta");
+        		stress_semaphore.release();
+        		meta_semaphore.release();
 				return;
             }
         }

@@ -121,6 +121,8 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="AF_e">Provides the estimated audio frequency, determining the sound pitch. Measured in Hz.</string>
 <string name="AS_d">Ambient Noise Level</string>
 <string name="AS_e">Provides the estimated noise level, measured in dB.</string>
+<string name="AU_d">Call Audio</string>
+<string name="AU_e">Analysis of audio signal during call.</string>
 <string name="BT_d">Surrounding BT Devices</string>
 <string name="BT_e">Provides information about the BT devices around, such as MACs and BT names.</string>
 <string name="BN_d"># surrounding BT Devices</string>

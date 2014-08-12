@@ -256,8 +256,8 @@ public class CellHandler extends PhoneStateListener implements
 				// register my listener for getting signal strength, location
 				// changes and data connection state events
 				// but only if airplane mode is not enabled!
-				if ((Settings.System.getInt(nors.getContentResolver(),
-						Settings.System.AIRPLANE_MODE_ON, 0) == 0))
+				if(Settings.System.getInt(nors.getContentResolver(),
+						Settings.Global.AIRPLANE_MODE_ON, 0) == 0)
 					enableProperties = true;
 			}
 		} catch (Exception e) {
@@ -466,13 +466,13 @@ public class CellHandler extends PhoneStateListener implements
 	// We use a handler here to allow for the Acquire() function, which runs in
 	// a different thread, to issue an initialization of the invidiaul sensors
 	// since registerListener() can only be called from the main Looper thread!!
-	private final Handler mHandler = new Handler() {
+	private final Handler mHandler = new Handler(new Handler.Callback() {
 		@Override
-		public void handleMessage(Message msg) {
+		public boolean handleMessage(Message msg) {
 			int events = 0;
 
 			if (shutdown == true)
-				return;
+				return true;
 
 			switch (msg.what) {
 			case INIT_DATACONNECTED:
@@ -499,8 +499,9 @@ public class CellHandler extends PhoneStateListener implements
 			// register listener now
 			enableListener = true;
 			tm.listen(cellhandler, events);
+			return true;
 		}
-	};
+	});
 
 	/**
 	 * Called when the data connection state has changed (e.g., being
