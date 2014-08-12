@@ -18,7 +18,6 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 package com.myStress.handlers;
 
 import java.util.Arrays;
-import java.util.concurrent.Semaphore;
 
 import android.content.Context;
 import android.media.AudioFormat;
@@ -68,20 +67,8 @@ public class CallAudioHandler implements Handler
 	private boolean available = false;
 	private boolean shutdown = false;
 	
-	private Semaphore audio_semaphore = new Semaphore(1);
 	private String audiofeatures = null;
 	private boolean started = false, callactive = false;
-	
-	private void wait(Semaphore sema)
-	{
-		try
-		{
-			sema.acquire();
-		}
-		catch(Exception e)
-		{
-		}
-	}
 	
 	/**
 	 * Method to acquire sensor data
@@ -103,8 +90,6 @@ public class CallAudioHandler implements Handler
 			}
 			
 			if(callactive){
-				wait(audio_semaphore);
-				
 				handleAudioStream();
 				
 				StringBuffer AU_reading = new StringBuffer(sensor);
@@ -172,8 +157,6 @@ public class CallAudioHandler implements Handler
 	{
 		// store for later
 		this.myStress = myStress;
-		
-		wait(audio_semaphore);
 		
     	bufferSize = AudioRecord.getMinBufferSize(
         		RECORDER_SAMPLERATE,
@@ -263,7 +246,8 @@ public class CallAudioHandler implements Handler
     			accum += Math.abs((double)data16bit[i]);
     		}
 //    		data.addProperty(L1_NORM, accum/fN);
-    		audiofeatures += "L1="+accum/fN;
+    		// Write L1_NORM
+    		audiofeatures += accum/fN;
 
     		// L2-norm
     		accum = 0;
@@ -272,7 +256,8 @@ public class CallAudioHandler implements Handler
     			accum += (double)data16bit[i]*(double)data16bit[i];
     		}
 //    		data.addProperty(L2_NORM, Math.sqrt(accum/fN));
-    		audiofeatures += ":L2="+Math.sqrt(accum/fN);
+    		// Write L2_NORM
+    		audiofeatures += Math.sqrt(accum/fN);
 
     		// Linf-norm
     		accum = 0;
@@ -281,6 +266,7 @@ public class CallAudioHandler implements Handler
     			accum = Math.max(Math.abs((double)data16bit[i]),accum);
     		}
 //    		data.addProperty(LINF_NORM, Math.sqrt(accum));
+    		// Write LINF_NORM
     		audiofeatures += ":Linf="+Math.sqrt(accum);
 
     		// Frequency analysis
@@ -314,13 +300,13 @@ public class CallAudioHandler implements Handler
     		}
 //    		Gson gson = getGson();
 //    		data.add(PSD_ACROSS_FREQUENCY_BANDS, gson.toJsonTree(psdAcrossFrequencyBands));
-    		audiofeatures += ":PSD=";
+    		// Write PSD
     		for(int i=0;i<FREQ_BANDEDGES.length-1;i++)
     			audiofeatures += psdAcrossFrequencyBands[i]+",";
     		
     		// Get MFCCs
     		featureCepstrum = featureMFCC.cepstrum(fftBufferR, fftBufferI);
-    		audiofeatures += ":MFCCS=";
+    		// Write MFCCs
     		for(int i=0;i<MFCCS_VALUE-1;i++)
     			audiofeatures += featureCepstrum[i];
 //    		data.add(MFCCS, gson.toJsonTree(featureCepstrum));
@@ -339,11 +325,9 @@ public class CallAudioHandler implements Handler
         		break;
         	case TelephonyManager.CALL_STATE_RINGING:
         		callactive = true;
-        		audio_semaphore.release();
         		break;
         	case TelephonyManager.CALL_STATE_OFFHOOK:
         		callactive = true;
-        		audio_semaphore.release();
         		break;
         	}
         }
