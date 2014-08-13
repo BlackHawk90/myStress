@@ -98,7 +98,8 @@ public class myStress_record_tab extends Activity implements OnClickListener, On
         // save activity in debug class
         SerialPortLogger.nors = this;
 		// is debugging on?
-   		SerialPortLogger.setDebugging(settings.getBoolean("Debug", false));
+//   		SerialPortLogger.setDebugging(settings.getBoolean("Debug", false));
+        SerialPortLogger.setDebugging(false);
 		SerialPortLogger.debug("myStress debug output at " + Calendar.getInstance().getTime().toString());
 			
         // set content of View

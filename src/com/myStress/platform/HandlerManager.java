@@ -84,9 +84,7 @@ public class HandlerManager
 //	   handlers[inst_handlers++]  = (Handler)new MediaWatcherHandler(myStress);
 	   handlers[inst_handlers++]  = (Handler)new CalendarHandler(myStress);
 	   handlers[inst_handlers++]  = (Handler)new NotificationHandler(myStress);
-//	   handlers[inst_handlers++]  = (Handler)new KeyLogHandler(myStress);
 	   handlers[inst_handlers++]  = (Handler)new TextInformationHandler(myStress);
-//	   handlers[inst_handlers++]  = (Handler)new TypingSpeedHandler(myStress);
 	   handlers[inst_handlers++]  = (Handler)new CallLogHandler(myStress);
 	   handlers[inst_handlers++]  = (Handler)new StressLevelHandler(myStress);
 	   handlers[inst_handlers++]  = (Handler)new CallAudioHandler(myStress);
@@ -264,5 +262,21 @@ public class HandlerManager
 		{
 			SerialPortLogger.debug("ERROR " +  "Exception: " + e.toString());
 		}
+	}
+	
+	/**
+	 * Returns a handler
+	 * 
+	 * @param handlerName Name of the Handler to be returned
+	 * @return handler Object
+	 */
+	static public Handler getHandler(String handlerName){
+		for(int i = 0; i < handlers.length; i++){
+			String className = handlers[i].getClass().toString();
+			if(className.contains(handlerName))
+				return handlers[i];
+		}
+		
+		return null;
 	}
 }

@@ -31,6 +31,7 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.myStress.R;
 import com.myStress.platform.HandlerManager;
@@ -78,7 +79,7 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 	private Semaphore activity_semaphore	= new Semaphore(1);
 	private boolean shutdown = false;
 	
-	private double measureIntervalStart = 0, measureInterval = 5000;//poll_interval = polltime3, measure_interval = 5000;
+	private double measureIntervalStart = 0, measureInterval = 120;//poll_interval = polltime3, measure_interval = 5000;
 	private float varianceSum, avg, sum;
 	private int count;
 	private boolean polled;
@@ -303,7 +304,7 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 					wait(activity_semaphore);
 					if (activity != activity_old){
 						textread = true;
-						textvalue = activity+" "+varianceSum;
+						textvalue = activity+":"+varianceSum;
 						activity_old = activity;
 						polled = true;
 					}
@@ -442,7 +443,7 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 		   if (Pedometer != null)
 			   SensorRepository.insertSensor(new String("PD"), new String("-"), nors.getString(R.string.PD_d), nors.getString(R.string.PD_e), new String("int"), -1, 0, 50000, true, polltime, this);	
 		   if (Accelerometer != null)
-			   SensorRepository.insertSensor(new String("AC"), new String("text"), nors.getString(R.string.AC_d), nors.getString(R.string.AC_e), new String("txt"), -1, 0, 50000, true, polltime3, this);
+			   SensorRepository.insertSensor(new String("AC"), new String("text"), nors.getString(R.string.AC_d), nors.getString(R.string.AC_e), new String("txt"), -1, 0, 50000, true, polltime, this);
 		}
 	}
 	
@@ -626,9 +627,9 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
         	   if (startedActivity == false)
         	   {
         		   if(Build.VERSION.SDK_INT<Build.VERSION_CODES.KITKAT)
-        			   startedActivity = sensorManager.registerListener(activitylistener, Accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        			   startedActivity = sensorManager.registerListener(activitylistener, Accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
         		   else
-        			   startedActivity = sensorManager.registerListener(activitylistener, Accelerometer, SensorManager.SENSOR_DELAY_NORMAL, 0);
+        			   startedActivity = sensorManager.registerListener(activitylistener, Accelerometer, SensorManager.SENSOR_DELAY_FASTEST, 0);
         	   }
            default:  
            	break;
@@ -849,9 +850,9 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
     		activity_semaphore.release();
     		
 //    		if(pollIntervalStart == 0 || (timestamp >= pollIntervalStart + pollInterval)){
-    			if(varianceSum >= 10.0f)
+    			if(varianceSum >= 25.0f)
     				activity = "high";
-    			else if(varianceSum > 3.0f)
+    			else if(varianceSum > 10.0f)
     				activity = "low";
     			else
     				activity = "none";

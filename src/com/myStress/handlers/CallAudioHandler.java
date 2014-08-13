@@ -30,7 +30,10 @@ import android.util.Log;
 import com.myStress.R;
 import com.myStress.helper.FFT;
 import com.myStress.helper.MFCC;
+import com.myStress.helper.SerialPortLogger;
+import com.myStress.helper.Waker;
 import com.myStress.helper.Window;
+import com.myStress.platform.HandlerManager;
 import com.myStress.platform.History;
 import com.myStress.platform.SensorRepository;
 
@@ -70,6 +73,15 @@ public class CallAudioHandler implements Handler
 	
 	private String audiofeatures = null;
 	private boolean started = false, callactive = false;
+	
+	/**
+	 * Sleep function 
+	 * @param millis
+	 */
+	private void sleep(long millis) 
+	{
+		Waker.sleep(millis);
+	}
 	
 	/**
 	 * Method to acquire sensor data
@@ -181,16 +193,34 @@ public class CallAudioHandler implements Handler
 	    	//writeLogTextLine("Frequency band edge " + i + ": " + Integer.toString(freqBandIdx[i]));
 	    }
 	    
-	    audioRecorder = new AudioRecord(
-	    		RECORDER_SOURCE,
-				RECORDER_SAMPLERATE,
-				RECORDER_CHANNELS,
-				RECORDER_AUDIO_ENCODING,
-				bufferSize);
-	    prevSecs = (double)System.currentTimeMillis()/1000.0d;
-	    audioRecorder.startRecording();
-	    
-	    available = true;
+	    boolean buffer_error = true;
+	    do
+	    {
+	    	try
+	    	{
+			    audioRecorder = new AudioRecord(
+			    		RECORDER_SOURCE,
+						RECORDER_SAMPLERATE,
+						RECORDER_CHANNELS,
+						RECORDER_AUDIO_ENCODING,
+						bufferSize);
+			    if(audioRecorder != null)
+			    	if(audioRecorder.getState() == AudioRecord.STATE_INITIALIZED)
+			    	{
+					    prevSecs = (double)System.currentTimeMillis()/1000.0d;
+						// release player again until needed
+					    audioRecorder.release();
+					    audioRecorder = null;
+					    available = true;
+			    	    buffer_error = false;
+			    	}
+	    	} catch (Exception e) {
+	    		buffer_error = true;
+				// increase buffer size by 10%
+	    		bufferSize += bufferSize/10;
+	    	}
+	    } while(buffer_error);
+
 	}
 	
 	/**
@@ -202,10 +232,12 @@ public class CallAudioHandler implements Handler
 	{
 		// we are shutting down!
 		shutdown = true;
-		
-		audioRecorder.stop();
-        audioRecorder.release();
-        audioRecorder = null;
+		if(audioRecorder!= null) {
+			if (audioRecorder.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING)
+				audioRecorder.stop();
+	        audioRecorder.release();
+	        audioRecorder = null;
+		}
 	}
 	
 	private void handleAudioStream()
@@ -217,108 +249,127 @@ public class CallAudioHandler implements Handler
     	double featureCepstrum[] = new double[MFCCS_VALUE];
     	
 	    int readAudioSamples = 0;
+	    boolean havePlayer = ((AudioHandler) HandlerManager.getHandler("AudioHandler")).havePlayer;
+		while (havePlayer == true)
+			sleep(100);
+		// now we have the player!
+		((AudioHandler) HandlerManager.getHandler("AudioHandler")).havePlayer = true;
 	    
-	    readAudioSamples = audioRecorder.read(data16bit, 0, bufferSamples);
-    	double currentSecs = (double)(System.currentTimeMillis())/1000.0d;
-//    	double diffSecs = currentSecs - prevSecs;
-    	prevSecs = currentSecs;
+		try
+		{
+			audioRecorder = new AudioRecord(
+		   		RECORDER_SOURCE,
+				RECORDER_SAMPLERATE,
+				RECORDER_CHANNELS,
+				RECORDER_AUDIO_ENCODING,
+				bufferSize);
 	    
-    	audiofeatures = new String("");
-    	
-//    	JsonObject data = new JsonObject();
-    	
-    	if (readAudioSamples > 0)
-    	{
-    		double fN = (double)readAudioSamples;
+			if (audioRecorder != null)
+			{
+				if (audioRecorder.getState() == AudioRecord.STATE_INITIALIZED)
+				{
+					audioRecorder.startRecording();
+					
+					readAudioSamples = audioRecorder.read(data16bit, 0, bufferSamples);
+			    	double currentSecs = (double)(System.currentTimeMillis())/1000.0d;
+//			    	double diffSecs = currentSecs - prevSecs;
+			    	prevSecs = currentSecs;
+				    
+			    	audiofeatures = new String("");
+			    	
+//			    	JsonObject data = new JsonObject();
+			    	
+			    	if (readAudioSamples > 0)
+			    	{
+			    		double fN = (double)readAudioSamples;
+			
+//			    		data.addProperty(DIFF_SECS, diffSecs);
+//			    		audiofeatures = new String();
+			
+			    		// Convert shorts to 8-bit bytes for raw audio output
+			    		for (int i = 0; i < bufferSamples; i ++) {
+			    			data8bit[i*2] = (byte)data16bit[i];
+			    			data8bit[i*2+1] = (byte)(data16bit[i] >> 8);
+			    		}
+			
+			    		// L1-norm
+			    		double accum = 0;
+			    		for (int i = 0; i < readAudioSamples; i ++)
+			    			accum += Math.abs((double)data16bit[i]);
+			    		
+//			    		data.addProperty(L1_NORM, accum/fN);
+			    		// Write L1_NORM
+			    		audiofeatures += accum/fN + ":";
+			
+			    		// L2-norm
+			    		accum = 0;
+			    		for (int i = 0; i < readAudioSamples; i ++)
+			    			accum += (double)data16bit[i]*(double)data16bit[i];
+//			    		data.addProperty(L2_NORM, Math.sqrt(accum/fN));
+			    		// Write L2_NORM
+			    		audiofeatures += Math.sqrt(accum/fN) + ":";
+			
+			    		// Linf-norm
+			    		accum = 0;
+			    		for (int i = 0; i < readAudioSamples; i ++)
+			    			accum = Math.max(Math.abs((double)data16bit[i]),accum);
+//			    		data.addProperty(LINF_NORM, Math.sqrt(accum));
+			    		
+			    		// Write LINF_NORM
+			    		audiofeatures += Math.sqrt(accum) + ":";
+			    		
+			    		// Frequency analysis
+			    		Arrays.fill(fftBufferR, 0);
+			    		Arrays.fill(fftBufferI, 0);
+			
+			    		// Convert audio buffer to doubles
+			    		for (int i = 0; i < readAudioSamples; i++)
+			    			fftBufferR[i] = data16bit[i];
+			
+			    		// In-place windowing
+			    		featureWin.applyWindow(fftBufferR);
+			
+			    		// In-place FFT
+			    		featureFFT.fft(fftBufferR, fftBufferI);
+			
+			    		// Get PSD across frequency band ranges
+			    		double[] psdAcrossFrequencyBands = new double[FREQ_BANDEDGES.length - 1];
+			    		for (int b = 0; b < (FREQ_BANDEDGES.length - 1); b ++)
+			    		{
+			    			int j = freqBandIdx[b];
+			    			int k = freqBandIdx[b+1];
+			    			accum = 0;
+			    			for (int h = j; h < k; h ++)
+			    				accum += fftBufferR[h]*fftBufferR[h] + fftBufferI[h]*fftBufferI[h];
 
-//    		data.addProperty(DIFF_SECS, diffSecs);
-//    		audiofeatures = new String();
-
-    		// Convert shorts to 8-bit bytes for raw audio output
-    		for (int i = 0; i < bufferSamples; i ++)
-    		{
-    			data8bit[i*2] = (byte)data16bit[i];
-    			data8bit[i*2+1] = (byte)(data16bit[i] >> 8);
-    		}
-    		//		        	writeLogTextLine("Read " + readAudioSamples + " samples");
-
-    		// L1-norm
-    		double accum = 0;
-    		for (int i = 0; i < readAudioSamples; i ++)
-    		{
-    			accum += Math.abs((double)data16bit[i]);
-    		}
-//    		data.addProperty(L1_NORM, accum/fN);
-    		// Write L1_NORM
-    		audiofeatures += accum/fN + ":";
-
-    		// L2-norm
-    		accum = 0;
-    		for (int i = 0; i < readAudioSamples; i ++)
-    		{
-    			accum += (double)data16bit[i]*(double)data16bit[i];
-    		}
-//    		data.addProperty(L2_NORM, Math.sqrt(accum/fN));
-    		// Write L2_NORM
-    		audiofeatures += Math.sqrt(accum/fN) + ":";
-
-    		// Linf-norm
-    		accum = 0;
-    		for (int i = 0; i < readAudioSamples; i ++)
-    		{
-    			accum = Math.max(Math.abs((double)data16bit[i]),accum);
-    		}
-//    		data.addProperty(LINF_NORM, Math.sqrt(accum));
-    		// Write LINF_NORM
-    		audiofeatures += Math.sqrt(accum) + ":";
-    		
-    		// Frequency analysis
-    		Arrays.fill(fftBufferR, 0);
-    		Arrays.fill(fftBufferI, 0);
-
-    		// Convert audio buffer to doubles
-    		for (int i = 0; i < readAudioSamples; i++)
-    		{
-    			fftBufferR[i] = data16bit[i];
-    		}
-
-    		// In-place windowing
-    		featureWin.applyWindow(fftBufferR);
-
-    		// In-place FFT
-    		featureFFT.fft(fftBufferR, fftBufferI);
-
-    		// Get PSD across frequency band ranges
-    		double[] psdAcrossFrequencyBands = new double[FREQ_BANDEDGES.length - 1];
-    		for (int b = 0; b < (FREQ_BANDEDGES.length - 1); b ++)
-    		{
-    			int j = freqBandIdx[b];
-    			int k = freqBandIdx[b+1];
-    			accum = 0;
-    			for (int h = j; h < k; h ++)
-    			{
-    				accum += fftBufferR[h]*fftBufferR[h] + fftBufferI[h]*fftBufferI[h];
-    			}
-    			psdAcrossFrequencyBands[b] = accum/((double)(k - j));
-    		}
-//    		Gson gson = getGson();
-//    		data.add(PSD_ACROSS_FREQUENCY_BANDS, gson.toJsonTree(psdAcrossFrequencyBands));
-    		// Write PSD
-    		int i=0;
-    		for(;i<FREQ_BANDEDGES.length-2;i++)
-    			audiofeatures += psdAcrossFrequencyBands[i]+",";
-    		audiofeatures += psdAcrossFrequencyBands[i]+":";
-    		
-    		// Get MFCCs
-    		featureCepstrum = featureMFCC.cepstrum(fftBufferR, fftBufferI);
-    		// Write MFCCs
-    		for(i=0;i<MFCCS_VALUE-2;i++)
-    			audiofeatures += featureCepstrum[i]+",";
-    		audiofeatures += featureCepstrum[i]+"";
-//    		data.add(MFCCS, gson.toJsonTree(featureCepstrum));
-    		Log.e("myStress",audiofeatures);
+			    			psdAcrossFrequencyBands[b] = accum/((double)(k - j));
+			    		}
+			//    		Gson gson = getGson();
+			//    		data.add(PSD_ACROSS_FREQUENCY_BANDS, gson.toJsonTree(psdAcrossFrequencyBands));
+			    		// Write PSD
+			    		int i=0;
+			    		for(;i<FREQ_BANDEDGES.length-2;i++)
+			    			audiofeatures += psdAcrossFrequencyBands[i]+",";
+			    		
+			    		audiofeatures += psdAcrossFrequencyBands[i]+":";
+			    		
+			    		// Get MFCCs
+			    		featureCepstrum = featureMFCC.cepstrum(fftBufferR, fftBufferI);
+			    		// Write MFCCs
+			    		for(i=0;i<MFCCS_VALUE-2;i++)
+			    			audiofeatures += featureCepstrum[i]+",";
+			    		audiofeatures += featureCepstrum[i]+"";
+			//    		data.add(MFCCS, gson.toJsonTree(featureCepstrum));
+			    		Log.e("myStress",audiofeatures);																						
+			    	}
+				}
+			}
+	    } catch (Exception e) {
+	    	SerialPortLogger.debug("CallAudioHandler:Exception when requesting AudioRecord!");
+	    } finally {
+			// don't need player anymore
+			((AudioHandler) HandlerManager.getHandler("AudioHandler")).havePlayer = false;
 	    }
-
 	}
 	
 	public final PhoneStateListener phoneListener = new PhoneStateListener() 

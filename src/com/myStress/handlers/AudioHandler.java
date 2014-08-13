@@ -41,6 +41,7 @@ public class AudioHandler implements Handler
 	private byte [] AF_reading;
 	// configuration data
 	private int polltime = 1000*60*6;
+
 	private final int CENTRE_POINT = 32768;
 	
 	// audio data
@@ -52,7 +53,7 @@ public class AudioHandler implements Handler
 	
 	// availability of player
 	private boolean available = false;
-	private boolean havePlayer = false;
+	public boolean havePlayer = false;
 	private boolean shutdown = false;
 	
 	// Player for audio capture
