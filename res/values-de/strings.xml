@@ -20,8 +20,8 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="Copyright">&#169; 2004-2006 Nokia Corp.\n&#169; 2008-2012 Dirk Trossen \n&#169; 2013-2014 TecVis LP \n&#169; 2014 FIM Research Center
 \n\nKontakt: myStress@fim-rc.de
 \n\nHäufig gestellte Fragen: http://goo.gl/bkZkgF
-\n\nmyStress Quellcode ist lizenziert unter der LGPL 2.0 license und demnächst auf Github verfügbar. Für mehr Informationen bzgl. der Lizenz, siehe <b>license.txt</b>!
-\n\nDie Anwendung wurde im Rahmen einer Forschungsarbeit am Kernkompetenzzentrum Finanz- und Informationsmanagement in Kooperation mit dem Elitenetzwerkstudiengagn Finance and Information Management entwicklet und basiert auf der Android Remote Sensing (AIRS) platform
+\n\nmyStress Quellcode ist lizenziert unter der LGPL 2.0 Lizenz und demnächst auf Github verfügbar. Für mehr Informationen bzgl. der Lizenz, siehe <b>license.txt</b>!
+\n\nDie Anwendung wurde im Rahmen einer Forschungsarbeit am Kernkompetenzzentrum Finanz- und Informationsmanagement in Kooperation mit dem Elitenetzwerkstudiengang Finance and Information Management entwicklet und basiert auf der Android Remote Sensing (AIRS) Plattform.
 \n\nDie Autoren sind nicht für Missbrauch von myStress verantwortlich, z.B. für Überwachungszwecke. Die Operation von myStress wird durch ein Symbol in der oberen Titelleiste angezeigt, um Benutzer auf Aufnahmen aufmerksam zu machen!</string>
 <string name="tab_Record">Aufnahme</string>
 <string name="tab_Sync">Sync</string>
@@ -32,7 +32,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="MapAbout">Zeigt einen Pfad der GPS Aufzeichnungen. Du kannst auf eine Markierung klicken für mehr Information. Du kannst die Karte auf Deine momentane oder die letzte bekannte Position zentrieren (durch die Knöpfe oben rechts). Du kannst auch zwischen Satelliten- und Kartendarstellung umschalten durch die Menüeinträge.</string>
 <string name="RecordAbout">Wähle den Modus und starte eine Aufzeichnung.
 \n\nBei der Auswahl -Remote- werden alle erfassten Daten in 12 Stunden Intervallen bei aktivierter WLAN-Verbindung auf ein GDrive geladen.
-\n\nBei der Auswahl -Local- verbleiben alle erfassten Daten auf dem Smartphone, jedoch ist eine regelmäßige, manuelle Synchronisierung der Daten ist notwendig.</string>
+\n\nBei der Auswahl -Local- verbleiben alle erfassten Daten auf dem Smartphone, jedoch ist eine manuelle Synchronisierung der Daten ist notwendig.</string>
 <string name="LocalAbout">Zeigt die Sensoren, die im lokalen Aufnahmemodus verfügbar sind.\nWähle die Sensoren die Du aufzeichnen willst. Durch das Menü kannst Du alle Sensoren anwählen oder alle Anwahlen löschen. Du kannst auch Informationen über die Sensoren ansehen, wie z.B. Typ, Wertebereiche etc, die entdeckt wurden.</string>
 <string name="ValuesAbout">Zeigt die momentanen Werte der Sensoren im lokalen Aufnahmemodus an.\nVon hier aus kannst Du das Programm verlassen oder die Anzeige mit der <b>ZURÜCK</b> Taste verlassen!\Du kannst auch die Anzeige pausieren oder wiederaufnehmen (dies stoppt jedoch nicht den Dienst, der die Werte aufzeichnet in der Datenbank).</string>
 <string name="TimelineAbout">Zeigt den historischen Zeitverlauf des angeklickten Sensors. Du kannst die Anzahl der angezeigten Werte in den Einstellungen ändern.\nVerlasse die Anzeige mit der <b>ZURÜCK</b> Taste!</string>
@@ -44,7 +44,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 
 <string name="Getting_Started">Vor dem ersten Start</string>
 <string name="Getting_Started2">Vielen Dank für die Teilnahme an unserem Forschungsprojekt.
-\n\nDie Anwendung wurde im Rahmen einer Forschungsarbeit am Kernkompetenzzentrum Finanz- und Informationsmanagement in Kooperation mit dem Elitenetzwerkstudiengagn Finance and Information Management entwicklet.
+\n\nDie Anwendung wurde im Rahmen einer Forschungsarbeit am Kernkompetenzzentrum Finanz- und Informationsmanagement in Kooperation mit dem Elitenetzwerkstudiengang Finance and Information Management entwicklet.
 \n\nZiel dieses Projekts ist es, mithilfe eines Smartphones zu erkennen, wie gestresst der Besitzer ist.
 \n\nDie aktuelle Version von myStress dient zunächst der Erfassung von Sensordaten sowie empfundenem Stress, um stressrelevante Merkmale zu bestimmen.
 \n\nNach einmaligem Start läuft myStress größtenteils im Hintergrund und erfasst dort in 6-Minuten-Intervallen die Werte der integrierten Sensoren.
@@ -71,7 +71,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="binding_failed">Anbinden an den Dienst erfolglos!</string>
 <string name="Local_Sensing">Lokale Aufnahmen</string>
 <string name="paused">angehalten</string>
-<string name="Exit_myStress">Beenden wird Deine Aufnahmen anhalten und den Hintergrunddienst beenden!\nBist Du sicher?</string>
+<string name="Exit_myStress">Deine Aufnahmen anhalten und den Hintergrunddienst beenden?\nBist Du sicher?</string>
 <string name="Exit_myStress2">Beende myStress?</string>
 <string name="Snapshot_nothing_to_share">Nichts zu teilen! Hast Du den Kamerapfad richtig eingestellt (der Pfad muss derselbe sein wie für Bilder in der Galerie!)?</string>
 <string name="Snapshot_share">Share myStress Bilder:</string>
@@ -80,7 +80,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="Measurements_share">Share myStress Aufnahmen via:</string>
 <string name="myStress_running_exit">myStress läuft momentan.\nMöchtest Du die mometanen Aufzeichnungen unterbrechen and neu starten? Du musst myStress dann neu starten.</string>
 <string name="myStress_started_local">myStress lokale Aufzeichnungen gestartet!\nDu kannst die momentanen Werte in der Benachtigungsleiste sehen, wenn Du auf das myStress Symbol klickst.</string>
-<string name="myStress_started_remote">myStress remote Aufzeichnungen gestartet!\nDie Sensordaten werden regelmäig hochgeladen\nDu kannst die momentanen Werte in der Benachtigungsleiste sehen, wenn Du auf das myStress Symbol klickst.</string>
+<string name="myStress_started_remote">myStress remote Aufzeichnungen gestartet!\nDie Sensordaten werden regelmäig hochgeladen.</string>
 <string name="Cannot_find_storage">Kann keinen externen Speicher finden!</string>
 <string name="Last_sync">Letzte sync:</string>
 <string name="Set_sync_date">Setze Sync Datum</string>
@@ -265,11 +265,11 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 
 <string name="debug_setting">false</string>
 <string name="activatedSensors">AC;AS;AF;AU;Az;Ba;BC;BM;CA;CR;CD;CL;CC;GI;GS;HU;PH;RO;PI;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;Rm;Sc;SR;SS;TM;WC;VI</string>
-<string name="accessibility_titel">Bitte aktivieren Sie die Bedienhilfe</string>
-<string name="accessibility_message">Damit die Applikation korrekt arbeiten kann, würden wir Sie bitten die Bedienhilfe zu aktivieren</string>
+<string name="accessibility_titel">Bitte aktivieren Sie die Bedien- bzw. Eingabehilfe</string>
+<string name="accessibility_message">Damit die Applikation korrekt arbeiten kann, würden wir Sie bitten die Bedien- bzw. Eingabehilfe zu aktivieren</string>
 <string name="accessibility_goto">Einstellungen</string>
 <string name="uniqueID">Identifikationsnummer</string>
-<string name="accessibility_description">Bedienungshilfe für myStress Aufzeichnungen</string>
+<string name="accessibility_description">Bedienungs- bzw. Eingabehilfe für myStress Aufzeichnungen</string>
 <string name="accessibility_spotify">&#8212;</string>
 <string name="localSensing">myStress Local Sensing</string>
 <string name="myStressUpload">myStress Upload</string>

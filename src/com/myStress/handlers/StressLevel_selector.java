@@ -197,14 +197,21 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 	@Override
 	public void onDestroy() {
 		Intent intent;
+		if(status == null){
+			status = "snooze";
+			finish();
+		}
+		
 		if(status.equals("polled")){
 			stress = "";
 			int[] values = {seekBar1.getProgress(),  seekBar2.getProgress(),  seekBar3.getProgress() , seekBar4.getProgress()};
+			double tmp;
 			for(int i = 0; i < 4; i++){
+				tmp = values[index[i]] / 20.0;
 				if(i == 3)
-					stress += values[index[i]];
+					stress += tmp;
 				else
-					stress += values[index[i]] + ":";
+					stress += tmp + ":";
 			}
 			
 			intent = new Intent("com.myStress.stresslevel");

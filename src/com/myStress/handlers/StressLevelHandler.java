@@ -42,7 +42,7 @@ public class StressLevelHandler implements Handler
 	private Vibrator vibrator;
 	private boolean registered = false, shutdown = false, juststarted = false;
 	private boolean processed_sm = false, processed_sl = false;
-	private int polltime = 3600000;
+	private int polltime = 6000;
 	
 	private void wait(Semaphore sema)
 	{

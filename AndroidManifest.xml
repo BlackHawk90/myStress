@@ -119,11 +119,14 @@
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
@@ -176,7 +179,8 @@
             android:name="com.myStress.visualisations.MapViewerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="false"
-            android:label="@string/myStress_Map" >
+            android:label="@string/myStress_Map"
+            android:theme="@android:style/Theme" >
         </activity>
         <activity
             android:name="com.myStress.visualisations.TimelineActivity"
@@ -212,7 +216,12 @@
                 </action>
             </intent-filter>
         </receiver>
-        <activity android:name=".handlers.StressLevel_selector" android:configChanges="orientation|keyboardHidden"></activity>
+
+        <activity
+            android:name=".handlers.StressLevel_selector"
+            android:configChanges="orientation|keyboardHidden" 
+            android:theme="@android:style/Theme" >
+        </activity>
     </application>
 
 </manifest>
