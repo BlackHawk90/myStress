@@ -18,6 +18,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 package com.myStress.handlers;
 
 import java.util.Arrays;
+import java.util.concurrent.Semaphore;
 
 import android.content.Context;
 import android.media.AudioFormat;
@@ -73,6 +74,7 @@ public class CallAudioHandler implements Handler
 	
 	private String audiofeatures = null;
 	private boolean started = false, callactive = false;
+	private Semaphore call_semaphore = new Semaphore(1);
 	
 	/**
 	 * Sleep function 
@@ -81,6 +83,17 @@ public class CallAudioHandler implements Handler
 	private void sleep(long millis) 
 	{
 		Waker.sleep(millis);
+	}
+	
+	private void wait(Semaphore sema)
+	{
+		try
+		{
+			sema.acquire();
+		}
+		catch(Exception e)
+		{
+		}
 	}
 	
 	/**
@@ -97,6 +110,8 @@ public class CallAudioHandler implements Handler
 
 		// acquire data and send out
 		if(sensor.equals("AU")){
+			wait(call_semaphore);
+			
 			if(!started){
 		        ((TelephonyManager)myStress.getSystemService(Context.TELEPHONY_SERVICE)).listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
 		        started = true;
@@ -238,6 +253,7 @@ public class CallAudioHandler implements Handler
 	        audioRecorder.release();
 	        audioRecorder = null;
 		}
+		call_semaphore .release();
 	}
 	
 	private void handleAudioStream()
@@ -360,7 +376,8 @@ public class CallAudioHandler implements Handler
 			    			audiofeatures += featureCepstrum[i]+",";
 			    		audiofeatures += featureCepstrum[i]+"";
 			//    		data.add(MFCCS, gson.toJsonTree(featureCepstrum));
-			    		Log.e("myStress",audiofeatures);																						
+			    		Log.e("myStress",audiofeatures);
+			    		
 			    	}
 				}
 			}
@@ -369,6 +386,7 @@ public class CallAudioHandler implements Handler
 	    } finally {
 			// don't need player anymore
 			((AudioHandler) HandlerManager.getHandler("AudioHandler")).havePlayer = false;
+    		if(callactive) call_semaphore.release();
 	    }
 	}
 	
@@ -377,14 +395,12 @@ public class CallAudioHandler implements Handler
         @Override
         public void onCallStateChanged(int state, String incomingNumber){
         	switch(state){
-        	case TelephonyManager.CALL_STATE_IDLE:
-        		callactive = false;
-        		break;
-        	case TelephonyManager.CALL_STATE_RINGING:
-        		callactive = true;
-        		break;
         	case TelephonyManager.CALL_STATE_OFFHOOK:
         		callactive = true;
+        		call_semaphore.release();
+        		break;
+        	default:
+        		callactive = false;
         		break;
         	}
         }
