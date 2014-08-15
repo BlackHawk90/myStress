@@ -264,7 +264,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="WC_e">Bestimmt ob das Handy momentan an WiFi angeschlossen ist (1, wenn ja, 0, wenn nicht).</string>
 
 <string name="debug_setting">false</string>
-<string name="activatedSensors">AC;AS;AF;AU;Az;Ba;BC;BM;CA;CR;CD;CL;CC;GI;GS;HU;PH;RO;PI;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;Rm;Sc;SR;SS;TM;WC;VI</string>
+<string name="activatedSensors">AC;AS;AF;AU;Az;Ba;BC;BM;CA;CI;CR;CD;CL;CC;GI;GS;HU;PH;RO;PI;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;Rm;Sc;SR;SS;TM;WC;VI</string>
 <string name="accessibility_titel">Bitte aktivieren Sie die Bedien- bzw. Eingabehilfe</string>
 <string name="accessibility_message">Damit die Applikation korrekt arbeiten kann, würden wir Sie bitten die Bedien- bzw. Eingabehilfe zu aktivieren</string>
 <string name="accessibility_goto">Einstellungen</string>

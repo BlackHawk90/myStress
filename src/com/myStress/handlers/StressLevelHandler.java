@@ -16,6 +16,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 */
 package com.myStress.handlers;
 
+import java.util.Calendar;
 import java.util.concurrent.Semaphore;
 
 import com.myStress.R;
@@ -42,7 +43,7 @@ public class StressLevelHandler implements Handler
 	private Vibrator vibrator;
 	private boolean registered = false, shutdown = false, juststarted = false;
 	private boolean processed_sm = false, processed_sl = false;
-	private int polltime = 6000;
+	private int polltime = 3600000;
 	
 	private void wait(Semaphore sema)
 	{
@@ -67,6 +68,11 @@ public class StressLevelHandler implements Handler
 		long[] pattern = {0l, 450l, 250l, 450l, 250l, 450l};
 		StringBuffer readings;
 		juststarted = false;
+		
+		Calendar c = Calendar.getInstance();
+		int hour = c.get(Calendar.HOUR_OF_DAY);
+		
+		if(hour != 10 && hour != 14 && hour != 18) return null;
 
 		// are we shutting down?
 		if (shutdown == true)
