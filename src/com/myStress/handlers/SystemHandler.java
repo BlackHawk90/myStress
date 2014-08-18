@@ -311,7 +311,8 @@ public class SystemHandler implements com.myStress.handlers.Handler
 			{
 				// create Stringbuffer with sms number being sent
 			    buffer = new StringBuffer("SR");
-			    buffer.append(smsReceived.replaceAll("'","''"));
+//			    buffer.append(smsReceived.replaceAll("'","''"));
+			    buffer.append("SMS received");
 			    smsReceived = null;
 	    		return buffer.toString().getBytes();
 			}
@@ -325,7 +326,7 @@ public class SystemHandler implements com.myStress.handlers.Handler
 			{
 				// send message to handler thread to start SMS sent
 		        Message msg = mHandler.obtainMessage(INIT_SMSSENT);
-		        mHandler.sendMessage(msg);	
+		        mHandler.sendMessage(msg);
 			}
 
 			wait(sent_semaphore);  // block until semaphore available
@@ -335,7 +336,8 @@ public class SystemHandler implements com.myStress.handlers.Handler
 			{
 				// create Stringbuffer with sms number being sent
 			    buffer = new StringBuffer("SS");
-			    buffer.append(smsSent.replaceAll("'","''"));
+//			    buffer.append(smsSent.replaceAll("'","''"));
+			    buffer.append("SMS sent");
 			    smsSent = null;
 				return buffer.toString().getBytes();
 			}

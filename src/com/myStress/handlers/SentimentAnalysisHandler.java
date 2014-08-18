@@ -23,7 +23,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
 import com.myStress.R;
 import com.myStress.platform.SensorRepository;
@@ -72,8 +71,6 @@ public class SentimentAnalysisHandler implements Handler
 		if (shutdown == true)
 			return null;
 
-		Log.w("myStress", "Acquire "+sensor);
-		
 		if(sensor.compareTo("NO") == 0){
 			wait(sa_semaphore);
 			StringBuffer readings = new StringBuffer("NO");

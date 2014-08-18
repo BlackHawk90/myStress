@@ -23,7 +23,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
 import com.myStress.R;
 import com.myStress.platform.SensorRepository;
@@ -35,17 +34,8 @@ import com.myStress.platform.SensorRepository;
 public class TextInformationHandler implements Handler
 {
 	private Context myStress;
-	
-//	private Semaphore notify_semaphore 	= new Semaphore(1);
-//	private Semaphore key_semaphore = new Semaphore(1);
-//	private Semaphore speed_semaphore = new Semaphore(1);
 	private Semaphore length_semaphore = new Semaphore(1);
-	
-//	private String notify_text;
-//	private String keylog;
-	private String textlength;
-//	private double typingspeed;
-	
+	private String textinfo;
 	private boolean shutdown = false;
 	
 	private void wait(Semaphore sema)
@@ -72,44 +62,14 @@ public class TextInformationHandler implements Handler
 		if (shutdown == true)
 			return null;
 
-		Log.w("myStress", "Acquire "+sensor);
-		
-//		if(sensor.compareTo("NO") == 0){
-//			wait(notify_semaphore);
-//			StringBuffer readings = new StringBuffer("NO");
-//			readings.append(notify_text.replaceAll("'","''"));
-//			
-//			return readings.toString().getBytes();
-//		}
-//		else if(sensor.compareTo("KL") == 0){
-//			wait(key_semaphore);
-//			StringBuffer readings_kl = new StringBuffer("KL");
-//			readings_kl.append(keylog);
-//			
-//			return readings_kl.toString().getBytes();
-//		}
 		if(sensor.compareTo("TI") == 0){
 			wait(length_semaphore);
-//			byte[] reading = new byte[4 + 2];
-//			reading[0] = (byte)sensor.charAt(0);
-//			reading[1] = (byte)sensor.charAt(1);
-//			reading[2] = (byte)((textlength>>24) & 0xff);
-//			reading[3] = (byte)((textlength>>16) & 0xff);
-//			reading[4] = (byte)((textlength>>8) & 0xff);
-//			reading[5] = (byte)(textlength & 0xff);
 			
 			StringBuffer reading = new StringBuffer("TI");
-			reading.append(textlength);
+			reading.append(textinfo);
 			
 			return reading.toString().getBytes();
 		}
-//		else if(sensor.compareTo("TS") == 0){
-//			wait(speed_semaphore);
-//			StringBuffer readings = new StringBuffer("TS");
-//			readings.append(typingspeed);
-//			
-//			return readings.toString().getBytes();
-//		}
 		else{
 			return null;
 		}
@@ -144,10 +104,7 @@ public class TextInformationHandler implements Handler
 	 */
 	public void Discover()
 	{
-//	    SensorRepository.insertSensor(new String("KL"), new String("text"), myStress.getString(R.string.KL_d), myStress.getString(R.string.KL_e), new String("txt"), 0, 0, 1, false, 0, this);
-//	    SensorRepository.insertSensor(new String("NO"), new String("text"), myStress.getString(R.string.NO_d), myStress.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
 	    SensorRepository.insertSensor(new String("TI"), new String("text"), myStress.getString(R.string.TI_d), myStress.getString(R.string.TI_e), new String("txt"), 0, 0, 10000, false, 0, this);
-//	    SensorRepository.insertSensor(new String("TS"), new String("chars/s"), myStress.getString(R.string.TS_d), myStress.getString(R.string.TS_e), new String("float"), 0, 0, 20, false, 0, this);
 	}
 	
 	/**
@@ -160,10 +117,7 @@ public class TextInformationHandler implements Handler
 		this.myStress = myStress;
 		
 		// arm semaphore
-//		wait(notify_semaphore);
-//		wait(key_semaphore);
 		wait(length_semaphore);
-//		wait(speed_semaphore);
 		
 		// register for any input from the accessbility service
 		IntentFilter intentFilter = new IntentFilter("com.myStress.accessibility");
@@ -186,10 +140,7 @@ public class TextInformationHandler implements Handler
 		shutdown = true;
 		
 		// release all semaphores for unlocking the Acquire() threads
-//		notify_semaphore.release();
-//		key_semaphore.release();
 		length_semaphore.release();
-//		speed_semaphore.release();
 		
 		// unregister the broadcast receiver
 		myStress.unregisterReceiver(SystemReceiver);
@@ -210,23 +161,10 @@ public class TextInformationHandler implements Handler
             // if anything sent from the accessbility service
             if (action.equals("com.myStress.accessibility")) 
             {
-            	// get mood from intent
-//            	if(intent.hasExtra("NotifyText")){
-//            		notify_text = intent.getStringExtra("NotifyText");
-//                	notify_semaphore.release();		// release semaphore
-//            	}
-//            	if(intent.hasExtra("KeyLogger")){
-//            		keylog =  intent.getStringExtra("KeyLogger");
-//            		key_semaphore.release();
-//            	}
             	if(intent.hasExtra("TextInformation")){
-            		textlength = intent.getStringExtra("TextInformation");
+            		textinfo = intent.getStringExtra("TextInformation");
             		length_semaphore.release();
             	}
-//            	if(intent.hasExtra("TypingSpeed")){
-//            		typingspeed = Double.parseDouble(intent.getStringExtra("TypingSpeed"));
-//            		speed_semaphore.release();
-//            	}
             }
         }
     };

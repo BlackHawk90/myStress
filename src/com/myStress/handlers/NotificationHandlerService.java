@@ -17,7 +17,6 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 */
 package com.myStress.handlers;
 
-//import java.net.URL;
 import java.net.URLEncoder;
 
 import org.apache.http.HttpEntity;
@@ -27,12 +26,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-//import org.w3c.dom.Document;
-//import org.w3c.dom.Node;
-//import org.w3c.dom.NodeList;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -41,33 +38,27 @@ import android.content.IntentFilter;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
-import com.alchemyapi.api.AlchemyAPI;
-import com.alchemyapi.api.AlchemyAPI_NamedEntityParams;
+//import com.alchemyapi.api.AlchemyAPI;
+//import com.alchemyapi.api.AlchemyAPI_NamedEntityParams;
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
-import com.myStress.R;
 
 /**
  * Class to implement the myStress accessibility service
  */
+@SuppressLint("InlinedApi")
 public class NotificationHandlerService extends AccessibilityService
 {	
 	NotificationHandlerService service;
 	boolean started = true;
-//	boolean typing = false;
 	boolean newText = false;
 	double typingStartTime, typingEndTime;
-//	int typedChars;
-//	int maxTextInformation;
 	String typedText;
 	boolean wasending1 = false, wasending2 = false, sending = false, mailsending = false;
-	boolean sent = false;//, old = false;
-//	boolean sending = false, sent = false, clicked = false;
-//	double sendingTimeout;
-//	double sendingOffset = 5000;
+	boolean sent = false;
 		
-	String alchemyApiKey = "d8c9013818eb2aeb7baa7ad558f7487db4ded10c";
-	AlchemyAPI api = AlchemyAPI.GetInstanceFromString(alchemyApiKey);
+//	String alchemyApiKey = "d8c9013818eb2aeb7baa7ad558f7487db4ded10c";
+//	AlchemyAPI api = AlchemyAPI.GetInstanceFromString(alchemyApiKey);
 	
 	
 	/**
@@ -82,7 +73,7 @@ public class NotificationHandlerService extends AccessibilityService
 		String packageName = event.getPackageName().toString();
 		String className = event.getClassName().toString();
 		
-    	Log.e("myStress", "notification: " + packageName + ", " + eventType + ", " + className);
+//    	Log.e("myStress", "notification: " + packageName + ", " + eventType + ", " + className);
 	    if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED){
 	    	processNotification(event);
 	    }
@@ -94,7 +85,7 @@ public class NotificationHandlerService extends AccessibilityService
 	    	text = text.substring(1, text.length()-1);
 	    	
 			if(packageName.equals("com.whatsapp")){
-				if(wasending1 && text.length() == 1){//< typedText.length()){
+				if(wasending1 && text.length() == 1){
 			    	wasending2 = true;
 			    	sendButtonClicked(packageName);
 				}
@@ -216,13 +207,9 @@ public class NotificationHandlerService extends AccessibilityService
                
         // now switch off initially
 	    AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-//	    info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
 	    info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
-//	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_VISUAL;
 	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
 	    info.notificationTimeout = 100;
-//	    info.packageNames = new String[] {"com.myStress.helpers" };
-//	    info.packageNames = new String[] {"com.skype.raider", "com.google.android.gsf" };
 
 	    service = this;
 	    Log.e("myStress", "NotificationHandlerService connected");
@@ -272,71 +259,10 @@ public class NotificationHandlerService extends AccessibilityService
     	
     	if (notification != null)
     	{
-	    	// now parse the specific packages we support
-	    	// start with GTalk
-	    	if (event.getPackageName().toString().compareTo("com.google.android.talk") == 0)
-	    	{
-		        // now broadcast the capturing of the accessibility service to the handler
-				Intent intent = new Intent("com.myStress.accessibility");
-				intent.putExtra("NotifyText", "gtalk");//::" + notification.tickerText);
-				sendBroadcast(intent);
-	    	}
-	    	
-	    	// anything from Skype?
-	    	if (event.getPackageName().toString().compareTo("com.skype.raider") == 0)
-	    	{
-		        // now broadcast the capturing of the accessibility service to the handler
-				Intent intent = new Intent("com.myStress.accessibility");
-				intent.putExtra("NotifyText", "skype::Message from " + notification.tickerText);		
-				sendBroadcast(intent);
-	    	}
-	    	// anything from Spotify?
-	    	if (event.getPackageName().toString().compareTo("com.spotify.music") == 0)
-	    	{
-		        // now broadcast the capturing of the accessibility service to the handler	    		
-	    		// anything delivered?
-	    		if (notification.tickerText != null)
-	    		{
-	    			// split information in tokens
-	    			String tokens[] = notification.tickerText.toString().split(getString(R.string.accessibility_spotify));
-	    			    			
-	    			// try other '-', if previous one did not work
-	    			if (tokens.length != 2)
-	    				tokens = notification.tickerText.toString().split("-");
-	    			
-	    			if (tokens.length == 2)
-	    			{
-		    			// signal as play state changed event
-						Intent intent = new Intent("com.android.music.playstatechanged");
-						
-						intent.putExtra("track", tokens[0].trim());		
-						intent.putExtra("artist", tokens[1].trim());							
-						intent.putExtra("album", "");		
-						sendBroadcast(intent);
-					}
-	    			else
-	    				Log.e("myStress", "Can't find token in '" + notification.tickerText +"'");
-	    		}				
-	    	}
-	    	if(event.getPackageName().toString().compareTo("com.whatsapp") == 0){
-	    		//Log.e("myStress", "whatsapp message");
-		        // now broadcast the capturing of the accessibility service to the handler
-				Intent intent = new Intent("com.myStress.accessibility");
-				intent.putExtra("NotifyText", "whatsapp");//::" + getText(notification));
-				sendBroadcast(intent);	
-	    	}
-	    	if(event.getPackageName().toString().compareTo("com.facebook.orca") == 0){
-	    		// now broadcast the capturing of the accessibility service to the handler
-				Intent intent = new Intent("com.myStress.accessibility");
-				intent.putExtra("NotifyText", "fbm");//::" + getText(notification));
-				sendBroadcast(intent);
-	    	}
-	    	if(event.getPackageName().toString().compareTo("com.facebook.katana") == 0){
-	    		// now broadcast the capturing of the accessibility service to the handler
-				Intent intent = new Intent("com.myStress.accessibility");
-				intent.putExtra("NotifyText", "fb");//::" + getText(notification));
-				sendBroadcast(intent);
-	    	}
+	        // now broadcast the capturing of the accessibility service to the handler
+			Intent intent = new Intent("com.myStress.accessibility");
+			intent.putExtra("NotifyText", event.getPackageName());//::" + notification.tickerText);
+			sendBroadcast(intent);
     	}
     }
 
@@ -374,33 +300,22 @@ public class NotificationHandlerService extends AccessibilityService
             	if (intent.getBooleanExtra("start", true) == true)
             	{
             	    AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-//            	    info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
             	    info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
-//            	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_VISUAL;
             	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
             	    info.notificationTimeout = 100;
-//            	    info.packageNames = new String[] {"com.skype.raider", "com.google.android.talk", "com.spotify.music", "com.whatsapp", "com.facebook.orca", "com.facebook.katana"};
             	    setServiceInfo(info);
             	    
             	    started = true;
-            	    
-//            	    Log.e("myStress", "gathering started");
             	}
             	else	// or stop it?
             	{
             	    AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-//            	    info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
             	    info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
-//            	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_VISUAL;
             	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
             	    info.notificationTimeout = 100;
-//            	    info.packageNames = new String[] {"com.myStress.helpers" };
             	    setServiceInfo(info);
             	    
-            	    started = false;
-            	    
-//            	    Log.e("myStress", "gathering stopped");
-            	}
+            	    started = false;            	}
             }
         }
     };
@@ -428,8 +343,8 @@ public class NotificationHandlerService extends AccessibilityService
     			String translatedText = Translate.execute(text, Language.GERMAN, Language.ENGLISH);
     			Log.e("myStress", "translated: "+translatedText);
 	    		// Sentimentanalyse
-	    		AlchemyAPI_NamedEntityParams nep = new AlchemyAPI_NamedEntityParams();
-	    		nep.setSentiment(true);
+//	    		AlchemyAPI_NamedEntityParams nep = new AlchemyAPI_NamedEntityParams();
+//	    		nep.setSentiment(true);
 	    		
 	    		try{
 		    		HttpClient client = new DefaultHttpClient();
@@ -476,8 +391,6 @@ public class NotificationHandlerService extends AccessibilityService
     		Intent intent = new Intent("com.myStress.accessibility");
     		intent.putExtra("TextInformation", packageName + ":" + text.length() + ":" + speed*60 + ":" + type + ":" + score);
     		
-//    		maxTextInformation = 0;
-//    		typedText = "";
     		sendBroadcast(intent);
 		}
 	}

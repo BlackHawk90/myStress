@@ -56,6 +56,14 @@ public class StressLevelHandler implements Handler
 		}
 	}
 	
+	public boolean checkTime(){
+		Calendar c = Calendar.getInstance();
+		int hour = c.get(Calendar.HOUR_OF_DAY);
+		
+		if(hour != 10 && hour != 14 && hour != 18) return true;
+		else return false;
+	}
+	
 	/**
 	 * Method to acquire sensor data
 	 * Here, we register the broadcast receiver to receive the event widget notification, if not done before
@@ -69,11 +77,6 @@ public class StressLevelHandler implements Handler
 		StringBuffer readings;
 		juststarted = false;
 		
-		Calendar c = Calendar.getInstance();
-		int hour = c.get(Calendar.HOUR_OF_DAY);
-		
-		if(hour != 10 && hour != 14 && hour != 18) return null;
-
 		// are we shutting down?
 		if (shutdown == true)
 			return null;
@@ -93,6 +96,8 @@ public class StressLevelHandler implements Handler
 		if(sensor.equals("SL"))
 		{
 			if(!juststarted){
+				if(!checkTime()) return null;
+				
 				try{
 					Intent startintent = new Intent(nors, StressLevel_selector.class);
 					startintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -113,6 +118,7 @@ public class StressLevelHandler implements Handler
 				readings = new StringBuffer(sensor);
 				readings.append(Event);
 				
+				processed_sl=true;
 				clear();
 		        
 				return readings.toString().getBytes();
@@ -150,6 +156,7 @@ public class StressLevelHandler implements Handler
 		if(processed_sm && processed_sl){
 			Event = null;
 			status = null;
+			processed_sm = processed_sl = false;
 		}
 	}
 

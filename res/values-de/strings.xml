@@ -78,7 +78,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="Snapshot_publish">Hochgeladen von myStress</string>
 <string name="Snapshot_only_pictures">Kann nur Bilder sharen!</string>
 <string name="Measurements_share">Share myStress Aufnahmen via:</string>
-<string name="myStress_running_exit">myStress läuft momentan.\nMöchtest Du die mometanen Aufzeichnungen unterbrechen and neu starten? Du musst myStress dann neu starten.</string>
+<string name="myStress_running_exit">myStress läuft momentan.\nMöchtest Du die momentanen Aufzeichnungen unterbrechen and neu starten? Du musst myStress dann neu starten.</string>
 <string name="myStress_started_local">myStress lokale Aufzeichnungen gestartet!\nDu kannst die momentanen Werte in der Benachtigungsleiste sehen, wenn Du auf das myStress Symbol klickst.</string>
 <string name="myStress_started_remote">myStress remote Aufzeichnungen gestartet!\nDie Sensordaten werden regelmäig hochgeladen.</string>
 <string name="Cannot_find_storage">Kann keinen externen Speicher finden!</string>
@@ -122,6 +122,8 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="AS_e">Bestimmt den geschätzten Lärmpegel in dB.</string>
 <string name="AU_d">Audioanalyse</string>
 <string name="AU_e">Analyse des Audiosignals während eines Anrufs.</string>
+<string name="AV_d">Varianz der Aktivität</string>
+<string name="AV_e">Berechnet die Varianz der Aktivität (siehe AC).</string>
 <string name="BT_d">Umgebene BT Geräte</string>
 <string name="BT_e">Bestimmt Information über BT Geräte in der Umgebung wie MAC Adresse und BT Namen.</string>
 <string name="BN_d"># umgebener BT Geräte</string>
@@ -184,8 +186,8 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="NO_e">Bestimmt Informationen über Benachrichtigungen von Skype und Google Hangout.</string>
 <string name="PH_d">Anrufliste</string>
 <string name="PH_e">Bestimmt Anrufe sowie deren Dauer.</string>
-<string name="TI_d">Textlänge</string>
-<string name="TI_e">Bestimmt die Länge jeder eingetippten Nachricht.</string>
+<string name="TI_d">Textinformationen</string>
+<string name="TI_e">Bestimmt Anwendung, Länge, Sentiment und Tippgeschwindigkeit jeder eingetippten Nachricht.</string>
 <string name="AZ_d">Azimut</string>
 <string name="AZ_e">Bestimmt das Handys Azimut - der Winkel in Bezug zum magnetischen Pol.</string>
 <string name="PI_d">Neigung</string>
@@ -264,7 +266,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="WC_e">Bestimmt ob das Handy momentan an WiFi angeschlossen ist (1, wenn ja, 0, wenn nicht).</string>
 
 <string name="debug_setting">false</string>
-<string name="activatedSensors">AC;AS;AF;AU;Az;Ba;BC;BM;CA;CI;CR;CD;CL;CC;GI;GS;HU;PH;RO;PI;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;Rm;Sc;SR;SS;TM;WC;VI</string>
+<string name="activatedSensors">AC;AS;AF;AU;AV;Az;Ba;BC;BM;CA;CI;CR;CD;CL;CC;GI;GS;HU;PH;RO;PI;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;Rm;Sc;SR;SS;TM;WC;VI</string>
 <string name="accessibility_titel">Bitte aktivieren Sie die Bedien- bzw. Eingabehilfe</string>
 <string name="accessibility_message">Damit die Applikation korrekt arbeiten kann, würden wir Sie bitten die Bedien- bzw. Eingabehilfe zu aktivieren</string>
 <string name="accessibility_goto">Einstellungen</string>

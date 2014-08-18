@@ -28,7 +28,6 @@ import android.net.Uri;
 
 import com.myStress.R;
 import com.myStress.platform.HandlerManager;
-import com.myStress.platform.History;
 import com.myStress.platform.SensorRepository;
 
 /** 
@@ -111,7 +110,6 @@ public class CallLogHandler implements Handler
 	 */
 	public synchronized void History(String sensor)
 	{
-		History.timelineView(myStress, "Calls", "PH");
 	}
 	
 	/**
@@ -123,7 +121,7 @@ public class CallLogHandler implements Handler
 	 */
 	public void Discover()
 	{
-	    SensorRepository.insertSensor(new String("PH"), new String("Calls"), myStress.getString(R.string.PH_d), myStress.getString(R.string.PH_e), new String("txt"), 0, 0, 65535, true, polltime, this);
+	    SensorRepository.insertSensor(new String("PH"), new String("Calls"), myStress.getString(R.string.PH_d), myStress.getString(R.string.PH_e), new String("txt"), 0, 0, 65535, false, polltime, this);
 	}
 	
 	/**

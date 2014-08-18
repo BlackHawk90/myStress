@@ -31,7 +31,7 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+//import android.util.Log;
 
 import com.myStress.R;
 import com.myStress.platform.HandlerManager;
@@ -77,12 +77,13 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 	private Semaphore roll_semaphore 		= new Semaphore(1);
 	private Semaphore pitch_semaphore 		= new Semaphore(1);
 	private Semaphore activity_semaphore	= new Semaphore(1);
+	private Semaphore variance_semaphore	= new Semaphore(1);
 	private boolean shutdown = false;
 	
 	private double measureIntervalStart = 0, measureInterval = 120;//poll_interval = polltime3, measure_interval = 5000;
 	private float varianceSum, avg, sum;
 	private int count;
-	private boolean polled;
+	private boolean polled1 = false, polled2 = false;
 	
 	private void wait(Semaphore sema)
 	{
@@ -302,15 +303,24 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 					}
 					
 					wait(activity_semaphore);
+					variance_semaphore.release();
 					if (activity != activity_old){
 						textread = true;
-						textvalue = activity+":"+varianceSum;
+						textvalue = activity;//+":"+varianceSum;
 						activity_old = activity;
-						polled = true;
+						polled1 = true;
 					}
 					else{
-						polled = true;
+						polled1 = true;
 					}
+				}
+			
+			if(read == false)
+				if(sensor.equals("AV")){
+					wait(variance_semaphore);
+					value = (int)varianceSum*100;
+					read = true;
+					polled2=true;
 				}
 		}
 		
@@ -408,8 +418,8 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 		if (sensor.equals("PD") == true)
 			History.timelineView(nors, "step count [-]", "PD");
 		
-		if (sensor.equals("AC"))
-			History.timelineView(nors, "activity [-]", "AC");
+		if (sensor.equals("AV") == true)
+			History.timelineView(nors, "activity variance [-]", "AV");
 	}
 
 	
@@ -442,8 +452,10 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 			   SensorRepository.insertSensor(new String("HU"), new String("%"), nors.getString(R.string.HU_d), nors.getString(R.string.HU_e), new String("int"), -1, 0, 50000, true, polltime3, this);	
 		   if (Pedometer != null)
 			   SensorRepository.insertSensor(new String("PD"), new String("-"), nors.getString(R.string.PD_d), nors.getString(R.string.PD_e), new String("int"), -1, 0, 50000, true, polltime, this);	
-		   if (Accelerometer != null)
-			   SensorRepository.insertSensor(new String("AC"), new String("text"), nors.getString(R.string.AC_d), nors.getString(R.string.AC_e), new String("txt"), -1, 0, 50000, true, polltime, this);
+		   if (Accelerometer != null){
+			   SensorRepository.insertSensor(new String("AC"), new String("text"), nors.getString(R.string.AC_d), nors.getString(R.string.AC_e), new String("txt"), -1, 0, 50000, false, polltime, this);
+			   SensorRepository.insertSensor(new String("AV"), new String("-"), nors.getString(R.string.AV_d), nors.getString(R.string.AV_e), new String("int"), -1, 0, 50000, true, polltime, this);
+		   }
 		}
 	}
 	
@@ -487,6 +499,7 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 			wait(roll_semaphore); 
 			wait(pitch_semaphore); 	
 			wait(activity_semaphore);
+			wait(variance_semaphore);
 		}
 		catch(Exception e)
 		{
@@ -515,6 +528,7 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 		roll_semaphore.release();
 		pitch_semaphore.release();
 		activity_semaphore.release();
+		variance_semaphore.release();
 
 		// unregister each sensor
 		if (startedLight == true)
@@ -860,9 +874,9 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 //    			varianceSum = avg = sum = count = 0;
 //    			pollIntervalStart += pollInterval;
 //   		}
-    		if(polled == true){
+    		if(polled1 && polled2){
     			varianceSum = avg = sum = count = 0;
-    			polled = false;
+    			polled1 = polled2 = false;
     		}
     		
     		count++;

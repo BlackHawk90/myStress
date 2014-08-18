@@ -24,7 +24,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
 import com.myStress.R;
 import com.myStress.platform.SensorRepository;
@@ -36,17 +35,8 @@ import com.myStress.platform.SensorRepository;
 public class NotificationHandler implements Handler
 {
 	private Context myStress;
-	
 	private Semaphore notify_semaphore 	= new Semaphore(1);
-//	private Semaphore key_semaphore = new Semaphore(1);
-//	private Semaphore speed_semaphore = new Semaphore(1);
-//	private Semaphore length_semaphore = new Semaphore(1);
-	
 	private String notify_text;
-//	private String keylog;
-//	private int textlength;
-//	private double typingspeed;
-	
 	private boolean shutdown = false;
 	
 	private void wait(Semaphore sema)
@@ -72,8 +62,6 @@ public class NotificationHandler implements Handler
 		// are we shutting down?
 		if (shutdown == true)
 			return null;
-
-		Log.w("myStress", "Acquire "+sensor);
 		
 		if(sensor.compareTo("NO") == 0){
 			wait(notify_semaphore);
@@ -82,27 +70,6 @@ public class NotificationHandler implements Handler
 			
 			return readings.toString().getBytes();
 		}
-//		else if(sensor.compareTo("KL") == 0){
-//			wait(key_semaphore);
-//			StringBuffer readings_kl = new StringBuffer("KL");
-//			readings_kl.append(keylog);
-//			
-//			return readings_kl.toString().getBytes();
-//		}
-//		else if(sensor.compareTo("TL") == 0){
-//			wait(length_semaphore);
-//			StringBuffer readings = new StringBuffer("TL");
-//			readings.append(textlength);
-//			
-//			return readings.toString().getBytes();
-//		}
-//		else if(sensor.compareTo("TS") == 0){
-//			wait(speed_semaphore);
-//			StringBuffer readings = new StringBuffer("TS");
-//			readings.append(typingspeed);
-//			
-//			return readings.toString().getBytes();
-//		}
 		else{
 			return null;
 		}
@@ -137,10 +104,7 @@ public class NotificationHandler implements Handler
 	 */
 	public void Discover()
 	{
-//	    SensorRepository.insertSensor(new String("KL"), new String("text"), myStress.getString(R.string.KL_d), myStress.getString(R.string.KL_e), new String("txt"), 0, 0, 1, false, 0, this);
 	    SensorRepository.insertSensor(new String("NO"), new String("text"), myStress.getString(R.string.NO_d), myStress.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
-//	    SensorRepository.insertSensor(new String("TL"), new String("chars"), myStress.getString(R.string.TL_d), myStress.getString(R.string.TL_e), new String("int"), 0, 0, 100000, false, 0, this);
-//	    SensorRepository.insertSensor(new String("TS"), new String("chars/s"), myStress.getString(R.string.TS_d), myStress.getString(R.string.TS_e), new String("float"), 0, 0, 20, false, 0, this);
 	}
 	
 	/**
@@ -154,9 +118,6 @@ public class NotificationHandler implements Handler
 		
 		// arm semaphore
 		wait(notify_semaphore);
-//		wait(key_semaphore);
-//		wait(length_semaphore);
-//		wait(speed_semaphore);
 		
 		// register for any input from the accessbility service
 		IntentFilter intentFilter = new IntentFilter("com.myStress.accessibility");
@@ -180,9 +141,6 @@ public class NotificationHandler implements Handler
 		
 		// release all semaphores for unlocking the Acquire() threads
 		notify_semaphore.release();
-//		key_semaphore.release();
-//		length_semaphore.release();
-//		speed_semaphore.release();
 		
 		// unregister the broadcast receiver
 		myStress.unregisterReceiver(SystemReceiver);
@@ -208,18 +166,6 @@ public class NotificationHandler implements Handler
             		notify_text = intent.getStringExtra("NotifyText");
                 	notify_semaphore.release();		// release semaphore
             	}
-//            	if(intent.hasExtra("KeyLogger")){
-//            		keylog =  intent.getStringExtra("KeyLogger");
-//            		key_semaphore.release();
-//            	}
-//            	if(intent.hasExtra("TextLength")){
-//            		textlength = Integer.parseInt(intent.getStringExtra("TextLength"));
-//            		length_semaphore.release();
-//            	}
-//            	if(intent.hasExtra("TypingSpeed")){
-//            		typingspeed = Double.parseDouble(intent.getStringExtra("TypingSpeed"));
-//            		speed_semaphore.release();
-//            	}
             }
         }
     };

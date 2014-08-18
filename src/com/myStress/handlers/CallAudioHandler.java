@@ -35,7 +35,6 @@ import com.myStress.helper.SerialPortLogger;
 import com.myStress.helper.Waker;
 import com.myStress.helper.Window;
 import com.myStress.platform.HandlerManager;
-import com.myStress.platform.History;
 import com.myStress.platform.SensorRepository;
 
 /** 
@@ -152,9 +151,6 @@ public class CallAudioHandler implements Handler
 	 */
 	public void History(String sensor)
 	{
-		if(sensor.equals("AU")){
-			History.timelineView(myStress, "Call Audio Analysis", "AU");
-		}
 	}
 	
 	/**
@@ -171,7 +167,7 @@ public class CallAudioHandler implements Handler
 			return;
 		
 		// here some midlet property check as to whether or not audio capture is supported
-		SensorRepository.insertSensor(new String("AU"), new String("text"), myStress.getString(R.string.AU_d), myStress.getString(R.string.AU_e), new String("txt"), 0, 0, 15000, true, 0, this);
+		SensorRepository.insertSensor(new String("AU"), new String("text"), myStress.getString(R.string.AU_d), myStress.getString(R.string.AU_e), new String("txt"), 0, 0, 15000, false, 0, this);
 	}
 	
 	/**
