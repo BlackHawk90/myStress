@@ -106,6 +106,8 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 		bt.setOnClickListener(this);
 		bt = (Button) findViewById(R.id.skip);
 		bt.setOnClickListener(this);
+		bt = (Button) findViewById(R.id.ok);
+		bt.setOnClickListener(this);
 
 		// define SeekBar-listeners
 		seekBar1 = (SeekBar) findViewById(R.id.slider1);
@@ -139,6 +141,8 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 
 		tv = (TextView) findViewById(R.id.q4);
 		tv.setText(questions[3]);
+		
+		status = null;
 	}
 
 	@SuppressLint("NewApi")
@@ -207,7 +211,7 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 			int[] values = {seekBar1.getProgress(),  seekBar2.getProgress(),  seekBar3.getProgress() , seekBar4.getProgress()};
 			double tmp;
 			for(int i = 0; i < 4; i++){
-				tmp = values[index[i]] / 20.0;
+				tmp = values[index[i]] / 2.0; // change for different stresslevel-scale
 				if(i == 3)
 					stress += tmp;
 				else
@@ -229,7 +233,7 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 		sendBroadcast(intent);
 		
 		stress = "";
-		status = "";
+		status = null;
 		// now destroy activity
 		super.onDestroy();
 	}
@@ -270,7 +274,18 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 			
 			finish();
 			break;
-
+		case R.id.ok:
+			if (bSlider1Moved && bSlider2Moved && bSlider3Moved && bSlider4Moved) {
+				bSlider1Moved = false;
+				bSlider2Moved = false;
+				bSlider3Moved = false;
+				bSlider4Moved = false;
+				
+				status="polled";
+				
+				finish();
+			}
+			break;
 		}
 	}
 
@@ -293,16 +308,16 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 			break;
 		}
 
-		if (bSlider1Moved && bSlider2Moved && bSlider3Moved && bSlider4Moved) {
-			bSlider1Moved = false;
-			bSlider2Moved = false;
-			bSlider3Moved = false;
-			bSlider4Moved = false;
-			
-			status="polled";
-			
-			finish();
-		}
+//		if (bSlider1Moved && bSlider2Moved && bSlider3Moved && bSlider4Moved) {
+//			bSlider1Moved = false;
+//			bSlider2Moved = false;
+//			bSlider3Moved = false;
+//			bSlider4Moved = false;
+//			
+//			status="polled";
+//			
+//			finish();
+//		}
 	}
 
 	@Override

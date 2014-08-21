@@ -266,7 +266,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="WC_e">Bestimmt ob das Handy momentan an WiFi angeschlossen ist (1, wenn ja, 0, wenn nicht).</string>
 
 <string name="debug_setting">false</string>
-<string name="activatedSensors">AC;AS;AF;AU;AV;Az;Ba;BC;BM;CA;CI;CR;CD;CL;CC;GI;GS;HU;PH;RO;PI;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;Rm;Sc;SR;SS;TM;WC;VI</string>
+<string name="activatedSensors">AC;AS;AF;AU;AV;Az;Ba;BC;BM;CA;CI;CR;CD;CL;CC;GI;GS;HU;PH;Ro;Pi;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;Rm;Sc;SR;SS;TM;WC;VI</string>
 <string name="accessibility_titel">Bitte aktivieren Sie die Bedien- bzw. Eingabehilfe</string>
 <string name="accessibility_message">Damit die Applikation korrekt arbeiten kann, würden wir Sie bitten die Bedien- bzw. Eingabehilfe zu aktivieren</string>
 <string name="accessibility_goto">Einstellungen</string>
@@ -279,10 +279,12 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="myStress_Timeline">myStress Timeline</string>
 <string name="notnow">In 15 Min.</string>
 <string name="skip">Diesmal nicht</string>
-<string name="q_intro">Wie oft hatten Sie seit dem letzten Messpunkt das Gefühl, &#8230;</string>
+<string name="q_intro">Wie stark hatten Sie seit dem letzten Messpunkt das Gefühl, &#8230;</string>
 <string name="q1">&#8230; die Kontrolle über wichtige Dinge zu verlieren?</string>
 <string name="q2">&#8230; sicher mit Ihren Aufgaben und Problemen umgehen zu können?</string>
 <string name="q3">&#8230; dass die Dinge nach Ihren Vorstellungen verlaufen?</string>
 <string name="q4">&#8230; die Fülle an Aufgaben/Problemen nicht mehr bewältigen zu können?</string>
+<string name="weak">schwach</string>
+<string name="strong">stark</string>
 
 </resources>

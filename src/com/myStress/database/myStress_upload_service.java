@@ -388,7 +388,15 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 	        				)+ "_" + uploadCounterString + ".txt");
 			fconn = new File(sync_file, currentFilename);
 			os = new BufferedOutputStream(new FileOutputStream(fconn, true));
-
+			
+			// print version code
+			try{
+				String version = "myStress v"+context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName+"\n";
+				os.write(version.getBytes());
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
 			// build URI for sharing
 			share_file = Uri.fromFile(fconn);
 

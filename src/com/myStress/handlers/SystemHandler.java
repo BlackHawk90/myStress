@@ -538,7 +538,7 @@ public class SystemHandler implements com.myStress.handlers.Handler
 							            	if (process_first == true)
 							            		process_first = false;
 							            	else
-							        	        buffer.append("\n");
+							        	        buffer.append(":");
 	
 				            				buffer.append(task.trim());
 				            			}

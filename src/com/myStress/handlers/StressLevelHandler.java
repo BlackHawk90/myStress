@@ -43,7 +43,7 @@ public class StressLevelHandler implements Handler
 	private Vibrator vibrator;
 	private boolean registered = false, shutdown = false, juststarted = false;
 	private boolean processed_sm = false, processed_sl = false;
-	private int polltime = 3600000;
+	private int polltime = 60000;
 	
 	private void wait(Semaphore sema)
 	{
@@ -96,7 +96,7 @@ public class StressLevelHandler implements Handler
 		if(sensor.equals("SL"))
 		{
 			if(!juststarted){
-				if(!checkTime()) return null;
+				if(!checkTime() && !status.equals("snooze")) return null;
 				
 				try{
 					Intent startintent = new Intent(nors, StressLevel_selector.class);
@@ -127,7 +127,7 @@ public class StressLevelHandler implements Handler
 				if(status == null) return null;
 				if(status.equals("snooze")){
 					try{
-						Thread.sleep(900000);
+						Thread.sleep(15000);
 						return Acquire("SL",null);
 					}catch(Exception e){
 						Log.e("myStress", e.getMessage());
@@ -137,7 +137,7 @@ public class StressLevelHandler implements Handler
 		}
 		else if(sensor.equals("SM")){
 			wait(meta_semaphore);
-				
+			
 			if(status != null){
 				StringBuffer sm_readings = new StringBuffer(sensor);
 				sm_readings.append(status);

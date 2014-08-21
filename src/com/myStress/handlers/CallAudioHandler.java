@@ -37,10 +37,6 @@ import com.myStress.helper.Window;
 import com.myStress.platform.HandlerManager;
 import com.myStress.platform.SensorRepository;
 
-/** 
- * Class to read audio-related sensors, specifically the AS and AF sensor
- * @see Handler
- */
 public class CallAudioHandler implements Handler
 {
 	private Context myStress;
@@ -74,6 +70,7 @@ public class CallAudioHandler implements Handler
 	private String audiofeatures = null;
 	private boolean started = false, callactive = false;
 	private Semaphore call_semaphore = new Semaphore(1);
+	private long timestamp;
 	
 	/**
 	 * Sleep function 
@@ -110,6 +107,7 @@ public class CallAudioHandler implements Handler
 		// acquire data and send out
 		if(sensor.equals("AU")){
 			wait(call_semaphore);
+			timestamp = System.currentTimeMillis();
 			
 			if(!started){
 		        ((TelephonyManager)myStress.getSystemService(Context.TELEPHONY_SERVICE)).listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
@@ -373,7 +371,6 @@ public class CallAudioHandler implements Handler
 			    		audiofeatures += featureCepstrum[i]+"";
 			//    		data.add(MFCCS, gson.toJsonTree(featureCepstrum));
 			    		Log.e("myStress",audiofeatures);
-			    		
 			    	}
 				}
 			}
@@ -382,7 +379,7 @@ public class CallAudioHandler implements Handler
 	    } finally {
 			// don't need player anymore
 			((AudioHandler) HandlerManager.getHandler("AudioHandler")).havePlayer = false;
-    		if(callactive) call_semaphore.release();
+    		if(callactive && timestamp+1000 >= System.currentTimeMillis()) call_semaphore.release();
 	    }
 	}
 	

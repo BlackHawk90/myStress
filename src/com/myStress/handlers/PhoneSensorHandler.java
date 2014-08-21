@@ -318,7 +318,7 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 			if(read == false)
 				if(sensor.equals("AV")){
 					wait(variance_semaphore);
-					value = (int)varianceSum*100;
+					value = (int)varianceSum;
 					read = true;
 					polled2=true;
 				}
