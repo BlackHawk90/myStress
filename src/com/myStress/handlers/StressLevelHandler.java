@@ -30,10 +30,6 @@ import android.content.IntentFilter;
 import android.os.Vibrator;
 import android.util.Log;
 
-/** 
- * Class to read event annotation sensor, specifically the EB sensor
- * @see Handler
- */
 public class StressLevelHandler implements Handler
 {
 	private Context nors;
@@ -43,7 +39,7 @@ public class StressLevelHandler implements Handler
 	private Vibrator vibrator;
 	private boolean registered = false, shutdown = false, juststarted = false;
 	private boolean processed_sm = false, processed_sl = false;
-	private int polltime = 60000;
+	private int polltime = 3600000;
 	
 	private void wait(Semaphore sema)
 	{
@@ -60,8 +56,8 @@ public class StressLevelHandler implements Handler
 		Calendar c = Calendar.getInstance();
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		
-		if(hour != 10 && hour != 14 && hour != 18) return true;
-		else return false;
+		if(hour != 10 && hour != 14 && hour != 18) return false;
+		else return true;
 	}
 	
 	/**
@@ -127,7 +123,7 @@ public class StressLevelHandler implements Handler
 				if(status == null) return null;
 				if(status.equals("snooze")){
 					try{
-						Thread.sleep(15000);
+						Thread.sleep(900000);
 						return Acquire("SL",null);
 					}catch(Exception e){
 						Log.e("myStress", e.getMessage());

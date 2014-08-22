@@ -275,7 +275,9 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 			finish();
 			break;
 		case R.id.ok:
-			if (bSlider1Moved && bSlider2Moved && bSlider3Moved && bSlider4Moved) {
+			if ((bSlider1Moved && bSlider2Moved) || (bSlider1Moved && bSlider3Moved) ||
+					(bSlider1Moved && bSlider4Moved) || (bSlider2Moved && bSlider3Moved) ||
+					(bSlider2Moved && bSlider4Moved) || (bSlider3Moved && bSlider4Moved)) {
 				bSlider1Moved = false;
 				bSlider2Moved = false;
 				bSlider3Moved = false;
