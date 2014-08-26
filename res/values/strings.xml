@@ -276,12 +276,12 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="myStress_Timeline">myStress Timeline</string>
 <string name="notnow">In 15 min</string>
 <string name="skip">Skip this time</string>
-<string name="q_intro">Wie stark hattest Du seit dem letzten Messpunkt das Gefühl, &#8230;</string>
+<string name="q_intro">Wie oft hattest Du seit dem letzten Messpunkt das Gefühl, &#8230;</string>
 <string name="q1">&#8230; die Kontrolle über wichtige Dinge zu verlieren?</string>
 <string name="q2">&#8230; sicher mit Deinen Aufgaben und Problemen umgehen zu können?</string>
 <string name="q3">&#8230; dass die Dinge nach Deinen Vorstellungen verlaufen?</string>
 <string name="q4">&#8230; die Fülle an Aufgaben/Problemen nicht mehr bewältigen zu können?</string>
-<string name="weak">weak</string>
-<string name="strong">strong</string>
+<string name="weak">nie</string>
+<string name="strong">ständig</string>
 
 </resources>

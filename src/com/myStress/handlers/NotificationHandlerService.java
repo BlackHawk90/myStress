@@ -238,14 +238,16 @@ public class NotificationHandlerService extends AccessibilityService
     		if(typingEndTime != typingStartTime){
 	    		typingDuration = (typingEndTime - typingStartTime)/1000.0d;
 	    		typingSpeed = typedText.length() / typingDuration;
-	    		Log.e("myStress", "Tippgeschwindigkeit: "+typingSpeed + " Zeichen pro Minute");
+	    		Log.e("myStress", "Tippgeschwindigkeit: " + typingSpeed + " Zeichen pro Minute");
     		}
 //	    		typing = false;
 //	    	}
 	    	
-	    	if(typedText.length() > 0){
-	    		new SAThread(typedText, typingSpeed, packageName);
-	    	}
+    		if(typedText != null){
+		    	if(typedText.length() > 0){
+		    		new SAThread(typedText, typingSpeed, packageName);
+		    	}
+    		}
 			wasending1 = false;
 			wasending2 = false;
 			sending = false;
