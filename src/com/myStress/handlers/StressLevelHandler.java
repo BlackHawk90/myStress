@@ -53,11 +53,11 @@ public class StressLevelHandler implements Handler
 	}
 	
 	public boolean checkTime(){
-		Calendar c = Calendar.getInstance();
+/*		Calendar c = Calendar.getInstance();
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		
 		if(hour != 10 && hour != 14 && hour != 18) return false;
-		else return true;
+		else */return true;
 	}
 	
 	/**
@@ -92,7 +92,8 @@ public class StressLevelHandler implements Handler
 		if(sensor.equals("SL"))
 		{
 			if(!juststarted){
-				if(!checkTime() && !status.equals("snooze")) return null;
+				String snooze = "snooze";
+				if(!checkTime() && !snooze.equals(status)) return null;
 				
 				try{
 					Intent startintent = new Intent(nors, StressLevel_selector.class);
