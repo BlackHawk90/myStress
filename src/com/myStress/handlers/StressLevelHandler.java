@@ -53,11 +53,11 @@ public class StressLevelHandler implements Handler
 	}
 	
 	public boolean checkTime(){
-/*		Calendar c = Calendar.getInstance();
+		Calendar c = Calendar.getInstance();
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		
-		if(hour != 10 && hour != 14 && hour != 18) return false;
-		else */return true;
+		if(hour == 10 || hour == 14 || hour == 18) return true;
+		else return false;
 	}
 	
 	/**
