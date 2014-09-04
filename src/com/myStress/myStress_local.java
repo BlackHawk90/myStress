@@ -234,7 +234,10 @@ public class myStress_local extends Service
 				Calendar cal = Calendar.getInstance();
 				
 				cal.setTimeInMillis(values_time);
-				return new String("'" + current.Description + "'" + getString(R.string.sensed) + " " + number_values + " " + getString(R.string.sensed2) + " " + DateFormat.format("dd MMM yyyy k:mm:ss", cal) + " " + getString(R.string.sensed3) + values_output);
+				if(number_values>0)
+					return new String("'" + current.Description + "'" + getString(R.string.sensed) + " " + number_values + " " + getString(R.string.sensed2) + " " + DateFormat.format("dd MMM yyyy k:mm:ss", cal) + " " + getString(R.string.sensed3) + values_output);
+				else
+					return new String("'" + current.Description + "'" + getString(R.string.sensed) + " " + number_values + " mal");
 			}
 			
 			private void output(String text)
@@ -1007,9 +1010,9 @@ public class myStress_local extends Service
 		 // set the time again for ICS
 		 notification.when = System.currentTimeMillis();
 		 // don't allow clearing the notification
-		 notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-
-		 startForeground(1, notification);
+		 //FIXME ÄNDERN
+//		 notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+//		 startForeground(1, notification);
 		 
          // store start timestamp
          HandlerManager.writeRMS_l("myStress_local::time_started", System.currentTimeMillis());
@@ -1374,7 +1377,6 @@ public class myStress_local extends Service
 		catch(Exception e)
 		{
 			SerialPortLogger.debugForced("myStress_local::Restart():ERROR " +  "Exception: " + e.toString());
-			Log.e("myStress", e.getMessage());
 		}		 
 	 }
 	 

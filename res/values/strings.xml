@@ -263,7 +263,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="WC_e">Provides status information (1 if phone is connected to a WiFi).</string> 
 
 <string name="debug_setting">false</string>
-<string name="activatedSensors">AC;AS;AF;AU;AV;Az;Ba;Bc;BM;CA;CI;CR;CD;CL;CC;GI;GS;HU;PH;Ro;Pi;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;Rm;Sc;SR;SS;TM;WC;VI</string>
+<string name="activatedSensors">AC;AS;AF;AU;AV;Az;Ba;Bc;BM;CA;CI;CR;CD;CL;CC;GI;GS;HU;PH;Ro;Pi;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;Rm;Sc;SR;SS;TM;VI</string>
 <string name="accessibility_titel">Please activate the accessibility service</string>
 <string name="accessibility_message">To ensure that the application is working correctly, we would like you to activate the accessibility service.</string>
 <string name="accessibility_goto">Settings</string>
@@ -275,10 +275,10 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="myStress_Map">myStress Mapp</string>
 <string name="myStress_Timeline">myStress Timeline</string>
 <string name="polltime">360000</string>
-<string name="stresspolltime">3600000</string>
-<string name="time1">10</string>
-<string name="time2">14</string>
-<string name="time3">18</string>
+<string name="stresspolltime">30000</string>
+<string name="time1">15</string>
+<string name="time2">16</string>
+<string name="time3">17</string>
 
 <string name="notnow">In 15 min</string>
 <string name="skip">Skip this time</string>

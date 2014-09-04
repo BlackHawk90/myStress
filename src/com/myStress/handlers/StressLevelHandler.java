@@ -127,7 +127,7 @@ public class StressLevelHandler implements Handler
 				if(status == null) return null;
 				if(status.equals("snooze")){
 					try{
-						Thread.sleep(3600000);
+						Thread.sleep(900000);
 						return Acquire("SL",null);
 					}catch(Exception e){
 						Log.e("myStress", e.getMessage());

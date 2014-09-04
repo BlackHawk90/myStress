@@ -19,6 +19,7 @@ package com.myStress.handlers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -32,9 +33,11 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
 import com.myStress.*;
 
 /**
@@ -42,34 +45,32 @@ import com.myStress.*;
  * 
  * @see android.app.Activity
  */
-public class StressLevel_selector extends Activity implements OnClickListener,
-		OnSeekBarChangeListener {
+public class StressLevel_selector extends Activity implements OnClickListener {
 	// private TextView mTitle;
 	// private TextView mTitle2;
 	// private Editor editor;
-	
+
 	// Singleton
-//	private static StressLevel_selector instance = null;
+	// private static StressLevel_selector instance = null;
 
 	// preferences
-//	private SharedPreferences settings;
+	// private SharedPreferences settings;
 	private String stress = null, status = null;
 
-	private boolean bSlider1Moved = false;
-	private boolean bSlider2Moved = false;
-	private boolean bSlider3Moved = false;
-	private boolean bSlider4Moved = false;
+	private boolean bGroup1Selected = false;
+	private boolean bGroup2Selected = false;
+	private boolean bGroup3Selected = false;
+	private boolean bGroup4Selected = false;
 
-	private ArrayList<SeekBar> allSeekBars = new ArrayList<SeekBar>();
-	private SeekBar seekBar1;
-	private SeekBar seekBar2;
-	private SeekBar seekBar3;
-	private SeekBar seekBar4;
+	private RadioGroup rgOpinion1;
+	private RadioGroup rgOpinion2;
+	private RadioGroup rgOpinion3;
+	private RadioGroup rgOpinion4;
 	
 	private SharedPreferences settings;
 	private Editor editor;
 	private int counter;
-	
+
 	private int[] index = new int[4];
 
 	/**
@@ -83,14 +84,14 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 
 		// read preferences
-//		settings = PreferenceManager.getDefaultSharedPreferences(this);
+		// settings = PreferenceManager.getDefaultSharedPreferences(this);
 		// editor = settings.edit();
 
 		// read last selected mood value
-//		try {
-//			stress = settings.getString("StressLevelHandler::Mood", "Happy");
-//		} catch (Exception e) {
-//		}
+		// try {
+		// stress = settings.getString("StressLevelHandler::Mood", "Happy");
+		// } catch (Exception e) {
+		// }
 
 		// set window title
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -116,22 +117,18 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 		bt = (Button) findViewById(R.id.ok);
 		bt.setOnClickListener(this);
 
-		// define SeekBar-listeners
-		seekBar1 = (SeekBar) findViewById(R.id.slider1);
-		seekBar1.setOnSeekBarChangeListener(this);
-		allSeekBars.add(seekBar1);
-		
-		seekBar2 = (SeekBar) findViewById(R.id.slider2);
-		seekBar2.setOnSeekBarChangeListener(this);
-		allSeekBars.add(seekBar2);
-		
-		seekBar3 = (SeekBar) findViewById(R.id.slider3);
-		seekBar3.setOnSeekBarChangeListener(this);
-		allSeekBars.add(seekBar3);
-		
-		seekBar4 = (SeekBar) findViewById(R.id.slider4);
-		seekBar4.setOnSeekBarChangeListener(this);
-		allSeekBars.add(seekBar4);
+		// define ButtonGroups
+		rgOpinion1 = (RadioGroup) findViewById(R.id.radioGroup1);
+		rgOpinion1.setOnClickListener(this);
+
+		rgOpinion2 = (RadioGroup) findViewById(R.id.radioGroup2);
+		rgOpinion2.setOnClickListener(this);
+
+		rgOpinion3 = (RadioGroup) findViewById(R.id.radioGroup3);
+		rgOpinion3.setOnClickListener(this);
+
+		rgOpinion4 = (RadioGroup) findViewById(R.id.radioGroup4);
+		rgOpinion4.setOnClickListener(this);
 
 		String[] questions = getResources().getStringArray(R.array.questions);
 
@@ -148,7 +145,7 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 
 		tv = (TextView) findViewById(R.id.q4);
 		tv.setText(questions[3]);
-		
+
 		// get default preferences and editor
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		editor = settings.edit();
@@ -162,25 +159,25 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 	private int[] shuffle(String[] questions) {
 		Random rnd = new Random();
 		String[] origin = new String[4];
-		
+
 		origin = Arrays.copyOf(questions, 4);
-		
+
 		for (int i = 0; i < questions.length; i++) {
 			int randomPosition = rnd.nextInt(questions.length);
 			String temp = questions[i];
 			questions[i] = questions[randomPosition];
 			questions[randomPosition] = temp;
 		}
-		
-		for(int i = 0; i < origin.length; i++){
-			for(int j = 0; j < questions.length; j++){
-				if(origin[i].equalsIgnoreCase(questions[j])){
+
+		for (int i = 0; i < origin.length; i++) {
+			for (int j = 0; j < questions.length; j++) {
+				if (origin[i].equalsIgnoreCase(questions[j])) {
 					index[i] = j;
 					break;
 				}
 			}
 		}
-		
+
 		return index;
 	}
 
@@ -214,37 +211,117 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 	@Override
 	public void onDestroy() {
 		Intent intent;
-		if(status == null){
+		if (status == null) {
 			status = "snooze";
 			finish();
 		}
-		
-		if(status.equals("polled")){
+
+		if (status.equals("polled")) {
 			stress = "";
-			int[] values = {seekBar1.getProgress(),  seekBar2.getProgress(),  seekBar3.getProgress() , seekBar4.getProgress()};
+
+			int tmp1 = 0;
+			int tmp2 = 0;
+			int tmp3 = 0;
+			int tmp4 = 0;
+
+			switch (rgOpinion1.getCheckedRadioButtonId()) {
+			case R.id.radio10:
+				tmp1 = 0;
+				break;
+			case R.id.radio11:
+				tmp1 = 1;
+				break;
+			case R.id.radio12:
+				tmp1 = 2;
+				break;
+			case R.id.radio13:
+				tmp1 = 3;
+				break;
+			case R.id.radio14:
+				tmp1 = 4;
+				break;
+			}
+
+			switch (rgOpinion2.getCheckedRadioButtonId()) {
+			case R.id.radio20:
+				tmp2 = 0;
+				break;
+			case R.id.radio21:
+				tmp2 = 1;
+				break;
+			case R.id.radio22:
+				tmp2 = 2;
+				break;
+			case R.id.radio23:
+				tmp2 = 3;
+				break;
+			case R.id.radio24:
+				tmp2 = 4;
+				break;
+			}
+
+			switch (rgOpinion3.getCheckedRadioButtonId()) {
+			case R.id.radio30:
+				tmp3 = 0;
+				break;
+			case R.id.radio31:
+				tmp3 = 1;
+				break;
+			case R.id.radio32:
+				tmp3 = 2;
+				break;
+			case R.id.radio33:
+				tmp3 = 3;
+				break;
+			case R.id.radio34:
+				tmp3 = 4;
+				break;
+			}
+
+			switch (rgOpinion4.getCheckedRadioButtonId()) {
+			case R.id.radio40:
+				tmp4 = 0;
+				break;
+			case R.id.radio41:
+				tmp4 = 1;
+				break;
+			case R.id.radio42:
+				tmp4 = 2;
+				break;
+			case R.id.radio43:
+				tmp4 = 3;
+				break;
+			case R.id.radio44:
+				tmp4 = 4;
+				break;
+			}
+
+			int[] values = { tmp1, tmp2, tmp3, tmp4 };
 			double tmp;
-			for(int i = 0; i < 4; i++){
-				tmp = values[index[i]] / 2.0; // change for different stresslevel-scale
-				if(i == 3)
+			for (int i = 0; i < 4; i++) {
+				tmp = values[index[i]];
+				if (i == 3)
 					stress += tmp;
 				else
 					stress += tmp + ":";
 			}
-			
+
 			intent = new Intent("com.myStress.stresslevel");
 			intent.putExtra("StressLevel", stress);
 			intent.putExtra("StressMeta", status);
 			
 			editor.putInt("StressCounter", counter+1);
 			editor.commit();
-		}
-		else{
+		} else {
 			intent = new Intent("com.myStress.stresslevel");
 			intent.putExtra("StressMeta", status);
 		}
-		
+
+		// send broadcast intent to signal end of selection to mood button
+		// handler
+
 		sendBroadcast(intent);
-		
+
 		stress = "";
 		status = null;
 		// now destroy activity
@@ -263,87 +340,55 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 		// EditText et;
 		// dispatch depending on button pressed
 		switch (v.getId()) {
+		case R.id.radioGroup1:
+			if (rgOpinion1.getCheckedRadioButtonId() != -1)
+				bGroup1Selected = true;
+			break;
+		case R.id.radioGroup2:
+			if (rgOpinion2.getCheckedRadioButtonId() != -1)
+				bGroup2Selected = true;
+			break;
+		case R.id.radioGroup3:
+			if (rgOpinion3.getCheckedRadioButtonId() != -1)
+				bGroup3Selected = true;
+			break;
+		case R.id.radioGroup4:
+			if (rgOpinion4.getCheckedRadioButtonId() != -1)
+				bGroup4Selected = true;
+			break;
 		case R.id.notnow:
-			try {
-				bSlider1Moved = false;
-				bSlider2Moved = false;
-				bSlider3Moved = false;
-				bSlider4Moved = false;
-				
-				status="snooze";
-				
-				finish();
-				break;
-			} catch (Exception e) {
-				Log.e("myStress", e.getMessage());
-			}
+			bGroup1Selected = false;
+			bGroup2Selected = false;
+			bGroup3Selected = false;
+			bGroup4Selected = false;
+
+			status = "snooze";
+
+			finish();
+			break;
 		case R.id.skip:
-			bSlider1Moved = false;
-			bSlider2Moved = false;
-			bSlider3Moved = false;
-			bSlider4Moved = false;
-			
+			bGroup1Selected = false;
+			bGroup2Selected = false;
+			bGroup3Selected = false;
+			bGroup4Selected = false;
+
 			status = "skip";
-			
+
 			finish();
 			break;
 		case R.id.ok:
-			if ((bSlider1Moved && bSlider2Moved) || (bSlider1Moved && bSlider3Moved) ||
-					(bSlider1Moved && bSlider4Moved) || (bSlider2Moved && bSlider3Moved) ||
-					(bSlider2Moved && bSlider4Moved) || (bSlider3Moved && bSlider4Moved)) {
-				bSlider1Moved = false;
-				bSlider2Moved = false;
-				bSlider3Moved = false;
-				bSlider4Moved = false;
-				
-				status="polled";
-				
+			if (bGroup1Selected && bGroup2Selected && bGroup3Selected
+					&& bGroup4Selected) {
+				bGroup1Selected = false;
+				bGroup2Selected = false;
+				bGroup3Selected = false;
+				bGroup4Selected = false;
+
+				status = "polled";
+
 				finish();
 			}
 			break;
 		}
-	}
-
-	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress,
-			boolean fromUser) {
-
-		switch (seekBar.getId()) {
-		case R.id.slider1:
-			bSlider1Moved = true;
-			break;
-		case R.id.slider2:
-			bSlider2Moved = true;
-			break;
-		case R.id.slider3:
-			bSlider3Moved = true;
-			break;
-		case R.id.slider4:
-			bSlider4Moved = true;
-			break;
-		}
-
-//		if (bSlider1Moved && bSlider2Moved && bSlider3Moved && bSlider4Moved) {
-//			bSlider1Moved = false;
-//			bSlider2Moved = false;
-//			bSlider3Moved = false;
-//			bSlider4Moved = false;
-//			
-//			status="polled";
-//			
-//			finish();
-//		}
-	}
-
-	@Override
-	public void onStartTrackingTouch(SeekBar seekBar) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onStopTrackingTouch(SeekBar seekBar) {
-		// TODO Auto-generated method stub
-
 	}
 }

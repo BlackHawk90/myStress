@@ -277,20 +277,21 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="myStressUpload">myStress Upload</string>
 <string name="myStress_Map">myStress Map</string>
 <string name="myStress_Timeline">myStress Timeline</string>
-<string name="polltime">360000</string>
-<string name="stresspolltime">3600000</string>
-<string name="time1">10</string>
-<string name="time2">14</string>
-<string name="time3">18</string>
-
 <string name="notnow">In 15 Min.</string>
 <string name="skip">Diesmal nicht</string>
 <string name="q_intro">Wie oft hattest Du seit dem letzten Messpunkt das Gefühl, &#8230;</string>
-<string name="q1">&#8230; die Kontrolle über wichtige Dinge zu verlieren?</string>
+<string name="q1">&#8230; wichtige Dinge in deinem Leben nicht beeinflussen zu können?</string>
 <string name="q2">&#8230; sicher mit Deinen Aufgaben und Problemen umgehen zu können?</string>
 <string name="q3">&#8230; dass die Dinge nach Deinen Vorstellungen verlaufen?</string>
-<string name="q4">&#8230; die Fülle an Aufgaben/Problemen nicht mehr bewältigen zu können?</string>
-<string name="weak">nie</string>
-<string name="strong">ständig</string>
-
+<string name="q4">&#8230; dass sich Aufgaben oder Probleme so aufgestaut haben, dass du diese nicht bewältigen kannst?</string>
+<string name="l0">nie</string>
+<string name="l1">selten</string>
+<string name="l2">manchmal</string>
+<string name="l3">häufig</string>
+<string name="l4">sehr oft</string>
+<string name="polltime">360000</string>
+<string name="stresspolltime">30000</string>
+<string name="time1">15</string>
+<string name="time2">16</string>
+<string name="time3">17</string>
 </resources>
