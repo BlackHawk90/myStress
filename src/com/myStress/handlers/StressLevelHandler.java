@@ -32,14 +32,17 @@ import android.util.Log;
 
 public class StressLevelHandler implements Handler
 {
-	private Context nors;
+	private Context myStress;
 	private String Event, old_Event, status;
 	private Semaphore stress_semaphore 	= new Semaphore(1);
 	private Semaphore meta_semaphore 	= new Semaphore(1);
 	private Vibrator vibrator;
 	private boolean registered = false, shutdown = false, juststarted = false;
 	private boolean processed_sm = false, processed_sl = false;
-	private int polltime = 3600000;
+	private int polltime;
+	private int time1;
+	private int time2;
+	private int time3;
 	
 	private void wait(Semaphore sema)
 	{
@@ -56,7 +59,7 @@ public class StressLevelHandler implements Handler
 		Calendar c = Calendar.getInstance();
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		
-		if(hour == 10 || hour == 14 || hour == 18) return true;
+		if(hour == time1 || hour == time2 || hour == time3) return true;
 		else return false;
 	}
 	
@@ -82,9 +85,9 @@ public class StressLevelHandler implements Handler
 		{
 			// check intents and set booleans for discovery
 			IntentFilter intentFilter = new IntentFilter("com.myStress.stresslevel");
-	        nors.registerReceiver(SystemReceiver, intentFilter);
+	        myStress.registerReceiver(SystemReceiver, intentFilter);
 //	        intentFilter = new IntentFilter("com.myStess.eventselected");
-//	        nors.registerReceiver(SystemReceiver, intentFilter);
+//	        myStress.registerReceiver(SystemReceiver, intentFilter);
 	        registered = true;
 	        juststarted = true;
 		}
@@ -96,9 +99,9 @@ public class StressLevelHandler implements Handler
 				if(!checkTime() && !snooze.equals(status)) return null;
 				
 				try{
-					Intent startintent = new Intent(nors, StressLevel_selector.class);
+					Intent startintent = new Intent(myStress, StressLevel_selector.class);
 					startintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					nors.startActivity(startintent);
+					myStress.startActivity(startintent);
 					// vibrate with pattern
 					vibrator.vibrate(pattern, -1);
 				} catch(Exception e){
@@ -189,26 +192,32 @@ public class StressLevelHandler implements Handler
 	 */
 	public void Discover()
 	{
-		SensorRepository.insertSensor(new String("SL"), new String("Level"), nors.getString(R.string.SL_d), nors.getString(R.string.SL_e), new String("str"), 0, 0, 1, false, polltime, this);
-		SensorRepository.insertSensor(new String("SM"), new String("Meta"), nors.getString(R.string.SM_d), nors.getString(R.string.SM_e), new String("str"), 0, 0, 1, false, 0, this);
+		SensorRepository.insertSensor(new String("SL"), new String("Level"), myStress.getString(R.string.SL_d), myStress.getString(R.string.SL_e), new String("str"), 0, 0, 1, false, polltime, this);
+		SensorRepository.insertSensor(new String("SM"), new String("Meta"), myStress.getString(R.string.SM_d), myStress.getString(R.string.SM_e), new String("str"), 0, 0, 1, false, 0, this);
 	}
 	
 	/**
 	 * Constructor, allocating all necessary resources for the handler
 	 * Here, it's only arming the semaphore and getting a reference to the {@link android.os.Vibrator} service
-	 * @param nors Reference to the calling {@link android.content.Context}
+	 * @param myStress Reference to the calling {@link android.content.Context}
 	 */
-	public StressLevelHandler(Context nors)
+	public StressLevelHandler(Context myStress)
 	{
-		this.nors = nors;
+		this.myStress = myStress;
+		
+		polltime = Integer.parseInt(myStress.getString(R.string.stresspolltime));
+		time1 = Integer.parseInt(myStress.getString(R.string.time1));
+		time2 = Integer.parseInt(myStress.getString(R.string.time2));
+		time3 = Integer.parseInt(myStress.getString(R.string.time3));
+		
 		try
 		{
 			// charge the semaphores to block at next call!
 			wait(stress_semaphore);
 			wait(meta_semaphore);
-
+			
 			// get system service for Vibrator
-			vibrator = (Vibrator)nors.getSystemService(Context.VIBRATOR_SERVICE);			
+			vibrator = (Vibrator)myStress.getSystemService(Context.VIBRATOR_SERVICE);
 		}
 		catch(Exception e)
 		{
@@ -230,7 +239,7 @@ public class StressLevelHandler implements Handler
 		{
 			Event = null;
 			status = null;
-			nors.unregisterReceiver(SystemReceiver);
+			myStress.unregisterReceiver(SystemReceiver);
 		}
 		
 		stress_semaphore.release();

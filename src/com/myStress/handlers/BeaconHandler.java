@@ -43,7 +43,7 @@ import com.myStress.platform.SensorRepository;
 public class BeaconHandler implements Handler, Runnable 
 {
 	// BT stuff
-	private Context		nors;
+	private Context		myStress;
     private BluetoothAdapter mBtAdapter = null;
     private int			no_devices = 0;
 	private byte[] 		no_readings = new byte[6];
@@ -64,7 +64,7 @@ public class BeaconHandler implements Handler, Runnable
 //	private char EOL = 13;
 
 	// config data
-	private int polltime = 1000*60*6;
+	private int polltime;
 	private long oldtime = 0;
 
 	/**
@@ -188,7 +188,7 @@ public class BeaconHandler implements Handler, Runnable
 	public void History(String sensor)
 	{
 		if (sensor.charAt(1) == 'N')
-			History.timelineView(nors, "BT devices [#]", "BN");
+			History.timelineView(myStress, "BT devices [#]", "BN");
 	}
 
 	/**
@@ -244,24 +244,24 @@ public class BeaconHandler implements Handler, Runnable
 				if (bt_ask==true)
 				{
 					Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-					nors.startActivity(enableIntent);
+					myStress.startActivity(enableIntent);
 				}
 				else
 					mBtAdapter.enable();
 	        }
 	        		        
 		    // if it's there, add sensor
-			SensorRepository.insertSensor(new String("BT"), new String("MAC"), nors.getString(R.string.BT_d), nors.getString(R.string.BT_e), new String("txt"), 0, 0, 1, false, 0, this);	    
-			SensorRepository.insertSensor(new String("BN"), new String("#"), nors.getString(R.string.BN_d), nors.getString(R.string.BN_e), new String("int"), 0, 0, 50, true, 0, this);	    
-			SensorRepository.insertSensor(new String("BD"), new String("MAC"), nors.getString(R.string.BD_d), nors.getString(R.string.BD_e), new String("txt"), 0, 0, 50, true, polltime, this);	 
+			SensorRepository.insertSensor(new String("BT"), new String("MAC"), myStress.getString(R.string.BT_d), myStress.getString(R.string.BT_e), new String("txt"), 0, 0, 1, false, 0, this);	    
+			SensorRepository.insertSensor(new String("BN"), new String("#"), myStress.getString(R.string.BN_d), myStress.getString(R.string.BN_e), new String("int"), 0, 0, 50, true, 0, this);	    
+			SensorRepository.insertSensor(new String("BD"), new String("MAC"), myStress.getString(R.string.BD_d), myStress.getString(R.string.BD_e), new String("txt"), 0, 0, 50, true, polltime, this);	 
 			
 			// now register for the connected device intents
 			IntentFilter filter1 = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
 		    IntentFilter filter2 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
 		    IntentFilter filter3 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-		    nors.registerReceiver(mReceiver2, filter1);
-		    nors.registerReceiver(mReceiver2, filter2);
-		    nors.registerReceiver(mReceiver2, filter3);
+		    myStress.registerReceiver(mReceiver2, filter1);
+		    myStress.registerReceiver(mReceiver2, filter2);
+		    myStress.registerReceiver(mReceiver2, filter3);
 		    
 		}
 		catch(Exception e)
@@ -274,12 +274,12 @@ public class BeaconHandler implements Handler, Runnable
 	/**
 	 * Constructor, allocating all necessary resources for the handler
 	 * Here, reading the various RMS values of the preferences and arming the semaphores
-	 * @param nors Reference to the calling {@link android.content.Context}
+	 * @param myStress Reference to the calling {@link android.content.Context}
 	 */
-	public BeaconHandler(Context nors)
+	public BeaconHandler(Context myStress)
 	{		
 		// store for later
-		this.nors = nors;
+		this.myStress = myStress;
 
 		// read whether or not we need to enable Beacon
 		bt_enabled = HandlerManager.readRMS_b("BeaconHandler::BTON", false);
@@ -287,7 +287,7 @@ public class BeaconHandler implements Handler, Runnable
 		// should ask before enabling?
 		bt_ask = HandlerManager.readRMS_b("BeaconHandler::BTONAsk", false);
 
-		polltime = HandlerManager.readRMS_i("BeaconHandler::Poll", 60*6) * 1000;
+		polltime = Integer.parseInt(myStress.getString(R.string.polltime));
 		
 		// save current time and set so that first Acquire() will discover but substract a bit more to give BT time to fire up
 		oldtime = System.currentTimeMillis();
@@ -334,7 +334,7 @@ public class BeaconHandler implements Handler, Runnable
 //		{
 //			try
 //			{
-//				nors.unregisterReceiver(mReceiver);
+//				myStress.unregisterReceiver(mReceiver);
 //			}
 //			catch(Exception e)
 //			{
@@ -344,7 +344,7 @@ public class BeaconHandler implements Handler, Runnable
 		
 		// are we listening to connected devices?
 		if (bt_registered2 == true)
-			nors.unregisterReceiver(mReceiver2);
+			myStress.unregisterReceiver(mReceiver2);
 	}
 	
     private void discover()
@@ -353,11 +353,11 @@ public class BeaconHandler implements Handler, Runnable
     	{
 	        // Register for broadcasts when a device is discovered
 	        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-	        nors.registerReceiver(mReceiver, filter);
+	        myStress.registerReceiver(mReceiver, filter);
 	
 	        // Register for broadcasts when discovery has finished
 	        filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-	        nors.registerReceiver(mReceiver, filter);
+	        myStress.registerReceiver(mReceiver, filter);
 	    	      
 			bt_registered = true;
     	}
@@ -389,7 +389,7 @@ public class BeaconHandler implements Handler, Runnable
         {
         	try
         	{
-        		nors.unregisterReceiver(mReceiver);
+        		myStress.unregisterReceiver(mReceiver);
         	}
         	catch(Exception e)
         	{

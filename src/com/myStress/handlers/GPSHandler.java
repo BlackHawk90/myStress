@@ -20,6 +20,7 @@ package com.myStress.handlers;
 
 import java.util.concurrent.Semaphore;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -41,6 +42,7 @@ import com.myStress.platform.SensorRepository;
  * Class to read GPS-based sensors, specifically the GO, GL, GA, GI, GC, GS sensor
  * @see Handler
  */
+@SuppressLint("HandlerLeak")
 public class GPSHandler implements com.myStress.handlers.Handler, Runnable
 {
 	private static final int INIT_GPS 	= 1;
@@ -52,7 +54,7 @@ public class GPSHandler implements com.myStress.handlers.Handler, Runnable
 	private boolean enableGPS = false, startedGPS = false, useWifi = false;
 	private boolean   shutdown = false;
 	// polltime
-	private int 		polltime = 1000*60*6, updatemeter = 100;
+	private int 		polltime, updatemeter = 100;
 	// sensor data
     private double Longitude = -1, Latitude = -1, Altitude = -1, Speed, Bearing; 
     private double oldLongitude = -1, oldLatitude = -1, oldAltitude = -1;
@@ -221,13 +223,13 @@ public class GPSHandler implements com.myStress.handlers.Handler, Runnable
 	 * Finally, it's arming the semaphore
 	 * @param activity Reference to the calling {@link android.content.Context}
 	 */
-	public GPSHandler(Context activity)
+	public GPSHandler(Context myStress)
 	{
 		// store for later
-		myStress = activity;
+		this.myStress = myStress;
 		
 		// get preferences
-		polltime	= HandlerManager.readRMS_i("LocationHandler::LocationPoll", 60*6) * 1000;
+		polltime	= Integer.parseInt(myStress.getString(R.string.polltime));
 		updatemeter	= HandlerManager.readRMS_i("LocationHandler::LocationUpdate", 100);
 		// read whether or not we need to enable GPS
 		enableGPS = HandlerManager.readRMS_b("LocationHandler::GPSON", false);

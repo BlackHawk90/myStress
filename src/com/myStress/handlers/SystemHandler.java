@@ -82,7 +82,7 @@ public class SystemHandler implements com.myStress.handlers.Handler
 	private int headset = 0, oldheadset = -1;
 	private String caller = null, callee = null, smsReceived = null, smsSent = null;
 	private boolean shutdown = false;
-	private int polltime = 1000*60*6;
+	private int polltime;
 	private ActivityManager am;
 	private boolean startedTimeZone = false, startedBattery = false, startedScreen = false, startedHeadset = false;
 	private boolean startedPhoneState = false, startedOutgoingCall = false, startedSMSReceived = false, startedSMSSent = false;
@@ -672,10 +672,11 @@ public class SystemHandler implements com.myStress.handlers.Handler
 	 */
 	public SystemHandler(Context myStress)
 	{
-		// read polltime
-		polltime  = HandlerManager.readRMS_i("SystemSensorsHandler::SystemPoll", 60*6) * 1000;
-
 		this.myStress = myStress;
+		
+		// read polltime
+		polltime  = Integer.parseInt(myStress.getString(R.string.polltime));
+		
 		try
 		{
 			// charge the semaphores to block at next call!

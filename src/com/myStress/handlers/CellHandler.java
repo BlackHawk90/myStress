@@ -46,7 +46,7 @@ public class CellHandler extends PhoneStateListener implements
 	private static final int INIT_DATACONNECTED = 2;
 	private static final int INIT_CELLLOCATION = 3;
 
-	private Context nors;
+	private Context myStress;
 	// phone state classes
 	private TelephonyManager tm;
 	private CellHandler cellhandler;
@@ -164,10 +164,10 @@ public class CellHandler extends PhoneStateListener implements
 	public void History(String sensor) {
 		switch (sensor.charAt(1)) {
 		case 'S':
-			History.timelineView(nors, "Signal strength [dBm]", "CS");
+			History.timelineView(myStress, "Signal strength [dBm]", "CS");
 			break;
 		case 'B':
-			History.timelineView(nors, "Signal strength [bar]", "CB");
+			History.timelineView(myStress, "Signal strength [bar]", "CB");
 			break;
 		}
 	}
@@ -188,32 +188,32 @@ public class CellHandler extends PhoneStateListener implements
 	public void Discover() {
 		if (enableProperties == true) {
 			SensorRepository.insertSensor(new String("CR"), new String(
-					"boolean"), nors.getString(R.string.CR_d), nors
+					"boolean"), myStress.getString(R.string.CR_d), myStress
 					.getString(R.string.CR_e), new String("int"), 0, 0, 1,
 					false, 60000, this);
 			SensorRepository.insertSensor(new String("CD"), new String(
-					"boolean"), nors.getString(R.string.CD_d), nors
+					"boolean"), myStress.getString(R.string.CD_d), myStress
 					.getString(R.string.CD_e), new String("int"), 0, 0, 1,
 					false, 0, this);
 			SensorRepository.insertSensor(new String("CS"), new String("dBm"),
-					nors.getString(R.string.CS_d),
-					nors.getString(R.string.CS_e), new String("int"), 0, -120,
+					myStress.getString(R.string.CS_d),
+					myStress.getString(R.string.CS_e), new String("int"), 0, -120,
 					0, true, 0, this);
 			SensorRepository.insertSensor(new String("CB"), new String("bars"),
-					nors.getString(R.string.CB_d),
-					nors.getString(R.string.CB_e), new String("int"), 0, 0, 7,
+					myStress.getString(R.string.CB_d),
+					myStress.getString(R.string.CB_e), new String("int"), 0, 0, 7,
 					true, 0, this);
 			SensorRepository.insertSensor(new String("CI"), new String("ID"),
-					nors.getString(R.string.CI_d),
-					nors.getString(R.string.CI_e), new String("int"), 0, 0,
+					myStress.getString(R.string.CI_d),
+					myStress.getString(R.string.CI_e), new String("int"), 0, 0,
 					65535, false, 0, this);
 			SensorRepository.insertSensor(new String("CL"), new String("ID"),
-					nors.getString(R.string.CL_d),
-					nors.getString(R.string.CL_e), new String("int"), 0, 0,
+					myStress.getString(R.string.CL_d),
+					myStress.getString(R.string.CL_e), new String("int"), 0, 0,
 					65535, false, 0, this);
 			SensorRepository.insertSensor(new String("CC"), new String("MCC"),
-					nors.getString(R.string.CC_d),
-					nors.getString(R.string.CC_e), new String("int"), 0, 0,
+					myStress.getString(R.string.CC_d),
+					myStress.getString(R.string.CC_e), new String("int"), 0, 0,
 					65535, false, 0, this);
 		}
 	}
@@ -224,16 +224,16 @@ public class CellHandler extends PhoneStateListener implements
 	 * (the sensors only work under GSM!) Then, seeing if airplane mode is
 	 * switched on (not sensors are discovered when in airplane mode)
 	 * 
-	 * @param nors
+	 * @param myStress
 	 *            Reference to the calling {@link android.content.Context}
 	 */
-	public CellHandler(Context nors) {
-		this.nors = nors;
+	public CellHandler(Context myStress) {
+		this.myStress = myStress;
 		this.cellhandler = this;
 
 		try {
 			// try getting phone manager
-			tm = (TelephonyManager) nors
+			tm = (TelephonyManager) myStress
 					.getSystemService(Context.TELEPHONY_SERVICE); // if
 																	// something
 																	// returned,
@@ -256,7 +256,7 @@ public class CellHandler extends PhoneStateListener implements
 				// register my listener for getting signal strength, location
 				// changes and data connection state events
 				// but only if airplane mode is not enabled!
-				if(Settings.System.getInt(nors.getContentResolver(),
+				if(Settings.System.getInt(myStress.getContentResolver(),
 						Settings.Global.AIRPLANE_MODE_ON, 0) == 0)
 					enableProperties = true;
 			}

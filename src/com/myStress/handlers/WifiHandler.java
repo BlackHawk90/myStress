@@ -22,6 +22,7 @@ package com.myStress.handlers;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -44,11 +45,12 @@ import com.myStress.platform.SensorRepository;
  * Class to read WiFi related sensors, specifically the WF, WI, WM, WS, WC sensor
  * @see Handler
  */
+@SuppressLint("HandlerLeak")
 public class WifiHandler extends PhoneStateListener implements com.myStress.handlers.Handler, Runnable
 {
 	private static final int INIT_WIFI = 1;
 
-	private Context nors;
+	private Context myStress;
 	// phone state classes
 	private WifiManager wm;
 	private WifiLock wifi_lock;
@@ -56,7 +58,7 @@ public class WifiHandler extends PhoneStateListener implements com.myStress.hand
 	// are these there?
 	private boolean enable = false, enableWIFI = false, sleepWIFI = false, initialized = false;
 	// polltime
-	private int			polltime = 1000*60*6;
+	private int			polltime;
 	private long  oldtime = 0;
 
 	private boolean wifi_first = true, Wifi_scanning = false;
@@ -238,11 +240,11 @@ public class WifiHandler extends PhoneStateListener implements com.myStress.hand
 	{
 	    if (enable == true)
 	    {		
-			SensorRepository.insertSensor(new String("WF"), new String("txt"), nors.getString(R.string.WF_d), nors.getString(R.string.WF_e), new String("txt"), 0, 0, 1, false, 0, this);
-			SensorRepository.insertSensor(new String("WI"), new String("SSID"), nors.getString(R.string.WI_d), nors.getString(R.string.WI_e), new String("txt"), 0, 0, 1, false, 0, this);	
-			SensorRepository.insertSensor(new String("WM"), new String("MAC"), nors.getString(R.string.WM_d), nors.getString(R.string.WM_e), new String("txt"), 0, 0, 1, false, 0, this);
-			SensorRepository.insertSensor(new String("WS"), new String("dBm"), nors.getString(R.string.WS_d), nors.getString(R.string.WS_e), new String("txt"), 0, 0, 1, false, 0, this);
-			SensorRepository.insertSensor(new String("WC"), new String("boolean"), nors.getString(R.string.WC_d), nors.getString(R.string.WC_e), new String("int"), 0, 0, 1, false, 0, this);
+			SensorRepository.insertSensor(new String("WF"), new String("txt"), myStress.getString(R.string.WF_d), myStress.getString(R.string.WF_e), new String("txt"), 0, 0, 1, false, 0, this);
+			SensorRepository.insertSensor(new String("WI"), new String("SSID"), myStress.getString(R.string.WI_d), myStress.getString(R.string.WI_e), new String("txt"), 0, 0, 1, false, 0, this);	
+			SensorRepository.insertSensor(new String("WM"), new String("MAC"), myStress.getString(R.string.WM_d), myStress.getString(R.string.WM_e), new String("txt"), 0, 0, 1, false, 0, this);
+			SensorRepository.insertSensor(new String("WS"), new String("dBm"), myStress.getString(R.string.WS_d), myStress.getString(R.string.WS_e), new String("txt"), 0, 0, 1, false, 0, this);
+			SensorRepository.insertSensor(new String("WC"), new String("boolean"), myStress.getString(R.string.WC_d), myStress.getString(R.string.WC_e), new String("int"), 0, 0, 1, false, 0, this);
 		}	    
 	}
 	
@@ -250,13 +252,13 @@ public class WifiHandler extends PhoneStateListener implements com.myStress.hand
 	 * Constructor, allocating all necessary resources for the handler
 	 * Here, it's reading the preference settings for the polltime and enabling WiFi
 	 * Then, it's getting a reference to the {@link android.net.wifi.WifiManager} and finally, it's arming the semaphores
-	 * @param nors Reference to the calling {@link android.content.Context}
+	 * @param myStress Reference to the calling {@link android.content.Context}
 	 */
-	public WifiHandler(Context nors)
+	public WifiHandler(Context myStress)
 	{
-		this.nors = nors;
+		this.myStress = myStress;
 		
-		polltime	= HandlerManager.readRMS_i("LocationHandler::WifiPoll", 60*6) * 1000;
+		polltime	= Integer.parseInt(myStress.getString(R.string.polltime));
 
 		// read whether or not we need to enable Wifi
 		enableWIFI = HandlerManager.readRMS_b("LocationHandler::WIFION", false);
@@ -268,7 +270,7 @@ public class WifiHandler extends PhoneStateListener implements com.myStress.hand
 		try
 		{
 			// now get wifi manager
-			wm = (WifiManager)nors.getSystemService(Context.WIFI_SERVICE);
+			wm = (WifiManager)myStress.getSystemService(Context.WIFI_SERVICE);
 			if (wm!=null)
 				enable = true;
 			else
@@ -317,7 +319,7 @@ public class WifiHandler extends PhoneStateListener implements com.myStress.hand
 		
 		// unregister listeners		
 		if (initialized == true)
-			nors.unregisterReceiver(WifiReceiver);
+			myStress.unregisterReceiver(WifiReceiver);
 		
 		// release wifi lock
 		if (wifi_lock != null)
@@ -413,7 +415,7 @@ public class WifiHandler extends PhoneStateListener implements com.myStress.hand
 			{
 				// create wifi lock if not sleeping enabled
    				if (sleepWIFI == false)
-   					wifi_lock = wm.createWifiLock(WifiManager.WIFI_MODE_SCAN_ONLY, "NORSWifiLock");
+   					wifi_lock = wm.createWifiLock(WifiManager.WIFI_MODE_SCAN_ONLY, "myStressWifiLock");
 				 
 				// is Wifi switched off and shall we switch it on?
 				if (wm.isWifiEnabled() == false && enableWIFI == true)
@@ -427,9 +429,9 @@ public class WifiHandler extends PhoneStateListener implements com.myStress.hand
 					}
 				}
 				// Register Broadcast Receivers
-				nors.registerReceiver(WifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-				nors.registerReceiver(WifiReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
-				nors.registerReceiver(WifiReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
+				myStress.registerReceiver(WifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+				myStress.registerReceiver(WifiReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+				myStress.registerReceiver(WifiReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
 
 				// signal to Acquire()
 				initialized = true;

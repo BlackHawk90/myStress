@@ -22,7 +22,10 @@ import java.util.Random;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -62,6 +65,10 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 	private SeekBar seekBar2;
 	private SeekBar seekBar3;
 	private SeekBar seekBar4;
+	
+	private SharedPreferences settings;
+	private Editor editor;
+	private int counter;
 	
 	private int[] index = new int[4];
 
@@ -142,6 +149,12 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 		tv = (TextView) findViewById(R.id.q4);
 		tv.setText(questions[3]);
 		
+		// get default preferences and editor
+		settings = PreferenceManager.getDefaultSharedPreferences(this);
+		editor = settings.edit();
+		
+		counter = settings.getInt("StressCounter", 0);
+		
 		status = null;
 	}
 
@@ -221,14 +234,14 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 			intent = new Intent("com.myStress.stresslevel");
 			intent.putExtra("StressLevel", stress);
 			intent.putExtra("StressMeta", status);
+			
+			editor.putInt("StressCounter", counter+1);
+			editor.commit();
 		}
 		else{
 			intent = new Intent("com.myStress.stresslevel");
 			intent.putExtra("StressMeta", status);
 		}
-		
-		// send broadcast intent to signal end of selection to mood button
-		// handler
 		
 		sendBroadcast(intent);
 		

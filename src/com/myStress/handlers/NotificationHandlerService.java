@@ -78,64 +78,68 @@ public class NotificationHandlerService extends AccessibilityService
 	    	processNotification(event);
 	    }
 	    else if(eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED){
-	    	if(event.isPassword()) return;
-	    	
-	    	String text = event.getText().toString();
-	    	String beforeText = event.getBeforeText().toString();
-	    	text = text.substring(1, text.length()-1);
-	    	
-			if(packageName.equals("com.whatsapp")){
-				if(wasending1 && text.length() == 1){
-			    	wasending2 = true;
-			    	sendButtonClicked(packageName);
+	    	try{
+		    	if(event.isPassword()) return;
+		    	
+		    	String text = event.getText().toString();
+		    	String beforeText = "";
+		    	if(event.getBeforeText() != null)
+		    		beforeText = event.getBeforeText().toString();
+		    	text = text.substring(1, text.length()-1);
+		    	
+				if(packageName.equals("com.whatsapp")){
+					if(wasending1 && text.length() == 1){
+				    	wasending2 = true;
+				    	sendButtonClicked(packageName);
+					}
 				}
-			}
-			else if(packageName.equals("com.facebook.orca")){
-				wasending1 = false;
-			}
-			else if(packageName.equals("com.facebook.katana")){
-				wasending1 = false;
-			}
-			else if(packageName.equals("com.android.email")){
-				wasending1=false;
-			}
-			else{
-				wasending1 = false;
-				if(text.length() == 0){
-					sending = true;
-					sendButtonClicked(packageName);
+				else if(packageName.equals("com.facebook.orca")){
+					wasending1 = false;
 				}
-			}
-	    	
-	    	boolean del;
-	    	int length_diff = text.length()-beforeText.length();
-	    	typedText = text;
-	    	
-//    		maxTextInformation = text.length();
-	    	
-	    	if(length_diff == 1 && text.length() == 1){
-//    			typing = true;
-    			typingStartTime = (double)System.currentTimeMillis();
-    			typingEndTime = typingStartTime;
-	    	}
-	    	else{
-    			typingEndTime = (double)System.currentTimeMillis();
-	    	}
-	    	
-	    	if(text.length() < beforeText.length()){
-	    		del = true;
-	    		length_diff = -length_diff;
-	    	}
-	    	else{
-	    		del = false;
-	    	}
-	    	
-	    	if(del == true){
-	    		Log.e("myStress", "text deleted");//: " + diff);
-				Intent intent = new Intent("com.myStress.accessibility");
-				intent.putExtra("KeyLogger", length_diff + " characters deleted");
-				sendBroadcast(intent);
-	    	}
+				else if(packageName.equals("com.facebook.katana")){
+					wasending1 = false;
+				}
+				else if(packageName.equals("com.android.email")){
+					wasending1=false;
+				}
+				else{
+					wasending1 = false;
+					if(text.length() == 0){
+						sending = true;
+						sendButtonClicked(packageName);
+					}
+				}
+		    	
+		    	boolean del;
+		    	int length_diff = text.length()-beforeText.length();
+		    	typedText = text;
+		    	
+	//    		maxTextInformation = text.length();
+		    	
+		    	if(length_diff == 1 && text.length() == 1){
+	//    			typing = true;
+	    			typingStartTime = (double)System.currentTimeMillis();
+	    			typingEndTime = typingStartTime;
+		    	}
+		    	else{
+	    			typingEndTime = (double)System.currentTimeMillis();
+		    	}
+		    	
+		    	if(text.length() < beforeText.length()){
+		    		del = true;
+		    		length_diff = -length_diff;
+		    	}
+		    	else{
+		    		del = false;
+		    	}
+		    	
+		    	if(del == true){
+		    		Log.e("myStress", "text deleted");//: " + diff);
+					Intent intent = new Intent("com.myStress.accessibility");
+					intent.putExtra("KeyLogger", length_diff + " characters deleted");
+					sendBroadcast(intent);
+		    	}
+	    	}catch(Exception e){}
 	    }
 	    else if(eventType == AccessibilityEvent.TYPE_VIEW_CLICKED){
 	    	if(packageName.equals("com.whatsapp")){

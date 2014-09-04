@@ -27,7 +27,6 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.myStress.R;
-import com.myStress.platform.HandlerManager;
 import com.myStress.platform.SensorRepository;
 
 /** 
@@ -39,7 +38,7 @@ public class CallLogHandler implements Handler
 	private Context myStress;
 	// create field that holds acquisition data
 	private byte[] readings;
-	private int polltime=1000*60*6;
+	private int polltime;
 	private Long lastUpdate;
 	
 	/**
@@ -133,7 +132,7 @@ public class CallLogHandler implements Handler
 	{
 		this.myStress = myStress;
 		// read polltime
-		polltime = HandlerManager.readRMS_i("CallLogHandler::SamplingRate", 60*6) * 1000;
+		polltime = Integer.parseInt(myStress.getString(R.string.polltime));
 		lastUpdate = System.currentTimeMillis();
 	}
 	

@@ -23,7 +23,6 @@ import java.util.Random;
 import android.content.Context;
 
 import com.myStress.R;
-import com.myStress.platform.HandlerManager;
 import com.myStress.platform.History;
 import com.myStress.platform.SensorRepository;
 
@@ -37,7 +36,7 @@ public class RandomHandler implements Handler
 	private Random random = null;
 	// create field that holds acquisition data
 	private byte[] readings = new byte[6];
-	private int polltime=1000*60*6;
+	private int polltime;
 	
 	/**
 	 * Method to acquire sensor data
@@ -108,7 +107,7 @@ public class RandomHandler implements Handler
 	{
 		this.myStress = myStress;
 		// read polltime
-		polltime = HandlerManager.readRMS_i("RandomHandler::SamplingRate", 60*6) * 1000;
+		polltime = Integer.parseInt(myStress.getString(R.string.polltime));
 	}
 	
 	/**

@@ -29,6 +29,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -58,7 +59,7 @@ public class WeatherHandler implements com.myStress.handlers.Handler, Runnable
 	private static final int KILL_GPS 		= 2;
 	private static final int INIT_RECEIVER 	= 4;
 	
-	private Context nors;
+	private Context myStress;
 	private boolean weather_enabled;
 	
 	private int temperature_c, temperature_f = 0;
@@ -73,7 +74,7 @@ public class WeatherHandler implements com.myStress.handlers.Handler, Runnable
 	private Thread runnable = null;
 	private boolean	  running = true;
 	private boolean   shutdown = false;
-	private int		  polltime = 1000*60*6;
+	private int		  polltime;
 	private int		  updatemeter = 1000;
 	// location stuff
 	private LocationManager manager;
@@ -273,19 +274,19 @@ public class WeatherHandler implements com.myStress.handlers.Handler, Runnable
 	{
 		// temperature in Celcius
 		if(sensor.compareTo("VT") == 0)
-			History.timelineView(nors, "Temperature [C]", "VT");
+			History.timelineView(myStress, "Temperature [C]", "VT");
 
 		// temperature in Farenheit
 		if(sensor.compareTo("VF") == 0)
-			History.timelineView(nors, "Temperature [F]", "VF");
+			History.timelineView(myStress, "Temperature [F]", "VF");
 		
 		// Humidity
 		if(sensor.compareTo("VH") == 0)
-			History.timelineView(nors, "Humidity [&]", "VH");
+			History.timelineView(myStress, "Humidity [&]", "VH");
 		
 		// Weather info
 		if(sensor.compareTo("VI") == 0)
-			History.mapView(nors, "Weather on the map", "VI");
+			History.mapView(myStress, "Weather on the map", "VI");
 
 	}
 	
@@ -300,12 +301,12 @@ public class WeatherHandler implements com.myStress.handlers.Handler, Runnable
 	{
 		if (weather_enabled == true)
 		{
-			SensorRepository.insertSensor(new String("VT"), new String("C"), nors.getString(R.string.VT_d), nors.getString(R.string.VT_e), new String("int"), 0, -50, 100, true, 0, this);	    
-			SensorRepository.insertSensor(new String("VF"), new String("F"), nors.getString(R.string.VF_d), nors.getString(R.string.VF_e), new String("int"), 0, -50, 100, true, 0, this);	    
-			SensorRepository.insertSensor(new String("VH"), new String("%"), nors.getString(R.string.VH_d), nors.getString(R.string.VH_e), new String("int"), 0, 0, 100, true, 0, this);	    
-			SensorRepository.insertSensor(new String("VC"), new String("txt"), nors.getString(R.string.VC_d), nors.getString(R.string.VC_e), new String("str"), 0, 0, 1, false, 0, this);	    
-			SensorRepository.insertSensor(new String("VW"), new String("txt"), nors.getString(R.string.VW_d), nors.getString(R.string.VW_e), new String("str"), 0, 0, 1, false, 0, this);	    
-			SensorRepository.insertSensor(new String("VI"), new String("txt"), nors.getString(R.string.VI_d), nors.getString(R.string.VI_e), new String("str"), 0, 0, 1, true, 0, this);	    
+			SensorRepository.insertSensor(new String("VT"), new String("C"), myStress.getString(R.string.VT_d), myStress.getString(R.string.VT_e), new String("int"), 0, -50, 100, true, 0, this);	    
+			SensorRepository.insertSensor(new String("VF"), new String("F"), myStress.getString(R.string.VF_d), myStress.getString(R.string.VF_e), new String("int"), 0, -50, 100, true, 0, this);	    
+			SensorRepository.insertSensor(new String("VH"), new String("%"), myStress.getString(R.string.VH_d), myStress.getString(R.string.VH_e), new String("int"), 0, 0, 100, true, 0, this);	    
+			SensorRepository.insertSensor(new String("VC"), new String("txt"), myStress.getString(R.string.VC_d), myStress.getString(R.string.VC_e), new String("str"), 0, 0, 1, false, 0, this);	    
+			SensorRepository.insertSensor(new String("VW"), new String("txt"), myStress.getString(R.string.VW_d), myStress.getString(R.string.VW_e), new String("str"), 0, 0, 1, false, 0, this);	    
+			SensorRepository.insertSensor(new String("VI"), new String("txt"), myStress.getString(R.string.VI_d), myStress.getString(R.string.VI_e), new String("str"), 0, 0, 1, true, 0, this);	    
 		}
 	}
 	
@@ -406,10 +407,10 @@ public class WeatherHandler implements com.myStress.handlers.Handler, Runnable
 	 */
 	public WeatherHandler(Context myStress)
 	{
-		this.nors = myStress;
+		this.myStress = myStress;
 
 		// read polltime from preferences
-		polltime = HandlerManager.readRMS_i("WeatherHandler::WeatherPoll", 60*6) * 1000;
+		polltime = Integer.parseInt(myStress.getString(R.string.polltime));
 		updatemeter	= HandlerManager.readRMS_i("WeatherHandler::LocationUpdate", 1000);
 
 		try
@@ -435,12 +436,12 @@ public class WeatherHandler implements com.myStress.handlers.Handler, Runnable
 			wait(connectivity_semaphore); 
 
     		// get location manager
-			manager = (LocationManager)this.nors.getSystemService(Context.LOCATION_SERVICE);
+			manager = (LocationManager)this.myStress.getSystemService(Context.LOCATION_SERVICE);
 			if (manager != null)
 				mReceiver = new LocationReceiver();
 			
 			// get connectivity manager for checking connectivity
-			cm = (ConnectivityManager)this.nors.getSystemService(Context.CONNECTIVITY_SERVICE);
+			cm = (ConnectivityManager)this.myStress.getSystemService(Context.CONNECTIVITY_SERVICE);
 			
 			// everything ok to be used
 			weather_enabled = true;
@@ -484,12 +485,13 @@ public class WeatherHandler implements com.myStress.handlers.Handler, Runnable
 			manager.removeUpdates(mReceiver);
 		
 		if (connectivity_listener == true)
-			nors.unregisterReceiver(ConnectivityReceiver);
+			myStress.unregisterReceiver(ConnectivityReceiver);
 	}
 		   
 	// The Handler that gets information back from the other threads, initializing GPS
 	// We use a handler here to allow for the Acquire() function, which runs in a different thread, to issue an initialization of the GPS
 	// since requestLocationUpdates() can only be called from the main Looper thread!!
+	@SuppressLint("HandlerLeak")
 	private final Handler mHandler = new Handler() 
     {
        @Override
@@ -525,7 +527,7 @@ public class WeatherHandler implements com.myStress.handlers.Handler, Runnable
 	           break;  
            case INIT_RECEIVER:
         	   IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-	   		   nors.registerReceiver(ConnectivityReceiver, intentFilter);
+	   		   myStress.registerReceiver(ConnectivityReceiver, intentFilter);
 	   		   connectivity_listener = true;
 	   		   break;
            default:  

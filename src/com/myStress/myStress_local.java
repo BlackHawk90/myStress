@@ -1374,6 +1374,7 @@ public class myStress_local extends Service
 		catch(Exception e)
 		{
 			SerialPortLogger.debugForced("myStress_local::Restart():ERROR " +  "Exception: " + e.toString());
+			Log.e("myStress", e.getMessage());
 		}		 
 	 }
 	 

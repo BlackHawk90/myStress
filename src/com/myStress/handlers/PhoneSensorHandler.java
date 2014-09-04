@@ -34,7 +34,6 @@ import android.os.Message;
 //import android.util.Log;
 
 import com.myStress.R;
-import com.myStress.platform.HandlerManager;
 import com.myStress.platform.History;
 import com.myStress.platform.SensorRepository;
 
@@ -54,13 +53,13 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 	private static final int INIT_PEDOMETER		= 7;
 	private static final int INIT_ACTIVITY		= 8;
 
-	private Context nors;
+	private Context myStress;
 	private boolean sensor_enable = false;
 	private boolean startedOrientation = false, startedLight = false, startedProximity = false, startedPressure = false, startedTemperature = false, startedHumidity = false, startedPedometer, startedActivity = false;
 	private SensorManager sensorManager;
 	private android.hardware.Sensor MagField, Accelerometer, Proximity, Light, Pressure, Temperature, Humidity, Pedometer;
 	// polltime for sensor
-	private int polltime = 1000*60*6, polltime2 = 1000*60*6, polltime3 = 1000*60*6;
+	private int polltime;
 	// sensor values
 	private float azimuth, roll, pitch, proximity, light, pressure, temperature, humidity;
 	private long pedometer;
@@ -395,31 +394,31 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 	{
 		// see which sensors are requested
 		if (sensor.equals("Az") == true)
-			History.timelineView(nors, "Azimuth [degrees]", sensor);
+			History.timelineView(myStress, "Azimuth [degrees]", sensor);
 		
 		if (sensor.equals("Pi") == true)
-			History.timelineView(nors, "Pitch [degrees]", "Pi");
+			History.timelineView(myStress, "Pitch [degrees]", "Pi");
 
 		if (sensor.equals("Ro") == true)
-			History.timelineView(nors, "Roll [degrees]", "Ro");
+			History.timelineView(myStress, "Roll [degrees]", "Ro");
 
 		if (sensor.equals("LI") == true)
-			History.timelineView(nors, "Light [Lux]", "LI");
+			History.timelineView(myStress, "Light [Lux]", "LI");
 		
 		if (sensor.equals("PU") == true)
-			History.timelineView(nors, "Pressure [hPa]", "PU");
+			History.timelineView(myStress, "Pressure [hPa]", "PU");
 
 		if (sensor.equals("TM") == true)
-			History.timelineView(nors, "Temperature [C]", "TM");
+			History.timelineView(myStress, "Temperature [C]", "TM");
 
 		if (sensor.equals("HU") == true)
-			History.timelineView(nors, "rel. Humidity [%]", "HU");
+			History.timelineView(myStress, "rel. Humidity [%]", "HU");
 
 		if (sensor.equals("PD") == true)
-			History.timelineView(nors, "step count [-]", "PD");
+			History.timelineView(myStress, "step count [-]", "PD");
 		
 		if (sensor.equals("AV") == true)
-			History.timelineView(nors, "activity variance [-]", "AV");
+			History.timelineView(myStress, "activity variance [-]", "AV");
 	}
 
 	
@@ -436,25 +435,25 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 		{
 		   if (MagField != null && Accelerometer != null)
 		   {
-			   SensorRepository.insertSensor(new String("Az"), new String("degrees"), nors.getString(R.string.AZ_d), nors.getString(R.string.AZ_e), new String("int"), -1, 0, 3600, true, polltime, this);
-			   SensorRepository.insertSensor(new String("Pi"), new String("degrees"), nors.getString(R.string.PI_d), nors.getString(R.string.PI_e), new String("int"), -1, -1800, 1800, true, polltime, this);
-			   SensorRepository.insertSensor(new String("Ro"), new String("degrees"), nors.getString(R.string.RO_d), nors.getString(R.string.RO_e), new String("int"), -1, -900, 900, true, polltime, this);	
+			   SensorRepository.insertSensor(new String("Az"), new String("degrees"), myStress.getString(R.string.AZ_d), myStress.getString(R.string.AZ_e), new String("int"), -1, 0, 3600, true, polltime, this);
+			   SensorRepository.insertSensor(new String("Pi"), new String("degrees"), myStress.getString(R.string.PI_d), myStress.getString(R.string.PI_e), new String("int"), -1, -1800, 1800, true, polltime, this);
+			   SensorRepository.insertSensor(new String("Ro"), new String("degrees"), myStress.getString(R.string.RO_d), myStress.getString(R.string.RO_e), new String("int"), -1, -900, 900, true, polltime, this);	
 		   }
 		   if (Proximity != null)
-			   SensorRepository.insertSensor(new String("PR"), new String("-"), nors.getString(R.string.PR_d), nors.getString(R.string.PR_e), new String("int"), -1, 0, 1000, false, polltime2, this);	
+			   SensorRepository.insertSensor(new String("PR"), new String("-"), myStress.getString(R.string.PR_d), myStress.getString(R.string.PR_e), new String("int"), -1, 0, 1000, false, polltime, this);
 		   if (Light != null)
-			   SensorRepository.insertSensor(new String("LI"), new String("Lux"), nors.getString(R.string.LI_d), nors.getString(R.string.LI_e), new String("int"), -1, 0, 50000, true, polltime3, this);	
+			   SensorRepository.insertSensor(new String("LI"), new String("Lux"), myStress.getString(R.string.LI_d), myStress.getString(R.string.LI_e), new String("int"), -1, 0, 50000, true, polltime, this);
 		   if (Pressure != null)
-			   SensorRepository.insertSensor(new String("PU"), new String("hPa"), nors.getString(R.string.PU_d), nors.getString(R.string.PU_e), new String("int"), -1, 0, 50000, true, polltime3, this);	
+			   SensorRepository.insertSensor(new String("PU"), new String("hPa"), myStress.getString(R.string.PU_d), myStress.getString(R.string.PU_e), new String("int"), -1, 0, 50000, true, polltime, this);
 		   if (Temperature != null)
-			   SensorRepository.insertSensor(new String("TM"), new String("C"), nors.getString(R.string.TM_d), nors.getString(R.string.TM_e), new String("int"), -1, 0, 50000, true, polltime3, this);	
+			   SensorRepository.insertSensor(new String("TM"), new String("C"), myStress.getString(R.string.TM_d), myStress.getString(R.string.TM_e), new String("int"), -1, 0, 50000, true, polltime, this);
 		   if (Humidity != null)
-			   SensorRepository.insertSensor(new String("HU"), new String("%"), nors.getString(R.string.HU_d), nors.getString(R.string.HU_e), new String("int"), -1, 0, 50000, true, polltime3, this);	
+			   SensorRepository.insertSensor(new String("HU"), new String("%"), myStress.getString(R.string.HU_d), myStress.getString(R.string.HU_e), new String("int"), -1, 0, 50000, true, polltime, this);
 		   if (Pedometer != null)
-			   SensorRepository.insertSensor(new String("PD"), new String("-"), nors.getString(R.string.PD_d), nors.getString(R.string.PD_e), new String("int"), -1, 0, 50000, true, polltime, this);	
+			   SensorRepository.insertSensor(new String("PD"), new String("-"), myStress.getString(R.string.PD_d), myStress.getString(R.string.PD_e), new String("int"), -1, 0, 50000, true, polltime, this);
 		   if (Accelerometer != null){
-			   SensorRepository.insertSensor(new String("AC"), new String("text"), nors.getString(R.string.AC_d), nors.getString(R.string.AC_e), new String("txt"), -1, 0, 50000, false, polltime, this);
-			   SensorRepository.insertSensor(new String("AV"), new String("-"), nors.getString(R.string.AV_d), nors.getString(R.string.AV_e), new String("int"), -1, 0, 50000, true, polltime, this);
+			   SensorRepository.insertSensor(new String("AC"), new String("text"), myStress.getString(R.string.AC_d), myStress.getString(R.string.AC_e), new String("txt"), -1, 0, 50000, false, polltime, this);
+			   SensorRepository.insertSensor(new String("AV"), new String("-"), myStress.getString(R.string.AV_d), myStress.getString(R.string.AV_e), new String("int"), -1, 0, 50000, true, polltime, this);
 		   }
 		}
 	}
@@ -462,23 +461,21 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 	/*
 	 * Constructor, allocating all necessary resources for the handler
 	 * Here, it's reading the preferences for the different polling intervals, checking the various sensors and arming the semaphores
-	 * @param nors Reference to the calling {@link android.content.Context}
+	 * @param myStress Reference to the calling {@link android.content.Context}
 	 */
-	public PhoneSensorHandler(Context activity)
+	public PhoneSensorHandler(Context myStress)
 	{
-		nors = activity;
+		this.myStress = myStress;
 		
 		// read polltime
-		polltime  = HandlerManager.readRMS_i("PhoneSensorsHandler::OrientationPoll", 60*6) * 1000;
-		polltime2 = HandlerManager.readRMS_i("PhoneSensorsHandler::ProximityPoll", 60*6) * 1000;
-		polltime3 = HandlerManager.readRMS_i("PhoneSensorsHandler::EnvironmentalPoll", 60*6) * 1000;
+		polltime  = Integer.parseInt(myStress.getString(R.string.polltime));
 		
 		measureIntervalStart = System.currentTimeMillis();
 		
 		// try to open sensor services
 		try
 		{
-			sensorManager = (SensorManager)nors.getSystemService(Context.SENSOR_SERVICE);
+			sensorManager = (SensorManager)myStress.getSystemService(Context.SENSOR_SERVICE);
 			MagField	= sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 			Accelerometer= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 			Proximity 	= sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);

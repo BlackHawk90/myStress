@@ -19,6 +19,7 @@ package com.myStress.handlers;
 
 import android.content.Context;
 import android.media.AudioFormat;
+import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 
@@ -40,7 +41,7 @@ public class AudioHandler implements Handler
 	private byte [] AS_reading;
 	private byte [] AF_reading;
 	// configuration data
-	private int polltime = 1000*60*6;
+	private int polltime;
 
 	private final int CENTRE_POINT = 32768;
 	
@@ -89,6 +90,11 @@ public class AudioHandler implements Handler
 		// acquire data and send out
 		try
 		{
+			// Solution to issue 19: don't measure if audio is playing
+			AudioManager manager = (AudioManager)myStress.getSystemService(Context.AUDIO_SERVICE);
+			if(manager.isMusicActive())
+				return null;
+			
 			switch(sensor.charAt(1))
 			{
 				case 'S' :
@@ -185,10 +191,10 @@ public class AudioHandler implements Handler
 		this.myStress = myStress;
 		
 		// now read polltime for audio sampling
-		polltime = HandlerManager.readRMS_i("AudioHandler::samplingpoll", 60*6) * 1000;
+		polltime = Integer.parseInt(myStress.getString(R.string.polltime));
 
 		// now read frequency for sampling
-		sample_rate = HandlerManager.readRMS_i("AudioHandler::SamplingRate", 8000);
+		sample_rate = 8000;
 
 		// now read adjustment for AA reading
 		AA_adjust = HandlerManager.readRMS_i("AudioHandler::AA_adjust", 3);

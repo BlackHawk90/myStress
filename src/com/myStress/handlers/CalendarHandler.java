@@ -30,7 +30,6 @@ import android.provider.CalendarContract;
 import android.provider.CalendarContract.Instances;
 
 import com.myStress.R;
-import com.myStress.platform.HandlerManager;
 import com.myStress.platform.SensorRepository;
 
 /**
@@ -42,7 +41,7 @@ import com.myStress.platform.SensorRepository;
 public class CalendarHandler implements Handler {
 	private Context myStress;
 	// configuration data
-	private int polltime = 1000 * 60 * 6;
+	private int polltime;
 	private long currentRead = 0;
 	private String[] calendars;
 	private boolean no_calendars = false, shutdown = false;
@@ -125,17 +124,17 @@ public class CalendarHandler implements Handler {
 	 * reading the various RMS values of the preferences Then, we see if there
 	 * are at least one calendar selected
 	 * 
-	 * @param nors
+	 * @param myStress
 	 *            Reference to the calling {@link android.content.Context}
 	 */
-	public CalendarHandler(Context nors) {
+	public CalendarHandler(Context myStress) {
 //		String storedCalendars;
 		// store for later
-		myStress = nors;
+		this.myStress = myStress;
 
 		// retrieve clendars
 		// SharedPreferences settings =
-		// PreferenceManager.getDefaultSharedPreferences(nors);
+		// PreferenceManager.getDefaultSharedPreferences(myStress);
 		// storedCalendars =
 		// settings.getString("CalendarHandler::Calendar_names", null);
 		//
@@ -147,18 +146,16 @@ public class CalendarHandler implements Handler {
 		// calendars = storedCalendars.split("::");
 		// no_calendars = true;
 		// }
-
+		
 		calendars = getAllCalendar();
-
+		
 		if (calendars != null)
 			no_calendars = true;
 		else
 			no_calendars = false;
-
+		
 		// now read polltime for audio sampling
-		polltime = HandlerManager.readRMS_i("CalendarHandler::samplingpoll",
-				60 * 6) * 1000;
-
+		polltime = Integer.parseInt(myStress.getString(R.string.polltime));
 	}
 
 	/**
