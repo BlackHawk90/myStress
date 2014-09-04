@@ -1011,8 +1011,8 @@ public class myStress_local extends Service
 		 notification.when = System.currentTimeMillis();
 		 // don't allow clearing the notification
 		 //FIXME ÄNDERN
-//		 notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-//		 startForeground(1, notification);
+		 notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+		 startForeground(1, notification);
 		 
          // store start timestamp
          HandlerManager.writeRMS_l("myStress_local::time_started", System.currentTimeMillis());
