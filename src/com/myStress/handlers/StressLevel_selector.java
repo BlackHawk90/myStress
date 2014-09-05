@@ -34,6 +34,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -45,7 +46,8 @@ import com.myStress.*;
  * 
  * @see android.app.Activity
  */
-public class StressLevel_selector extends Activity implements OnClickListener {
+public class StressLevel_selector extends Activity implements OnClickListener,
+		OnCheckedChangeListener {
 	// private TextView mTitle;
 	// private TextView mTitle2;
 	// private Editor editor;
@@ -66,12 +68,16 @@ public class StressLevel_selector extends Activity implements OnClickListener {
 	private RadioGroup rgOpinion2;
 	private RadioGroup rgOpinion3;
 	private RadioGroup rgOpinion4;
-	
+
 	private SharedPreferences settings;
 	private Editor editor;
 	private int counter;
 
 	private int[] index = new int[4];
+	private int value1;
+	private int value2;
+	private int value3;
+	private int value4;
 
 	/**
 	 * Started when creating the {@link android.app.Activity}
@@ -119,16 +125,16 @@ public class StressLevel_selector extends Activity implements OnClickListener {
 
 		// define ButtonGroups
 		rgOpinion1 = (RadioGroup) findViewById(R.id.radioGroup1);
-		rgOpinion1.setOnClickListener(this);
+		rgOpinion1.setOnCheckedChangeListener(this);
 
 		rgOpinion2 = (RadioGroup) findViewById(R.id.radioGroup2);
-		rgOpinion2.setOnClickListener(this);
+		rgOpinion2.setOnCheckedChangeListener(this);
 
 		rgOpinion3 = (RadioGroup) findViewById(R.id.radioGroup3);
-		rgOpinion3.setOnClickListener(this);
+		rgOpinion3.setOnCheckedChangeListener(this);
 
 		rgOpinion4 = (RadioGroup) findViewById(R.id.radioGroup4);
-		rgOpinion4.setOnClickListener(this);
+		rgOpinion4.setOnCheckedChangeListener(this);
 
 		String[] questions = getResources().getStringArray(R.array.questions);
 
@@ -149,9 +155,9 @@ public class StressLevel_selector extends Activity implements OnClickListener {
 		// get default preferences and editor
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		editor = settings.edit();
-		
+
 		counter = settings.getInt("StressCounter", 0);
-		
+
 		status = null;
 	}
 
@@ -219,84 +225,7 @@ public class StressLevel_selector extends Activity implements OnClickListener {
 		if (status.equals("polled")) {
 			stress = "";
 
-			int tmp1 = 0;
-			int tmp2 = 0;
-			int tmp3 = 0;
-			int tmp4 = 0;
-
-			switch (rgOpinion1.getCheckedRadioButtonId()) {
-			case R.id.radio10:
-				tmp1 = 0;
-				break;
-			case R.id.radio11:
-				tmp1 = 1;
-				break;
-			case R.id.radio12:
-				tmp1 = 2;
-				break;
-			case R.id.radio13:
-				tmp1 = 3;
-				break;
-			case R.id.radio14:
-				tmp1 = 4;
-				break;
-			}
-
-			switch (rgOpinion2.getCheckedRadioButtonId()) {
-			case R.id.radio20:
-				tmp2 = 0;
-				break;
-			case R.id.radio21:
-				tmp2 = 1;
-				break;
-			case R.id.radio22:
-				tmp2 = 2;
-				break;
-			case R.id.radio23:
-				tmp2 = 3;
-				break;
-			case R.id.radio24:
-				tmp2 = 4;
-				break;
-			}
-
-			switch (rgOpinion3.getCheckedRadioButtonId()) {
-			case R.id.radio30:
-				tmp3 = 0;
-				break;
-			case R.id.radio31:
-				tmp3 = 1;
-				break;
-			case R.id.radio32:
-				tmp3 = 2;
-				break;
-			case R.id.radio33:
-				tmp3 = 3;
-				break;
-			case R.id.radio34:
-				tmp3 = 4;
-				break;
-			}
-
-			switch (rgOpinion4.getCheckedRadioButtonId()) {
-			case R.id.radio40:
-				tmp4 = 0;
-				break;
-			case R.id.radio41:
-				tmp4 = 1;
-				break;
-			case R.id.radio42:
-				tmp4 = 2;
-				break;
-			case R.id.radio43:
-				tmp4 = 3;
-				break;
-			case R.id.radio44:
-				tmp4 = 4;
-				break;
-			}
-
-			int[] values = { tmp1, tmp2, tmp3, tmp4 };
+			int[] values = { value1, value2, value3, value4 };
 			double tmp;
 			for (int i = 0; i < 4; i++) {
 				tmp = values[index[i]];
@@ -309,8 +238,8 @@ public class StressLevel_selector extends Activity implements OnClickListener {
 			intent = new Intent("com.myStress.stresslevel");
 			intent.putExtra("StressLevel", stress);
 			intent.putExtra("StressMeta", status);
-			
-			editor.putInt("StressCounter", counter+1);
+
+			editor.putInt("StressCounter", counter + 1);
 			editor.commit();
 		} else {
 			intent = new Intent("com.myStress.stresslevel");
@@ -340,22 +269,6 @@ public class StressLevel_selector extends Activity implements OnClickListener {
 		// EditText et;
 		// dispatch depending on button pressed
 		switch (v.getId()) {
-		case R.id.radioGroup1:
-			if (rgOpinion1.getCheckedRadioButtonId() != -1)
-				bGroup1Selected = true;
-			break;
-		case R.id.radioGroup2:
-			if (rgOpinion2.getCheckedRadioButtonId() != -1)
-				bGroup2Selected = true;
-			break;
-		case R.id.radioGroup3:
-			if (rgOpinion3.getCheckedRadioButtonId() != -1)
-				bGroup3Selected = true;
-			break;
-		case R.id.radioGroup4:
-			if (rgOpinion4.getCheckedRadioButtonId() != -1)
-				bGroup4Selected = true;
-			break;
 		case R.id.notnow:
 			bGroup1Selected = false;
 			bGroup2Selected = false;
@@ -390,5 +303,92 @@ public class StressLevel_selector extends Activity implements OnClickListener {
 			}
 			break;
 		}
+	}
+
+	@Override
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		switch (group.getId()) {
+		case R.id.radioGroup1:
+			bGroup1Selected = true;
+			switch (checkedId) {
+			case R.id.radio10:
+				value1 = 0;
+				break;
+			case R.id.radio11:
+				value1 = 1;
+				break;
+			case R.id.radio12:
+				value1 = 2;
+				break;
+			case R.id.radio13:
+				value1 = 3;
+				break;
+			case R.id.radio14:
+				value1 = 4;
+				break;
+			}
+			break;
+		case R.id.radioGroup2:
+			bGroup2Selected = true;
+			switch (checkedId) {
+			case R.id.radio20:
+				value2 = 0;
+				break;
+			case R.id.radio21:
+				value2 = 1;
+				break;
+			case R.id.radio22:
+				value2 = 2;
+				break;
+			case R.id.radio23:
+				value2 = 3;
+				break;
+			case R.id.radio24:
+				value2 = 4;
+				break;
+			}
+			break;
+		case R.id.radioGroup3:
+			bGroup3Selected = true;
+			switch (checkedId) {
+			case R.id.radio30:
+				value3 = 0;
+				break;
+			case R.id.radio31:
+				value3 = 1;
+				break;
+			case R.id.radio32:
+				value3 = 2;
+				break;
+			case R.id.radio33:
+				value3 = 3;
+				break;
+			case R.id.radio34:
+				value3 = 4;
+				break;
+			}
+			break;
+		case R.id.radioGroup4:
+			bGroup4Selected = true;
+			switch (checkedId) {
+			case R.id.radio40:
+				value4 = 0;
+				break;
+			case R.id.radio41:
+				value4 = 1;
+				break;
+			case R.id.radio42:
+				value4 = 2;
+				break;
+			case R.id.radio43:
+				value4 = 3;
+				break;
+			case R.id.radio44:
+				value4 = 4;
+				break;
+			}
+			break;
+		}
+
 	}
 }
