@@ -291,7 +291,11 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="l4">sehr oft</string>
 <string name="polltime">360000</string>
 <string name="stresspolltime">30000</string>
-<string name="time1">13</string>
-<string name="time2">14</string>
-<string name="time3">15</string>
+<string name="time1">7</string>
+<string name="time2">8</string>
+<string name="time3">9</string>
+<string name="sync">Synchronisieren</string>
+<string name="exit_before_sync">myStress läuft momentan.\nMöchtest Du die momentanen Aufzeichnungen unterbrechen um zu synchronisieren? Du musst myStress dann neu starten.</string>
+<string name="question">Fragebogen</string>
+
 </resources>

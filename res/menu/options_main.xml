@@ -30,7 +30,10 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
     <item android:id="@+id/main_uniqueID"
           android:icon="@drawable/storage"
           android:title="@+string/uniqueID" />
-<!--     <item android:id="@+id/main_manual"
-          android:icon="@drawable/manual"
-          android:title="@string/Manual" />  -->
+     <item android:id="@+id/main_sync"
+          android:icon="@drawable/sync"
+          android:title="@string/sync" />
+          <item android:id="@+id/main_question"
+          android:icon="@drawable/questionmark"
+          android:title="@string/question" />    
 </menu>

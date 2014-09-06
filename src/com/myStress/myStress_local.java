@@ -1010,7 +1010,7 @@ public class myStress_local extends Service
 		 // set the time again for ICS
 		 notification.when = System.currentTimeMillis();
 		 // don't allow clearing the notification
-		 //FIXME ÄNDERN
+		 //FIXME Prozess im Vordergrund sorgt dafür, dass Notification nicht weg geht
 		 notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
 		 startForeground(1, notification);
 		 

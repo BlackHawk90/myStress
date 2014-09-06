@@ -77,13 +77,13 @@ public class myStress_tabs extends TabActivity implements OnTabChangeListener, O
 	    tabHost.addTab(spec);
 	    no_tabs++;
 
-	    // second tab: sync
-	    intent = new Intent().setClass(this, myStress_sync.class);
-	    spec = tabHost.newTabSpec("remote").setIndicator(getString(R.string.tab_Sync),
-	                      res.getDrawable(R.drawable.server))
-	                  .setContent(intent);
-	    tabHost.addTab(spec);
-	    no_tabs++;
+//	    // second tab: sync
+//	    intent = new Intent().setClass(this, myStress_sync.class);
+//	    spec = tabHost.newTabSpec("remote").setIndicator(getString(R.string.tab_Sync),
+//	                      res.getDrawable(R.drawable.server))
+//	                  .setContent(intent);
+//	    tabHost.addTab(spec);
+//	    no_tabs++;
 	    
 
 	    // current tab
