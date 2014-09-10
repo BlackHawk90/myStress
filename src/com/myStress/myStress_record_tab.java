@@ -88,7 +88,7 @@ public class myStress_record_tab extends Activity implements OnClickListener, On
     {
         // Set up the window layout
         super.onCreate(savedInstanceState);
-                
+        
         // save current instance for inner classes
         this.myStress = this;
         
@@ -121,39 +121,6 @@ public class myStress_record_tab extends Activity implements OnClickListener, On
         getApplicationContext().startService(new Intent(this, myStress_local.class));
         getApplicationContext().bindService(new Intent(this, myStress_local.class), mConnection, Service.BIND_AUTO_CREATE);     
 
-		// check if persistent flag is running, indicating the myStress has been running (and would re-start if continuing)
-		if (settings.getBoolean("myStress_local::running", false) == true)
-		{
-	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    		builder.setMessage(getString(R.string.myStress_running_exit))
-    			   .setTitle(getString(R.string.myStress_Sensing))
-    		       .setCancelable(false)
-    		       .setPositiveButton(getString(R.string.Yes), new DialogInterface.OnClickListener() 
-    		       {
-    		           public void onClick(DialogInterface dialog, int id) 
-    		           {
-    		        	    // clear persistent flag
-    			           	Editor editor = settings.edit();
-    			           	editor.putBoolean("myStress_local::running", false);
-    		                // finally commit to storing values!!
-    		                editor.commit();
-    		                // stop service
- 		    			    stopService(new Intent(myStress, myStress_local.class));
- 		    			    finish();
-    		           }
-    		       })
-    		       .setNegativeButton(getString(R.string.No), new DialogInterface.OnClickListener() 
-    		       {
-    		           public void onClick(DialogInterface dialog, int id) 
-    		           {
-		    			    finish();
-    		                dialog.cancel();
-    		           }
-    		       });
-    		AlertDialog alert = builder.create();
-    		alert.show();
-		}
-		
 		// check if first start in order to show 'Getting Started' dialog
 		if (settings.getBoolean("myStress_local::first_start", false) == false)
 		{
@@ -209,7 +176,13 @@ public class myStress_record_tab extends Activity implements OnClickListener, On
 	@Override
     public synchronized void onResume() 
     {
-        super.onResume();     
+        super.onResume();
+        
+		// check if persistent flag is running, indicating the myStress has been running (and would re-start if continuing)
+		if (settings.getBoolean("myStress_local::running", false) == true)
+		{
+			showGUI();
+		}
     }
 
 	/** Called when the activity is paused. 
@@ -359,13 +332,13 @@ public class myStress_record_tab extends Activity implements OnClickListener, On
   	};    	
     
     private void initializeStart(){
-    	AlertDialog.Builder builder;
-    	AlertDialog alert;
+//    	AlertDialog.Builder builder;
+//    	AlertDialog alert;
         
     	// check if persistent flag is running, indicating the myStress has been running (and would re-start if continuing)
 		if (settings.getBoolean("myStress_local::running", false) == true)
 		{
-    		builder = new AlertDialog.Builder(this);
+/*    		builder = new AlertDialog.Builder(this);
     		builder.setMessage(getString(R.string.myStress_running_exit))
     			   .setTitle(getString(R.string.myStress_Sensing))
     		       .setCancelable(false)
@@ -391,7 +364,8 @@ public class myStress_record_tab extends Activity implements OnClickListener, On
     		           }
     		       });
     		alert = builder.create();
-    		alert.show();
+    		alert.show();*/
+			showGUI();
 		}
 		else
 		{		           
@@ -409,6 +383,20 @@ public class myStress_record_tab extends Activity implements OnClickListener, On
     			finish();
     		}
        	}
+    }
+    
+    private void showGUI(){
+		boolean snoozed = settings.getBoolean("myStress::snoozed", false);
+		if(snoozed){
+			Intent intent = new Intent("com.myStress.pollstress");
+			sendBroadcast(intent);
+		}
+		else{
+			Intent startintent = new Intent(myStress, myStress_measurements.class);
+			startintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			myStress.startActivity(startintent);
+		}
+		finish();
     }
     
     private boolean startAccessibility(){

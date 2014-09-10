@@ -157,6 +157,7 @@ public class myStress_local extends Service
     private VibrateThread Vibrator;
     private Notification notification;
     private WakeLock wl = null;
+	private boolean notification_visible;
     // database variables
     /**
      * Reference to current myStress_database
@@ -622,8 +623,12 @@ public class myStress_local extends Service
 	@Override
 	public void onCreate() 
 	{
+		myStress = this.getApplicationContext();
+		
 		SerialPortLogger.debugForced("myStress_local::created service!");
-
+		
+		notification_visible = Boolean.getBoolean(myStress.getString(R.string.notification_visible));
+		
 		// let's see if we need to restart
 		Restart(true);
 	}
@@ -673,7 +678,7 @@ public class myStress_local extends Service
 		LightCode  			= HandlerManager.readRMS("LightCode", "00ff00");
 
 		// find out whether or not to kill based on battery condition
-		BatteryKill_i = HandlerManager.readRMS_i("BatteryKill", 0);
+		BatteryKill_i = HandlerManager.readRMS_i("BatteryKill", 10);
 
 		// find out whether or not to wakeup the sensing on user activity
 		Wakeup_b = HandlerManager.readRMS_b("Wakeup", false);
@@ -1011,8 +1016,10 @@ public class myStress_local extends Service
 		 notification.when = System.currentTimeMillis();
 		 // don't allow clearing the notification
 		 //FIXME ÄNDERN
-		 notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-		 startForeground(1, notification);
+		 notification.flags = /*Notification.FLAG_NO_CLEAR |*/ Notification.FLAG_ONGOING_EVENT;
+		 if(notification_visible)
+			 startForeground(1, notification);
+
 		 
          // store start timestamp
          HandlerManager.writeRMS_l("myStress_local::time_started", System.currentTimeMillis());

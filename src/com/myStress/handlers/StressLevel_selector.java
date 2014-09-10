@@ -16,7 +16,6 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
  */
 package com.myStress.handlers;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -27,7 +26,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
@@ -35,8 +33,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.myStress.*;
@@ -218,8 +214,8 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 	public void onDestroy() {
 		Intent intent;
 		if (status == null) {
-			status = "snooze";
-			finish();
+			status = "exit";
+			//finish();
 		}
 
 		if (status.equals("polled")) {
@@ -276,8 +272,6 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 			bGroup4Selected = false;
 
 			status = "snooze";
-
-			finish();
 			break;
 		case R.id.skip:
 			bGroup1Selected = false;
@@ -286,8 +280,6 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 			bGroup4Selected = false;
 
 			status = "skip";
-
-			finish();
 			break;
 		case R.id.ok:
 			if (bGroup1Selected && bGroup2Selected && bGroup3Selected
@@ -298,11 +290,10 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 				bGroup4Selected = false;
 
 				status = "polled";
-
-				finish();
 			}
 			break;
 		}
+		finish();
 	}
 
 	@Override
