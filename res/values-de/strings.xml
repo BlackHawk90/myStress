@@ -277,13 +277,13 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="myStressUpload">myStress Upload</string>
 <string name="myStress_Map">myStress Map</string>
 <string name="myStress_Timeline">myStress Timeline</string>
-<string name="polltime">360000</string>
+<string name="polltime">30000</string>
 <string name="stresspolltime">30000</string>
 <string name="stresssnoozetime">15000</string>
-<string name="time1">12</string>
-<string name="time2">13</string>
-<string name="time3">14</string>
-<string name="notification_visible">false</string>
+<string name="time1">9</string>
+<string name="time2">10</string>
+<string name="time3">11</string>
+<string name="notification_visible">true</string>
 
 <string name="notnow">In 15 Min.</string>
 <string name="skip">Diesmal nicht</string>

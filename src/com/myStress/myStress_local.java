@@ -627,7 +627,7 @@ public class myStress_local extends Service
 		
 		SerialPortLogger.debugForced("myStress_local::created service!");
 		
-		notification_visible = Boolean.getBoolean(myStress.getString(R.string.notification_visible));
+		notification_visible = Boolean.valueOf(myStress.getString(R.string.notification_visible));
 		
 		// let's see if we need to restart
 		Restart(true);

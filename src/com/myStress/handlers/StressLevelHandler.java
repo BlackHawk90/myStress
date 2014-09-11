@@ -44,6 +44,7 @@ public class StressLevelHandler implements Handler
 	private Vibrator vibrator;
 	private boolean registered = false, shutdown = false, juststarted = false;
 	private boolean processed_sm = false, processed_sl = false;
+	private boolean dont_vibrate = false;
 	private int polltime, snoozetime;
 	private int time1;
 	private int time2;
@@ -90,7 +91,10 @@ public class StressLevelHandler implements Handler
 		if (registered == false)
 		{
 			// check intents and set booleans for discovery
-			IntentFilter intentFilter = new IntentFilter("com.myStress.stresslevel");
+			IntentFilter intentFilter = new IntentFilter();
+			intentFilter.addAction("com.myStress.stresslevel");
+			intentFilter.addAction("com.myStress.pollstress");
+			
 	        myStress.registerReceiver(SystemReceiver, intentFilter);
 //	        intentFilter = new IntentFilter("com.myStess.eventselected");
 //	        myStress.registerReceiver(SystemReceiver, intentFilter);
@@ -110,7 +114,9 @@ public class StressLevelHandler implements Handler
 					startintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					myStress.startActivity(startintent);
 					// vibrate with pattern
-					vibrator.vibrate(pattern, -1);
+					if(!dont_vibrate)
+						vibrator.vibrate(pattern, -1);
+					dont_vibrate = false;
 				} catch(Exception e){
 					Log.e("myStress", e.getMessage());
 				}
@@ -142,7 +148,8 @@ public class StressLevelHandler implements Handler
 						editor.putBoolean("myStress::snoozed", true);
 						editor.commit();
 						
-						snooze_semaphore.tryAcquire(snoozetime, TimeUnit.MILLISECONDS);
+						boolean manually_opened = snooze_semaphore.tryAcquire(snoozetime, TimeUnit.MILLISECONDS);
+						if(manually_opened) dont_vibrate = true;
 						
 						return Acquire("SL",null);
 					}catch(Exception e){
@@ -234,9 +241,11 @@ public class StressLevelHandler implements Handler
 			// charge the semaphores to block at next call!
 			wait(stress_semaphore);
 			wait(meta_semaphore);
+			wait(snooze_semaphore);
 			
 			// get system service for Vibrator
 			vibrator = (Vibrator)myStress.getSystemService(Context.VIBRATOR_SERVICE);
+			dont_vibrate = false;
 		}
 		catch(Exception e)
 		{
@@ -263,6 +272,7 @@ public class StressLevelHandler implements Handler
 		
 		stress_semaphore.release();
 		meta_semaphore.release();
+		snooze_semaphore.release();
 	}
 		
 	private final BroadcastReceiver SystemReceiver = new BroadcastReceiver() 
@@ -282,7 +292,7 @@ public class StressLevelHandler implements Handler
             }
             if (intent.getAction().equals("com.myStress.pollstress"))
             {
-            	Acquire("SL", null);
+//            	Acquire("SL", null);
             	snooze_semaphore.release();
             }
         }

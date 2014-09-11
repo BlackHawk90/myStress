@@ -364,8 +364,8 @@ public class myStress_record_tab extends Activity implements OnClickListener, On
     		           }
     		       });
     		alert = builder.create();
-    		alert.show();*/
-			showGUI();
+    		alert.show();
+			showGUI();*/
 		}
 		else
 		{		           

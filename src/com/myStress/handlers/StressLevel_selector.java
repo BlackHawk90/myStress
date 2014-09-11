@@ -291,6 +291,7 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 
 				status = "polled";
 			}
+			else return;
 			break;
 		}
 		finish();
