@@ -276,9 +276,11 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="myStress_Timeline">myStress Timeline</string>
 <string name="polltime">360000</string>
 <string name="stresspolltime">30000</string>
+<string name="stresssnoozetime">15000</string>
 <string name="time1">15</string>
 <string name="time2">16</string>
 <string name="time3">17</string>
+<string name="notification_visible">false</string>
 
 <string name="notnow">In 15 min</string>
 <string name="skip">Skip this time</string>
@@ -295,5 +297,4 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="sync">Sync</string>
 <string name="exit_before_sync">myStress has been running.\nDo you want to interrupt the current recording to synchronize? You will need to start myStress again.</string>
 <string name="question">Questionnaire</string>
-
 </resources>

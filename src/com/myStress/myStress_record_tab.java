@@ -184,7 +184,13 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 	 */
 	@Override
 	public synchronized void onResume() {
-		super.onResume();
+        super.onResume();
+        
+		// check if persistent flag is running, indicating the myStress has been running (and would re-start if continuing)
+		if (settings.getBoolean("myStress_local::running", false) == true)
+		{
+			showGUI();
+		}
 	}
 
 	/**
@@ -470,6 +476,20 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 				finish();
 			}
 		}
+    }
+    
+    private void showGUI(){
+		boolean snoozed = settings.getBoolean("myStress::snoozed", false);
+		if(snoozed){
+			Intent intent = new Intent("com.myStress.pollstress");
+			sendBroadcast(intent);
+		}
+		else{
+			Intent startintent = new Intent(myStress, myStress_measurements.class);
+			startintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			myStress.startActivity(startintent);
+		}
+		finish();
 	}
 
 	private boolean startAccessibility() {

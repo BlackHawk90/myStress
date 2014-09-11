@@ -18,6 +18,7 @@ package com.myStress.handlers;
 
 import java.util.Calendar;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 import com.myStress.R;
 import com.myStress.helper.SerialPortLogger;
@@ -27,7 +28,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class StressLevelHandler implements Handler
@@ -36,13 +40,16 @@ public class StressLevelHandler implements Handler
 	private String Event, old_Event, status;
 	private Semaphore stress_semaphore 	= new Semaphore(1);
 	private Semaphore meta_semaphore 	= new Semaphore(1);
+	private Semaphore snooze_semaphore  = new Semaphore(1);
 	private Vibrator vibrator;
 	private boolean registered = false, shutdown = false, juststarted = false;
 	private boolean processed_sm = false, processed_sl = false;
-	private int polltime;
+	private boolean dont_vibrate = false;
+	private int polltime, snoozetime;
 	private int time1;
 	private int time2;
 	private int time3;
+	private SharedPreferences settings;
 	
 	private void wait(Semaphore sema)
 	{
@@ -84,7 +91,10 @@ public class StressLevelHandler implements Handler
 		if (registered == false)
 		{
 			// check intents and set booleans for discovery
-			IntentFilter intentFilter = new IntentFilter("com.myStress.stresslevel");
+			IntentFilter intentFilter = new IntentFilter();
+			intentFilter.addAction("com.myStress.stresslevel");
+			intentFilter.addAction("com.myStress.pollstress");
+			
 	        myStress.registerReceiver(SystemReceiver, intentFilter);
 //	        intentFilter = new IntentFilter("com.myStess.eventselected");
 //	        myStress.registerReceiver(SystemReceiver, intentFilter);
@@ -96,14 +106,17 @@ public class StressLevelHandler implements Handler
 		{
 			if(!juststarted){
 				String snooze = "snooze";
-				if(!checkTime() && !snooze.equals(status)) return null;
+				String exit = "exit";
+				if(!checkTime() && (!snooze.equals(status) && !exit.equals(status))) return null;
 				
 				try{
 					Intent startintent = new Intent(myStress, StressLevel_selector.class);
 					startintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					myStress.startActivity(startintent);
 					// vibrate with pattern
-					vibrator.vibrate(pattern, -1);
+					if(!dont_vibrate)
+						vibrator.vibrate(pattern, -1);
+					dont_vibrate = false;
 				} catch(Exception e){
 					Log.e("myStress", e.getMessage());
 				}
@@ -120,14 +133,24 @@ public class StressLevelHandler implements Handler
 				
 				processed_sl=true;
 				clear();
+				
+				Editor editor = settings.edit();
+				editor.putBoolean("myStress::snoozed", false);
+				editor.commit();
 		        
 				return readings.toString().getBytes();
 			}
 			else{
 				if(status == null) return null;
-				if(status.equals("snooze")){
+				if(status.equals("snooze") || status.equals("exit")){
 					try{
-						Thread.sleep(900000);
+						Editor editor = settings.edit();
+						editor.putBoolean("myStress::snoozed", true);
+						editor.commit();
+						
+						boolean manually_opened = snooze_semaphore.tryAcquire(snoozetime, TimeUnit.MILLISECONDS);
+						if(manually_opened) dont_vibrate = true;
+						
 						return Acquire("SL",null);
 					}catch(Exception e){
 						Log.e("myStress", e.getMessage());
@@ -206,18 +229,23 @@ public class StressLevelHandler implements Handler
 		this.myStress = myStress;
 		
 		polltime = Integer.parseInt(myStress.getString(R.string.stresspolltime));
+		snoozetime = Integer.parseInt(myStress.getString(R.string.stresssnoozetime));
 		time1 = Integer.parseInt(myStress.getString(R.string.time1));
 		time2 = Integer.parseInt(myStress.getString(R.string.time2));
 		time3 = Integer.parseInt(myStress.getString(R.string.time3));
+		
+		settings = PreferenceManager.getDefaultSharedPreferences(myStress);
 		
 		try
 		{
 			// charge the semaphores to block at next call!
 			wait(stress_semaphore);
 			wait(meta_semaphore);
+			wait(snooze_semaphore);
 			
 			// get system service for Vibrator
 			vibrator = (Vibrator)myStress.getSystemService(Context.VIBRATOR_SERVICE);
+			dont_vibrate = false;
 		}
 		catch(Exception e)
 		{
@@ -244,6 +272,7 @@ public class StressLevelHandler implements Handler
 		
 		stress_semaphore.release();
 		meta_semaphore.release();
+		snooze_semaphore.release();
 	}
 		
 	private final BroadcastReceiver SystemReceiver = new BroadcastReceiver() 
@@ -260,6 +289,11 @@ public class StressLevelHandler implements Handler
         		stress_semaphore.release();
         		meta_semaphore.release();
 				return;
+            }
+            if (intent.getAction().equals("com.myStress.pollstress"))
+            {
+//            	Acquire("SL", null);
+            	snooze_semaphore.release();
             }
         }
     };

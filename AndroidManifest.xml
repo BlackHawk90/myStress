@@ -193,6 +193,8 @@
             android:configChanges="orientation|keyboardHidden"
             android:exported="false"
             android:label="@string/myStress_Local_Sensing"
+            android:noHistory="true"
+            android:excludeFromRecents="true"
             android:theme="@android:style/Theme.Dialog" >
         </activity>
 
@@ -220,6 +222,8 @@
         <activity
             android:name=".handlers.StressLevel_selector"
             android:configChanges="orientation|keyboardHidden" 
+            android:noHistory="true"
+            android:excludeFromRecents="true"
             android:theme="@android:style/Theme" >
         </activity>
     </application>
