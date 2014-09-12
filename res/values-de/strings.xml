@@ -59,12 +59,12 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="Sensor_invalid2">Sensor ungültig - Grund: unbekannt</string>
 <string name="Sensor_suspended">Sensor angehalten - Grund:</string>
 <string name="Sensor_suspended2">Sensor angehalten - Grund: unbekannt</string>
-<string name="Started_myStress">Startet myStress</string>
-<string name="Stop_myStress">Stop myStress</string>
-<string name="myStress_Local_Sensing">myStress Lokale Aufnahmen</string>
-<string name="myStress_Sensing">myStress Aufnahmen</string>
+<string name="Started_myStress">Starte myStress</string>
+<string name="Stopped_myStress">Stoppe myStress</string>
+<string name="myStress_Local_Sensing">myStress Messergebnisse</string>
+<string name="myStress_Sensing">myStress Messergebnisse</string>
 <string name="running_since">&#8230;läuft seit&#8230;</string>
-<string name="restarted_since">&#8230;wiedergestarted seit&#8230;</string>
+<string name="restarted_since">&#8230;wiedergestartet seit&#8230;</string>
 <string name="killed_at">&#8230;beendet bei </string>
 <string name="myStress_killed">myStress beendet</string>
 <string name="battery">Batterie</string>
@@ -280,9 +280,9 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="polltime">30000</string>
 <string name="stresspolltime">30000</string>
 <string name="stresssnoozetime">15000</string>
-<string name="time1">22</string>
-<string name="time2">23</string>
-<string name="time3">0</string>
+<string name="time1">14</string>
+<string name="time2">15</string>
+<string name="time3">16</string>
 <string name="notification_visible">true</string>
 
 <string name="notnow">In 15 Min.</string>
@@ -298,7 +298,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="l3">häufig</string>
 <string name="l4">sehr oft</string>
 <string name="sync">Synchronisieren</string>
+<string name="measurements">Messergebnisse</string>
 <string name="exit_before_sync">myStress läuft momentan.\nMöchtest Du die momentanen Aufzeichnungen unterbrechen um zu synchronisieren? Du musst myStress dann neu starten.</string>
 <string name="question">Fragebogen</string>
-
 </resources>

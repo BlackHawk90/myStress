@@ -29,7 +29,7 @@ public class Waker
 	 * Initialise the sleep function
 	 * @param context Reference to the calling {@link android.content.Context}
 	 */
-	static public void init(Context context)
+	public static void init(Context context)
 	{
 	}
 	
@@ -37,7 +37,7 @@ public class Waker
 	 * Sleep function
 	 * @param milli time to sleep in milliseconds
 	 */
-	static public void sleep(long milli)
+	public static void sleep(long milli)
 	{
 		try
 		{

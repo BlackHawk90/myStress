@@ -60,8 +60,8 @@ public class CallAudioHandler implements Handler
     
     private AudioRecord audioRecorder = null;
 	
-    public double prevSecs = 0;
-	public double[] featureBuffer = null;
+//  private double prevSecs = 0;
+//	private double[] featureBuffer = null;
 	
 	// availability of player
 	private boolean available = false;
@@ -216,7 +216,7 @@ public class CallAudioHandler implements Handler
 			    if(audioRecorder != null)
 			    	if(audioRecorder.getState() == AudioRecord.STATE_INITIALIZED)
 			    	{
-					    prevSecs = (double)System.currentTimeMillis()/1000.0d;
+//					    prevSecs = (double)System.currentTimeMillis()/1000.0d;
 						// release player again until needed
 					    audioRecorder.release();
 					    audioRecorder = null;
@@ -259,11 +259,11 @@ public class CallAudioHandler implements Handler
     	double featureCepstrum[] = new double[MFCCS_VALUE];
     	
 	    int readAudioSamples = 0;
-	    boolean havePlayer = ((AudioHandler) HandlerManager.getHandler("AudioHandler")).havePlayer;
+	    boolean havePlayer = ((AudioHandler) HandlerManager.getHandler("AudioHandler")).havePlayer();
 		while (havePlayer == true)
 			sleep(100);
 		// now we have the player!
-		((AudioHandler) HandlerManager.getHandler("AudioHandler")).havePlayer = true;
+		((AudioHandler) HandlerManager.getHandler("AudioHandler")).setHavePlayer(true);
 	    
 		try
 		{
@@ -281,9 +281,9 @@ public class CallAudioHandler implements Handler
 					audioRecorder.startRecording();
 					
 					readAudioSamples = audioRecorder.read(data16bit, 0, bufferSamples);
-			    	double currentSecs = (double)(System.currentTimeMillis())/1000.0d;
+//			    	double currentSecs = (double)(System.currentTimeMillis())/1000.0d;
 //			    	double diffSecs = currentSecs - prevSecs;
-			    	prevSecs = currentSecs;
+//			    	prevSecs = currentSecs;
 				    
 			    	audiofeatures = new String("");
 			    	
@@ -378,7 +378,7 @@ public class CallAudioHandler implements Handler
 	    	SerialPortLogger.debug("CallAudioHandler:Exception when requesting AudioRecord!");
 	    } finally {
 			// don't need player anymore
-			((AudioHandler) HandlerManager.getHandler("AudioHandler")).havePlayer = false;
+			((AudioHandler) HandlerManager.getHandler("AudioHandler")).setHavePlayer(false);
     		if(callactive && timestamp+1000 >= System.currentTimeMillis()) call_semaphore.release();
 	    }
 	}

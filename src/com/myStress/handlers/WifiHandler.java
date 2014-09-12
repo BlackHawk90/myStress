@@ -65,19 +65,19 @@ public class WifiHandler extends PhoneStateListener implements com.myStress.hand
 	/**
 	 * current MAC reading
 	 */
-	public StringBuffer MAC_reading;	
+	private StringBuffer MAC_reading;	
 	/**
 	 * current SSID reading
 	 */
-	public StringBuffer SSID_reading;
+	private StringBuffer SSID_reading;
 	/**
 	 * current RSSI reading
 	 */
-	public StringBuffer RSSI_reading;
+	private StringBuffer RSSI_reading;
 	/**
 	 * current WLAN reading
 	 */
-	public StringBuffer WLAN_reading;
+	private StringBuffer WLAN_reading;
 	private int old_wifi_connected = -1, wifi_connected;
 	/**
 	 * semaphore for nearby thread - released by GPS handler
@@ -86,23 +86,23 @@ public class WifiHandler extends PhoneStateListener implements com.myStress.hand
 	/**
 	 * semaphore for MAC reading - released by GPS handler
 	 */
-	public Semaphore mac_semaphore 			= new Semaphore(1);
+	private Semaphore mac_semaphore 			= new Semaphore(1);
 	/**
 	 * semaphore for SSID reading - released by GPS handler
 	 */
-	public Semaphore ssid_semaphore 		= new Semaphore(1);
+	private Semaphore ssid_semaphore 		= new Semaphore(1);
 	/**
 	 * semaphore for RSSI reading - released by GPS handler
 	 */
-	public Semaphore rssi_semaphore 		= new Semaphore(1);
+	private Semaphore rssi_semaphore 		= new Semaphore(1);
 	/**
 	 * semaphore for WiFi combined reading - released by GPS handler
 	 */
-	public Semaphore wlan_semaphore 		= new Semaphore(1);
+	private Semaphore wlan_semaphore 		= new Semaphore(1);
 	/**
 	 * semaphore for WiFi connected reading - released by GPS handler
 	 */
-	public Semaphore connected_semaphore 	= new Semaphore(1);
+	private Semaphore connected_semaphore 	= new Semaphore(1);
 	private Thread 		 runnable = null;
 	private boolean		 running = false, shutdown = false;
 
@@ -527,4 +527,8 @@ public class WifiHandler extends PhoneStateListener implements com.myStress.hand
 		}
 	  }
 	};
+
+	public StringBuffer getSSIDReading() {
+		return SSID_reading;
+	}
 }

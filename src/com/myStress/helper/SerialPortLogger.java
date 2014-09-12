@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 
-import android.app.Activity;
 import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -35,8 +34,8 @@ import android.util.Log;
 public class SerialPortLogger 
 {
 	private static boolean isDebugging = true;
-	public static Activity nors;
 	private static File fconn = null;
+//	private static Activity myStress;
 	private static BufferedOutputStream os = null;
 
 	/**
@@ -110,5 +109,9 @@ public class SerialPortLogger
 	{
 		isDebugging = b;
 	}
+
+//	public static void setBackupActivity(Activity act) {
+//		myStress = act;
+//	}
 
 }

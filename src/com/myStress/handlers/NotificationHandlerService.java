@@ -49,13 +49,13 @@ import com.memetix.mst.translate.Translate;
 @SuppressLint("InlinedApi")
 public class NotificationHandlerService extends AccessibilityService
 {	
-	NotificationHandlerService service;
-	boolean started = true;
-	boolean newText = false;
-	double typingStartTime, typingEndTime;
-	String typedText;
-	boolean wasending1 = false, wasending2 = false, sending = false, mailsending = false;
-	boolean sent = false;
+//	private NotificationHandlerService service;
+//	private boolean started = true;
+//	private boolean newText = false;
+	private double typingStartTime, typingEndTime;
+	private String typedText;
+	private boolean wasending1 = false, wasending2 = false, sending = false;
+	private boolean sent = false;
 		
 //	String alchemyApiKey = "d8c9013818eb2aeb7baa7ad558f7487db4ded10c";
 //	AlchemyAPI api = AlchemyAPI.GetInstanceFromString(alchemyApiKey);
@@ -215,7 +215,7 @@ public class NotificationHandlerService extends AccessibilityService
 	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
 	    info.notificationTimeout = 100;
 
-	    service = this;
+//	    service = this;
 	    Log.e("myStress", "NotificationHandlerService connected");
 	    
 	    setServiceInfo(info);
@@ -225,12 +225,12 @@ public class NotificationHandlerService extends AccessibilityService
 	}
 	
 	protected void onServiceDisconnected(){
-		service = null;
+//		service = null;
 		Log.e("myStress", "NotificationHandlerService disconnected");
 	}
 	
 	protected void onUnbind(){
-		service = null;
+//		service = null;
 		Log.e("myStress", "NotificationHandlerService unbound");
 	}
     
@@ -311,7 +311,7 @@ public class NotificationHandlerService extends AccessibilityService
             	    info.notificationTimeout = 100;
             	    setServiceInfo(info);
             	    
-            	    started = true;
+//            	    started = true;
             	}
             	else	// or stop it?
             	{
@@ -321,17 +321,18 @@ public class NotificationHandlerService extends AccessibilityService
             	    info.notificationTimeout = 100;
             	    setServiceInfo(info);
             	    
-            	    started = false;            	}
+//            	    started = false;
+            	}
             }
         }
     };
     
 	private class SAThread implements Runnable {
-		String text;
-		double speed;
-		String packageName;
+		private String text;
+		private double speed;
+		private String packageName;
 		
-		SAThread(String text, double speed, String packageName) {
+		public SAThread(String text, double speed, String packageName) {
 			this.text = text;
 			this.speed = speed;
 			this.packageName = packageName;

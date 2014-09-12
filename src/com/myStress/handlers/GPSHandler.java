@@ -439,7 +439,7 @@ public class GPSHandler implements com.myStress.handlers.Handler, Runnable
 						return;
 					
 					// read current WiFi APs directly from handler
-					SSID = handler.SSID_reading;
+					SSID = handler.getSSIDReading();
 					
 					// anything there?
 					if (SSID != null)

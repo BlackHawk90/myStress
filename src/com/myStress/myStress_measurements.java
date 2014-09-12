@@ -20,9 +20,7 @@ package com.myStress;
 import java.io.File;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
@@ -37,12 +35,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,14 +50,14 @@ import com.myStress.platform.HandlerManager;
  *
  * @see AIRS_local
  */
-public class myStress_measurements extends Activity implements OnItemClickListener, OnItemLongClickListener, OnClickListener
+public class myStress_measurements extends Activity implements OnItemClickListener, OnItemLongClickListener
 {
 	 private TextView mTitle;
 	 private TextView mTitle2;
 	 private myStress_local myStress_locally;
 	 private ListView values;
 	 private Activity act;
-	 private Button exit;
+//	 private Button exit;
 
 	 /** Called when the activity is first created. 
 	     * @param savedInstanceState a Bundle of the saved state, according to Android lifecycle model
@@ -89,9 +85,9 @@ public class myStress_measurements extends Activity implements OnItemClickListen
 			values.setOnItemLongClickListener(this);
 
 			// Find and set up the ListView for values
-			exit 	= (Button)findViewById(R.id.valuesExit);        
+//			exit 	= (Button)findViewById(R.id.valuesExit);        
 	        // set listener for sensor list
-			exit.setOnClickListener(this);
+//			exit.setOnClickListener(this);
 
 	        // bind to service
 	        if (bindService(new Intent(this, myStress_local.class), mConnection, 0)==false)
@@ -107,7 +103,7 @@ public class myStress_measurements extends Activity implements OnItemClickListen
 	    	// ask service to update value adapter
 	    	if (myStress_locally!=null)
 	    	{
-	    		myStress_locally.show_values = true;
+	    		myStress_locally.setShowValues(true);
 	    		myStress_locally.refresh_values();
 	    	}
 	    }
@@ -120,7 +116,7 @@ public class myStress_measurements extends Activity implements OnItemClickListen
 	        super.onStop();
 	    	// stop service from updating value adapter
 	    	if (myStress_locally!=null)
-	    		myStress_locally.show_values = false;
+	    		myStress_locally.setShowValues(false);
 	    }
 
 	 /** Called when the activity is destroyed. 
@@ -168,7 +164,7 @@ public class myStress_measurements extends Activity implements OnItemClickListen
 			    	// stop service from updating value adapter
 			    	if (myStress_locally!=null)
 			    	{
-			    		myStress_locally.show_values = false;	    		
+			    		myStress_locally.setShowValues(false);	    		
 			    		unbindService(mConnection);
 			    	}
 	                finish();
@@ -195,7 +191,7 @@ public class myStress_measurements extends Activity implements OnItemClickListen
 		/** Called when a button has been clicked on by the user
 	     * @param v Reference to the {android.view.View} of the button
 	     */
-		public void onClick(View v) 
+/*		public void onClick(View v) 
 	    {
     		AlertDialog.Builder builder = new AlertDialog.Builder(this);
     		builder.setMessage(getString(R.string.Exit_myStress))
@@ -224,7 +220,7 @@ public class myStress_measurements extends Activity implements OnItemClickListen
     		       });
     		AlertDialog alert = builder.create();
     		alert.show();
-	    }
+	    }*/
 		
 	   /** Called when an option menu item has been selected by the user
 	     * @param item Reference to the {@link android.view.Menuitem} clicked on
@@ -356,21 +352,21 @@ public class myStress_measurements extends Activity implements OnItemClickListen
 	  	        // service that we know is running in our own process, we can
 	  	        // cast its IBinder to a concrete class and directly access it.
 	  	    	myStress_locally = ((myStress_local.LocalBinder)service).getService();
-	  	        if (myStress_locally.running == false)
+	  	        if (myStress_locally.isRunning() == false)
 		     		Toast.makeText(getApplicationContext(), "AIRS local::Sensing not running!\nThe service might have crashed!", Toast.LENGTH_SHORT).show();
 	  	        // now set the adapter for the values
-				values.setAdapter(myStress_locally.mValuesArrayAdapter);	
+				values.setAdapter(myStress_locally.getMValuesArrayAdapter());	
 				
 				// set threads to show values and refresh latest they have
-				myStress_locally.show_values = true;
+				myStress_locally.setShowValues(true);
 				myStress_locally.refresh_values();
 		        // set title according to paused state of local service
-		        if (myStress_locally.paused == true)
+		        if (myStress_locally.isPaused())
 			        mTitle2.setText("Local Sensing...Paused");
 		        
 		        // construct title right side with possible template name
-		        if (myStress_locally.template != null)
-		        	mTitle2.setText("Local Sensing: " + myStress_locally.template);
+		        if (myStress_locally.getTemplate() != null)
+		        	mTitle2.setText("Local Sensing: " + myStress_locally.getTemplate());
 		        else
 		        	mTitle2.setText("Local Sensing");
 

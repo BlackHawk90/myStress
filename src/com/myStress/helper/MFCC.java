@@ -33,9 +33,9 @@ public class MFCC
 	private int melBands;
 	private int numFreqs;
 	private double sampleRate;
-	public Matrix melWeights = null;
-	public Matrix dctMat = null;
-	public double[] lifterWeights;
+	private Matrix melWeights = null;
+	private Matrix dctMat = null;
+	private double[] lifterWeights;
 
 	public MFCC(int fftSize, int numCoeffs, int melBands, double sampleRate)
 	{

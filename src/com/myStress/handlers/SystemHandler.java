@@ -63,7 +63,7 @@ public class SystemHandler implements com.myStress.handlers.Handler
 	private static final int INIT_SMSSENT	 	= 7;
 	private static final int INIT_TIMEZONE	 	= 8;
 
-	static private final Uri SMS_STATUS_URI = Uri.parse("content://sms/");
+	private static final Uri SMS_STATUS_URI = Uri.parse("content://sms/");
 
 	private Context myStress;
 	private int oldBattery = -1;
@@ -157,7 +157,7 @@ public class SystemHandler implements com.myStress.handlers.Handler
 
 			// create Stringbuffer with template being used
 		    buffer = new StringBuffer("TE");
-		    buffer.append(myStress_record_tab.current_template);
+		    buffer.append(myStress_record_tab.getCurrentTemplate());
     		return buffer.toString().getBytes();
 		}
 

@@ -54,7 +54,7 @@ public class AudioHandler implements Handler
 	
 	// availability of player
 	private boolean available = false;
-	public boolean havePlayer = false;
+	private boolean havePlayer = false;
 	private boolean shutdown = false;
 	
 	// Player for audio capture
@@ -475,5 +475,13 @@ public class AudioHandler implements Handler
 		
 		// don't need player anymore
 		havePlayer = false;
+	}
+
+	public boolean havePlayer() {
+		return havePlayer;
+	}
+
+	public void setHavePlayer(boolean havePlayer) {
+		this.havePlayer = havePlayer;
 	}
 }

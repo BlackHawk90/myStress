@@ -89,18 +89,11 @@ public class myStress_local extends Service
     private static final String LINE = "LINE";
     private static final String TEXT = "TEXT";
 
-    public  boolean show_values=false;
+    private boolean show_values=false;
     private HandlerThread[] threads = null;
     private int no_threads = 0;
-    /**
-     * Context of the main Service
-     * @see android.content.Context
-     */
-    public  Context myStress = null;
-    /**
-     * Template being used for starting the recording, if any used
-     */
-    public  String template;
+    private Context myStress = null; // Context of the main Service
+    private String template; // Template being used for starting the recording, if any used
 	private int	no_values = 0;
     private boolean localIntent_b;
     private boolean localStore_b;
@@ -116,59 +109,25 @@ public class myStress_local extends Service
 	private BufferedOutputStream os2;
 	private int numberSensors = 0;
     private ListView sensors;
-    /**
-     * Flag if discovery has been done
-     */
-    public boolean discovered = false;
-    /**
-     * Flag if myStress is recording
-     */
-    public boolean running = false;
-    /**
-     * Flag if myStress has been restarted
-     */
-    public boolean restarted = false;
-    /**
-     * Flag if myStress has been started as a service already
-     */
-    public boolean started = false;
-    /**
-     * Flag that myStress should be started initially
-     */
-    public boolean start = false;
-    /**
-     * Flag that recording should be paused (where possible)
-     */
-    public boolean paused = false;
-    /**
-     * Flag that sensors have been registered
-     */
-    public boolean registered = false;
+//    private boolean discovered = false; // Flag if discovery has been done
+    private boolean running = false; // Flag if myStress is recording
+//    private boolean restarted = false; // Flag if myStress has been restarted
+    private boolean started = false; // Flag if myStress has been started as a service already
+//    public boolean start = false; // Flag that myStress should be started initially
+    private boolean paused = false; // Flag that recording should be paused (where possible)
+    private boolean registered = false; // Flag that sensors have been registered
     private ArrayList<SensorEntry> mSensorsArrayList;
     private MyCustomBaseAdapter mSensorsArrayAdapter;
-    /**
-     * List of Values, being used in visualisation activity
-     * @see myStress_measurements
-     */
-    public ArrayAdapter<String> mValuesArrayAdapter;
+    private ArrayAdapter<String> mValuesArrayAdapter; // List of Values, being used in visualisation activity
     private long nextDay;		// milliseconds for next day starting
-    // This is the object that receives interactions from clients
-    private final IBinder mBinder = new LocalBinder();
+    private final IBinder mBinder = new LocalBinder(); // This is the object that receives interactions from clients
     private VibrateThread Vibrator;
     private Notification notification;
     private WakeLock wl = null;
 	private boolean notification_visible;
     // database variables
-    /**
-     * Reference to current myStress_database
-     * @see myStress_database
-     */
-    static public myStress_database database_helper;
-    /**
-     * Reference to myStress database
-     * @see android.database.sqlite.SQLiteDatabase
-     */
-    static public SQLiteDatabase myStress_storage;
+    static private myStress_database database_helper; // Reference to current myStress_database
+    static private SQLiteDatabase myStress_storage; // Reference to myStress database
     
 	// private thread for reading the sensor handlers
 	 private class HandlerThread implements Runnable
@@ -178,7 +137,7 @@ public class myStress_local extends Service
 		 	private String values_output = null;
 		 	private long values_time;
 		 	private int number_values = 0;
-		 	public Thread thread;
+		 	private Thread thread;
 		 	private boolean interrupted = false, pause = false;;
 		 	private boolean started = true;	
 		 	private String value_intent;
@@ -1250,7 +1209,7 @@ public class myStress_local extends Service
 	        mSensorsArrayAdapter.notifyDataSetChanged();
 
 			// signal that it is discovered
-			discovered = true;
+//			discovered = true;
 	 }	
 
 	 /**
@@ -1322,7 +1281,7 @@ public class myStress_local extends Service
 	        mSensorsArrayAdapter.notifyDataSetChanged();
 	        
 			// signal that it is discovered
-			discovered = true;
+//			discovered = true;
 	 }	
 	 
 	 /**
@@ -1390,8 +1349,8 @@ public class myStress_local extends Service
 	 // Vibrate watchdog
 	 private class VibrateThread implements Runnable
 	 {
-		 public Thread thread;
-		 public boolean stop = false;
+		 private Thread thread;
+		 private boolean stop = false;
 		 
 		 VibrateThread()
 		 {
@@ -1621,4 +1580,28 @@ public class myStress_local extends Service
    			 return convertView;
    		 }
    	}
+
+	public void setShowValues(boolean show_values) {
+		this.show_values = show_values;
+	}
+
+	public String getTemplate() {
+		return template;
+	}
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public boolean isPaused() {
+		return paused;
+	}
+
+	public ArrayAdapter<String> getMValuesArrayAdapter() {
+		return mValuesArrayAdapter;
+	}
+
+	public static SQLiteDatabase getMyStressStorage() {
+		return myStress_storage;
+	}
 }

@@ -57,7 +57,6 @@ import com.myStress.database.myStress_sync;
 import com.myStress.database.myStress_upload;
 import com.myStress.helper.PopUpManager;
 import com.myStress.helper.SerialPortLogger;
-import com.myStress.platform.HandlerManager;
 
 /**
  * Activity for the Record tab in the main UI, controlling the recording and
@@ -70,7 +69,7 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 	/**
 	 * expose template for other tabs
 	 */
-	public static String current_template = "";
+	private static String current_template = "";
 
 	// Layout Views
 	private ImageButton main_record;
@@ -102,7 +101,7 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
 
 		// save activity in debug class
-		SerialPortLogger.nors = this;
+//		SerialPortLogger.setBackupActivity(this);
 		// is debugging on?
 		// SerialPortLogger.setDebugging(settings.getBoolean("Debug", false));
 		SerialPortLogger.setDebugging(false);
@@ -217,7 +216,7 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 		super.onDestroy();
 
 		if (myStress_locally != null) {
-			if (myStress_locally.running == false)
+			if (myStress_locally.isRunning() == false)
 				getApplicationContext().stopService(
 						new Intent(this, myStress_local.class));
 			// unbind from service
@@ -264,6 +263,7 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
 		switch (item.getItemId()) {
 		case R.id.main_copyright:
 			try {
@@ -288,7 +288,9 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 			break;
 		case R.id.main_question:
 			//FIXME: Fragebogen aufrufen - aber wie?!!
-			//HandlerManager.getHandler("StressLevelHandler").Acquire("SL", "");
+			intent = new Intent("com.myStress.pollstress");
+			sendBroadcast(intent);
+			break;
 		case R.id.main_sync:
 			if (settings.getBoolean("myStress_local::running", false) == true) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -322,10 +324,15 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 				AlertDialog alert = builder.create();
 				alert.show();
 			} else {
-				Intent intent = new Intent()
+				intent = new Intent()
 						.setClass(this, myStress_sync.class);
 				myStress_record_tab.this.startActivity(intent);
 			}
+			break;
+		case R.id.main_measurements:
+			Intent startintent = new Intent(myStress, myStress_measurements.class);
+			startintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			myStress.startActivity(startintent);
 			break;
 		}
 
@@ -483,13 +490,8 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 		if(snoozed){
 			Intent intent = new Intent("com.myStress.pollstress");
 			sendBroadcast(intent);
+			finish();
 		}
-		else{
-			Intent startintent = new Intent(myStress, myStress_measurements.class);
-			startintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			myStress.startActivity(startintent);
-		}
-		finish();
 	}
 
 	private boolean startAccessibility() {
@@ -581,5 +583,9 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 	public void onNothingSelected(AdapterView<?> parent) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public static String getCurrentTemplate() {
+		return current_template;
 	}
 }

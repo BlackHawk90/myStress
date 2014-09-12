@@ -43,7 +43,6 @@ public class myStress_upload extends BroadcastReceiver
 	// preferences
     private static SharedPreferences settings;
 
-
 	public static void setTimer(Context context)
 	{		
 		boolean upload;

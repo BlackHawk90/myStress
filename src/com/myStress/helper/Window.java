@@ -25,8 +25,8 @@ package com.myStress.helper;
 
 public class Window
 {
-	public double[] window;
-	public int n;
+	private double[] window;
+	private int n;
 	
 	public Window(int windowSize)
 	{

@@ -129,7 +129,7 @@ public class TimelineActivity extends Activity implements OnTouchListener, OnCli
             currentIndex = 0;
                        
             // now open database
-            myStress_storage = myStress_local.myStress_storage;
+            myStress_storage = myStress_local.getMyStressStorage();
 
             if (myStress_storage != null)
             {

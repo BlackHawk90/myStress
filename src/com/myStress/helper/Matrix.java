@@ -85,7 +85,7 @@ public class Matrix
    /** Array for internal storage of elements.
    @serial internal array storage.
    */
-   public double[][] A;
+   protected double[][] A;
 
    /** Row and column dimensions.
    @serial row dimension.

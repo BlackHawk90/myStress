@@ -294,7 +294,9 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="l2">sometimes</string>
 <string name="l3">fairly often</string>
 <string name="l4">very often</string>
+
 <string name="sync">Sync</string>
+<string name="measurements">Measurements</string>
 <string name="exit_before_sync">myStress has been running.\nDo you want to interrupt the current recording to synchronize? You will need to start myStress again.</string>
 <string name="question">Questionnaire</string>
 </resources>

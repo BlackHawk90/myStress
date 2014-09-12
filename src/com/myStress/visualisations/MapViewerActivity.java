@@ -102,7 +102,7 @@ public class MapViewerActivity extends MapActivity implements OnClickListener
        	editor = settings.edit();
 
         // now open database
-        myStress_storage = myStress_local.myStress_storage;
+        myStress_storage = myStress_local.getMyStressStorage();
 
         if (myStress_storage != null)
         {

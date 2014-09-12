@@ -49,9 +49,9 @@ import com.myStress.database.myStress_upload;
  */
 public class myStress_tabs extends TabActivity implements OnTabChangeListener, OnSharedPreferenceChangeListener
 {
-	static public boolean sensors_shown = false;
+//	private static boolean sensors_shown = false;
 	private int currentTab = 0;
-	private int no_tabs = 0;
+//	private int no_tabs = 0;
 	private TabHost tabHost;
 	
 	/** Called when the activity is first created. 
@@ -75,7 +75,7 @@ public class myStress_tabs extends TabActivity implements OnTabChangeListener, O
 	                      res.getDrawable(R.drawable.record))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
-	    no_tabs++;
+//	    no_tabs++;
 
 //	    // second tab: sync
 //	    intent = new Intent().setClass(this, myStress_sync.class);

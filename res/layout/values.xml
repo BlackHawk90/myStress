@@ -20,15 +20,6 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/valuesExit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:drawableLeft="@android:drawable/ic_delete"
-        android:padding="5dp"
-        android:text="@+string/Stop_myStress" />
-
    <ListView android:id="@+id/valueList"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
