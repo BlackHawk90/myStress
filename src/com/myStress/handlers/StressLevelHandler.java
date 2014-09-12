@@ -156,6 +156,11 @@ public class StressLevelHandler implements Handler
 						Log.e("myStress", e.getMessage());
 					}
 				}
+				else if(status.equals("skip")){
+					Editor editor = settings.edit();
+					editor.putBoolean("myStress::snoozed", false);
+					editor.commit();
+				}
 			}
 		}
 		else if(sensor.equals("SM")){

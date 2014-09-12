@@ -280,9 +280,9 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="polltime">30000</string>
 <string name="stresspolltime">30000</string>
 <string name="stresssnoozetime">15000</string>
-<string name="time1">9</string>
-<string name="time2">10</string>
-<string name="time3">11</string>
+<string name="time1">22</string>
+<string name="time2">23</string>
+<string name="time3">0</string>
 <string name="notification_visible">true</string>
 
 <string name="notnow">In 15 Min.</string>
@@ -297,9 +297,6 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="l2">manchmal</string>
 <string name="l3">häufig</string>
 <string name="l4">sehr oft</string>
-<string name="time1">13</string>
-<string name="time2">14</string>
-<string name="time3">15</string>
 <string name="sync">Synchronisieren</string>
 <string name="exit_before_sync">myStress läuft momentan.\nMöchtest Du die momentanen Aufzeichnungen unterbrechen um zu synchronisieren? Du musst myStress dann neu starten.</string>
 <string name="question">Fragebogen</string>
