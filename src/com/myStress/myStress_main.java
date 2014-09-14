@@ -41,19 +41,20 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.Spinner;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.myStress.database.myStress_sync;
 import com.myStress.database.myStress_upload;
 import com.myStress.helper.PopUpManager;
 import com.myStress.helper.SerialPortLogger;
@@ -64,8 +65,7 @@ import com.myStress.helper.SerialPortLogger;
  *
  * @see myStress_local
  */
-public class myStress_record_tab extends Activity implements OnClickListener,
-		OnItemSelectedListener {
+public class myStress_main extends Activity implements OnClickListener {
 	/**
 	 * expose template for other tabs
 	 */
@@ -73,14 +73,14 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 
 	// Layout Views
 	private ImageButton main_record;
-	private Spinner main_spinner;
+	private CheckBox cbShowNotification;
 
 	// preferences
 	private SharedPreferences settings;
 
 	// other variables
 	private myStress_local myStress_locally;
-	private myStress_record_tab myStress;
+	private myStress_main myStress;
 
 	/**
 	 * Called when the activity is first created.
@@ -101,7 +101,7 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
 
 		// save activity in debug class
-//		SerialPortLogger.setBackupActivity(this);
+		// SerialPortLogger.setBackupActivity(this);
 		// is debugging on?
 		// SerialPortLogger.setDebugging(settings.getBoolean("Debug", false));
 		SerialPortLogger.setDebugging(false);
@@ -109,16 +109,30 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 				+ Calendar.getInstance().getTime().toString());
 
 		// set content of View
-		setContentView(R.layout.recording);
+		setContentView(R.layout.main);
 
 		// get buttons and set onclick listener
 		main_record = (ImageButton) findViewById(R.id.button_record);
 		main_record.setOnClickListener(this);
 
-		// get spinner
-		main_spinner = (Spinner) findViewById(R.id.spinner_record);
-		main_spinner.setSelection(settings.getInt("SpinnerPosition", 0));
-		main_spinner.setOnItemSelectedListener(this);
+		// define ButtonGroups
+		cbShowNotification = (CheckBox) findViewById(R.id.cbShowNotification);
+		cbShowNotification.setChecked(settings.getBoolean("showNotification",true));
+		cbShowNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+		       @Override
+		       public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+		    	   boolean showNotification = cbShowNotification.isChecked();
+		    	   settings.edit().putBoolean("showNotification", showNotification).commit();
+		       }
+		   }
+		);  
+		
+		if (settings.getBoolean("myStress_local::running", false) == true)
+			cbShowNotification.setEnabled(false);
+		else
+			cbShowNotification.setEnabled(true);
+
 
 		// now initialise the upload timer
 		myStress_upload.setTimer(getApplicationContext());
@@ -183,11 +197,11 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 	 */
 	@Override
 	public synchronized void onResume() {
-        super.onResume();
-        
-		// check if persistent flag is running, indicating the myStress has been running (and would re-start if continuing)
-		if (settings.getBoolean("myStress_local::running", false) == true)
-		{
+		super.onResume();
+
+		// check if persistent flag is running, indicating the myStress has been
+		// running (and would re-start if continuing)
+		if (settings.getBoolean("myStress_local::running", false) == true) {
 			showGUI();
 		}
 	}
@@ -263,7 +277,6 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent;
 		switch (item.getItemId()) {
 		case R.id.main_copyright:
 			try {
@@ -275,10 +288,6 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 			} catch (Exception e) {
 			}
 			break;
-		case R.id.main_about:
-			PopUpManager.AboutDialog(getString(R.string.Help),
-					getString(R.string.RecordAbout), this);
-			break;
 		case R.id.main_uniqueID:
 			PopUpManager.AboutDialog(getString(R.string.uniqueID),
 					((TelephonyManager) getApplicationContext()
@@ -286,53 +295,17 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 							.hashCode()
 							+ "", this);
 			break;
-		case R.id.main_question:
-			//FIXME: Fragebogen aufrufen - aber wie?!!
-			intent = new Intent("com.myStress.pollstress");
-			sendBroadcast(intent);
-			break;
-		case R.id.main_sync:
-			if (settings.getBoolean("myStress_local::running", false) == true) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(getString(R.string.exit_before_sync))
-						.setTitle(getString(R.string.myStress_Sensing))
-						.setCancelable(false)
-						.setPositiveButton(getString(R.string.Yes),
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int id) {
-										// clear persistent flag
-										Editor editor = settings.edit();
-										editor.putBoolean(
-												"myStress_local::running",
-												false);
-										// finally commit to storing values!!
-										editor.commit();
-										// stop service
-										stopService(new Intent(myStress,
-												myStress_local.class));
-										finish();
-									}
-								})
-						.setNegativeButton(getString(R.string.No),
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int id) {
-										dialog.cancel();
-									}
-								});
-				AlertDialog alert = builder.create();
-				alert.show();
-			} else {
-				intent = new Intent()
-						.setClass(this, myStress_sync.class);
-				myStress_record_tab.this.startActivity(intent);
-			}
-			break;
 		case R.id.main_measurements:
-			Intent startintent = new Intent(myStress, myStress_measurements.class);
-			startintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			myStress.startActivity(startintent);
+			if (myStress_locally.isRunning() == false)
+				Toast.makeText(getApplicationContext(),
+						getResources().getString(R.string.noData),
+						Toast.LENGTH_SHORT).show();
+			else {
+				Intent startintent = new Intent(myStress,
+						myStress_measurements.class);
+				startintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				myStress.startActivity(startintent);
+			}
 			break;
 		}
 
@@ -350,11 +323,6 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 
 		switch (v.getId()) {
 		case R.id.button_record:
-			// checks if ACCESSIBILITY_SERVICE is activated
-			if (!isAccessibilityEnabled()) {
-				if (!startAccessibility())
-					return;
-			}
 			// check if persistent flag is running, indicating the myStress has
 			// been running (and would re-start if continuing)
 			if (settings.getBoolean("myStress_local::running", false) == true) {
@@ -390,20 +358,17 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 				alert.show();
 			}
 
-			if (main_spinner.getSelectedItemPosition() == 0) {
-				editor.putString("UploadFrequency", "30");
-				editor.putInt("SpinnerPosition",
-						main_spinner.getSelectedItemPosition());
+			// checks if ACCESSIBILITY_SERVICE is activated
+			else if (!isAccessibilityEnabled()) {
+				if (!startAccessibility())
+					return;
+			}
+
+			else {
 				myStress_upload.setTimer(getApplicationContext());
-				initializeStart();
-			} else {
-				editor.putString("UploadFrequency", "0");
-				editor.putInt("SpinnerPosition",
-						main_spinner.getSelectedItemPosition());
-				myStress_upload.setTimer(getApplicationContext());
+				editor.commit();
 				initializeStart();
 			}
-			editor.commit();
 			break;
 		}
 	}
@@ -471,23 +436,18 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 				// merely restart without GUI
 				myStress_locally.Restart(false);
 				// service running message
-				if (settings.getString("UploadFrequency", "30").equals("0"))
-					Toast.makeText(getApplicationContext(),
-							getString(R.string.myStress_started_local),
-							Toast.LENGTH_LONG).show();
-				else
-					Toast.makeText(getApplicationContext(),
-							getString(R.string.myStress_started_remote),
-							Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(),
+						getString(R.string.myStress_started_remote),
+						Toast.LENGTH_LONG).show();
 				// finish UI
 				finish();
 			}
 		}
-    }
-    
-    private void showGUI(){
+	}
+
+	private void showGUI() {
 		boolean snoozed = settings.getBoolean("myStress::snoozed", false);
-		if(snoozed){
+		if (snoozed) {
 			Intent intent = new Intent("com.myStress.pollstress");
 			sendBroadcast(intent);
 			finish();
@@ -497,7 +457,7 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 	private boolean startAccessibility() {
 		// Provider not enabled, prompt user to enable it
 		final AlertDialog alertDialog = new AlertDialog.Builder(
-				myStress_record_tab.this).create();
+				myStress_main.this).create();
 		alertDialog.setCancelable(false);
 		alertDialog.setTitle(getResources().getString(
 				R.string.accessibility_titel));
@@ -511,7 +471,7 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 						alertDialog.cancel();
 						Intent myIntent = new Intent(
 								Settings.ACTION_ACCESSIBILITY_SETTINGS);
-						myStress_record_tab.this.startActivity(myIntent);
+						myStress_main.this.startActivity(myIntent);
 					}
 				});
 		alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources()
@@ -564,28 +524,28 @@ public class myStress_record_tab extends Activity implements OnClickListener,
 		return false;
 	}
 
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position,
-			long id) {
-		Editor editor = settings.edit();
-
-		if (main_spinner.getSelectedItemPosition() == 0)
-			editor.putInt("SpinnerPosition",
-					main_spinner.getSelectedItemPosition());
-		else
-			editor.putInt("SpinnerPosition",
-					main_spinner.getSelectedItemPosition());
-
-		editor.commit();
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> parent) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public static String getCurrentTemplate() {
 		return current_template;
+	}
+
+	/**
+	 * Called for dispatching key events sent to the Activity
+	 * 
+	 * @param event
+	 *            Reference to the {@link android.view.KeyEvent} being pressed
+	 * @return true, if consumed, false otherwise
+	 */
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getAction() == KeyEvent.ACTION_DOWN)
+			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
+				return true;
+
+		// key de-pressed?
+		if (event.getAction() == KeyEvent.ACTION_UP)
+			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
+				finish();
+
+		return super.dispatchKeyEvent(event);
 	}
 }

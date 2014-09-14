@@ -76,7 +76,7 @@ import com.myStress.platform.SensorRepository;
  * Class to implement the local recording
  *
  * @see myStress_remote
- * @see myStress_record_tab
+ * @see myStress_main
  * @see android.app.Service
  */
 public class myStress_local extends Service
@@ -887,7 +887,7 @@ public class myStress_local extends Service
 	 }
 
 	 /**
-	  * Sets all sensors being selected in the sensor list - called from UI in {@link myStress_record_tab}
+	  * Sets all sensors being selected in the sensor list - called from UI in {@link myStress_main}
 	  */
 	 public void selectall()
 	 {
@@ -898,7 +898,7 @@ public class myStress_local extends Service
      }
 	
 	 /**
-	  * Unselects all sensors in the sensor list - called from UI in {@link myStress_record_tab}
+	  * Unselects all sensors in the sensor list - called from UI in {@link myStress_main}
 	  */
 	 public void unselectall()
 	 {    	 
@@ -1439,7 +1439,7 @@ public class myStress_local extends Service
             	// now create new notification
             	NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
        		 	Notification notification = new Notification(R.drawable.notification_icon, getString(R.string.myStress_killed), System.currentTimeMillis());
-       		 	Intent notificationIntent = new Intent(getApplicationContext(), myStress_tabs.class);
+       		 	Intent notificationIntent = new Intent(getApplicationContext(), myStress_main.class);
        		 	PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
        			notification.setLatestEventInfo(getApplicationContext(), getString(R.string.myStress_Local_Sensing), getString(R.string.killed_at) + " " + Integer.toString(BatteryKill_i) + "% " + getString(R.string.battery) + "...", contentIntent);
        			

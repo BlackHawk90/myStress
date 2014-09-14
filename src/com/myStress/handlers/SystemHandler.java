@@ -41,7 +41,7 @@ import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import com.myStress.myStress_record_tab;
+import com.myStress.myStress_main;
 import com.myStress.R;
 import com.myStress.helper.SerialPortLogger;
 import com.myStress.platform.HandlerManager;
@@ -157,7 +157,7 @@ public class SystemHandler implements com.myStress.handlers.Handler
 
 			// create Stringbuffer with template being used
 		    buffer = new StringBuffer("TE");
-		    buffer.append(myStress_record_tab.getCurrentTemplate());
+		    buffer.append(myStress_main.getCurrentTemplate());
     		return buffer.toString().getBytes();
 		}
 

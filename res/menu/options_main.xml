@@ -16,27 +16,18 @@ You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 -->
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:id="@+id/main_copyright"
-		android:icon="@android:drawable/ic_menu_info_details"
-		android:title="@string/main_About" />
-	<item android:id="@+id/main_about"
-		android:icon="@android:drawable/ic_menu_help"
-		android:title="@string/Help" />
-<!-- <item android:id="@+id/main_market"
-		android:icon="@android:drawable/ic_menu_edit"
-		android:title="@string/Rate" /> -->
-	<item android:id="@+id/main_uniqueID"
-		android:icon="@drawable/storage"
-		android:title="@+string/uniqueID" />
-	<item android:id="@+id/main_sync"
-		android:icon="@drawable/sync"
-		android:title="@string/sync" />
-	<item android:id="@+id/main_question"
-		android:icon="@drawable/questionmark"
-		android:title="@string/question" />    
-    <item android:id="@+id/main_measurements"
-        android:title="@string/measurements" />
-   		<!-- android:icon="@drawable/measurements" -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/main_copyright"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/main_About"/>
+    <item
+        android:id="@+id/main_uniqueID"
+        android:icon="@drawable/storage"
+        android:title="@+string/uniqueID"/>
+    <item
+        android:id="@+id/main_measurements"
+        android:icon="@drawable/measurement"
+        android:title="@string/measurements"/>
 </menu>

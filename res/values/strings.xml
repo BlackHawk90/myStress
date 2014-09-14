@@ -79,7 +79,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="Snapshot_publish">Published from myStress</string>
 <string name="Snapshot_only_pictures">Can only share pictures, sorry!</string>
 <string name="Measurements_share">Share myStress Measurements via:</string>
-<string name="myStress_running_exit">myStress has been running.\nDo you want to interrupt the current recording and start over? You will need to start myStress again.</string>
+<string name="myStress_running_exit">myStress has been running.\nDo you want to interrupt the current recording? You will need to start myStress again.</string>
 <string name="myStress_started_local">Started myStress local service!\nYou can see its current view by clicking on the notification bar update.</string>
 <string name="myStress_started_remote">Started myStress remote service!\nValues will be uploaded constantly\nYou can see its current view by clicking on the notification bar update.</string>
 <string name="Cannot_find_storage">Cannot find external storage!</string>
@@ -299,4 +299,6 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="measurements">Measurements</string>
 <string name="exit_before_sync">myStress has been running.\nDo you want to interrupt the current recording to synchronize? You will need to start myStress again.</string>
 <string name="question">Questionnaire</string>
+<string name="noData">Currently there aren\'t any collected data and therefore can not be presented.</string>
+<string name="showNotification">Show image in the notification bar</string>
 </resources>

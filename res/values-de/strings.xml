@@ -78,7 +78,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="Snapshot_publish">Hochgeladen von myStress</string>
 <string name="Snapshot_only_pictures">Kann nur Bilder sharen!</string>
 <string name="Measurements_share">Share myStress Aufnahmen via:</string>
-<string name="myStress_running_exit">myStress läuft momentan.\nMöchtest Du die momentanen Aufzeichnungen unterbrechen and neu starten? Du musst myStress dann neu starten.</string>
+<string name="myStress_running_exit">myStress läuft momentan.\nMöchtest Du die Aufzeichnungen unterbrechen? Du musst myStress dann neu starten.</string>
 <string name="myStress_started_local">myStress lokale Aufzeichnungen gestartet!\nDu kannst die momentanen Werte in der Benachtigungsleiste sehen, wenn Du auf das myStress Symbol klickst.</string>
 <string name="myStress_started_remote">myStress remote Aufzeichnungen gestartet!\nDie Sensordaten werden regelmäig hochgeladen.</string>
 <string name="Cannot_find_storage">Kann keinen externen Speicher finden!</string>
@@ -301,4 +301,6 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="measurements">Messergebnisse</string>
 <string name="exit_before_sync">myStress läuft momentan.\nMöchtest Du die momentanen Aufzeichnungen unterbrechen um zu synchronisieren? Du musst myStress dann neu starten.</string>
 <string name="question">Fragebogen</string>
+<string name="noData">Es werden derzeit keine Daten aufgezeichnet und können deshalb nicht angezeigt werden.</string>
+<string name="showNotification">Zeige Symbol in der Benachrichtigungsanzeige</string>
 </resources>
