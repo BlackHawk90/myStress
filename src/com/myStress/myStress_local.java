@@ -679,7 +679,7 @@ public class myStress_local extends Service
 	}
 	
 	public String[][] getMainArray(long begin, long end){
-		String[][] arr = new String[7][2];
+		String[][] arr = new String[8][2];
 		arr[0][0] = "Versendete SMS:";
 		arr[1][0] = "Empfangene SMS:";
 		arr[2][0] = "Versendete WhatsApp-Nachrichten:";
@@ -696,7 +696,7 @@ public class myStress_local extends Service
 		arr[3][1] = "" + temp[1];
 		arr[4][1] = "" + temp[2];
 		arr[5][1] = "" + temp[3];
-		arr[6][1] = "" + 
+		arr[6][1] = "" + countNotifications(begin, end);
 		arr[7][1] = "" + avgAmplitude(begin, end);
 		
 		return arr;
