@@ -628,7 +628,7 @@ public class myStress_local extends Service
 	}
 	
 	public synchronized int countReceivedSMS(long begin, long end){
-		Cursor cur =  myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'SR'", null);
+		Cursor cur =  myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+begin+"' AND Timestamp < '"+end+"' AND Symbol = 'SR'", null);
 		if(cur == null)
 			return 0;
 		cur.moveToFirst();
@@ -636,7 +636,7 @@ public class myStress_local extends Service
 	}
 	
 	public synchronized int countSentSMS(long begin, long end){
-		Cursor cur = myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'SS'", null);
+		Cursor cur = myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+begin+"' AND Timestamp < '"+end+"' AND Symbol = 'SS'", null);
 		if(cur == null)
 			return 0;
 		cur.moveToFirst();
@@ -644,12 +644,12 @@ public class myStress_local extends Service
 	}
 	
 	public synchronized int[] countSentMessages(long begin, long end){
-		Cursor cur = myStress_storage.rawQuery("SELECT Values FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'TI'", null);
+		Cursor cur = myStress_storage.rawQuery("SELECT Value FROM myStress_values WHERE Timestamp > '"+begin+"' AND Timestamp < '"+end+"' AND Symbol = 'TI'", null);
 		int[] msg = {0, 0, 0, 0};
 		if(cur == null)
 			return msg;
 		cur.moveToFirst();
-		while(!cur.isLast()){
+		while(!cur.isAfterLast()){
 			if(cur.getString(0).contains("com.whatsapp")) msg[0]++; // Sent WhatsApp messages
 			else if(cur.getString(0).contains("com.facebook.orca")) msg[1]++; // Sent Facebook Messages 
 			else if(cur.getString(0).contains("com.facebook.katana")) msg[2]++; // Facebook Posts
@@ -660,12 +660,12 @@ public class myStress_local extends Service
 	}
 	
 	public synchronized double avgAmplitude(long begin, long end){
-		Cursor cur = myStress_storage.rawQuery("SELECT Values FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'AS'", null);
+		Cursor cur = myStress_storage.rawQuery("SELECT Value FROM myStress_values WHERE Timestamp > '"+begin+"' AND Timestamp < '"+end+"' AND Symbol = 'AS'", null);
 		double sum = 0, count = 0;
 		if(cur == null)
 			return 0;
 		cur.moveToFirst();
-		while(!cur.isLast()){
+		while(!cur.isAfterLast()){
 			sum += cur.getDouble(0);
 			count++;
 			cur.moveToNext();
@@ -674,7 +674,7 @@ public class myStress_local extends Service
 	}
 	
 	public synchronized int countNotifications(long begin, long end){
-		Cursor cur = myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'NO' AND Value <> 'com.sec.android.providers.downloads'", null);
+		Cursor cur = myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+begin+"' AND Timestamp < '"+end+"' AND Symbol = 'NO' AND Value <> 'com.sec.android.providers.downloads'", null);
 		if(cur == null)
 			return 0;
 		cur.moveToFirst();

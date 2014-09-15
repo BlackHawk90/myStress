@@ -175,6 +175,13 @@ public class NotificationHandlerService extends AccessibilityService
 		    		sendButtonClicked(packageName);
 		    		sent = true;
 		    	}
+		    	
+		    	if(packageName.equals("com.android.mms")){
+		    		if(className.equals("android.app.ProgressDialog")){
+		    			sending = true;
+		    			sendButtonClicked(packageName);
+		    		}
+		    	}
 		    }
 		    
 		    if(sent == false){
@@ -221,6 +228,7 @@ public class NotificationHandlerService extends AccessibilityService
     
     public void sendButtonClicked(String packageName){
 		if((wasending1 && wasending2) || sending){
+			if(wasending1 && wasending2) packageName = "com.whatsapp";
 			double typingDuration;
 			double typingSpeed = 0;
     		if(typingEndTime != typingStartTime){

@@ -19,7 +19,6 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 package com.myStress;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
