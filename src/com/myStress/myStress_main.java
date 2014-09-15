@@ -25,7 +25,6 @@ import android.app.AlertDialog;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -50,12 +49,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-<<<<<<< Updated upstream
 import android.widget.ImageView;
 import android.widget.Spinner;
-=======
-import android.widget.ImageButton;
->>>>>>> Stashed changes
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -399,71 +395,7 @@ public class myStress_main extends Activity implements
 
 		return false;
 	}
-
-<<<<<<< Updated upstream
-=======
-	/**
-	 * Called when a button has been clicked on by the user
-	 * 
-	 * @param v
-	 *            Reference to the {android.view.View} of the button
-	 */
-	public void onClick(View v) {
-//		Editor editor = settings.edit();
-
-		switch (v.getId()) {
-		case R.id.button_record:
-			// check if persistent flag is running, indicating the myStress has
-			// been running (and would re-start if continuing)
-			if (settings.getBoolean("myStress_local::running", false) == true) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(getString(R.string.myStress_running_exit))
-						.setTitle(getString(R.string.myStress_Sensing))
-						.setCancelable(false)
-						.setPositiveButton(getString(R.string.Yes),
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int id) {
-										// clear persistent flag
-										Editor editor = settings.edit();
-										editor.putBoolean(
-												"myStress_local::running",
-												false);
-										// finally commit to storing values!!
-										editor.commit();
-										// stop service
-										stopService(new Intent(myStress,
-												myStress_local.class));
-										finish();
-									}
-								})
-						.setNegativeButton(getString(R.string.No),
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int id) {
-										dialog.cancel();
-									}
-								});
-				AlertDialog alert = builder.create();
-				alert.show();
-			}
-
-			// checks if ACCESSIBILITY_SERVICE is activated
-			else if (!isAccessibilityEnabled()) {
-				if (!startAccessibility())
-					return;
-			}
-
-			else {
-				myStress_upload.setTimer(getApplicationContext());
-//				editor.commit();
-				initializeStart();
-			}
-			break;
-		}
-	}
-
->>>>>>> Stashed changes
+	
 	// local service connection
 	private ServiceConnection mConnection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {

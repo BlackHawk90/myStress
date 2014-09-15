@@ -25,7 +25,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
-import com.myStress.myStress_main;
 import com.myStress.handlers.*;
 import com.myStress.helper.SerialPortLogger;
 

@@ -1017,6 +1017,7 @@ public class myStress_local extends Service
 	 * @param restarted is this measurements restarted (true) or not (false). 
 	 * @return true if successfully started, false otherwise
 	 */
+	@SuppressLint("Wakelock")
 	@SuppressWarnings("deprecation")
 	public boolean startMeasurements(boolean restarted)
 	 {
