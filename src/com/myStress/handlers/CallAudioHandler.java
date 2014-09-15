@@ -60,9 +60,6 @@ public class CallAudioHandler implements Handler
     
     private AudioRecord audioRecorder = null;
 	
-//  private double prevSecs = 0;
-//	private double[] featureBuffer = null;
-	
 	// availability of player
 	private boolean available = false;
 	private boolean shutdown = false;
@@ -120,6 +117,8 @@ public class CallAudioHandler implements Handler
 				StringBuffer AU_reading = new StringBuffer(sensor);
 				AU_reading.append(audiofeatures);
 				
+				Log.e("myStress", AU_reading.toString());
+				
 				return AU_reading.toString().getBytes();
 			}
 		}
@@ -165,7 +164,7 @@ public class CallAudioHandler implements Handler
 			return;
 		
 		// here some midlet property check as to whether or not audio capture is supported
-		SensorRepository.insertSensor(new String("AU"), new String("text"), myStress.getString(R.string.AU_d), myStress.getString(R.string.AU_e), new String("txt"), 0, 0, 15000, false, 0, this);
+		SensorRepository.insertSensor(new String("AU"), new String("-"), myStress.getString(R.string.AU_d), myStress.getString(R.string.AU_e), new String("txt"), 0, 0, 15000, false, 0, this);
 	}
 	
 	/**

@@ -435,24 +435,24 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 		{
 		   if (MagField != null && Accelerometer != null)
 		   {
-			   SensorRepository.insertSensor(new String("Az"), new String("degrees"), myStress.getString(R.string.AZ_d), myStress.getString(R.string.AZ_e), new String("int"), -1, 0, 3600, true, polltime, this);
-			   SensorRepository.insertSensor(new String("Pi"), new String("degrees"), myStress.getString(R.string.PI_d), myStress.getString(R.string.PI_e), new String("int"), -1, -1800, 1800, true, polltime, this);
-			   SensorRepository.insertSensor(new String("Ro"), new String("degrees"), myStress.getString(R.string.RO_d), myStress.getString(R.string.RO_e), new String("int"), -1, -900, 900, true, polltime, this);	
+			   SensorRepository.insertSensor(new String("Az"), new String("Grad"), myStress.getString(R.string.AZ_d), myStress.getString(R.string.AZ_e), new String("int"), -1, 0, 3600, true, polltime, this);
+			   SensorRepository.insertSensor(new String("Pi"), new String("Grad"), myStress.getString(R.string.PI_d), myStress.getString(R.string.PI_e), new String("int"), -1, -1800, 1800, true, polltime, this);
+			   SensorRepository.insertSensor(new String("Ro"), new String("Grad"), myStress.getString(R.string.RO_d), myStress.getString(R.string.RO_e), new String("int"), -1, -900, 900, true, polltime, this);	
 		   }
 		   if (Proximity != null)
-			   SensorRepository.insertSensor(new String("PR"), new String("-"), myStress.getString(R.string.PR_d), myStress.getString(R.string.PR_e), new String("int"), -1, 0, 1000, false, polltime, this);
+			   SensorRepository.insertSensor(new String("PR"), new String("m"), myStress.getString(R.string.PR_d), myStress.getString(R.string.PR_e), new String("int"), -1, 0, 1000, false, polltime, this);
 		   if (Light != null)
 			   SensorRepository.insertSensor(new String("LI"), new String("Lux"), myStress.getString(R.string.LI_d), myStress.getString(R.string.LI_e), new String("int"), -1, 0, 50000, true, polltime, this);
 		   if (Pressure != null)
 			   SensorRepository.insertSensor(new String("PU"), new String("hPa"), myStress.getString(R.string.PU_d), myStress.getString(R.string.PU_e), new String("int"), -1, 0, 50000, true, polltime, this);
 		   if (Temperature != null)
-			   SensorRepository.insertSensor(new String("TM"), new String("C"), myStress.getString(R.string.TM_d), myStress.getString(R.string.TM_e), new String("int"), -1, 0, 50000, true, polltime, this);
+			   SensorRepository.insertSensor(new String("TM"), new String("°C"), myStress.getString(R.string.TM_d), myStress.getString(R.string.TM_e), new String("int"), -1, 0, 50000, true, polltime, this);
 		   if (Humidity != null)
 			   SensorRepository.insertSensor(new String("HU"), new String("%"), myStress.getString(R.string.HU_d), myStress.getString(R.string.HU_e), new String("int"), -1, 0, 50000, true, polltime, this);
 		   if (Pedometer != null)
-			   SensorRepository.insertSensor(new String("PD"), new String("-"), myStress.getString(R.string.PD_d), myStress.getString(R.string.PD_e), new String("int"), -1, 0, 50000, true, polltime, this);
+			   SensorRepository.insertSensor(new String("PD"), new String("#"), myStress.getString(R.string.PD_d), myStress.getString(R.string.PD_e), new String("int"), -1, 0, 50000, true, polltime, this);
 		   if (Accelerometer != null){
-			   SensorRepository.insertSensor(new String("AC"), new String("text"), myStress.getString(R.string.AC_d), myStress.getString(R.string.AC_e), new String("txt"), -1, 0, 50000, false, polltime, this);
+			   SensorRepository.insertSensor(new String("AC"), new String("-"), myStress.getString(R.string.AC_d), myStress.getString(R.string.AC_e), new String("txt"), -1, 0, 50000, false, polltime, this);
 			   SensorRepository.insertSensor(new String("AV"), new String("-"), myStress.getString(R.string.AV_d), myStress.getString(R.string.AV_e), new String("int"), -1, 0, 50000, true, polltime, this);
 		   }
 		}

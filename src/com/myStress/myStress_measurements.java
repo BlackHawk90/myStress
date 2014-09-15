@@ -57,7 +57,6 @@ public class myStress_measurements extends Activity implements OnItemClickListen
 	 private myStress_local myStress_locally;
 	 private ListView values;
 	 private Activity act;
-//	 private Button exit;
 
 	 /** Called when the activity is first created. 
 	     * @param savedInstanceState a Bundle of the saved state, according to Android lifecycle model
@@ -83,12 +82,7 @@ public class myStress_measurements extends Activity implements OnItemClickListen
 	        // set listener for sensor list
 			values.setOnItemClickListener(this);
 			values.setOnItemLongClickListener(this);
-
-			// Find and set up the ListView for values
-//			exit 	= (Button)findViewById(R.id.valuesExit);        
-	        // set listener for sensor list
-//			exit.setOnClickListener(this);
-
+			
 	        // bind to service
 	        if (bindService(new Intent(this, myStress_local.class), mConnection, 0)==false)
 	     		Toast.makeText(getApplicationContext(), getString(R.string.binding_failed), Toast.LENGTH_LONG).show();	        
@@ -339,7 +333,7 @@ public class myStress_measurements extends Activity implements OnItemClickListen
 	    {
 	    	// show info for sensor selected
 		    if (myStress_locally != null)
-		    	myStress_locally.show_info((int)arg3);		    
+		    	myStress_locally.show_info((int)arg3);
 	    }
 	    
 	    private ServiceConnection mConnection = new ServiceConnection() 

@@ -188,11 +188,11 @@ public class CellHandler extends PhoneStateListener implements
 	public void Discover() {
 		if (enableProperties == true) {
 			SensorRepository.insertSensor(new String("CR"), new String(
-					"boolean"), myStress.getString(R.string.CR_d), myStress
+					"an/aus"), myStress.getString(R.string.CR_d), myStress
 					.getString(R.string.CR_e), new String("int"), 0, 0, 1,
 					false, 60000, this);
 			SensorRepository.insertSensor(new String("CD"), new String(
-					"boolean"), myStress.getString(R.string.CD_d), myStress
+					"an/aus"), myStress.getString(R.string.CD_d), myStress
 					.getString(R.string.CD_e), new String("int"), 0, 0, 1,
 					false, 0, this);
 			SensorRepository.insertSensor(new String("CS"), new String("dBm"),

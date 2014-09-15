@@ -32,6 +32,7 @@ import com.google.android.maps.OverlayItem;
  * Class to implement the overlay of GI/VI sensors in the Map View
  *
  */
+@SuppressWarnings("rawtypes")
 public class MapViewerOverlay extends ItemizedOverlay 
 {
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();

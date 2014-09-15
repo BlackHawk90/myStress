@@ -49,17 +49,10 @@ import com.memetix.mst.translate.Translate;
 @SuppressLint("InlinedApi")
 public class NotificationHandlerService extends AccessibilityService
 {	
-//	private NotificationHandlerService service;
-//	private boolean started = true;
-//	private boolean newText = false;
 	private double typingStartTime, typingEndTime;
 	private String typedText;
 	private boolean wasending1 = false, wasending2 = false, sending = false;
 	private boolean sent = false;
-		
-//	String alchemyApiKey = "d8c9013818eb2aeb7baa7ad558f7487db4ded10c";
-//	AlchemyAPI api = AlchemyAPI.GetInstanceFromString(alchemyApiKey);
-	
 	
 	/**
 	 * Called when an accessibility event occurs - here, we check the particular component packages that fired the event, filtering out the ones we support
@@ -69,16 +62,16 @@ public class NotificationHandlerService extends AccessibilityService
 	@Override
 	public void onAccessibilityEvent(AccessibilityEvent event)
 	{
-		int eventType = event.getEventType();
-		String packageName = event.getPackageName().toString();
-		String className = event.getClassName().toString();
-		
-//    	Log.e("myStress", "notification: " + packageName + ", " + eventType + ", " + className);
-	    if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED){
-	    	processNotification(event);
-	    }
-	    else if(eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED){
-	    	try{
+		try{
+			int eventType = event.getEventType();
+			String packageName = event.getPackageName().toString();
+			String className = event.getClassName().toString();
+			
+	    	Log.e("myStress", "notification: " + packageName + ", " + eventType + ", " + className);
+		    if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED){
+		    	processNotification(event);
+		    }
+		    else if(eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED){
 		    	if(event.isPassword()) return;
 		    	
 		    	String text = event.getText().toString();
@@ -114,10 +107,7 @@ public class NotificationHandlerService extends AccessibilityService
 		    	int length_diff = text.length()-beforeText.length();
 		    	typedText = text;
 		    	
-	//    		maxTextInformation = text.length();
-		    	
 		    	if(length_diff == 1 && text.length() == 1){
-	//    			typing = true;
 	    			typingStartTime = (double)System.currentTimeMillis();
 	    			typingEndTime = typingStartTime;
 		    	}
@@ -134,64 +124,64 @@ public class NotificationHandlerService extends AccessibilityService
 		    	}
 		    	
 		    	if(del == true){
-		    		Log.e("myStress", "text deleted");//: " + diff);
+		    		Log.e("myStress", "text deleted");
 					Intent intent = new Intent("com.myStress.accessibility");
 					intent.putExtra("KeyLogger", length_diff + " characters deleted");
 					sendBroadcast(intent);
 		    	}
-	    	}catch(Exception e){}
-	    }
-	    else if(eventType == AccessibilityEvent.TYPE_VIEW_CLICKED){
-	    	if(packageName.equals("com.whatsapp")){
-	    		if(className.equals("android.widget.ImageButton")){
-    				wasending1 = true;
-		    	}
-	    		else if(className.equals("com.whatsapp.EmojiPicker$EmojiImageView")){
-	    			wasending1 = false;
-	    			wasending2 = false;
-	    		}
-	    		else if(className.equals("android.widget.ListView") || className.equals("android.widget.ImageView"));
-	    		else{
-	    			if(wasending1) wasending2 = true;
-	    		}
-	    	}
-	    	else{
-	    		if(wasending1) wasending2 = true;
-	    		
-		    	if(packageName.equals("com.facebook.orca")){
-		    		if(className.equals("com.facebook.orca.compose.ComposerButton")){
-		    			sending = true;
-		    			sendButtonClicked(packageName);
-		    		}
-		    	}
-		    	else if(packageName.equals("com.facebook.katana")){
-		    		if(className.equals("com.facebook.widget.text.SimpleVariableTextLayoutView")){
-		    			sending = true;
-		    			sendButtonClicked(packageName);
-		    		}
-		    	}
-		    	else if(packageName.equals("com.android.email")){
+		    }
+		    else if(eventType == AccessibilityEvent.TYPE_VIEW_CLICKED){
+		    	if(packageName.equals("com.whatsapp")){
 		    		if(className.equals("android.widget.ImageButton")){
-		    			if(!event.getText().toString().equals("")){
-		    				sending = true;
-		    				sendButtonClicked(packageName);
-		    			}
+	    				wasending1 = true;
+			    	}
+		    		else if(className.equals("com.whatsapp.EmojiPicker$EmojiImageView")){
+		    			wasending1 = false;
+		    			wasending2 = false;
+		    		}
+		    		else if(className.equals("android.widget.ListView") || className.equals("android.widget.ImageView"));
+		    		else{
+		    			if(wasending1) wasending2 = true;
 		    		}
 		    	}
-	    	}
-	    }
-	    else if(eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED){
-	    	if(wasending1){
-	    		wasending2=true;
-	    		sendButtonClicked(packageName);
-	    		sent = true;
-	    	}
-	    }
-	    
-	    if(sent == false){
-	    	sendButtonClicked(packageName);
-	    }
-	    sent = false;
+		    	else{
+		    		if(wasending1) wasending2 = true;
+		    		
+			    	if(packageName.equals("com.facebook.orca")){
+			    		if(className.equals("com.facebook.orca.compose.ComposerButton")){
+			    			sending = true;
+			    			sendButtonClicked(packageName);
+			    		}
+			    	}
+			    	else if(packageName.equals("com.facebook.katana")){
+			    		if(className.equals("com.facebook.widget.text.SimpleVariableTextLayoutView")){
+			    			sending = true;
+			    			sendButtonClicked(packageName);
+			    		}
+			    	}
+			    	else if(packageName.equals("com.android.email")){
+			    		if(className.equals("android.widget.ImageButton")){
+			    			if(!event.getText().toString().equals("")){
+			    				sending = true;
+			    				sendButtonClicked(packageName);
+			    			}
+			    		}
+			    	}
+		    	}
+		    }
+		    else if(eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED){
+		    	if(wasending1){
+		    		wasending2=true;
+		    		sendButtonClicked(packageName);
+		    		sent = true;
+		    	}
+		    }
+		    
+		    if(sent == false){
+		    	sendButtonClicked(packageName);
+		    }
+		    sent = false;
+		}catch(Exception e){}
 	}
 	
 	/**
@@ -203,8 +193,6 @@ public class NotificationHandlerService extends AccessibilityService
 	@Override
 	protected void onServiceConnected() 
 	{
-//	    Log.e("myStress", "connecting NotificationHandlerService");
-
 		// register for any input from the accessbility service
 		IntentFilter intentFilter = new IntentFilter("com.myStress.accessibility.start");
         registerReceiver(SystemReceiver, intentFilter);
@@ -215,7 +203,6 @@ public class NotificationHandlerService extends AccessibilityService
 	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
 	    info.notificationTimeout = 100;
 
-//	    service = this;
 	    Log.e("myStress", "NotificationHandlerService connected");
 	    
 	    setServiceInfo(info);
@@ -225,18 +212,15 @@ public class NotificationHandlerService extends AccessibilityService
 	}
 	
 	protected void onServiceDisconnected(){
-//		service = null;
 		Log.e("myStress", "NotificationHandlerService disconnected");
 	}
 	
 	protected void onUnbind(){
-//		service = null;
 		Log.e("myStress", "NotificationHandlerService unbound");
 	}
     
     public void sendButtonClicked(String packageName){
 		if((wasending1 && wasending2) || sending){
-//	    	if(typing == true){
 			double typingDuration;
 			double typingSpeed = 0;
     		if(typingEndTime != typingStartTime){
@@ -244,8 +228,6 @@ public class NotificationHandlerService extends AccessibilityService
 	    		typingSpeed = typedText.length() / typingDuration;
 	    		Log.e("myStress", "Tippgeschwindigkeit: " + typingSpeed + " Zeichen pro Minute");
     		}
-//	    		typing = false;
-//	    	}
 	    	
     		if(typedText != null){
 		    	if(typedText.length() > 0){
@@ -310,8 +292,6 @@ public class NotificationHandlerService extends AccessibilityService
             	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
             	    info.notificationTimeout = 100;
             	    setServiceInfo(info);
-            	    
-//            	    started = true;
             	}
             	else	// or stop it?
             	{
@@ -320,8 +300,6 @@ public class NotificationHandlerService extends AccessibilityService
             	    info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
             	    info.notificationTimeout = 100;
             	    setServiceInfo(info);
-            	    
-//            	    started = false;
             	}
             }
         }
@@ -349,48 +327,20 @@ public class NotificationHandlerService extends AccessibilityService
 	    		//übersetzen
     			String translatedText = Translate.execute(text, Language.GERMAN, Language.ENGLISH);
     			Log.e("myStress", "translated: "+translatedText);
-	    		// Sentimentanalyse
-//	    		AlchemyAPI_NamedEntityParams nep = new AlchemyAPI_NamedEntityParams();
-//	    		nep.setSentiment(true);
-	    		
-	    		try{
-		    		HttpClient client = new DefaultHttpClient();
-		    		String getURL = "https://loudelement-free-natural-language-processing-service.p.mashape.com/nlp-text/?text="+URLEncoder.encode(translatedText, "UTF-8");
-		    		HttpGet get = new HttpGet(getURL);
-		    		get.setHeader("X-Mashape-Key", "UfXaXsn0q9mshs2S9vlj2RCA1gzSp1kFZJKjsnA8WvonNOBW7T");
-		    		HttpResponse responseGet = client.execute(get);
-		    		HttpEntity  resEntityGet = responseGet.getEntity();
-		    		if(resEntityGet != null){
-		    			String resString = EntityUtils.toString(resEntityGet);
-		    			JSONObject result = new JSONObject(resString);
-		    			type = result.getString("sentiment-text");
-		    			score = result.getDouble("sentiment-score");
-		    		}
-	    		} catch(Exception e){
-	    			e.printStackTrace();
-	    		}
-	    		
-	    		// old api
-/*	    		Document doc = api.TextGetTextSentiment(translatedText, nep);
-    			NodeList list = doc.getFirstChild().getChildNodes();
-    			for(int i = 0; i < list.getLength();i++) {
-    				Node item = list.item(i);
-    				
-    				if(item.getNodeName() == null)
-    					continue;
-    				
-    				if(item.getNodeName().equals("docSentiment"))
-    				{
-    					type = item.getChildNodes().item(1).getChildNodes().item(0).getNodeValue();
-    					if(!type.equals("neutral"))
-    						score = Double.parseDouble(item.getChildNodes().item(3).getChildNodes().item(0).getNodeValue());
-    					else
-    						score = 0;
-    					break;
-    				}
-    			}*/
+    			HttpClient client = new DefaultHttpClient();
     			
-    			Log.e("myStress", "sentiment: "+type+" with score "+score);
+    			//Sentimentanalyse
+	    		String getURL = "https://loudelement-free-natural-language-processing-service.p.mashape.com/nlp-text/?text="+URLEncoder.encode(translatedText, "UTF-8");
+	    		HttpGet get = new HttpGet(getURL);
+	    		get.setHeader("X-Mashape-Key", "UfXaXsn0q9mshs2S9vlj2RCA1gzSp1kFZJKjsnA8WvonNOBW7T");
+	    		HttpResponse responseGet = client.execute(get);
+	    		HttpEntity  resEntityGet = responseGet.getEntity();
+	    		if(resEntityGet != null){
+	    			String resString = EntityUtils.toString(resEntityGet);
+	    			JSONObject result = new JSONObject(resString);
+	    			type = result.getString("sentiment-text");
+	    			score = result.getDouble("sentiment-score");
+	    		}
     		}catch(Exception e){
     			Log.e("myStress", e.getMessage());
     		}

@@ -63,6 +63,7 @@ import android.widget.ZoomButton;
  * Class to implement a timeline view for all sensors that support it. This activity is started from the {@link com.myStress.platform.History} class after an item supporting timeline has been clicked on by the user
  *
  */
+@SuppressLint("HandlerLeak")
 public class TimelineActivity extends Activity implements OnTouchListener, OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener
 {   
 	// handler variables
@@ -103,6 +104,7 @@ public class TimelineActivity extends Activity implements OnTouchListener, OnCli
 	/** Called when the activity is first created. 
      * @param savedInstanceState a Bundle of the saved state, according to Android lifecycle model
      */
+	@SuppressWarnings("deprecation")
 	@Override
     public void onCreate(Bundle savedInstanceState) 
     {
@@ -244,6 +246,7 @@ public class TimelineActivity extends Activity implements OnTouchListener, OnCli
 	/** Called when the configuration of the activity has changed.
      * @param newConfig new configuration after change 
      */
+	@SuppressWarnings("deprecation")
 	@Override
     public void onConfigurationChanged(Configuration newConfig) 
     {
@@ -523,6 +526,7 @@ public class TimelineActivity extends Activity implements OnTouchListener, OnCli
 	 * @param v Reference to the {@link android.view.View} that has focus
 	 * @param me Reference to the {@link android.view.MotionEvent} of the touch event
 	 */
+	@SuppressLint("ClickableViewAccessibility")
 	public boolean onTouch(View v, MotionEvent me) 
 	{
     	long progress = (long)(valuesShown*repeatJump)/100;

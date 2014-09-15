@@ -96,8 +96,6 @@ public class StressLevelHandler implements Handler
 			intentFilter.addAction("com.myStress.pollstress");
 			
 	        myStress.registerReceiver(SystemReceiver, intentFilter);
-//	        intentFilter = new IntentFilter("com.myStess.eventselected");
-//	        myStress.registerReceiver(SystemReceiver, intentFilter);
 	        registered = true;
 	        juststarted = true;
 		}
@@ -221,7 +219,7 @@ public class StressLevelHandler implements Handler
 	public void Discover()
 	{
 		SensorRepository.insertSensor(new String("SL"), new String("Level"), myStress.getString(R.string.SL_d), myStress.getString(R.string.SL_e), new String("str"), 0, 0, 1, false, polltime, this);
-		SensorRepository.insertSensor(new String("SM"), new String("Meta"), myStress.getString(R.string.SM_d), myStress.getString(R.string.SM_e), new String("str"), 0, 0, 1, false, 0, this);
+		SensorRepository.insertSensor(new String("SM"), new String("Status"), myStress.getString(R.string.SM_d), myStress.getString(R.string.SM_e), new String("str"), 0, 0, 1, false, 0, this);
 	}
 	
 	/**
@@ -297,7 +295,6 @@ public class StressLevelHandler implements Handler
             }
             if (intent.getAction().equals("com.myStress.pollstress"))
             {
-//            	Acquire("SL", null);
             	snooze_semaphore.release();
             }
         }

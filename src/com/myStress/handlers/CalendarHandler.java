@@ -35,11 +35,12 @@ import com.myStress.platform.SensorRepository;
 /**
  * Class to read calendar sensors, specifically the CA sensor
  * 
- * @see Handler
+ * @see Handler# 
  */
 @SuppressLint("NewApi")
 public class CalendarHandler implements Handler {
 	private Context myStress;
+	
 	// configuration data
 	private int polltime;
 	private long currentRead = 0;
@@ -113,7 +114,7 @@ public class CalendarHandler implements Handler {
 	 */
 	public void Discover() {
 		if (no_calendars == true)
-			SensorRepository.insertSensor(new String("CA"), new String("-"),
+			SensorRepository.insertSensor(new String("CA"), new String("Termine"),
 					myStress.getString(R.string.CA_d),
 					myStress.getString(R.string.CA_e), new String("str"), 0, 0, 1,
 					false, polltime, this);
@@ -170,7 +171,7 @@ public class CalendarHandler implements Handler {
 
 	private void getEntry() {
 		boolean first = false, calendar = false;
-		String title, location, ID;
+		String ID;
 		long begin, end;
 		String[] fields = { Instances.TITLE, Instances.BEGIN, Instances.END,
 				Instances.EVENT_LOCATION, Instances.CALENDAR_ID };
@@ -199,10 +200,8 @@ public class CalendarHandler implements Handler {
 		// walk through all returns
 		eventCursor.moveToFirst();
 		for (i = 0; i < eventCursor.getCount(); i++) {
-			title = eventCursor.getString(0);
 			begin = eventCursor.getLong(1);
 			end = eventCursor.getLong(2);
-			location = eventCursor.getString(3);
 			ID = eventCursor.getString(4);
 
 			calendar = false;
@@ -217,13 +216,10 @@ public class CalendarHandler implements Handler {
 				// is this something new?
 				if (begin > currentRead && begin < now) {
 					if (first == false) {
-						reading.append(title + ":" + location + ":"
-								+ String.valueOf(begin) + ":"
-								+ String.valueOf(end));
+						reading.append(String.valueOf(begin) + ":"+ String.valueOf(end));
 						first = true;
 					} else
-						reading.append("\n" + title + ":" + location + ":"
-								+ String.valueOf(begin) + ":"
+						reading.append("::" + String.valueOf(begin) + ":"
 								+ String.valueOf(end));
 				}
 

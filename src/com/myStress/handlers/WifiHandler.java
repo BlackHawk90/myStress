@@ -244,7 +244,7 @@ public class WifiHandler extends PhoneStateListener implements com.myStress.hand
 			SensorRepository.insertSensor(new String("WI"), new String("SSID"), myStress.getString(R.string.WI_d), myStress.getString(R.string.WI_e), new String("txt"), 0, 0, 1, false, 0, this);	
 			SensorRepository.insertSensor(new String("WM"), new String("MAC"), myStress.getString(R.string.WM_d), myStress.getString(R.string.WM_e), new String("txt"), 0, 0, 1, false, 0, this);
 			SensorRepository.insertSensor(new String("WS"), new String("dBm"), myStress.getString(R.string.WS_d), myStress.getString(R.string.WS_e), new String("txt"), 0, 0, 1, false, 0, this);
-			SensorRepository.insertSensor(new String("WC"), new String("boolean"), myStress.getString(R.string.WC_d), myStress.getString(R.string.WC_e), new String("int"), 0, 0, 1, false, 0, this);
+			SensorRepository.insertSensor(new String("WC"), new String("an/aus"), myStress.getString(R.string.WC_d), myStress.getString(R.string.WC_e), new String("int"), 0, 0, 1, false, 0, this);
 		}	    
 	}
 	

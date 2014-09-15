@@ -120,7 +120,7 @@ public class CallLogHandler implements Handler
 	 */
 	public void Discover()
 	{
-	    SensorRepository.insertSensor(new String("PH"), new String("Calls"), myStress.getString(R.string.PH_d), myStress.getString(R.string.PH_e), new String("txt"), 0, 0, 65535, false, polltime, this);
+	    SensorRepository.insertSensor(new String("PH"), new String("Zeit::Dauer::Typ"), myStress.getString(R.string.PH_d), myStress.getString(R.string.PH_e), new String("txt"), 0, 0, 65535, false, polltime, this);
 	}
 	
 	/**

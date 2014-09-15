@@ -104,7 +104,7 @@ public class NotificationHandler implements Handler
 	 */
 	public void Discover()
 	{
-	    SensorRepository.insertSensor(new String("NO"), new String("text"), myStress.getString(R.string.NO_d), myStress.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
+	    SensorRepository.insertSensor(new String("NO"), new String("Anwendung"), myStress.getString(R.string.NO_d), myStress.getString(R.string.NO_e), new String("txt"), 0, 0, 1, false, 0, this);
 	}
 	
 	/**

@@ -301,10 +301,10 @@ public class WeatherHandler implements com.myStress.handlers.Handler, Runnable
 	{
 		if (weather_enabled == true)
 		{
-			SensorRepository.insertSensor(new String("VT"), new String("C"), myStress.getString(R.string.VT_d), myStress.getString(R.string.VT_e), new String("int"), 0, -50, 100, true, 0, this);	    
-			SensorRepository.insertSensor(new String("VF"), new String("F"), myStress.getString(R.string.VF_d), myStress.getString(R.string.VF_e), new String("int"), 0, -50, 100, true, 0, this);	    
+			SensorRepository.insertSensor(new String("VT"), new String("°C"), myStress.getString(R.string.VT_d), myStress.getString(R.string.VT_e), new String("int"), 0, -50, 100, true, 0, this);	    
+			SensorRepository.insertSensor(new String("VF"), new String("°F"), myStress.getString(R.string.VF_d), myStress.getString(R.string.VF_e), new String("int"), 0, -50, 100, true, 0, this);	    
 			SensorRepository.insertSensor(new String("VH"), new String("%"), myStress.getString(R.string.VH_d), myStress.getString(R.string.VH_e), new String("int"), 0, 0, 100, true, 0, this);	    
-			SensorRepository.insertSensor(new String("VC"), new String("txt"), myStress.getString(R.string.VC_d), myStress.getString(R.string.VC_e), new String("str"), 0, 0, 1, false, 0, this);	    
+			SensorRepository.insertSensor(new String("VC"), new String("Breite:Länge:Temp(°C):Temp(°F):Luftfeuchtigkeit(%):Wetter:Wind"), myStress.getString(R.string.VC_d), myStress.getString(R.string.VC_e), new String("str"), 0, 0, 1, false, 0, this);	    
 			SensorRepository.insertSensor(new String("VW"), new String("txt"), myStress.getString(R.string.VW_d), myStress.getString(R.string.VW_e), new String("str"), 0, 0, 1, false, 0, this);	    
 			SensorRepository.insertSensor(new String("VI"), new String("txt"), myStress.getString(R.string.VI_d), myStress.getString(R.string.VI_e), new String("str"), 0, 0, 1, true, 0, this);	    
 		}

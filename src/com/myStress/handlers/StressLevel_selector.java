@@ -44,15 +44,6 @@ import com.myStress.*;
  */
 public class StressLevel_selector extends Activity implements OnClickListener,
 		OnCheckedChangeListener {
-	// private TextView mTitle;
-	// private TextView mTitle2;
-	// private Editor editor;
-
-	// Singleton
-	// private static StressLevel_selector instance = null;
-
-	// preferences
-	// private SharedPreferences settings;
 	private String stress = null, status = null;
 
 	private boolean bGroup1Selected = false;
@@ -84,33 +75,14 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 	public void onCreate(Bundle savedInstanceState) {
 		// Set up the window layout
 		super.onCreate(savedInstanceState);
-
-		// read preferences
-		// settings = PreferenceManager.getDefaultSharedPreferences(this);
-		// editor = settings.edit();
-
-		// read last selected mood value
-		// try {
-		// stress = settings.getString("StressLevelHandler::Mood", "Happy");
-		// } catch (Exception e) {
-		// }
-
+		
 		// set window title
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 		setContentView(R.layout.stress_selection);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 				R.layout.custom_title);
-
-		// get window title fields
-		// mTitle = (TextView) findViewById(R.id.title_left_text);
-		// mTitle2 = (TextView) findViewById(R.id.title_right_text);
-		/*
-		 * mTitle.setText(getString(R.string.AIRS_Mood_Selector));
-		 * mTitle2.setText(getString(R.string.AIRS_mood_selection2) + " " +
-		 * mood);
-		 */
-
+		
 		// define listeners
 		Button bt = (Button) findViewById(R.id.notnow);
 		bt.setOnClickListener(this);
@@ -242,9 +214,6 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 			intent.putExtra("StressMeta", status);
 		}
 
-		// send broadcast intent to signal end of selection to mood button
-		// handler
-
 		sendBroadcast(intent);
 
 		stress = "";
@@ -262,7 +231,6 @@ public class StressLevel_selector extends Activity implements OnClickListener,
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 */
 	public void onClick(View v) {
-		// EditText et;
 		// dispatch depending on button pressed
 		switch (v.getId()) {
 		case R.id.notnow:

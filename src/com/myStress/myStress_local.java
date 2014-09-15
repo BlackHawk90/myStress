@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -79,6 +80,7 @@ import com.myStress.platform.SensorRepository;
  * @see myStress_main
  * @see android.app.Service
  */
+@SuppressLint("HandlerLeak")
 public class myStress_local extends Service
 {
 	private List<String> activatedSensors;
@@ -124,7 +126,6 @@ public class myStress_local extends Service
     private VibrateThread Vibrator;
     private Notification notification;
     private WakeLock wl = null;
-	private boolean notification_visible;
     // database variables
     static private myStress_database database_helper; // Reference to current myStress_database
     static private SQLiteDatabase myStress_storage; // Reference to myStress database
@@ -166,7 +167,7 @@ public class myStress_local extends Service
 				// copy parameters 
 				this.current = current;
 				line = Integer.toString(j);
-				values_output = new String(current.Symbol + " : - [" + current.Unit + "]");
+				values_output = new String(current.Description + " : - [" + current.Unit + "]");
 			
 				// get current day and set time to last millisecond of that day for next day indicator
 		        Calendar cal = Calendar.getInstance();
@@ -316,9 +317,9 @@ public class myStress_local extends Service
 					    				if (localDisplay_b == true)
 					    				{
 						    				if (current.scaler != 0)
-						    					output(current.Symbol + " : " + String.valueOf((double)integer*scaler) + " [" + current.Unit + "]");
+						    					output(current.Description + " : " + String.valueOf((double)integer*scaler) + " [" + current.Unit + "]");
 						    				else
-						    					output(current.Symbol + " : " + String.valueOf(integer) + " [" + current.Unit + "]");
+						    					output(current.Description + " : " + String.valueOf(integer) + " [" + current.Unit + "]");
 					    				}
 					    				else
 					    				{
@@ -349,7 +350,7 @@ public class myStress_local extends Service
 						    			// set text item in value field
 					    				if (localDisplay_b == true)
 					    				{
-					    					output(current.Symbol + " : " + new String(sensor_data, 2, sensor_data.length - 2) + " [" + current.Unit + "]");
+					    					output(current.Description + " : " + new String(sensor_data, 2, sensor_data.length - 2) + " [" + current.Unit + "]");
 					    				}
 					    				else
 					    				{
@@ -372,7 +373,7 @@ public class myStress_local extends Service
 						    			// set text item in value field, here only the length of the sensor value field
 					    				if (localDisplay_b == true)
 					    				{
-					    					output(current.Symbol + " : " + Integer.toString(sensor_data.length));
+					    					output(current.Description + " : " + Integer.toString(sensor_data.length));
 					    				}
 					    				else
 					    				{
@@ -586,8 +587,6 @@ public class myStress_local extends Service
 		
 		SerialPortLogger.debugForced("myStress_local::created service!");
 		
-		notification_visible = Boolean.valueOf(myStress.getString(R.string.notification_visible));
-		
 		// let's see if we need to restart
 		Restart(true);
 	}
@@ -627,7 +626,73 @@ public class myStress_local extends Service
 			}
 		}
 	}
-
+	
+	public synchronized int countReceivedSMS(long begin, long end){
+		Cursor cur =  myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Value = 'SR'", null);
+		if(cur != null)
+			cur.moveToFirst();
+		return cur.getInt(0);
+	}
+	
+	public synchronized int countSentSMS(long begin, long end){
+		Cursor cur = myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Value = 'SS'", null);
+		if(cur != null)
+			cur.moveToFirst();
+		return cur.getInt(0);
+	}
+	
+	public synchronized int[] countSentMessages(long begin, long end){
+		Cursor cur = myStress_storage.rawQuery("SELECT Values FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Value = 'TI'", null);
+		int[] msg = new int[4];
+		if(cur == null)
+			return null;
+		cur.moveToFirst();
+		while(!cur.isLast()){
+			if(cur.getString(0).contains("com.whatsapp")) msg[0]++; // Sent WhatsApp messages
+			else if(cur.getString(0).contains("com.facebook.orca")) msg[1]++; // Sent Facebook Messages 
+			else if(cur.getString(0).contains("com.facebook.katana")) msg[2]++; // Facebook Posts
+			else if(cur.getString(0).contains("com.sec.android.email") || cur.getString(0).contains("com.htc.android.mail")) msg[3]++; // Sent E-Mails
+			cur.moveToNext();
+		}
+		return msg;
+	}
+	
+	public synchronized double avgAmplitude(long begin, long end){
+		Cursor cur = myStress_storage.rawQuery("SELECT Values FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Value = 'TI'", null);
+		double sum = 0, count = 0;
+		if(cur == null)
+			return 0;
+		cur.moveToFirst();
+		while(!cur.isLast()){
+			sum += cur.getDouble(0);
+			count++;
+			cur.moveToNext();
+		}
+		return sum/count;
+	}
+	
+	public String[][] getMainArray(long begin, long end){
+		String[][] arr = new String[7][2];
+		arr[0][0] = "Versendete SMS:";
+		arr[1][0] = "Empfangene SMS:";
+		arr[2][0] = "Versendete WhatsApp-Nachrichten:";
+		arr[3][0] = "Versendete Facebook-Nachrichten:";
+		arr[4][0] = "Eigene Facebook-Posts:";
+		arr[5][0] = "Versendete E-Mails:";
+		arr[6][0] = "Durchschnittliche Umgebungslautstärke:";
+		
+		int[] temp = countSentMessages(begin, end);
+		arr[0][1] = "" + countSentSMS(begin, end);
+		arr[1][1] = "" + countReceivedSMS(begin, end);
+		arr[2][1] = "" + temp[0];
+		arr[3][1] = "" + temp[1];
+		arr[4][1] = "" + temp[2];
+		arr[5][1] = "" + temp[3];
+		arr[6][1] = "" + avgAmplitude(begin, end);
+		
+		return arr;
+	}
+	
 	private void start_myStress_local()
 	{
 		// find out whether or not to remind of running
@@ -952,6 +1017,7 @@ public class myStress_local extends Service
 	 * @param restarted is this measurements restarted (true) or not (false). 
 	 * @return true if successfully started, false otherwise
 	 */
+	@SuppressWarnings("deprecation")
 	public boolean startMeasurements(boolean restarted)
 	 {
 		 int i, j =0;
@@ -976,7 +1042,10 @@ public class myStress_local extends Service
 		 // don't allow clearing the notification
 		 //FIXME Prozess im Vordergrund sorgt dafür, dass Notification nicht weg geht
 		 notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-		 if(notification_visible)
+		 
+		 SharedPreferences   settings = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+		 boolean showNotification = settings.getBoolean("showNotification", true);
+		 if(showNotification)
 			 startForeground(1, notification);
 
 		 
@@ -1001,9 +1070,9 @@ public class myStress_local extends Service
 	 				if (current != null)
 	 				{
 				    	if (current.type.equals("float") || current.type.equals("int") || current.type.equals("txt") || current.type.equals("str") )
-					        mValuesArrayAdapter.add(current.Symbol + " : - [" + current.Unit + "]");
+					        mValuesArrayAdapter.add(current.Description + " : - [" + current.Unit + "]");
 				    	else
-					        mValuesArrayAdapter.add(current.Symbol + " : - ");			    		
+					        mValuesArrayAdapter.add(current.Description + " : - ");
 	 				}
  				}
  			 } 			 
@@ -1129,10 +1198,11 @@ public class myStress_local extends Service
 	  * This function needs calling from a UI thread, e.g., from myStress_record_tab
 	  * @param myStress Reference to the current {@link android.app.Activity}
 	  */
-	 public void Discover(Activity myStress)
+	 @SuppressWarnings("unchecked")
+	public void Discover(Activity myStress)
 	 {
 			int i;
-			String sensor_setting;
+//			String sensor_setting;
 			Sensor current;
 			activatedSensors = Arrays.asList(getResources().getString(R.string.activatedSensors).split(";"));
 
@@ -1183,7 +1253,7 @@ public class myStress_local extends Service
 		    	entry.explanation = current.Explanation;
 
 		    	// try to read RMS
-		    	sensor_setting = HandlerManager.readRMS("myStress_local::" + current.Symbol, "Off");
+//		    	sensor_setting = HandlerManager.readRMS("myStress_local::" + current.Symbol, "Off");
 		    	// set selected index to setting in RMS
 		    	
 		    	
@@ -1216,10 +1286,11 @@ public class myStress_local extends Service
 	  * Similar to the Discover() function. However, no UI is served here as well as the handlers are assumed to have been created already.
 	  * This function is usually called in the restart modus.
 	  */
-	 private void ReDiscover()
+	 @SuppressWarnings("unchecked")
+	private void ReDiscover()
 	 {
 			int i;
-			String sensor_setting;
+//			String sensor_setting;
 			Sensor current;
 			activatedSensors = Arrays.asList(getResources().getString(R.string.activatedSensors).split(";"));
 			
@@ -1256,7 +1327,7 @@ public class myStress_local extends Service
 		    	entry.explanation = current.Explanation;
 		    	
 		    	// try to read RMS
-		    	sensor_setting = HandlerManager.readRMS("myStress_local::" + current.Symbol, "Off");
+//		    	sensor_setting = HandlerManager.readRMS("myStress_local::" + current.Symbol, "Off");
 		    	// set selected index to setting in RMS
 		    	
 //		    	if (sensor_setting.compareTo("On") == 0)
@@ -1411,7 +1482,8 @@ public class myStress_local extends Service
 	 // The Handler that gets information back from the other threads, updating the values for the UI
 	 private final Handler mHandler = new Handler() 
      {
-        @Override
+        @SuppressWarnings("deprecation")
+		@Override
         public void handleMessage(Message msg) 
         {
         	String position;
@@ -1438,7 +1510,7 @@ public class myStress_local extends Service
             	
             	// now create new notification
             	NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-       		 	Notification notification = new Notification(R.drawable.notification_icon, getString(R.string.myStress_killed), System.currentTimeMillis());
+				Notification notification = new Notification(R.drawable.notification_icon, getString(R.string.myStress_killed), System.currentTimeMillis());
        		 	Intent notificationIntent = new Intent(getApplicationContext(), myStress_main.class);
        		 	PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
        			notification.setLatestEventInfo(getApplicationContext(), getString(R.string.myStress_Local_Sensing), getString(R.string.killed_at) + " " + Integer.toString(BatteryKill_i) + "% " + getString(R.string.battery) + "...", contentIntent);
@@ -1507,7 +1579,8 @@ public class myStress_local extends Service
     	boolean checked;
     }
 
-    public class SortBasedOnName implements Comparator
+    @SuppressWarnings("rawtypes")
+	public class SortBasedOnName implements Comparator
     {
 	    public int compare(Object o1, Object o2) 
 	    {
@@ -1540,7 +1613,8 @@ public class myStress_local extends Service
    			 return position;
    		 }
 
-   		 public View getView(int position, View convertView, ViewGroup parent) 
+   		 @SuppressLint("InflateParams")
+		public View getView(int position, View convertView, ViewGroup parent) 
    		 {
    			 
    			 SensorEntry current;

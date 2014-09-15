@@ -37,7 +37,6 @@ import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -80,7 +79,6 @@ public class SystemHandler implements com.myStress.handlers.Handler
 	private int battery_charging = 0;
 	private int oldbattery_charging = -1;
 	private int headset = 0, oldheadset = -1;
-	private String caller = null, callee = null, smsReceived = null, smsSent = null;
 	private boolean shutdown = false;
 	private int polltime;
 	private ActivityManager am;
@@ -306,16 +304,10 @@ public class SystemHandler implements com.myStress.handlers.Handler
 
 			wait(received_semaphore);  // block until semaphore available
 
-			// any difference in value?
-			if (smsReceived != null)
-			{
-				// create Stringbuffer with sms number being sent
-			    buffer = new StringBuffer("SR");
-//			    buffer.append(smsReceived.replaceAll("'","''"));
-			    buffer.append("SMS received");
-			    smsReceived = null;
-	    		return buffer.toString().getBytes();
-			}
+			// create Stringbuffer with sms number being sent
+		    buffer = new StringBuffer("SR");
+		    buffer.append("SMS received");
+    		return buffer.toString().getBytes();
 		}
 
 		// sent SMS?
@@ -331,18 +323,11 @@ public class SystemHandler implements com.myStress.handlers.Handler
 
 			wait(sent_semaphore);  // block until semaphore available
 
-			// any difference in value?
-			if (smsSent != null)
-			{
-				// create Stringbuffer with sms number being sent
-			    buffer = new StringBuffer("SS");
+			// create Stringbuffer with sms number being sent
+		    buffer = new StringBuffer("SS");
 //			    buffer.append(smsSent.replaceAll("'","''"));
-			    buffer.append("SMS sent");
-			    smsSent = null;
-				return buffer.toString().getBytes();
-			}
-			else
-				SerialPortLogger.debug("SS sensor: buffer is NULL!");			
+		    buffer.append("SMS sent");
+			return buffer.toString().getBytes();
 		}
 		
 		// incoming call?
@@ -358,15 +343,10 @@ public class SystemHandler implements com.myStress.handlers.Handler
 
 			wait(caller_semaphore); // block until semaphore available
 
-			// any difference in value?
-			if (caller != null)
-			{
-				// create reading buffer with caller number
-			    buffer = new StringBuffer("IC");
-			    buffer.append(caller);
-			    caller = null;
-	    		return buffer.toString().getBytes();
-			}
+			// create reading buffer with caller number
+		    buffer = new StringBuffer("IC");
+		    buffer.append("eingehender Anruf");
+    		return buffer.toString().getBytes();
 		}
 
 		// outgoing call?
@@ -382,15 +362,10 @@ public class SystemHandler implements com.myStress.handlers.Handler
 
 			wait(callee_semaphore); // block until semaphore available
 
-			// any difference in value?
-			if (callee !=null)
-			{
-				// create reading buffer with callee number
-			    buffer = new StringBuffer("OC");
-			    buffer.append(callee);
-			    callee = null;
-	    		return buffer.toString().getBytes();
-			}
+			// create reading buffer with callee number
+		    buffer = new StringBuffer("OC");
+		    buffer.append("ausgehender Anruf");
+    		return buffer.toString().getBytes();
 		}
 
 		// RAM available?
@@ -650,15 +625,15 @@ public class SystemHandler implements com.myStress.handlers.Handler
 	{
 		SensorRepository.insertSensor(new String("Ba"), new String("%"), myStress.getString(R.string.BA_d), myStress.getString(R.string.BA_e), new String("int"), 0, 0, 100, true, 0, this);	    
 		SensorRepository.insertSensor(new String("BV"), new String("mV"), myStress.getString(R.string.BV_d), myStress.getString(R.string.BV_e), new String("int"), 0, 0, 10, true, 0, this);	    
-		SensorRepository.insertSensor(new String("Bc"), new String("boolean"), myStress.getString(R.string.BC_d), myStress.getString(R.string.BC_e), new String("int"), 0, 0, 1, false, 0, this);	    
-		SensorRepository.insertSensor(new String("BM"), new String("C"), myStress.getString(R.string.BM_d), myStress.getString(R.string.BM_e), new String("int"), -1, 0, 100, true, 0, this);	    
-		SensorRepository.insertSensor(new String("Rm"), new String("RAM"), myStress.getString(R.string.RM_d), myStress.getString(R.string.RM_e), new String("int"), 0, 0, 512000000, true, polltime, this);	    
-		SensorRepository.insertSensor(new String("Sc"), new String("Screen"), myStress.getString(R.string.SC_d), myStress.getString(R.string.SC_e), new String("int"), 0, 0, 1, false, 0, this);	    
-		SensorRepository.insertSensor(new String("HS"), new String("Headset"), myStress.getString(R.string.HS_d), myStress.getString(R.string.HS_e), new String("int"), 0, 0, 1, false, 0, this);	    
-    	SensorRepository.insertSensor(new String("IC"), new String("Number"), myStress.getString(R.string.IC_d), myStress.getString(R.string.IC_e), new String("txt"), 0, 0, 1, false, 0, this);	    
-    	SensorRepository.insertSensor(new String("OC"), new String("Number"), myStress.getString(R.string.OC_d), myStress.getString(R.string.OC_e), new String("txt"), 0, 0, 1, false, 0, this);	    
-    	SensorRepository.insertSensor(new String("SR"), new String("SMS"), myStress.getString(R.string.SR_d), myStress.getString(R.string.SR_e), new String("txt"), 0, 0, 1, false, 0, this);	    
-    	SensorRepository.insertSensor(new String("SS"), new String("SMS"), myStress.getString(R.string.SS_d), myStress.getString(R.string.SS_e), new String("txt"), 0, 0, 1, false, 0, this);	    
+		SensorRepository.insertSensor(new String("Bc"), new String("an/aus"), myStress.getString(R.string.BC_d), myStress.getString(R.string.BC_e), new String("int"), 0, 0, 1, false, 0, this);	    
+		SensorRepository.insertSensor(new String("BM"), new String("°C"), myStress.getString(R.string.BM_d), myStress.getString(R.string.BM_e), new String("int"), -1, 0, 100, true, 0, this);	    
+		SensorRepository.insertSensor(new String("Rm"), new String("KB"), myStress.getString(R.string.RM_d), myStress.getString(R.string.RM_e), new String("int"), 0, 0, 512000000, true, polltime, this);	    
+		SensorRepository.insertSensor(new String("Sc"), new String("an/aus"), myStress.getString(R.string.SC_d), myStress.getString(R.string.SC_e), new String("int"), 0, 0, 1, false, 0, this);	    
+		SensorRepository.insertSensor(new String("HS"), new String("an/aus"), myStress.getString(R.string.HS_d), myStress.getString(R.string.HS_e), new String("int"), 0, 0, 1, false, 0, this);	    
+    	SensorRepository.insertSensor(new String("IC"), new String("#"), myStress.getString(R.string.IC_d), myStress.getString(R.string.IC_e), new String("txt"), 0, 0, 1, false, 0, this);	    
+    	SensorRepository.insertSensor(new String("OC"), new String("#"), myStress.getString(R.string.OC_d), myStress.getString(R.string.OC_e), new String("txt"), 0, 0, 1, false, 0, this);	    
+    	SensorRepository.insertSensor(new String("SR"), new String("-"), myStress.getString(R.string.SR_d), myStress.getString(R.string.SR_e), new String("txt"), 0, 0, 1, false, 0, this);	    
+    	SensorRepository.insertSensor(new String("SS"), new String("-"), myStress.getString(R.string.SS_d), myStress.getString(R.string.SS_e), new String("txt"), 0, 0, 1, false, 0, this);	    
     	SensorRepository.insertSensor(new String("TR"), new String("Tasks"), myStress.getString(R.string.TR_d), myStress.getString(R.string.TR_e), new String("txt"), 0, 0, 1, false, polltime, this);	    	    	
     	SensorRepository.insertSensor(new String("TV"), new String("Tasks"), myStress.getString(R.string.TV_d), myStress.getString(R.string.TV_e), new String("txt"), 0, 0, 1, false, polltime, this);	    	    	
     	SensorRepository.insertSensor(new String("TE"), new String("Template"), myStress.getString(R.string.TE_d), myStress.getString(R.string.TE_e), new String("txt"), 0, 0, 1, false, 0, this);	    	    	
@@ -892,22 +867,7 @@ public class SystemHandler implements com.myStress.handlers.Handler
             {
         		String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
         		if (TelephonyManager.EXTRA_STATE_RINGING.equals(state))
-        		{
-        			try
-        			{
-	        			caller = new String(intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER));
-	        			
-	        			// append caller display name, if available
-/*	        			if (caller != null)
-	        				caller = caller.concat(":" + getContactByNumber(caller));
-	        			else
-	        				caller = caller.concat(":" + "---");*/
-        			}
-        			catch(Exception e)
-        			{
-        				caller = new String("unknown:---");
-        			}
-        			
+        		{        			
     				caller_semaphore.release();			// release semaphore
         		}
         		return;
@@ -916,21 +876,6 @@ public class SystemHandler implements com.myStress.handlers.Handler
             // when outgoing call
             if (action.compareTo("android.intent.action.NEW_OUTGOING_CALL") == 0) 
             {
-            	try
-            	{
-	        		callee = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
-	        		
-	    			// append caller display name, if available
-/*        			if (callee != null)
-        				callee = callee.concat(":" + getContactByNumber(callee));        
-        			else
-        				callee = callee.concat(":" + "---");*/
-            	}
-    			catch(Exception e)
-    			{
-    				callee = new String("unknown:---");
-    			}
-    			
 				callee_semaphore.release();			// release semaphore
 				return;
             }
@@ -941,23 +886,6 @@ public class SystemHandler implements com.myStress.handlers.Handler
                 Bundle extras = intent.getExtras();
                 if (extras == null)
                     return;
-
-                Object[] pdus = (Object[]) extras.get("pdus");
-
-                // get first PDU to extract originating address
-                SmsMessage message = SmsMessage.createFromPdu((byte[]) pdus[0]);
-                String Address = message.getOriginatingAddress();
-                
-                smsReceived = new String(Address + ":" /*+ getContactByNumber(Address) + ":" */+ message.getMessageBody());
-                
-                // more than one PDU?
-                if (pdus.length >1)
-	                for (int i = 1; i < pdus.length; i++) 
-	                {
-	                	// only take message body of the additional PDUs
-	                    message = SmsMessage.createFromPdu((byte[]) pdus[i]);
-	                    smsReceived = smsReceived.concat(message.getMessageBody());
-	                }
                 
 				received_semaphore.release();			// release semaphore
             } 
@@ -1024,9 +952,9 @@ public class SystemHandler implements com.myStress.handlers.Handler
     			                // is SMS different from last seen one?
     			                if (seenBefore == false)
     			                {
-    			                	smsSent = new String(currentSMS);
+//    			                	smsSent = new String(currentSMS);
     			                	// write into permanent settings
-    			                	HandlerManager.writeRMS("SystemHandler::lastSeen", smsSent);
+//    			                	HandlerManager.writeRMS("SystemHandler::lastSeen", smsSent);
     			                	// release semaphore
 	    							sent_semaphore.release();	
 	    							
