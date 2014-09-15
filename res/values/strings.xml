@@ -29,6 +29,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="main_About">About</string>
 <string name="main_Sync">Synchronising Recordings</string>
 <string name="Help">Help</string>
+<string name="HelpText">Help text</string>
 <string name="recording_prompt">Type of Recording</string>
 <string name="MapAbout">Shows a path of recent GPS recording. You can click on a marker for more information. You can center the map either on your current location or the last stored one (using the buttons on the top right). You can also switch between map or satellite view with the appropriate options menu item.</string>
 <string name="RecordAbout">Start the recording and selecte the mode of the recording.\n\n
@@ -304,5 +305,12 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="on">On</string>
 <string name="off">Off</string>
 <string name="mainMyStressStatus">Measurement status of myStress</string>
-
+<string name="valueDescription1">Sent SMS:</string>
+<string name="valueDescription2">Received SMS:</string>
+<string name="valueDescription3">Sent WhatsApp messages:</string>
+<string name="valueDescription4">Sent Facebook messages:</string>
+<string name="valueDescription5">Published Facebook posts:</string>
+<string name="valueDescription6">Sent E-Mails:</string>
+<string name="valueDescription7">Received notifications:</string>
+<string name="valueDescription8">Average amplient amplitude:</string>
 </resources>

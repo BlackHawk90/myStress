@@ -678,26 +678,18 @@ public class myStress_local extends Service
 		return cur.getInt(0);
 	}
 	
-	public String[][] getMainArray(long begin, long end){
-		String[][] arr = new String[8][2];
-		arr[0][0] = "Versendete SMS:";
-		arr[1][0] = "Empfangene SMS:";
-		arr[2][0] = "Versendete WhatsApp-Nachrichten:";
-		arr[3][0] = "Versendete Facebook-Nachrichten:";
-		arr[4][0] = "Eigene Facebook-Posts:";
-		arr[5][0] = "Versendete E-Mails:";
-		arr[6][0] = "Erhaltene Benachrichtigungen:";
-		arr[7][0] = "Durchschnittliche Umgebungslautstärke:";
-		
+	public String[] getMainArray(long begin, long end){
+		String[] arr = new String[8];
+	
 		int[] temp = countSentMessages(begin, end);
-		arr[0][1] = "" + countSentSMS(begin, end);
-		arr[1][1] = "" + countReceivedSMS(begin, end);
-		arr[2][1] = "" + temp[0];
-		arr[3][1] = "" + temp[1];
-		arr[4][1] = "" + temp[2];
-		arr[5][1] = "" + temp[3];
-		arr[6][1] = "" + countNotifications(begin, end);
-		arr[7][1] = "" + avgAmplitude(begin, end);
+		arr[0] = "" + countSentSMS(begin, end);
+		arr[1] = "" + countReceivedSMS(begin, end);
+		arr[2] = "" + temp[0];
+		arr[3] = "" + temp[1];
+		arr[4] = "" + temp[2];
+		arr[5] = "" + temp[3];
+		arr[6] = "" + countNotifications(begin, end);
+		arr[7] = "" + avgAmplitude(begin, end);
 		
 		return arr;
 	}

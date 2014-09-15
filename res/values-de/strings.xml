@@ -28,6 +28,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="main_About">Über</string>
 <string name="main_Sync">Synchronisiere Aufnahme</string>
 <string name="Help">Hilfe</string>
+<string name="HelpText">HilfeText</string>
 <string name="recording_prompt">Typ der Aufnahme</string>
 <string name="MapAbout">Zeigt einen Pfad der GPS Aufzeichnungen. Du kannst auf eine Markierung klicken für mehr Information. Du kannst die Karte auf Deine momentane oder die letzte bekannte Position zentrieren (durch die Knöpfe oben rechts). Du kannst auch zwischen Satelliten- und Kartendarstellung umschalten durch die Menüeinträge.</string>
 <string name="RecordAbout">Wähle den Modus und starte eine Aufzeichnung.
@@ -296,4 +297,13 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="on">An</string>
 <string name="off">Aus</string>
 <string name="mainMyStressStatus">Aufzeichnungsstatus von myStress</string>
+<string name="valueDescription1">Versendete SMS:</string>
+<string name="valueDescription2">Empfangene SMS:</string>
+<string name="valueDescription3">Versendete WhatsApp-Nachrichten:</string>
+<string name="valueDescription4">Versendete Facebook-Nachrichten:</string>
+<string name="valueDescription5">Eigene Facebook-Posts:</string>
+<string name="valueDescription6">Versendete E-Mails:</string>
+<string name="valueDescription7">Erhaltene Benachrichtigungen:</string>
+<string name="valueDescription8">Durchschnittliche Umgebungslautstärke:</string>
+
 </resources>

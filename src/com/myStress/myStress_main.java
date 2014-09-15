@@ -19,6 +19,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 package com.myStress;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -51,7 +52,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -117,15 +117,16 @@ public class myStress_main extends Activity implements
 
 		// get switch, initialize it and set onclick listener
 		spDateIntervall = (Spinner) this.findViewById(R.id.spDateInterval);
-		spDateIntervall.setSelection(settings.getInt("SpinnerPosition", 0));
 		spDateIntervall.setOnItemSelectedListener(this);
+		spDateIntervall.setSelection(settings.getInt("SpinnerPosition", 0));
 
 		// get image and set onclick listener
-		((ImageView) findViewById(R.id.imgSettings)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				myStress_main.this.openOptionsMenu();
-			}
-		});
+		((ImageView) findViewById(R.id.imgSettings))
+				.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						myStress_main.this.openOptionsMenu();
+					}
+				});
 
 		// get switch, initialize it and set onclick listener
 		swStart = (Switch) this.findViewById(R.id.swMain);
@@ -141,8 +142,19 @@ public class myStress_main extends Activity implements
 
 				if (isChecked) {
 					if (!isAccessibilityEnabled()) {
-						if (!startAccessibility())
+						if (!startAccessibility()) {
+							// deactivate listener to supress
+							// reaction
+							swStart.setTriggerListener(false);
+
+							// check switch again
+							swStart.setChecked(false);
+
+							// re-activate listener
+							swStart.setTriggerListener(true);
+
 							return;
+						}
 					}
 
 					else {
@@ -391,11 +403,15 @@ public class myStress_main extends Activity implements
 				myStress.startActivity(startintent);
 			}
 			break;
+		case R.id.main_help:
+			PopUpManager.AboutDialog(getResources().getString(R.string.Help),
+					getString(R.string.HelpText), this);
+			break;
 		}
 
 		return false;
 	}
-	
+
 	// local service connection
 	private ServiceConnection mConnection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
@@ -580,18 +596,77 @@ public class myStress_main extends Activity implements
 				spDateIntervall.getSelectedItemPosition());
 		editor.commit();
 
-		// 0 heute
-		// 1 3 Tage
-		// 2 1 Woche
-		// 3 2 Wochen
-		// 4 Gesamt
-		spDateIntervall.getSelectedItemPosition();
-
+		updateTableValues(spDateIntervall.getSelectedItemPosition());
 	}
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
 		// TODO Auto-generated method stub
 
+	}
+
+	private void updateTableValues(int selectedIndex) {
+		// 0 heute
+		// 1 3 Tage
+		// 2 1 Woche
+		// 3 2 Wochen
+		// 4 Gesamt
+		Long begin = (long) 0;
+
+		Long end = Calendar.getInstance().getTimeInMillis();
+		switch (selectedIndex) {
+		case 0:
+			break;
+		case 1:
+			begin = end - 259200000;
+			break;
+		case 2:
+			begin = end - 604800000;
+			break;
+		case 3:
+			begin = end - 1209600000;
+			break;
+		case 4:
+			begin = (long) 0;
+			break;
+		}
+
+		// set values in table
+		if (myStress_locally != null) {
+			String[] values = myStress_locally.getMainArray(begin, end);
+			TextView tmp = (TextView) findViewById(R.id.lblValue1);
+			tmp.setText(values[0]);
+			tmp = (TextView) findViewById(R.id.lblValue2);
+			tmp.setText(values[1]);
+			tmp = (TextView) findViewById(R.id.lblValue3);
+			tmp.setText(values[2]);
+			tmp = (TextView) findViewById(R.id.lblValue4);
+			tmp.setText(values[3]);
+			tmp = (TextView) findViewById(R.id.lblValue5);
+			tmp.setText(values[4]);
+			tmp = (TextView) findViewById(R.id.lblValue6);
+			tmp.setText(values[5]);
+			tmp = (TextView) findViewById(R.id.lblValue7);
+			tmp.setText(values[6]);
+			tmp = (TextView) findViewById(R.id.lblValue8);
+			tmp.setText(values[7]);
+		} else {
+			TextView tmp = (TextView) findViewById(R.id.lblValue1);
+			tmp.setText("-");
+			tmp = (TextView) findViewById(R.id.lblValue2);
+			tmp.setText("-");
+			tmp = (TextView) findViewById(R.id.lblValue3);
+			tmp.setText("-");
+			tmp = (TextView) findViewById(R.id.lblValue4);
+			tmp.setText("-");
+			tmp = (TextView) findViewById(R.id.lblValue5);
+			tmp.setText("-");
+			tmp = (TextView) findViewById(R.id.lblValue6);
+			tmp.setText("-");
+			tmp = (TextView) findViewById(R.id.lblValue7);
+			tmp.setText("-");
+			tmp = (TextView) findViewById(R.id.lblValue8);
+			tmp.setText("-");
+		}
 	}
 }
