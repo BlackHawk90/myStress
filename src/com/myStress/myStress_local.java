@@ -629,23 +629,25 @@ public class myStress_local extends Service
 	
 	public synchronized int countReceivedSMS(long begin, long end){
 		Cursor cur =  myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'SR'", null);
-		if(cur != null)
-			cur.moveToFirst();
+		if(cur == null)
+			return 0;
+		cur.moveToFirst();
 		return cur.getInt(0);
 	}
 	
 	public synchronized int countSentSMS(long begin, long end){
 		Cursor cur = myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'SS'", null);
-		if(cur != null)
-			cur.moveToFirst();
+		if(cur == null)
+			return 0;
+		cur.moveToFirst();
 		return cur.getInt(0);
 	}
 	
 	public synchronized int[] countSentMessages(long begin, long end){
 		Cursor cur = myStress_storage.rawQuery("SELECT Values FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'TI'", null);
-		int[] msg = new int[4];
+		int[] msg = {0, 0, 0, 0};
 		if(cur == null)
-			return null;
+			return msg;
 		cur.moveToFirst();
 		while(!cur.isLast()){
 			if(cur.getString(0).contains("com.whatsapp")) msg[0]++; // Sent WhatsApp messages
@@ -673,8 +675,9 @@ public class myStress_local extends Service
 	
 	public synchronized int countNotifications(long begin, long end){
 		Cursor cur = myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'NO' AND Value <> 'com.sec.android.providers.downloads'", null);
-		if(cur != null)
-			cur.moveToFirst();
+		if(cur == null)
+			return 0;
+		cur.moveToFirst();
 		return cur.getInt(0);
 	}
 	
