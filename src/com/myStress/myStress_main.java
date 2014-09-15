@@ -632,7 +632,7 @@ public class myStress_main extends Activity implements
 		}
 
 		// set values in table
-		if (myStress_locally != null) {
+		if (settings.getBoolean("myStress_local::running", false)) {
 			String[] values = myStress_locally.getMainArray(begin, end);
 			TextView tmp = (TextView) findViewById(R.id.lblValue1);
 			tmp.setText(values[0]);
