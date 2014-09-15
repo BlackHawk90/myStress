@@ -628,21 +628,21 @@ public class myStress_local extends Service
 	}
 	
 	public synchronized int countReceivedSMS(long begin, long end){
-		Cursor cur =  myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Value = 'SR'", null);
+		Cursor cur =  myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'SR'", null);
 		if(cur != null)
 			cur.moveToFirst();
 		return cur.getInt(0);
 	}
 	
 	public synchronized int countSentSMS(long begin, long end){
-		Cursor cur = myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Value = 'SS'", null);
+		Cursor cur = myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'SS'", null);
 		if(cur != null)
 			cur.moveToFirst();
 		return cur.getInt(0);
 	}
 	
 	public synchronized int[] countSentMessages(long begin, long end){
-		Cursor cur = myStress_storage.rawQuery("SELECT Values FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Value = 'TI'", null);
+		Cursor cur = myStress_storage.rawQuery("SELECT Values FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'TI'", null);
 		int[] msg = new int[4];
 		if(cur == null)
 			return null;
@@ -658,7 +658,7 @@ public class myStress_local extends Service
 	}
 	
 	public synchronized double avgAmplitude(long begin, long end){
-		Cursor cur = myStress_storage.rawQuery("SELECT Values FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Value = 'TI'", null);
+		Cursor cur = myStress_storage.rawQuery("SELECT Values FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'AS'", null);
 		double sum = 0, count = 0;
 		if(cur == null)
 			return 0;
@@ -671,6 +671,13 @@ public class myStress_local extends Service
 		return sum/count;
 	}
 	
+	public synchronized int countNotifications(long begin, long end){
+		Cursor cur = myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Timestamp > '"+end+"' AND Timestamp < 'end' AND Symbol = 'NO' AND Value <> 'com.sec.android.providers.downloads'", null);
+		if(cur != null)
+			cur.moveToFirst();
+		return cur.getInt(0);
+	}
+	
 	public String[][] getMainArray(long begin, long end){
 		String[][] arr = new String[7][2];
 		arr[0][0] = "Versendete SMS:";
@@ -679,7 +686,8 @@ public class myStress_local extends Service
 		arr[3][0] = "Versendete Facebook-Nachrichten:";
 		arr[4][0] = "Eigene Facebook-Posts:";
 		arr[5][0] = "Versendete E-Mails:";
-		arr[6][0] = "Durchschnittliche Umgebungslautstärke:";
+		arr[6][0] = "Erhaltene Benachrichtigungen:";
+		arr[7][0] = "Durchschnittliche Umgebungslautstärke:";
 		
 		int[] temp = countSentMessages(begin, end);
 		arr[0][1] = "" + countSentSMS(begin, end);
@@ -688,7 +696,8 @@ public class myStress_local extends Service
 		arr[3][1] = "" + temp[1];
 		arr[4][1] = "" + temp[2];
 		arr[5][1] = "" + temp[3];
-		arr[6][1] = "" + avgAmplitude(begin, end);
+		arr[6][1] = "" + 
+		arr[7][1] = "" + avgAmplitude(begin, end);
 		
 		return arr;
 	}
