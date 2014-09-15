@@ -14,44 +14,111 @@ License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
---><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.myStress"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:orientation="vertical" >
-
-    <ImageButton
-        android:id="@+id/button_record"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="fill_vertical"
-        android:layout_margin="20dp"
-        android:background="@null"
-        android:clickable="true"
-        android:contentDescription="Recording"
-        android:hapticFeedbackEnabled="true"
-        android:onClick="onClick"
-        android:src="@drawable/start_rectangular" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/icon" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="@string/app_name"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/imgSettings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/setting" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line" />
+
+        <com.myStress.helper.Switch
+            android:id="@+id/swMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            app:isChecked="false"
+            app:textLeft="@string/on"
+            app:textRight="@string/off" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/showNotification" 
-            android:textSize="13sp"
-            />
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="@string/mainMyStressStatus"
+            android:textSize="13sp" />
 
-        <CheckBox
-            android:id="@+id/cbShowNotification"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/showNotification"
+                android:textSize="12sp" />
+
+            <CheckBox
+                android:id="@+id/cbShowNotification"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true" />
+        </LinearLayout>
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"/>
+            android:src="@drawable/line" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/showValues"
+                android:textSize="12sp" />
+
+            <Spinner
+                android:id="@+id/spDateInterval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:entries="@array/interval" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

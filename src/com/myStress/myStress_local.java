@@ -747,7 +747,7 @@ public class myStress_local extends Service
 		}
 	
 		// and kill persistent flag
-        HandlerManager.writeRMS_b("myStress_local::running", false);
+        HandlerManager.writeRMS_b("myStress_local::running", false, myStress);
                   
         // kill internal flag
         running = false;

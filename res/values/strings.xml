@@ -301,4 +301,9 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="question">Questionnaire</string>
 <string name="noData">Currently there aren\'t any collected data and therefore can not be presented.</string>
 <string name="showNotification">Show image in the notification bar</string>
+<string name="showValues">Values since:</string>
+<string name="on">On</string>
+<string name="off">Off</string>
+<string name="mainMyStressStatus">Measurement status of myStress</string>
+
 </resources>

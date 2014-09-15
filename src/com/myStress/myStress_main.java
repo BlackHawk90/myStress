@@ -25,6 +25,7 @@ import android.app.AlertDialog;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -46,18 +47,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myStress.database.myStress_upload;
 import com.myStress.helper.PopUpManager;
 import com.myStress.helper.SerialPortLogger;
+import com.myStress.helper.Switch;
 
 /**
  * Activity for the Record tab in the main UI, controlling the recording and
@@ -65,15 +66,17 @@ import com.myStress.helper.SerialPortLogger;
  *
  * @see myStress_local
  */
-public class myStress_main extends Activity implements OnClickListener {
+public class myStress_main extends Activity implements
+		android.widget.AdapterView.OnItemSelectedListener {
 	/**
 	 * expose template for other tabs
 	 */
 	private static String current_template = "";
 
 	// Layout Views
-	private ImageButton main_record;
 	private CheckBox cbShowNotification;
+	private Switch swStart;
+	private Spinner spDateIntervall;
 
 	// preferences
 	private SharedPreferences settings;
@@ -93,6 +96,7 @@ public class myStress_main extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		// Set up the window layout
 		super.onCreate(savedInstanceState);
+		setTheme(R.style.AppThemeLight);
 
 		// save current instance for inner classes
 		this.myStress = this;
@@ -111,31 +115,111 @@ public class myStress_main extends Activity implements OnClickListener {
 		// set content of View
 		setContentView(R.layout.main);
 
-		// get buttons and set onclick listener
-		main_record = (ImageButton) findViewById(R.id.button_record);
-		main_record.setOnClickListener(this);
+		// get switch, initialize it and set onclick listener
+		spDateIntervall = (Spinner) this.findViewById(R.id.spDateInterval);
+		spDateIntervall.setSelection(settings.getInt("SpinnerPosition", 0));
+		spDateIntervall.setOnItemSelectedListener(this);
+
+		// get image and set onclick listener
+		((ImageView) findViewById(R.id.imgSettings)).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				myStress_main.this.openOptionsMenu();
+			}
+		});
+
+		// get switch, initialize it and set onclick listener
+		swStart = (Switch) this.findViewById(R.id.swMain);
+		swStart.setChecked(settings
+				.getBoolean("myStress_local::running", false));
+		swStart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (!((Switch) buttonView).isTriggerListener())
+					return;
+
+				if (isChecked) {
+					if (!isAccessibilityEnabled()) {
+						if (!startAccessibility())
+							return;
+					}
+
+					else {
+						myStress_upload.setTimer(getApplicationContext());
+						initializeStart();
+					}
+				} else {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							myStress_main.this);
+					builder.setMessage(
+							getString(R.string.myStress_running_exit))
+							.setTitle(getString(R.string.myStress_Sensing))
+							.setCancelable(false)
+							.setPositiveButton(getString(R.string.Yes),
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											// clear persistent flag
+											Editor editor = settings.edit();
+											editor.putBoolean(
+													"myStress_local::running",
+													false);
+											// finally commit to storing
+											// values!!
+											editor.commit();
+											// stop service
+											stopService(new Intent(myStress,
+													myStress_local.class));
+											finish();
+										}
+									})
+							.setNegativeButton(getString(R.string.No),
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+
+											// deactivate listener to supress
+											// reaction
+											swStart.setTriggerListener(false);
+
+											// check switch again
+											swStart.setChecked(true);
+
+											// re-activate listener
+											swStart.setTriggerListener(true);
+
+											dialog.cancel();
+										}
+									});
+					AlertDialog alert = builder.create();
+					alert.show();
+				}
+			}
+		});
 
 		// define ButtonGroups
 		cbShowNotification = (CheckBox) findViewById(R.id.cbShowNotification);
-		cbShowNotification.setChecked(settings.getBoolean("showNotification",true));
-		cbShowNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		cbShowNotification.setChecked(settings.getBoolean("showNotification",
+				true));
+		cbShowNotification
+				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-		       @Override
-		       public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-		    	   boolean showNotification = cbShowNotification.isChecked();
-		    	   settings.edit().putBoolean("showNotification", showNotification).commit();
-		       }
-		   }
-		);  
-		
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						boolean showNotification = cbShowNotification
+								.isChecked();
+						settings.edit()
+								.putBoolean("showNotification",
+										showNotification).commit();
+					}
+				});
+
 		if (settings.getBoolean("myStress_local::running", false) == true)
 			cbShowNotification.setEnabled(false);
 		else
 			cbShowNotification.setEnabled(true);
-
-
-		// now initialise the upload timer
-		myStress_upload.setTimer(getApplicationContext());
 
 		// start service and connect to it -> then discover the sensors
 		getApplicationContext().startService(
@@ -312,67 +396,6 @@ public class myStress_main extends Activity implements OnClickListener {
 		return false;
 	}
 
-	/**
-	 * Called when a button has been clicked on by the user
-	 * 
-	 * @param v
-	 *            Reference to the {android.view.View} of the button
-	 */
-	public void onClick(View v) {
-		Editor editor = settings.edit();
-
-		switch (v.getId()) {
-		case R.id.button_record:
-			// check if persistent flag is running, indicating the myStress has
-			// been running (and would re-start if continuing)
-			if (settings.getBoolean("myStress_local::running", false) == true) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(getString(R.string.myStress_running_exit))
-						.setTitle(getString(R.string.myStress_Sensing))
-						.setCancelable(false)
-						.setPositiveButton(getString(R.string.Yes),
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int id) {
-										// clear persistent flag
-										Editor editor = settings.edit();
-										editor.putBoolean(
-												"myStress_local::running",
-												false);
-										// finally commit to storing values!!
-										editor.commit();
-										// stop service
-										stopService(new Intent(myStress,
-												myStress_local.class));
-										finish();
-									}
-								})
-						.setNegativeButton(getString(R.string.No),
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int id) {
-										dialog.cancel();
-									}
-								});
-				AlertDialog alert = builder.create();
-				alert.show();
-			}
-
-			// checks if ACCESSIBILITY_SERVICE is activated
-			else if (!isAccessibilityEnabled()) {
-				if (!startAccessibility())
-					return;
-			}
-
-			else {
-				myStress_upload.setTimer(getApplicationContext());
-				editor.commit();
-				initializeStart();
-			}
-			break;
-		}
-	}
-
 	// local service connection
 	private ServiceConnection mConnection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
@@ -547,5 +570,28 @@ public class myStress_main extends Activity implements OnClickListener {
 				finish();
 
 		return super.dispatchKeyEvent(event);
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position,
+			long id) {
+		Editor editor = settings.edit();
+		editor.putInt("SpinnerPosition",
+				spDateIntervall.getSelectedItemPosition());
+		editor.commit();
+
+		// 0 heute
+		// 1 3 Tage
+		// 2 1 Woche
+		// 3 2 Wochen
+		// 4 Gesamt
+		spDateIntervall.getSelectedItemPosition();
+
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		// TODO Auto-generated method stub
+
 	}
 }
