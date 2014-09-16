@@ -19,12 +19,14 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 package com.myStress;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -47,6 +49,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -66,7 +69,7 @@ import com.myStress.helper.Switch;
  * @see myStress_local
  */
 public class myStress_main extends Activity implements
-		android.widget.AdapterView.OnItemSelectedListener {
+		android.widget.AdapterView.OnItemSelectedListener, CompoundButton.OnClickListener {
 	/**
 	 * expose template for other tabs
 	 */
@@ -76,6 +79,7 @@ public class myStress_main extends Activity implements
 	private CheckBox cbShowNotification;
 	private Switch swStart;
 	private Spinner spDateIntervall;
+	private Button bRfresh;
 
 	// preferences
 	private SharedPreferences settings;
@@ -118,6 +122,10 @@ public class myStress_main extends Activity implements
 		spDateIntervall = (Spinner) this.findViewById(R.id.spDateInterval);
 		spDateIntervall.setOnItemSelectedListener(this);
 		spDateIntervall.setSelection(settings.getInt("SpinnerPosition", 0));
+		
+		// get switch, initialize it and set onclick listener
+		bRfresh = (Button) this.findViewById(R.id.bRefresh);
+		bRfresh.setOnClickListener(this);
 
 		// get image and set onclick listener
 		((ImageView) findViewById(R.id.imgSettings))
@@ -615,6 +623,12 @@ public class myStress_main extends Activity implements
 		Long end = Calendar.getInstance().getTimeInMillis();
 		switch (selectedIndex) {
 		case 0:
+			GregorianCalendar tmp = (GregorianCalendar) Calendar.getInstance(); 
+			tmp.set(Calendar.AM_PM, Calendar.AM);
+			tmp.set(Calendar.HOUR, 0);
+			tmp.set(Calendar.MINUTE, 0);
+			tmp.set(Calendar.SECOND, 1);
+			begin = tmp.getTimeInMillis();
 			break;
 		case 1:
 			begin = end - 259200000;
@@ -649,23 +663,12 @@ public class myStress_main extends Activity implements
 			tmp.setText(values[6]);
 			tmp = (TextView) findViewById(R.id.lblValue8);
 			tmp.setText(values[7]);
-		} else {
-			TextView tmp = (TextView) findViewById(R.id.lblValue1);
-			tmp.setText("-");
-			tmp = (TextView) findViewById(R.id.lblValue2);
-			tmp.setText("-");
-			tmp = (TextView) findViewById(R.id.lblValue3);
-			tmp.setText("-");
-			tmp = (TextView) findViewById(R.id.lblValue4);
-			tmp.setText("-");
-			tmp = (TextView) findViewById(R.id.lblValue5);
-			tmp.setText("-");
-			tmp = (TextView) findViewById(R.id.lblValue6);
-			tmp.setText("-");
-			tmp = (TextView) findViewById(R.id.lblValue7);
-			tmp.setText("-");
-			tmp = (TextView) findViewById(R.id.lblValue8);
-			tmp.setText("-");
 		}
+	}
+
+
+	@Override
+	public void onClick(View v) {
+		updateTableValues(spDateIntervall.getSelectedItemPosition());
 	}
 }

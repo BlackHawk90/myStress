@@ -137,7 +137,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/app_name"
+                android:text="-"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -157,7 +157,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/app_name"
+                android:text="-"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -177,7 +177,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/app_name"
+                android:text="-"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -197,7 +197,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/app_name"
+                android:text="-"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -217,7 +217,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/app_name"
+                android:text="-"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -237,7 +237,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/app_name"
+                android:text="-"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -257,7 +257,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/app_name"
+                android:text="-"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -277,8 +277,24 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/app_name"
+                android:text="-"
                 android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/bRefresh"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/refresh" />
         </LinearLayout>
     </LinearLayout>
 

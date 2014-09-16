@@ -905,14 +905,13 @@ public class SystemHandler implements com.myStress.handlers.Handler
     	}
 
     	public void onChange(boolean selfChange) 
-    	{
-    		String smsBodyStr, phoneNoStr;
-    		
+    	{   		
     		super.onChange(selfChange);
 
     		try
     		{
-    			Cursor sms_sent_cursor = myStress.getContentResolver().query(SMS_STATUS_URI, null, null, null, null);
+    			String[] column = {"protocol","type","_id", "status"};
+    			Cursor sms_sent_cursor = myStress.getContentResolver().query(SMS_STATUS_URI, column, "type=2", null, null);
     			
     			if (sms_sent_cursor != null) 
     			{
@@ -929,21 +928,19 @@ public class SystemHandler implements com.myStress.handlers.Handler
     						// public static final int STATUS_FAILED = 64;    						
     						if (sms_sent_cursor.getInt(sms_sent_cursor.getColumnIndex("type")) == 2)
     						{    
-    							smsBodyStr = sms_sent_cursor.getString(sms_sent_cursor.getColumnIndex("body")).trim();
-    							phoneNoStr = sms_sent_cursor.getString(sms_sent_cursor.getColumnIndex("address")).trim();
-
+    							String id = sms_sent_cursor.getString(sms_sent_cursor.getColumnIndex("_id")).trim();
+    							
     							Log.e("myStress", "got an SMS sent notification - now checking if seen before");
     							
     							// avoid concurrent access to this shared variable!
     							// do everything locally first!
-    			                String currentSMS = new String(phoneNoStr + ":" /*+ getContactByNumber(phoneNoStr) + ":" */+ smsBodyStr);  			                
     			                String lastSeen = HandlerManager.readRMS("SystemHandler::lastSeen", "");
     			                
     			                boolean seenBefore = true;
     			                
     			                if (lastSeen != null)
     			                {
-	    			                if (currentSMS.compareTo(lastSeen) != 0)
+	    			                if (id.compareTo(lastSeen) != 0)
 	    			                	seenBefore = false;
     			                }
     			                else
@@ -952,9 +949,9 @@ public class SystemHandler implements com.myStress.handlers.Handler
     			                // is SMS different from last seen one?
     			                if (seenBefore == false)
     			                {
-//    			                	smsSent = new String(currentSMS);
     			                	// write into permanent settings
-//    			                	HandlerManager.writeRMS("SystemHandler::lastSeen", smsSent);
+    			                	HandlerManager.writeRMS("SystemHandler::lastSeen", id);
+    			                	
     			                	// release semaphore
 	    							sent_semaphore.release();	
 	    							
@@ -964,7 +961,7 @@ public class SystemHandler implements com.myStress.handlers.Handler
 	    							lastSeen = null;
     			                }
     			                else 
-    			                	SerialPortLogger.debug("SS sensor: seen that before -> nothing triggered (" + currentSMS + ")");
+    			                	SerialPortLogger.debug("SS sensor: seen that before -> nothing triggered (" + id + ")");
 							}
     					}
     				}
