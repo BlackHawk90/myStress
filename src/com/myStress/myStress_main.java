@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -69,7 +70,8 @@ import com.myStress.helper.Switch;
  * @see myStress_local
  */
 public class myStress_main extends Activity implements
-		android.widget.AdapterView.OnItemSelectedListener, CompoundButton.OnClickListener {
+		android.widget.AdapterView.OnItemSelectedListener,
+		CompoundButton.OnClickListener {
 	/**
 	 * expose template for other tabs
 	 */
@@ -83,6 +85,7 @@ public class myStress_main extends Activity implements
 
 	// preferences
 	private SharedPreferences settings;
+	private int currentVersionCode = 0;
 
 	// other variables
 	private myStress_local myStress_locally;
@@ -106,6 +109,15 @@ public class myStress_main extends Activity implements
 
 		// get default preferences
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
+		
+		//get currentVersionCode
+		try {
+			currentVersionCode = this.getPackageManager().getPackageInfo(
+					this.getPackageName(), 0).versionCode;
+		} catch (NameNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		// save activity in debug class
 		// SerialPortLogger.setBackupActivity(this);
@@ -122,7 +134,7 @@ public class myStress_main extends Activity implements
 		spDateIntervall = (Spinner) this.findViewById(R.id.spDateInterval);
 		spDateIntervall.setOnItemSelectedListener(this);
 		spDateIntervall.setSelection(settings.getInt("SpinnerPosition", 0));
-		
+
 		// get switch, initialize it and set onclick listener
 		bRfresh = (Button) this.findViewById(R.id.bRefresh);
 		bRfresh.setOnClickListener(this);
@@ -265,6 +277,9 @@ public class myStress_main extends Activity implements
 									Editor editor = settings.edit();
 									editor.putBoolean(
 											"myStress_local::first_start", true);
+									editor.putString(
+											"myStress_local::version", ""
+													+ currentVersionCode);
 									// finally commit to storing values!!
 									editor.commit();
 									dialog.dismiss();
@@ -291,6 +306,41 @@ public class myStress_main extends Activity implements
 				// finally commit to storing values!!
 				editor.commit();
 			} catch (Exception e) {
+			}
+		} else {
+			// check if app is updated
+			if (!settings.getString("myStress_local::version", "").trim().equals(
+					(""+currentVersionCode).trim())) {
+				SpannableString s = new SpannableString(
+						getString(R.string.whatsNew2));
+				Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(s)
+						.setTitle(getString(R.string.whatsNew))
+						.setCancelable(false)
+						.setPositiveButton(getString(R.string.OK),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										// clear persistent flag
+										Editor editor = settings.edit();
+										editor.putString(
+												"myStress_local::version", ""
+														+ currentVersionCode);
+
+										// finally commit to storing
+										// values!!
+										editor.commit();
+										dialog.dismiss();
+									}
+								});
+				AlertDialog alert = builder.create();
+				alert.show();
+
+				// Make the textview clickable. Must be called after show()
+				((TextView) alert.findViewById(android.R.id.message))
+						.setMovementMethod(LinkMovementMethod.getInstance());
 			}
 		}
 	}
@@ -623,7 +673,7 @@ public class myStress_main extends Activity implements
 		Long end = Calendar.getInstance().getTimeInMillis();
 		switch (selectedIndex) {
 		case 0:
-			GregorianCalendar tmp = (GregorianCalendar) Calendar.getInstance(); 
+			GregorianCalendar tmp = (GregorianCalendar) Calendar.getInstance();
 			tmp.set(Calendar.AM_PM, Calendar.AM);
 			tmp.set(Calendar.HOUR, 0);
 			tmp.set(Calendar.MINUTE, 0);
@@ -665,7 +715,6 @@ public class myStress_main extends Activity implements
 			tmp.setText(values[7]);
 		}
 	}
-
 
 	@Override
 	public void onClick(View v) {
