@@ -133,11 +133,6 @@ public class CallAudioHandler implements Handler
 	 */
 	public String Share(String sensor)
 	{
-		// acquire data and send out
-//		if(sensor.equals("AU")){
-//			return "My current ambient sound level is at "+String.valueOf((double)level / 100) + " dB";
-//		}
-//		else return null;
 		return null;
 	}
 	
@@ -215,7 +210,6 @@ public class CallAudioHandler implements Handler
 			    if(audioRecorder != null)
 			    	if(audioRecorder.getState() == AudioRecord.STATE_INITIALIZED)
 			    	{
-//					    prevSecs = (double)System.currentTimeMillis()/1000.0d;
 						// release player again until needed
 					    audioRecorder.release();
 					    audioRecorder = null;
@@ -280,21 +274,13 @@ public class CallAudioHandler implements Handler
 					audioRecorder.startRecording();
 					
 					readAudioSamples = audioRecorder.read(data16bit, 0, bufferSamples);
-//			    	double currentSecs = (double)(System.currentTimeMillis())/1000.0d;
-//			    	double diffSecs = currentSecs - prevSecs;
-//			    	prevSecs = currentSecs;
 				    
 			    	audiofeatures = new String("");
-			    	
-//			    	JsonObject data = new JsonObject();
 			    	
 			    	if (readAudioSamples > 0)
 			    	{
 			    		double fN = (double)readAudioSamples;
-			
-//			    		data.addProperty(DIFF_SECS, diffSecs);
-//			    		audiofeatures = new String();
-			
+						
 			    		// Convert shorts to 8-bit bytes for raw audio output
 			    		for (int i = 0; i < bufferSamples; i ++) {
 			    			data8bit[i*2] = (byte)data16bit[i];
@@ -306,7 +292,6 @@ public class CallAudioHandler implements Handler
 			    		for (int i = 0; i < readAudioSamples; i ++)
 			    			accum += Math.abs((double)data16bit[i]);
 			    		
-//			    		data.addProperty(L1_NORM, accum/fN);
 			    		// Write L1_NORM
 			    		audiofeatures += accum/fN + ":";
 			
@@ -314,7 +299,6 @@ public class CallAudioHandler implements Handler
 			    		accum = 0;
 			    		for (int i = 0; i < readAudioSamples; i ++)
 			    			accum += (double)data16bit[i]*(double)data16bit[i];
-//			    		data.addProperty(L2_NORM, Math.sqrt(accum/fN));
 			    		// Write L2_NORM
 			    		audiofeatures += Math.sqrt(accum/fN) + ":";
 			
@@ -322,7 +306,6 @@ public class CallAudioHandler implements Handler
 			    		accum = 0;
 			    		for (int i = 0; i < readAudioSamples; i ++)
 			    			accum = Math.max(Math.abs((double)data16bit[i]),accum);
-//			    		data.addProperty(LINF_NORM, Math.sqrt(accum));
 			    		
 			    		// Write LINF_NORM
 			    		audiofeatures += Math.sqrt(accum) + ":";
@@ -353,8 +336,6 @@ public class CallAudioHandler implements Handler
 
 			    			psdAcrossFrequencyBands[b] = accum/((double)(k - j));
 			    		}
-			//    		Gson gson = getGson();
-			//    		data.add(PSD_ACROSS_FREQUENCY_BANDS, gson.toJsonTree(psdAcrossFrequencyBands));
 			    		// Write PSD
 			    		int i=0;
 			    		for(;i<FREQ_BANDEDGES.length-2;i++)
@@ -368,7 +349,6 @@ public class CallAudioHandler implements Handler
 			    		for(i=0;i<MFCCS_VALUE-2;i++)
 			    			audiofeatures += featureCepstrum[i]+",";
 			    		audiofeatures += featureCepstrum[i]+"";
-			//    		data.add(MFCCS, gson.toJsonTree(featureCepstrum));
 			    		Log.e("myStress",audiofeatures);
 			    	}
 				}
@@ -378,7 +358,7 @@ public class CallAudioHandler implements Handler
 	    } finally {
 			// don't need player anymore
 			((AudioHandler) HandlerManager.getHandler("AudioHandler")).setHavePlayer(false);
-    		if(callactive && timestamp+1000 >= System.currentTimeMillis()) call_semaphore.release();
+    		if(callactive && timestamp+3000 >= System.currentTimeMillis()) call_semaphore.release();
 	    }
 	}
 	

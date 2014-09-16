@@ -351,12 +351,12 @@ public class NotificationHandlerService extends AccessibilityService
 	    		}
     		}catch(Exception e){
     			Log.e("myStress", e.getMessage());
+    		}finally{    		
+				Intent intent = new Intent("com.myStress.accessibility");
+				intent.putExtra("TextInformation", packageName + ":" + text.length() + ":" + speed*60 + ":" + type + ":" + score);
+				
+				sendBroadcast(intent);
     		}
-    		
-    		Intent intent = new Intent("com.myStress.accessibility");
-    		intent.putExtra("TextInformation", packageName + ":" + text.length() + ":" + speed*60 + ":" + type + ":" + score);
-    		
-    		sendBroadcast(intent);
 		}
 	}
 }
