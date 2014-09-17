@@ -211,7 +211,6 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 							uploader = insert.getMediaHttpUploader();
 							uploader.setDirectUploadEnabled(false);
 							uploader.setChunkSize(MediaHttpUploader.DEFAULT_CHUNK_SIZE);
-//							uploader.setProgressListener(this_service);
 							Log.v("myStress", "...executing upload myStress recordings");
 
 							do {

@@ -58,14 +58,15 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 	private boolean startedOrientation = false, startedLight = false, startedProximity = false, startedPressure = false, startedTemperature = false, startedHumidity = false, startedPedometer, startedActivity = false;
 	private SensorManager sensorManager;
 	private android.hardware.Sensor MagField, Accelerometer, Proximity, Light, Pressure, Temperature, Humidity, Pedometer;
-	// polltime for sensor
 	private int polltime;
+	
 	// sensor values
 	private float azimuth, roll, pitch, proximity, light, pressure, temperature, humidity;
 	private long pedometer;
 	private String activity, activity_old;
 	private float azimuth_old, roll_old, pitch_old, proximity_old, light_old, pressure_old, temperature_old, humidity_old;
 	private long pedometer_last = 0, pedometer_old = -1, step_counter_old = 0;
+	
 	private Semaphore pedometer_semaphore 	= new Semaphore(1);
 	private Semaphore humidity_semaphore 	= new Semaphore(1);
 	private Semaphore temperature_semaphore = new Semaphore(1);
@@ -305,7 +306,7 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 					variance_semaphore.release();
 					if (activity != activity_old){
 						textread = true;
-						textvalue = activity;//+":"+varianceSum;
+						textvalue = activity;
 						activity_old = activity;
 						polled1 = true;
 					}
@@ -394,13 +395,13 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 	{
 		// see which sensors are requested
 		if (sensor.equals("Az") == true)
-			History.timelineView(myStress, "Azimuth [degrees]", sensor);
+			History.timelineView(myStress, "Azimuth [Grad]", sensor);
 		
 		if (sensor.equals("Pi") == true)
-			History.timelineView(myStress, "Pitch [degrees]", "Pi");
+			History.timelineView(myStress, "Pitch [Grad]", "Pi");
 
 		if (sensor.equals("Ro") == true)
-			History.timelineView(myStress, "Roll [degrees]", "Ro");
+			History.timelineView(myStress, "Roll [Grad]", "Ro");
 
 		if (sensor.equals("LI") == true)
 			History.timelineView(myStress, "Light [Lux]", "LI");
@@ -409,13 +410,13 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
 			History.timelineView(myStress, "Pressure [hPa]", "PU");
 
 		if (sensor.equals("TM") == true)
-			History.timelineView(myStress, "Temperature [C]", "TM");
+			History.timelineView(myStress, "Temperature [°C]", "TM");
 
 		if (sensor.equals("HU") == true)
 			History.timelineView(myStress, "rel. Humidity [%]", "HU");
 
 		if (sensor.equals("PD") == true)
-			History.timelineView(myStress, "step count [-]", "PD");
+			History.timelineView(myStress, "step count [#]", "PD");
 		
 		if (sensor.equals("AV") == true)
 			History.timelineView(myStress, "activity variance [-]", "AV");
@@ -860,17 +861,13 @@ public class PhoneSensorHandler implements com.myStress.handlers.Handler
     		
     		activity_semaphore.release();
     		
-//    		if(pollIntervalStart == 0 || (timestamp >= pollIntervalStart + pollInterval)){
-    			if(varianceSum >= 25.0f)
-    				activity = "high";
-    			else if(varianceSum > 10.0f)
-    				activity = "low";
-    			else
-    				activity = "none";
-    			
-//    			varianceSum = avg = sum = count = 0;
-//    			pollIntervalStart += pollInterval;
-//   		}
+			if(varianceSum >= 25.0f)
+				activity = "high";
+			else if(varianceSum > 10.0f)
+				activity = "low";
+			else
+				activity = "none";
+			
     		if(polled1 && polled2){
     			varianceSum = avg = sum = count = 0;
     			polled1 = polled2 = false;

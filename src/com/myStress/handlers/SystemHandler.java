@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2011 - 2012, Dirk Trossen, airs@dirk-trossen.de
+Copyright (C) 2014, FIM Research Center, myStress@fim-rc.de
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published by
@@ -702,41 +703,6 @@ public class SystemHandler implements com.myStress.handlers.Handler
     	    myStress.getContentResolver().unregisterContentObserver(smsSentObserver);			
 	}
 	
-/*	private String getContactByNumber(String number)
-	{
-		try
-		{
-			// Form an array specifying which columns to return. 
-			String[] projection = new String[] {
-			                             Contacts._ID,
-			                             Contacts.DISPLAY_NAME
-			                          };
-			
-			// lookup URI for callee
-			Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
-
-			// query contact database
-			Cursor cur = myStress.getContentResolver().query(uri, projection, null, null, null);
-			
-			// move to first returned element
-			if (cur.moveToFirst() == true)
-			{
-    			String name = cur.getString(cur.getColumnIndex(Contacts.DISPLAY_NAME));
-    			
-    			if (name != null)
-    				return name;
-			}
-			else
-				return "---";
-		}
-		catch(Exception e)
-		{
-			return "---";
-		}
-		
-		return "---";
-	}*/
-	
 	// The Handler that gets information back from the other threads, initializing phone sensors
 	// We use a handler here to allow for the Acquire() function, which runs in a different thread, to issue an initialization of the invidiual sensors
 	// since registerListener() can only be called from the main Looper thread!!
@@ -920,12 +886,6 @@ public class SystemHandler implements com.myStress.handlers.Handler
     					//for send  protocol is null
     					if(sms_sent_cursor.getString(sms_sent_cursor.getColumnIndex("protocol")) == null)
     					{
-//    						long date = sms_sent_cursor.getLong(sms_sent_cursor.getColumnIndex("date"));
-    						// for actual type=2 and SMS that has not been read according to timestamp
-    						// public static final int STATUS_NONE = -1;
-    						// public static final int STATUS_COMPLETE = 0;
-    						// public static final int STATUS_PENDING = 32;
-    						// public static final int STATUS_FAILED = 64;    						
     						if (sms_sent_cursor.getInt(sms_sent_cursor.getColumnIndex("type")) == 2)
     						{    
     							String id = sms_sent_cursor.getString(sms_sent_cursor.getColumnIndex("_id")).trim();

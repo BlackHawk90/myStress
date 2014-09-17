@@ -370,12 +370,9 @@ public class WeatherHandler implements com.myStress.handlers.Handler, Runnable
 					if (movedAway == true)
 					{
 						// request update for that long,lat pair!
-	//		            URL url = new URL("http://www.google.com/ig/api?weather=,,," + Integer.toString((int)(Latitude * 1000000)) + "," + Integer.toString((int)(Longitude * 1000000)));
-	//		            URL url = new URL("http://free.worldweatheronline.com/feed/weather.ashx?q="+Double.toString(Latitude) + "," + Double.toString(Longitude) + "&format=xml&num_of_days=1&key=0f86de2f9c161417123108");
 			            URL url = new URL("http://api.worldweatheronline.com/free/v1/weather.ashx?q="+Double.toString(Latitude) + "," + Double.toString(Longitude) + "&format=xml&num_of_days=1&key=st4dghppmrfbtcrhwggn76u8");
-			            // 51914540,900690");
 
-			            /* Parse the xml-data from our URL. */
+			            // Parse the xml-data from our URL
 			            input = new InputSource(url.openStream());
 			            XMLreader.parse(input);	 
 			            input = null;	
@@ -415,13 +412,13 @@ public class WeatherHandler implements com.myStress.handlers.Handler, Runnable
 
 		try
 		{
-            /* Get a SAXParser from the SAXPArserFactory. */
+            // Get a SAXParser from the SAXPArserFactory
             SAXParserFactory spf = SAXParserFactory.newInstance();
             sp = spf.newSAXParser();
 
-            /* Get the XMLReader of the SAXParser we created. */
+            // Get the XMLReader of the SAXParser we created
             XMLreader = sp.getXMLReader();
-            /* Create a new ContentHandler and apply it to the XML-Reader*/
+            // Create a new ContentHandler and apply it to the XML-Reader
             myWeatherHandler = new ExampleHandler();
             XMLreader.setContentHandler(myWeatherHandler);
 

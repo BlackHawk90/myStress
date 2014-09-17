@@ -75,27 +75,14 @@ public class HandlerManager {
 		// become 'visible'
 		handlers[inst_handlers++] = (Handler) new GPSHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new WeatherHandler(myStress);
-		// handlers[inst_handlers++] = (Handler)new RandomHandler(myStress);
-		// handlers[inst_handlers++] = (Handler)new BeaconHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new WifiHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new CellHandler(myStress);
-		// handlers[inst_handlers++] = (Handler)new
-		// EventButtonHandler(myStress);
-		// handlers[inst_handlers++] = (Handler)new EventTextHandler(myStress);
-		// handlers[inst_handlers++] = (Handler)new MoodButtonHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new AudioHandler(myStress);
-		// handlers[inst_handlers++] = (Handler)new
-		// HeartMonitorHandler(myStress);
-		// handlers[inst_handlers++] = (Handler)new
-		// MusicPlayerHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new SystemHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new PhoneSensorHandler(myStress);
-		// handlers[inst_handlers++] = (Handler)new
-		// MediaWatcherHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new CalendarHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new NotificationHandler(myStress);
-		handlers[inst_handlers++] = (Handler) new TextInformationHandler(
-				myStress);
+		handlers[inst_handlers++] = (Handler) new TextInformationHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new CallLogHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new StressLevelHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new CallAudioHandler(myStress);

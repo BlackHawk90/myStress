@@ -29,7 +29,14 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="main_About">About</string>
 <string name="main_Sync">Synchronising Recordings</string>
 <string name="Help">Help</string>
-<string name="HelpText">Help text</string>
+<string name="HelpText">
+The on/off-switch enables or disables myStress\' recording.
+\nWhile recordings are disabled, you can disable the notification in the notification area using the checkbox.
+\n\nOnce recordings are started, myStress runs mainly in the background and determines the values of all integrated sensors in intervals of 6 minutes.
+\nThrice daily you are asked to answer four short questions regarding your current stress level, yet you can delay or skip them.
+\nIn case you delayed, the questionnaire appears again in 15 minutes or can be previously accessed by opening myStress.
+\n\nWhen recordings are running, aggregated values over a selectable period of time are shown in the main window.
+\nA list of all measurements can be accessed by clicking on the notification or selecting the corresponding menu item in the main window.</string>
 <string name="recording_prompt">Type of Recording</string>
 <string name="MapAbout">Shows a path of recent GPS recording. You can click on a marker for more information. You can center the map either on your current location or the last stored one (using the buttons on the top right). You can also switch between map or satellite view with the appropriate options menu item.</string>
 <string name="RecordAbout">Start the recording and selecte the mode of the recording.\n\n
@@ -45,12 +52,12 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="Cancel">Cancel</string>
 
 <string name="Getting_Started">Getting Started</string>
-<string name="Getting_Started2">Thank you very much for your participation at our research project.
+<string name="Getting_Started2">Thank you very much for your participation in our research project.
 \n\nThis Application was developed at the FIM Research Center in cooperation with the Elite Graduate Program Finance and Information Management.
-\n\nThe objective of this research process is the unobtrusivly recognition and prediction of stress.
+\n\nThe objective of this research process is the unobtrusive recognition and prediction of stress.
 \n\nThe current version of myStress records on the one hand the source for stress and on the other hand the felt stress level to detected stress relevant charateristics.
-\n\nAfter the first start, myStress is running in background and records within 6-minute intervall the values of the integrated sensors.
-\n\nThree times daily, the user is asked to answer four short questions about his current stress level.
+\n\nOnce recordings are started, myStress runs mainly in the background and determines the values of all integrated sensors in intervals of 6 minutes.
+\n\nThrice daily you are asked to answer four short questions regarding your current stress level, yet you can delay or skip them.
 \n\n\nFor further questions please have a look at the FAQ (only available in german!) http://goo.gl/bkZkgF or send an email to myStress@fim-rc.de
 </string>
 
@@ -315,6 +322,8 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="valueDescription8">Average amplient amplitude:</string>
 <string name="refresh">Refresh</string>
 <string name="whatsNew">Changelog</string>
-<string name="whatsNew2">New_Text</string>
-
+<string name="whatsNew2">- myStress uses less battery resources and kills itself if the battery level reaches 10%
+\n- the notification can optionally be disabled
+\n- in the main window aggregated values over a selectable period of time are shown when recording is active
+\n- the user interface has been completely revised</string>
 </resources>

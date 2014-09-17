@@ -1,5 +1,6 @@
 /*
-Copyright (C) 2008-2011, Dirk Trossen, airs@dirk-trossen.de
+Copyright (C) 2010-2011 Nadav Aharony, Wei Pan, Alex Pentland
+Copyright (C) 2014, FIM Research Center, myStress@fim-rc.de
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published by
@@ -26,7 +27,6 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.myStress.R;
 import com.myStress.helper.FFT;
@@ -117,8 +117,6 @@ public class CallAudioHandler implements Handler
 				StringBuffer AU_reading = new StringBuffer(sensor);
 				AU_reading.append(audiofeatures);
 				
-				Log.e("myStress", AU_reading.toString());
-				
 				return AU_reading.toString().getBytes();
 			}
 		}
@@ -182,9 +180,6 @@ public class CallAudioHandler implements Handler
 	    bufferSize = Math.max(bufferSize, RECORDER_SAMPLERATE*2);
 	    bufferSamples = bufferSize/2;
 	    
-	    
-	    //allocateFrameFeatureBuffer(STREAM_FEATURES);
-	    
 	    featureFFT = new FFT(FFT_SIZE);
 	    featureWin = new Window(bufferSamples);
 	    featureMFCC = new MFCC(FFT_SIZE, MFCCS_VALUE, MEL_BANDS, RECORDER_SAMPLERATE);
@@ -193,7 +188,6 @@ public class CallAudioHandler implements Handler
 	    for (int i = 0; i < FREQ_BANDEDGES.length; i ++)
 	    {
 	    	freqBandIdx[i] = Math.round((float)FREQ_BANDEDGES[i]*((float)FFT_SIZE/(float)RECORDER_SAMPLERATE));
-	    	//writeLogTextLine("Frequency band edge " + i + ": " + Integer.toString(freqBandIdx[i]));
 	    }
 	    
 	    boolean buffer_error = true;
@@ -349,7 +343,6 @@ public class CallAudioHandler implements Handler
 			    		for(i=0;i<MFCCS_VALUE-2;i++)
 			    			audiofeatures += featureCepstrum[i]+",";
 			    		audiofeatures += featureCepstrum[i]+"";
-			    		Log.e("myStress",audiofeatures);
 			    	}
 				}
 			}

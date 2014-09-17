@@ -31,9 +31,6 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.provider.MediaStore.Images;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -166,92 +163,15 @@ public class myStress_measurements extends Activity implements OnItemClickListen
 				}
 
 	        return super.dispatchKeyEvent(event);
-	    }	    
-
-	    /** Called when the Options menu is opened
-	     * @param menu Reference to the {@link android.view.Menu}
-	     */
-	   @Override
-	    public boolean onPrepareOptionsMenu(Menu menu) 
-	    {
-	    	MenuInflater inflater;
-
-	    	menu.clear();    		
-	    	inflater = getMenuInflater();
-	    	inflater.inflate(R.menu.options_local_sensing, menu);    		
-	    	return true;
 	    }
-
-		/** Called when a button has been clicked on by the user
-	     * @param v Reference to the {android.view.View} of the button
+	    
+	    /** Called when a button has been long-clicked on by the user
+	     * @param parent Reference to parent view
+	     * @param view Reference to the View of the button
+	     * @param position position within parent view
+	     * @param id index in a list view
 	     */
-/*		public void onClick(View v) 
-	    {
-    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    		builder.setMessage(getString(R.string.Exit_myStress))
-    			   .setTitle(getString(R.string.myStress_Local_Sensing))
-    		       .setCancelable(false)
-    		       .setPositiveButton(getString(R.string.Yes), new DialogInterface.OnClickListener() 
-    		       {
-    		           public void onClick(DialogInterface dialog, int id) 
-    		           {
-    		    		   if (myStress_locally != null)
-    		    		   {
-    		    			   // first unbind before stopping service!
-    		    			   unbindService(mConnection);
-    		    			   stopService(new Intent(act, myStress_local.class));
-    		    		   }
-    		    		   	    		    		   
-    		        	   finish();
-    		           }
-    		       })
-    		       .setNegativeButton(getString(R.string.No), new DialogInterface.OnClickListener() 
-    		       {
-    		           public void onClick(DialogInterface dialog, int id) 
-    		           {
-    		                dialog.cancel();
-    		           }
-    		       });
-    		AlertDialog alert = builder.create();
-    		alert.show();
-	    }*/
-		
-	   /** Called when an option menu item has been selected by the user
-	     * @param item Reference to the {@link android.view.Menuitem} clicked on
-	     */
-	   @Override
-	    public boolean onOptionsItemSelected(MenuItem item) 
-	    {
-	        switch (item.getItemId()) 
-	        {
-	        case R.id.main_about:
-	        	Toast.makeText(getApplicationContext(), R.string.ValuesAbout, Toast.LENGTH_LONG).show();
-	            return true;
-	        case R.id.local_pause:
-	        	if (myStress_locally != null)
-	        	{
-			        mTitle2.setText(getString(R.string.Local_Sensing) + "..." + getString(R.string.paused));
-			        myStress_locally.pause_threads();
-	        	}
-	        	break;
-	        case R.id.local_resume:
-	        	if (myStress_locally != null)
-	        	{
-	        		mTitle2.setText(R.string.Local_Sensing);
-	        		myStress_locally.resume_threads();
-	        	}
-	        	break;
-	        }
-	        return false;
-	    }
-
-	   /** Called when a button has been long-clicked on by the user
-	    * @param parent Reference to parent view
-	    * @param view Reference to the View of the button
-	    * @param position position within parent view
-	    * @param id index in a list view
-	     */
-	   public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+	    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
 	    {
 	    	String value;
 	    	

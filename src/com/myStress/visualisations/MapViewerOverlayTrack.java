@@ -57,7 +57,6 @@ public class MapViewerOverlayTrack extends Overlay
     public boolean draw(Canvas canvas, MapView mapView, boolean shadow,
             long when) 
     {
-        // TODO Auto-generated method stub
         Projection projection = mapView.getProjection();
         
         
@@ -91,8 +90,6 @@ public class MapViewerOverlayTrack extends Overlay
     @Override
     public void draw(Canvas canvas, MapView mapView, boolean shadow) 
     {
-        // TODO Auto-generated method stub
-
         super.draw(canvas, mapView, shadow);
     }
 

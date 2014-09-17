@@ -1,7 +1,25 @@
+/*
+Copyright (C) 2014, FIM Research Center, myStress@fim-rc.de
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation as version 2.1 of the License.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this library; if not, write to the Free Software Foundation, Inc.,
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+*/
+
 package com.myStress.helper;
 
 import com.myStress.R;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -11,7 +29,6 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.widget.CompoundButton;
@@ -191,7 +208,6 @@ public class Switch extends CompoundButton
 		int actualWidth = Math.max(this.switchMinWidth, maxTextWidth * 2 + this.getPaddingLeft() + this.getPaddingRight() + this.innerPadding * 4);
 
 		// calculate the height of the switch
-		// TODO if you want to have a padding-top and padding-bottom, add here
 		final int switchHeight = Math.max(this.drawableBackground.getIntrinsicHeight(), this.drawableSwitch.getIntrinsicHeight());
 
 		this.width = actualWidth;
@@ -260,6 +276,7 @@ public class Switch extends CompoundButton
 		this.onClickListener = l;
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
@@ -288,13 +305,12 @@ public class Switch extends CompoundButton
 	 */
 	private Layout makeLayout(CharSequence text)
 	{
-		return new StaticLayout(text, this.getPaint(), (int) FloatMath.ceil(Layout.getDesiredWidth(text, this.getPaint())), Layout.Alignment.ALIGN_NORMAL, 1f, 0, true);
+		return new StaticLayout(text, this.getPaint(), (int) Math.ceil(Layout.getDesiredWidth(text, this.getPaint())), Layout.Alignment.ALIGN_NORMAL, 1f, 0, true);
 	}
 
 	@Override
 	protected void drawableStateChanged()
 	{
-		// TODO don't use the 9-patches directly use a *.xml drawable instead
 		super.drawableStateChanged();
 
 		int[] myDrawableState = getDrawableState();

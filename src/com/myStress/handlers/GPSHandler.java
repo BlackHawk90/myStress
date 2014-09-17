@@ -52,9 +52,8 @@ public class GPSHandler implements com.myStress.handlers.Handler, Runnable
 	private Context myStress;
 	// are these there?
 	private boolean enableGPS = false, startedGPS = false, useWifi = false;
-	private boolean   shutdown = false;
-	// polltime
-	private int 		polltime, updatemeter = 100;
+	private boolean shutdown = false;
+	private int polltime, updatemeter = 100;
 	// sensor data
     private double Longitude = -1, Latitude = -1, Altitude = -1, Speed, Bearing; 
     private double oldLongitude = -1, oldLatitude = -1, oldAltitude = -1;

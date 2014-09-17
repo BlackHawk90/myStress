@@ -114,7 +114,7 @@ public class CellHandler extends PhoneStateListener implements
 		return null;
 	}
 
-	/*
+	/**
 	 * Method to share the last value of the given sensor
 	 * 
 	 * @param sensor String of the sensor symbol to be shared
@@ -172,7 +172,7 @@ public class CellHandler extends PhoneStateListener implements
 		}
 	}
 
-	/*
+	/**
 	 * Method to discover the sensor symbols support by this handler As the
 	 * result of the discovery, appropriate {@link com.myStress.platform.Sensor}
 	 * entries will be added to the {@link
@@ -234,12 +234,7 @@ public class CellHandler extends PhoneStateListener implements
 		try {
 			// try getting phone manager
 			tm = (TelephonyManager) myStress
-					.getSystemService(Context.TELEPHONY_SERVICE); // if
-																	// something
-																	// returned,
-																	// enter
-																	// sensor
-																	// value
+					.getSystemService(Context.TELEPHONY_SERVICE); // if something returned, enter sensor value
 			if (tm != null) {
 				// if it is not a GSM phone, return right away
 				if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_GSM)
@@ -410,8 +405,7 @@ public class CellHandler extends PhoneStateListener implements
 			case 'D':
 				// has signal strength been started?
 				if (startedData == false) {
-					// send message to handler thread to start signal strength
-					// listener
+					// send message to handler thread to start signal strength listener
 					Message msg = mHandler.obtainMessage(INIT_DATACONNECTED);
 					mHandler.sendMessage(msg);
 				}

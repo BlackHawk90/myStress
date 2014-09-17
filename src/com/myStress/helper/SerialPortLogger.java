@@ -35,7 +35,6 @@ public class SerialPortLogger
 {
 	private static boolean isDebugging = true;
 	private static File fconn = null;
-//	private static Activity myStress;
 	private static BufferedOutputStream os = null;
 
 	/**
@@ -109,9 +108,4 @@ public class SerialPortLogger
 	{
 		isDebugging = b;
 	}
-
-//	public static void setBackupActivity(Activity act) {
-//		myStress = act;
-//	}
-
 }

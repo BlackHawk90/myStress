@@ -37,6 +37,7 @@ import com.myStress.platform.SensorRepository;
 public class AudioHandler implements Handler
 {
 	private Context myStress;
+	
 	// beacon data
 	private byte [] AS_reading;
 	private byte [] AF_reading;
@@ -325,7 +326,6 @@ public class AudioHandler implements Handler
 			    	for (i=0;i<output.length;i++)
 			    	{
 			    		// given that the PCM encoding delivers unsigned SHORTS, we need to convert the amplitude around the 32768 centre point!
-//			    		ampl = (long)(CENTRE_POINT-Math.abs(output[i]));		    		
 			    		ampl = (long)Math.abs(output[i]);
 			    		
 			    		// now ampl*ampl for field force

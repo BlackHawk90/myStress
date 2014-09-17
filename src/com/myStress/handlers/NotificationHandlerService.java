@@ -67,7 +67,6 @@ public class NotificationHandlerService extends AccessibilityService
 			String packageName = event.getPackageName().toString();
 			String className = event.getClassName().toString();
 			
-	    	Log.e("myStress", "notification: " + packageName + ", " + eventType + ", " + className);
 		    if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED){
 		    	processNotification(event);
 		    }
@@ -124,7 +123,6 @@ public class NotificationHandlerService extends AccessibilityService
 		    	}
 		    	
 		    	if(del == true){
-		    		Log.e("myStress", "text deleted");
 					Intent intent = new Intent("com.myStress.accessibility");
 					intent.putExtra("KeyLogger", length_diff + " characters deleted");
 					sendBroadcast(intent);
@@ -234,7 +232,6 @@ public class NotificationHandlerService extends AccessibilityService
     		if(typingEndTime != typingStartTime){
 	    		typingDuration = (typingEndTime - typingStartTime)/1000.0d;
 	    		typingSpeed = typedText.length() / typingDuration;
-	    		Log.e("myStress", "Tippgeschwindigkeit: " + typingSpeed + " Zeichen pro Minute");
     		}
 	    	
     		if(typedText != null){
@@ -262,7 +259,7 @@ public class NotificationHandlerService extends AccessibilityService
     	}
     }
 
-	/*
+	/**
 	 * Called when interrupting the service
 	 * @see android.accessibilityservice.AccessibilityService#onInterrupt()
 	 */
@@ -271,7 +268,7 @@ public class NotificationHandlerService extends AccessibilityService
 	{
 	}
 	
-	/*
+	/**
 	 * Called when destroying the service
 	 * @see android.app.Service#onDestroy()
 	 */
@@ -326,18 +323,15 @@ public class NotificationHandlerService extends AccessibilityService
 		}
 
 		public void run() {
-    		Log.e("myStress", "Textlänge: "+text.length());
     		String type="";
     		double score=0;
     		
     		try{
-	    		Log.e("myStress", "Text: "+text);
-	    		//übersetzen
+	    		// translate
     			String translatedText = Translate.execute(text, Language.GERMAN, Language.ENGLISH);
-    			Log.e("myStress", "translated: "+translatedText);
     			HttpClient client = new DefaultHttpClient();
     			
-    			//Sentimentanalyse
+    			// analyze sentiment
 	    		String getURL = "https://loudelement-free-natural-language-processing-service.p.mashape.com/nlp-text/?text="+URLEncoder.encode(translatedText, "UTF-8");
 	    		HttpGet get = new HttpGet(getURL);
 	    		get.setHeader("X-Mashape-Key", "UfXaXsn0q9mshs2S9vlj2RCA1gzSp1kFZJKjsnA8WvonNOBW7T");

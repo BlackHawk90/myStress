@@ -111,11 +111,8 @@ public class myStress_local extends Service
 	private BufferedOutputStream os2;
 	private int numberSensors = 0;
     private ListView sensors;
-//    private boolean discovered = false; // Flag if discovery has been done
     private boolean running = false; // Flag if myStress is recording
-//    private boolean restarted = false; // Flag if myStress has been restarted
     private boolean started = false; // Flag if myStress has been started as a service already
-//    public boolean start = false; // Flag that myStress should be started initially
     private boolean paused = false; // Flag that recording should be paused (where possible)
     private boolean registered = false; // Flag that sensors have been registered
     private ArrayList<SensorEntry> mSensorsArrayList;
@@ -670,7 +667,7 @@ public class myStress_local extends Service
 			count++;
 			cur.moveToNext();
 		}
-		return sum/count;
+		return (int)(sum*100/count)/100.0;
 	}
 	
 	public synchronized int countNotifications(long begin, long end){
@@ -728,7 +725,6 @@ public class myStress_local extends Service
 	            // get database
 	            database_helper = new myStress_database(this.getApplicationContext());
 	            myStress_storage = database_helper.getWritableDatabase();
-//	            myStress_storage = SQLiteDatabase.openDatabase(this.getDatabasePath(database_helper.DATABASE_NAME).toString(), null, SQLiteDatabase.OPEN_READWRITE | SQLiteDatabase.CREATE_IF_NECESSARY | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
 	            // have tables been created?
 	            if (HandlerManager.readRMS_b("myStress_local::TablesExists", false) == false)
 	            {
@@ -740,7 +736,6 @@ public class myStress_local extends Service
 		    catch(Exception e)
 		    {
 	    		debug("myStress_local::Exception in opening file connection");
-//		    	localStore_b = false;
 		    }
 		}
 	}
@@ -1257,12 +1252,6 @@ public class myStress_local extends Service
 		    	entry.description = current.Symbol + " (" + current.Description + ")";
 		    	entry.explanation = current.Explanation;
 
-		    	// try to read RMS
-//		    	sensor_setting = HandlerManager.readRMS("myStress_local::" + current.Symbol, "Off");
-		    	// set selected index to setting in RMS
-		    	
-		    	
-//		    	if (sensor_setting.compareTo("On") == 0 || debug.contains((String)current.Symbol))
 		    	if (activatedSensors.contains((String)current.Symbol))
 		    		entry.checked = true;
 		    	else
@@ -1282,9 +1271,6 @@ public class myStress_local extends Service
 
 	        // notify ListView of data set change!
 	        mSensorsArrayAdapter.notifyDataSetChanged();
-
-			// signal that it is discovered
-//			discovered = true;
 	 }	
 
 	 /**
@@ -1295,7 +1281,6 @@ public class myStress_local extends Service
 	private void ReDiscover()
 	 {
 			int i;
-//			String sensor_setting;
 			Sensor current;
 			activatedSensors = Arrays.asList(getResources().getString(R.string.activatedSensors).split(";"));
 			
@@ -1331,11 +1316,6 @@ public class myStress_local extends Service
 		    	entry.description = current.Symbol + " (" + current.Description + ")";
 		    	entry.explanation = current.Explanation;
 		    	
-		    	// try to read RMS
-//		    	sensor_setting = HandlerManager.readRMS("myStress_local::" + current.Symbol, "Off");
-		    	// set selected index to setting in RMS
-		    	
-//		    	if (sensor_setting.compareTo("On") == 0)
 		    	if(activatedSensors.contains((String)current.Symbol))
 		    		entry.checked = true;
 		    	else
@@ -1355,9 +1335,6 @@ public class myStress_local extends Service
 
 	        // notify ListView of data set change!
 	        mSensorsArrayAdapter.notifyDataSetChanged();
-	        
-			// signal that it is discovered
-//			discovered = true;
 	 }	
 	 
 	 /**

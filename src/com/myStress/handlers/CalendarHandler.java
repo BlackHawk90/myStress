@@ -129,24 +129,8 @@ public class CalendarHandler implements Handler {
 	 *            Reference to the calling {@link android.content.Context}
 	 */
 	public CalendarHandler(Context myStress) {
-//		String storedCalendars;
 		// store for later
 		this.myStress = myStress;
-
-		// retrieve clendars
-		// SharedPreferences settings =
-		// PreferenceManager.getDefaultSharedPreferences(myStress);
-		// storedCalendars =
-		// settings.getString("CalendarHandler::Calendar_names", null);
-		//
-		// if (storedCalendars == null)
-		// no_calendars = false;
-		// else
-		// {
-		// // retrieve individual calendars now
-		// calendars = storedCalendars.split("::");
-		// no_calendars = true;
-		// }
 		
 		calendars = getAllCalendar();
 		

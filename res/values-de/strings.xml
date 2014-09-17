@@ -28,7 +28,14 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="main_About">Über</string>
 <string name="main_Sync">Synchronisiere Aufnahme</string>
 <string name="Help">Hilfe</string>
-<string name="HelpText">HilfeText</string>
+<string name="HelpText">
+Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
+\nSolange die Aufnahme noch nicht läuft, kann die Benachrichtigung in der Benachrichtigungsleiste über die Checkbox deaktiviert werden.
+\n\nNach einmaligem Start läuft myStress größtenteils im Hintergrund und erfasst dort in 6-Minuten-Intervallen die Werte der integrierten Sensoren.
+\nDreimal täglich wirst Du gebeten, vier kurze Fragen zu Deinem aktuellen Stressempfinden zu beantworten. Die Beantwortung dieser Fragen lässt auch verschieben oder überspringen.
+\nIn ersterem Fall erscheint der Fragebogen nach 15 Minuten wieder, kann aber auch bereits früher manuell durch Öffnen der Anwendung aufgerufen werden. 
+\n\nBei laufender Erfassung werden im Hauptfenster über einen selbst zu definierenden Zeitraum aggregierte Messergebnisse angezeigt.
+\nEine Auflistung aller aktuell erfassten Messergebnisse ist über die Benachrichtigung in der oberen Leiste oder Drücken der Menütaste im Hauptfenster erreichbar.</string>
 <string name="recording_prompt">Typ der Aufnahme</string>
 <string name="MapAbout">Zeigt einen Pfad der GPS Aufzeichnungen. Du kannst auf eine Markierung klicken für mehr Information. Du kannst die Karte auf Deine momentane oder die letzte bekannte Position zentrieren (durch die Knöpfe oben rechts). Du kannst auch zwischen Satelliten- und Kartendarstellung umschalten durch die Menüeinträge.</string>
 <string name="RecordAbout">Wähle den Modus und starte eine Aufzeichnung.
@@ -307,5 +314,8 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="valueDescription8">Durchschnittliche Umgebungslautstärke:</string>
 <string name="refresh">Aktualisieren</string>
 <string name="whatsNew">Änderungen</string>
-<string name="whatsNew2">Neu_Text</string>
+<string name="whatsNew2">- myStress ist batterieschonender geworden und beendet die Aufnahme bei nur noch 10% verbleibender Energie
+\n- die Benachrichtigung lässt sich optional deaktivieren
+\n- im Hauptfenster werden bei laufender Aufzeichnung aggregierte Messergebnisse über einen auswählbaren Zeitraum angezeigt
+\n- die Benutzeroberfläche wurde vollständig überarbeitet</string>
 </resources>
