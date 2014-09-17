@@ -104,7 +104,7 @@ public class TextInformationHandler implements Handler
 	 */
 	public void Discover()
 	{
-	    SensorRepository.insertSensor(new String("TI"), new String("Anwendung:Länge:Geschw.:Sentiment"), myStress.getString(R.string.TI_d), myStress.getString(R.string.TI_e), new String("txt"), 0, 0, 10000, false, 0, this);
+	    SensorRepository.insertSensor(new String("TI"), myStress.getString(R.string.TI_u), myStress.getString(R.string.TI_d), myStress.getString(R.string.TI_e), new String("txt"), 0, 0, 10000, false, 0, this);
 	}
 	
 	/**

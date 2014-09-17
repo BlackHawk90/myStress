@@ -114,7 +114,7 @@ public class CalendarHandler implements Handler {
 	 */
 	public void Discover() {
 		if (no_calendars == true)
-			SensorRepository.insertSensor(new String("CA"), new String("Termine"),
+			SensorRepository.insertSensor(new String("CA"), new String("start::end"),
 					myStress.getString(R.string.CA_d),
 					myStress.getString(R.string.CA_e), new String("str"), 0, 0, 1,
 					false, polltime, this);

@@ -626,11 +626,11 @@ public class SystemHandler implements com.myStress.handlers.Handler
 	{
 		SensorRepository.insertSensor(new String("Ba"), new String("%"), myStress.getString(R.string.BA_d), myStress.getString(R.string.BA_e), new String("int"), 0, 0, 100, true, 0, this);	    
 		SensorRepository.insertSensor(new String("BV"), new String("mV"), myStress.getString(R.string.BV_d), myStress.getString(R.string.BV_e), new String("int"), 0, 0, 10, true, 0, this);	    
-		SensorRepository.insertSensor(new String("Bc"), new String("an/aus"), myStress.getString(R.string.BC_d), myStress.getString(R.string.BC_e), new String("int"), 0, 0, 1, false, 0, this);	    
+		SensorRepository.insertSensor(new String("Bc"), new String("on/off"), myStress.getString(R.string.BC_d), myStress.getString(R.string.BC_e), new String("int"), 0, 0, 1, false, 0, this);	    
 		SensorRepository.insertSensor(new String("BM"), new String("°C"), myStress.getString(R.string.BM_d), myStress.getString(R.string.BM_e), new String("int"), -1, 0, 100, true, 0, this);	    
 		SensorRepository.insertSensor(new String("Rm"), new String("KB"), myStress.getString(R.string.RM_d), myStress.getString(R.string.RM_e), new String("int"), 0, 0, 512000000, true, polltime, this);	    
-		SensorRepository.insertSensor(new String("Sc"), new String("an/aus"), myStress.getString(R.string.SC_d), myStress.getString(R.string.SC_e), new String("int"), 0, 0, 1, false, 0, this);	    
-		SensorRepository.insertSensor(new String("HS"), new String("an/aus"), myStress.getString(R.string.HS_d), myStress.getString(R.string.HS_e), new String("int"), 0, 0, 1, false, 0, this);	    
+		SensorRepository.insertSensor(new String("Sc"), new String("on/off"), myStress.getString(R.string.SC_d), myStress.getString(R.string.SC_e), new String("int"), 0, 0, 1, false, 0, this);	    
+		SensorRepository.insertSensor(new String("HS"), new String("on/off"), myStress.getString(R.string.HS_d), myStress.getString(R.string.HS_e), new String("int"), 0, 0, 1, false, 0, this);	    
     	SensorRepository.insertSensor(new String("IC"), new String("#"), myStress.getString(R.string.IC_d), myStress.getString(R.string.IC_e), new String("txt"), 0, 0, 1, false, 0, this);	    
     	SensorRepository.insertSensor(new String("OC"), new String("#"), myStress.getString(R.string.OC_d), myStress.getString(R.string.OC_e), new String("txt"), 0, 0, 1, false, 0, this);	    
     	SensorRepository.insertSensor(new String("SR"), new String("-"), myStress.getString(R.string.SR_d), myStress.getString(R.string.SR_e), new String("txt"), 0, 0, 1, false, 0, this);	    

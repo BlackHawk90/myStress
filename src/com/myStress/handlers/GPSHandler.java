@@ -205,11 +205,11 @@ public class GPSHandler implements com.myStress.handlers.Handler, Runnable
 	{
 		if (enableGPS == true)
 		{
-			   SensorRepository.insertSensor(new String("GO"), new String("Grad"), myStress.getString(R.string.GO_d), myStress.getString(R.string.GO_e), new String("int"), -5, -18000000, 18000000, false, 0, this);
-			   SensorRepository.insertSensor(new String("GL"), new String("Grad"), myStress.getString(R.string.GL_d), myStress.getString(R.string.GL_e), new String("int"), -5, -18000000, 18000000, false, 0, this);
+			   SensorRepository.insertSensor(new String("GO"), new String("°"), myStress.getString(R.string.GO_d), myStress.getString(R.string.GO_e), new String("int"), -5, -18000000, 18000000, false, 0, this);
+			   SensorRepository.insertSensor(new String("GL"), new String("°"), myStress.getString(R.string.GL_d), myStress.getString(R.string.GL_e), new String("int"), -5, -18000000, 18000000, false, 0, this);
 			   SensorRepository.insertSensor(new String("GA"), new String("m"), myStress.getString(R.string.GA_d), myStress.getString(R.string.GA_e), new String("int"), -1, -200, 150000, true, 0, this);
-			   SensorRepository.insertSensor(new String("Länge/Breite/Höhe"), new String("text"), myStress.getString(R.string.GI_d), myStress.getString(R.string.GI_e), new String("str"), 0, 0, 1, true, 0, this);
-			   SensorRepository.insertSensor(new String("GC"), new String("Grad"), myStress.getString(R.string.GC_d), myStress.getString(R.string.GC_e), new String("int"), -1, 0, 3600, false, 0, this);
+			   SensorRepository.insertSensor(new String("GI"), myStress.getString(R.string.GI_u), myStress.getString(R.string.GI_d), myStress.getString(R.string.GI_e), new String("str"), 0, 0, 1, true, 0, this);
+			   SensorRepository.insertSensor(new String("GC"), new String("°"), myStress.getString(R.string.GC_d), myStress.getString(R.string.GC_e), new String("int"), -1, 0, 3600, false, 0, this);
 			   SensorRepository.insertSensor(new String("GS"), new String("m/s"), myStress.getString(R.string.GS_d), myStress.getString(R.string.GS_e), new String("int"), -1, 0, 10000, true, 0, this);
 		}		
 	}

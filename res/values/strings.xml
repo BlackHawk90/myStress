@@ -165,6 +165,7 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="GA_e"></string>
 <string name="GI_d">GPS info</string>
 <string name="GI_e">Provides a combined Long:Lat:Alt string for GPS.</string>
+<string name="GI_u">long:lat:alt</string>
 <string name="GC_d">GPS course</string>
 <string name="GC_e">Provides the heading based on GPS with 0 degrees being North.</string>
 <string name="GS_d">GPS speed</string>
@@ -187,6 +188,7 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="NO_e">Provides information on notifications from Skype and Google Hangout.</string>
 <string name="TI_d">Text Information</string>
 <string name="TI_e">Determines length of each text input.</string>
+<string name="TI_u">App:Length:Speed:Sentiment</string>
 <string name="AZ_d">Azimuth</string>
 <string name="AZ_e">Provides the phone\'s azimuth - the angle towards the magnetic pole.</string>
 <string name="PI_d">Pitch</string>
@@ -199,6 +201,7 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="LI_e">Provides the light intensity as measured by the phone\'s sensor.</string>
 <string name="PH_d">Call Log</string>
 <string name="PH_e">Provides the call log and the call duration.</string>
+<string name="PH_u">Time::Duration::Type</string>
 <string name="PU_d">Ambient Pressure</string>
 <string name="PU_e">Provides the atmospheric pressure as measured by the phone\'s sensor (if available).</string>
 <string name="PD_d">Step Count</string>
@@ -255,6 +258,7 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="VW_e">Provides the wind speed as obtained from external web server.</string>
 <string name="VI_d">Combined Weather info</string>
 <string name="VI_e">Provides a combined weather info as obtained from external web server.</string>
+<string name="VI_u">Lat:Long:Temp(°C):Temp(°F):Humidity(%):Weather:Wind</string>
 <string name="WF_d">WLAN info</string>
 <string name="WF_e">Provides combined info about available WiFis.</string>
 <string name="WI_d">WLAN SSID</string>

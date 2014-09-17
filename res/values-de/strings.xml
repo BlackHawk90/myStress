@@ -164,6 +164,7 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="GA_e"></string>
 <string name="GI_d">GPS Info</string>
 <string name="GI_e">Bestimmt eine kombinierte Information von Long:Lat:Alt mit Hilfe von GPS.</string>
+<string name="GI_u">Länge:Breite:Höhe</string>
 <string name="GC_d">GPS Kurs</string>
 <string name="GC_e">Bestimmt den Kurs, basierend auf GPS, wobei 0 Grad \'Norden\' bedeutet.</string>
 <string name="GS_d">GPS Geschwindigkeit</string>
@@ -186,8 +187,10 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="NO_e">Bestimmt Informationen über Benachrichtigungen.</string>
 <string name="PH_d">Anruf</string>
 <string name="PH_e">Bestimmt Anrufe sowie deren Dauer.</string>
+<string name="PH_u">Zeit::Dauer::Typ</string>
 <string name="TI_d">Textinformationen</string>
 <string name="TI_e">Bestimmt Anwendung, Länge, Sentiment und Tippgeschwindigkeit jeder eingetippten Nachricht.</string>
+<string name="TI_u">App:Länge:Geschw.:Sentiment</string>
 <string name="AZ_d">Azimut</string>
 <string name="AZ_e">Bestimmt das Handys Azimut - der Winkel in Bezug zum magnetischen Pol.</string>
 <string name="PI_d">Neigung</string>
@@ -252,6 +255,7 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="VW_e">Bestimmt die Windbedingungen, wie vom externen Webserver erhalten.</string>
 <string name="VI_d">Wetterinfo</string>
 <string name="VI_e">Bestimmt die kombinierten Bedingungen (Temperatur, Luftfeuchtigkeit, Wind und Wetterbedingungen), wie vom externen Webserver erhalten.</string>
+<string name="VI_u">Breite:Länge:Temp(°C):Temp(°F):Luftfeucht.(%):Wetter:Wind</string>
 <string name="WF_d">WLAN Info</string>
 <string name="WF_e">Bestimmt die kombinierte Information über verfügbare WiFis.</string>
 <string name="WI_d">WLAN SSID</string>
