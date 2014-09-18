@@ -146,23 +146,44 @@ public class NotificationHandlerService extends AccessibilityService
 		    		if(wasending1) wasending2 = true;
 		    		
 			    	if(packageName.equals("com.facebook.orca")){
-			    		if(className.equals("com.facebook.orca.compose.ComposerButton")){
-			    			sending = true;
-			    			sendButtonClicked(packageName);
+			    		if(event.getContentDescription()!=null){
+				    		if(event.getContentDescription().toString().toLowerCase().contains("send")){
+				    			sending = true;
+				    			sendButtonClicked(packageName);
+				    		}
+			    		} else {
+				    		if(className.equals("com.facebook.orca.compose.ComposerButton")){
+				    			sending = true;
+				    			sendButtonClicked(packageName);
+				    		}
 			    		}
 			    	}
 			    	else if(packageName.equals("com.facebook.katana")){
-			    		if(className.equals("com.facebook.widget.text.SimpleVariableTextLayoutView")){
-			    			sending = true;
-			    			sendButtonClicked(packageName);
+			    		if(event.getContentDescription()!=null){
+				    		if(event.getContentDescription().toString().toLowerCase().contains("post")){
+				    			sending = true;
+				    			sendButtonClicked(packageName);
+				    		}
+			    		} else {
+				    		if(className.equals("com.facebook.widget.text.SimpleVariableTextLayoutView")){
+				    			sending = true;
+				    			sendButtonClicked(packageName);
+				    		}
 			    		}
 			    	}
-			    	else if(packageName.equals("com.android.email")){
-			    		if(className.equals("android.widget.ImageButton")){
-			    			if(!event.getText().toString().equals("")){
-			    				sending = true;
-			    				sendButtonClicked(packageName);
-			    			}
+			    	else if(packageName.toLowerCase().contains("mail")){
+			    		if(event.getContentDescription()!=null){
+				    		if(event.getContentDescription().toString().toLowerCase().contains("send")){
+				    			sending = true;
+				    			sendButtonClicked(packageName);
+				    		}
+			    		} else {
+				    		if(className.equals("android.widget.ImageButton")){
+				    			if(!event.getText().toString().equals("")){
+				    				sending = true;
+				    				sendButtonClicked(packageName);
+				    			}
+				    		}
 			    		}
 			    	}
 		    	}
@@ -182,10 +203,11 @@ public class NotificationHandlerService extends AccessibilityService
 		    	}
 		    }
 		    
-		    if(sent == false){
-		    	sendButtonClicked(packageName);
-		    }
-		    sent = false;
+		    //reset variables
+			wasending1 = false;
+			wasending2 = false;
+			sending = false;
+			sent = false;
 		}catch(Exception e){}
 	}
 	
@@ -334,6 +356,7 @@ public class NotificationHandlerService extends AccessibilityService
     			// analyze sentiment
 	    		String getURL = "https://loudelement-free-natural-language-processing-service.p.mashape.com/nlp-text/?text="+URLEncoder.encode(translatedText, "UTF-8");
 	    		HttpGet get = new HttpGet(getURL);
+	    		//FIXME: EMAIL ENTFERNEN
 	    		get.setHeader("X-Mashape-Key", "UfXaXsn0q9mshs2S9vlj2RCA1gzSp1kFZJKjsnA8WvonNOBW7T");
 	    		HttpResponse responseGet = client.execute(get);
 	    		HttpEntity  resEntityGet = responseGet.getEntity();

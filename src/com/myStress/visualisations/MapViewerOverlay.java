@@ -46,7 +46,6 @@ public class MapViewerOverlay extends ItemizedOverlay
 	public MapViewerOverlay(Drawable arg0, Context myStress) 
 	{
 		super(boundCenterBottom(arg0));
-		// TODO Auto-generated constructor stub
 		this.myStress = myStress;
 	}
 

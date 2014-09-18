@@ -650,7 +650,7 @@ public class myStress_local extends Service
 			if(cur.getString(0).contains("com.whatsapp")) msg[0]++; // Sent WhatsApp messages
 			else if(cur.getString(0).contains("com.facebook.orca")) msg[1]++; // Sent Facebook Messages 
 			else if(cur.getString(0).contains("com.facebook.katana")) msg[2]++; // Facebook Posts
-			else if(cur.getString(0).contains("com.sec.android.email") || cur.getString(0).contains("com.htc.android.mail")) msg[3]++; // Sent E-Mails
+			else if(cur.getString(0).contains("mail")) msg[3]++; // Sent E-Mails
 			cur.moveToNext();
 		}
 		return msg;
@@ -1040,7 +1040,7 @@ public class myStress_local extends Service
 		 // set the time again for ICS
 		 notification.when = System.currentTimeMillis();
 		 // don't allow clearing the notification
-		 //FIXME Prozess im Vordergrund sorgt dafür, dass Notification nicht weg geht
+		 //Prozess im Vordergrund sorgt dafür, dass Notification nicht weg geht
 		 notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
 		 
 		 SharedPreferences   settings = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());

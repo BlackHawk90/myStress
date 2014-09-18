@@ -370,6 +370,7 @@ public class WeatherHandler implements com.myStress.handlers.Handler, Runnable
 					if (movedAway == true)
 					{
 						// request update for that long,lat pair!
+						//FIXME: KEY ENTFERNEN
 			            URL url = new URL("http://api.worldweatheronline.com/free/v1/weather.ashx?q="+Double.toString(Latitude) + "," + Double.toString(Longitude) + "&format=xml&num_of_days=1&key=st4dghppmrfbtcrhwggn76u8");
 
 			            // Parse the xml-data from our URL

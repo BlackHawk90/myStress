@@ -114,7 +114,6 @@ public class myStress_main extends Activity implements
 			currentVersionCode = this.getPackageManager().getPackageInfo(
 					this.getPackageName(), 0).versionCode;
 		} catch (NameNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -657,7 +656,6 @@ public class myStress_main extends Activity implements
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
-		// TODO Auto-generated method stub
 
 	}
 

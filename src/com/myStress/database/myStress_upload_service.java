@@ -299,13 +299,14 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 
 	@SuppressLint("NewApi")
 	public Drive getDriveService() {
+		//FIXME: EMAIL ENTFERNEN
 		String SERVICE_ACCOUNT_EMAIL = "509211771570-ost52oo87929t8s96cifgk4rg0p1fcbr@developer.gserviceaccount.com";
 		HttpTransport httpTransport = new NetHttpTransport();
 		JsonFactory jsonFactory = new JacksonFactory();
 		GoogleCredential credential;
 		Drive service = null;
 		List<String> scopes = Arrays.asList(DriveScopes.DRIVE);
-
+		//FIXME Die Key Datei im assets Ordner löschen!!!!!!!!!!!
 		try {
 			InputStream input = getAssets().open("key.p12");
 			File tmpFile = File.createTempFile("key", "p12");
