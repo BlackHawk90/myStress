@@ -45,6 +45,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.BatteryManager;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
@@ -1533,11 +1534,14 @@ public class myStress_local extends Service
              {
  	            int rawlevel = intent.getIntExtra("level", -1);
  	            int scale = intent.getIntExtra("scale", -1);
+ 	            int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+ 	            boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+ 	                     status == BatteryManager.BATTERY_STATUS_FULL;
  	            if (rawlevel >= 0 && scale > 0) 
  	                Battery = (rawlevel * 100) / scale;
  	            
  	            // need to trigger battery kill action?
- 	            if (Battery < BatteryKill_i)
+ 	            if (Battery < BatteryKill_i && !isCharging)
  	            {
 			        Message msg = mHandler.obtainMessage(BATTERY_KILL);
 			        mHandler.sendMessage(msg);
