@@ -85,21 +85,21 @@ public class NotificationHandlerService extends AccessibilityService
 				    	sendButtonClicked(packageName);
 					}
 				}
-				else if(packageName.equals("com.facebook.orca")){
-					wasending1 = false;
-				}
-				else if(packageName.equals("com.facebook.katana")){
-					wasending1 = false;
-				}
-				else if(packageName.equals("com.android.email")){
-					wasending1=false;
-				}
+//				else if(packageName.equals("com.facebook.orca")){
+//					wasending1 = false;
+//				}
+//				else if(packageName.equals("com.facebook.katana")){
+//					wasending1 = false;
+//				}
+//				else if(packageName.equals("com.android.email")){
+//					wasending1=false;
+//				}
 				else{
 					wasending1 = false;
-					if(text.length() == 0){
-						sending = true;
-						sendButtonClicked(packageName);
-					}
+//					if(text.length() == 0){
+//						sending = true;
+//						sendButtonClicked(packageName);
+//					}
 				}
 		    	
 		    	boolean del;
@@ -140,12 +140,15 @@ public class NotificationHandlerService extends AccessibilityService
 		    		else if(className.equals("android.widget.ListView") || className.equals("android.widget.ImageView"));
 		    		else{
 		    			if(wasending1) wasending2 = true;
+		    			sendButtonClicked(packageName);
 		    		}
 		    	}
 		    	else{
-		    		if(wasending1) wasending2 = true;
-		    		
-			    	if(packageName.equals("com.facebook.orca")){
+		    		if(wasending1){
+		    			wasending2 = true;
+		    			sendButtonClicked(packageName);
+		    		}
+		    		else if(packageName.equals("com.facebook.orca")){
 			    		if(event.getContentDescription()!=null){
 				    		if(event.getContentDescription().toString().toLowerCase().contains("send")){
 				    			sending = true;
@@ -192,7 +195,6 @@ public class NotificationHandlerService extends AccessibilityService
 		    	if(wasending1){
 		    		wasending2=true;
 		    		sendButtonClicked(packageName);
-		    		sent = true;
 		    	}
 		    	
 		    	if(packageName.equals("com.android.mms")){
@@ -204,8 +206,6 @@ public class NotificationHandlerService extends AccessibilityService
 		    }
 		    
 		    //reset variables
-			wasending1 = false;
-			wasending2 = false;
 			sending = false;
 			sent = false;
 		}catch(Exception e){}
