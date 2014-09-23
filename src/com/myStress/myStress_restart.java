@@ -17,8 +17,6 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 
 package com.myStress;
 
-import com.myStress.database.myStress_upload;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +38,7 @@ public class myStress_restart extends BroadcastReceiver
     {
     	String action = intent.getAction();
     	    	
-    	// need restart mystress?
+    	// need to set the timer?
         if (action != null)
         {
         	if (action.equals("android.intent.action.PACKAGE_REPLACED"))
@@ -54,29 +52,11 @@ public class myStress_restart extends BroadcastReceiver
 	        		if (settings.getBoolean("myStress_local::running", false) == true)
 	        		{	
 	        		    // start service and connect to it -> then discover the sensors
-	        			context.getApplicationContext().startService(new Intent(context, myStress_local.class));
+	        	        context.getApplicationContext().startService(new Intent(context, myStress_local.class));
 	        			Log.e("myStress", "Restart myStress since it was running when updated!");
 	        		}
                 }
 	        }
-        	if (action.equals("android.intent.action.BOOT_COMPLETED")){
-        		if (settings.getBoolean("myStress_local::running", false) == true)
-        		{	
-	    		    // start service and connect to it -> then discover the sensors
-	    	        context.getApplicationContext().startService(new Intent(context, myStress_local.class));
-			  		myStress_upload.setTimer(context); 
-	    			Log.e("myStress", "Restart myStress since reboot");
-        		}
-        	}
-        	if(action.equals(Intent.ACTION_BATTERY_CHANGED)){
-        		if (settings.getBoolean("myStress_local::running", false) == true)
-        		{	
-	    		    // start service and connect to it -> then discover the sensors
-	    	        context.getApplicationContext().startService(new Intent(context, myStress_local.class));
-			  		myStress_upload.setTimer(context); 
-	    			Log.e("myStress", "Restart myStress since battery kill");
-        		}
-        	}
     	}
     }
 }

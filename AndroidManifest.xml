@@ -197,7 +197,6 @@
                 <data
                     android:path="com.myStress"
                     android:scheme="package" />
-                <action android:name="android.intent.action.BATTERY_CHANGED"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>

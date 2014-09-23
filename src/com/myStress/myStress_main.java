@@ -305,13 +305,14 @@ public class myStress_main extends Activity implements
 				editor.commit();
 			} catch (Exception e) {
 			}
-		} else {
+		} else if(!settings.getString("myStress_local::version", "").trim().equals(
+				(""+currentVersionCode).trim())){
 			// check if app is updated
-			if (!settings.getString("myStress_local::version", "").trim().equals(
-					(""+currentVersionCode).trim())) {
 				SpannableString s = new SpannableString(
-						getString(R.string.whatsNew2));
+						getString(R.string.whatsNew2) +" " + myStress_local.countPolled(this) + " " + getString(R.string.whatsNew3));
 				Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
+				
+				PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("StressCounter", myStress_local.countPolled(this));
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setMessage(s)
@@ -339,7 +340,37 @@ public class myStress_main extends Activity implements
 				// Make the textview clickable. Must be called after show()
 				((TextView) alert.findViewById(android.R.id.message))
 						.setMovementMethod(LinkMovementMethod.getInstance());
-			}
+				//FIXME Vor Veröffentlichung muss die Zahl 32 durch 30 ersetzt werden
+		} else if (PreferenceManager.getDefaultSharedPreferences(this).getInt("StressCounter", 0)>=33){
+			SpannableString s = new SpannableString(getString(R.string.finished));
+			Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage(s)
+					.setTitle(getString(R.string.whatsNew))
+					.setCancelable(false)
+					.setPositiveButton(getString(R.string.OK),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									// clear persistent flag
+									Editor editor = settings.edit();
+									editor.putString(
+											"myStress_local::version", ""
+													+ currentVersionCode);
+
+									// finally commit to storing
+									// values!!
+									editor.commit();
+									dialog.dismiss();
+								}
+							});
+			AlertDialog alert = builder.create();
+			alert.show();
+
+			// Make the textview clickable. Must be called after show()
+			((TextView) alert.findViewById(android.R.id.message))
+					.setMovementMethod(LinkMovementMethod.getInstance());
 		}
 	}
 

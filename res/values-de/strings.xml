@@ -318,8 +318,7 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="valueDescription8">Durchschnittliche Umgebungslautstärke:</string>
 <string name="refresh">Aktualisieren</string>
 <string name="whatsNew">Änderungen</string>
-<string name="whatsNew2">- myStress ist batterieschonender geworden und beendet die Aufnahme bei nur noch 10% verbleibender Energie
-\n- die Benachrichtigung lässt sich optional deaktivieren
-\n- im Hauptfenster werden bei laufender Aufzeichnung aggregierte Messergebnisse über einen auswählbaren Zeitraum angezeigt
-\n- die Benutzeroberfläche wurde vollständig überarbeitet</string>
+<string name="whatsNew2">Vielen Dank für die Teilnahme an unserer Studie.\nDer Stresslevel-Fragebogen wurde bereits</string>
+<string name="whatsNew3">ausgefüllt. Der Fragebogen muss bitte 30 mal ausgefüllt werden, damit diese Studie erfolgreich beendet werden kann. Sobald die Zahl erreicht ist, erscheint ein neuer Hinweis.\nVielen Dank!</string>
+<string name="finished">Vielen Dank für die Teilnahme an unserer Studie. Die App kann nun deinstalliert, darf aber auch gerne weiter benutzt werden. Noch eine letzte Bitte: Über diesen Link () gelangt man zum Abschlussfragebogen der Studie. Dort kann auch zusätzliches Feedback zur Studie oder zur App gegeben werden.</string>
 </resources>

@@ -679,6 +679,7 @@ public class myStress_local extends Service
 		return cur.getInt(0);
 	}
 	
+
 	public String[] getMainArray(long begin, long end){
 		String[] arr = new String[8];
 	
@@ -1119,7 +1120,6 @@ public class myStress_local extends Service
 		 {
 			 // create new wakelock
 			 PowerManager pm = (PowerManager)this.getSystemService(Context.POWER_SERVICE);
-			 
 			 wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "myStress Local Lock");
 			 wl.acquire();
 		 }
@@ -1543,9 +1543,12 @@ public class myStress_local extends Service
  	            // need to trigger battery kill action?
  	            if (Battery < BatteryKill_i && !isCharging)
  	            {
+ 	            	SharedPreferences settings =  PreferenceManager.getDefaultSharedPreferences(context);
+ 	            	settings.edit().putBoolean("BatteryKilled", true).commit(); 	            	
 			        Message msg = mHandler.obtainMessage(BATTERY_KILL);
 			        mHandler.sendMessage(msg);
  	            }
+ 	            
              }
 
          }
@@ -1663,5 +1666,26 @@ public class myStress_local extends Service
 
 	public static SQLiteDatabase getMyStressStorage() {
 		return myStress_storage;
+	}
+	
+	public static int countPolled(Context context) {
+		boolean createdStorage = false;
+		if(myStress_storage == null){
+			database_helper = new myStress_database(context.getApplicationContext());
+			myStress_storage = database_helper.getWritableDatabase();
+			createdStorage = true;
+		}
+		Cursor cur = myStress_storage.rawQuery("SELECT COUNT(Timestamp) FROM myStress_values WHERE Symbol = 'SM' AND Value = 'polled'", null);
+		if(cur == null)
+			return 0;
+		cur.moveToFirst();
+		
+		if(createdStorage) {
+			database_helper = null;
+			myStress_storage = null;
+			System.gc();
+		}
+			
+		return cur.getInt(0);
 	}
 }

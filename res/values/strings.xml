@@ -322,8 +322,8 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="valueDescription8">Average amplient amplitude:</string>
 <string name="refresh">Refresh</string>
 <string name="whatsNew">Changelog</string>
-<string name="whatsNew2">- myStress uses less battery resources and kills itself if the battery level reaches 10%
-\n- the notification can optionally be disabled
-\n- in the main window aggregated values over a selectable period of time are shown when recording is active
-\n- the user interface has been completely revised</string>
+<string name="whatsNew2">Vielen Dank für die Teilnahme an unserer Studie.\nDer Stresslevel-Fragebogen wurde bereits </string>
+<string name="whatsNew3"> ausgefüllt. Der Fragebogen muss bitte 30 mal ausgefüllt werden, damit diese Studie erfolgreich beendet werden kann. Sobald die Zahl erreicht ist, erscheint ein neuer Hinweis.\nVielen Dank!</string>
+<string name="finished">Vielen Dank für die Teilnahme an unserer Studie. Die App kann nun deinstalliert, darf aber auch gerne weiter benutzt werden. Noch eine letzte Bitte: Über diesen Link gelangt man zum Abschlussfragebogen der Studie. Dort kann auch zusätzliches Feedback zur Studie oder zur App gegeben werden.</string>
+
 </resources>
