@@ -19,7 +19,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="app_name">myStress</string>
 <string name="Copyright">&#169; 2004-2006 Nokia Corp.\n&#169; 2008-2012 Dirk Trossen \n&#169; 2013-2014 TecVis LP \n&#169; 2014 FIM Research Center
 \n\nKontakt: myStress@fim-rc.de
-\n\nHäufig gestellte Fragen: http://goo.gl/bkZkgF
+\n\nHäufig gestellte Fragen: http://goo.gl/nJBiXZ
 \n\nmyStress Quellcode ist lizenziert unter der LGPL 2.0 Lizenz und demnächst auf Github verfügbar. Für mehr Informationen bzgl. der Lizenz, siehe <b>license.txt</b>!
 \n\nDie Anwendung wurde im Rahmen einer Forschungsarbeit am Kernkompetenzzentrum Finanz- und Informationsmanagement in Kooperation mit dem Elitenetzwerkstudiengang Finance and Information Management entwicklet und basiert auf der Android Remote Sensing (AIRS) Plattform.
 \n\nDie Autoren sind nicht für Missbrauch von myStress verantwortlich, z.B. für Überwachungszwecke. Die Operation von myStress wird durch ein Symbol in der oberen Titelleiste angezeigt, um Benutzer auf Aufnahmen aufmerksam zu machen!</string>
@@ -57,7 +57,7 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 \n\nDie aktuelle Version von myStress dient zunächst der Erfassung von Sensordaten sowie empfundenem Stress, um stressrelevante Merkmale zu bestimmen.
 \n\nNach einmaligem Start läuft myStress größtenteils im Hintergrund und erfasst dort in 6-Minuten-Intervallen die Werte der integrierten Sensoren.
 \n\nDreimal täglich wird der Benutzer gebeten, vier kurze Fragen zu seinem aktuellen Stressempfinden zu beantworten.
-\n\n\nWeitere Fragen werden im FAQ beantwortet http://goo.gl/bkZkgF oder per Mail an myStress@fim-rc.de
+\n\n\nWeitere Fragen werden im FAQ beantwortet http://goo.gl/nJBiXZ oder per Mail an myStress@fim-rc.de
 </string>
 
 <string name="sensed">aufgezeichnet</string>
@@ -320,5 +320,5 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="whatsNew">Änderungen</string>
 <string name="whatsNew2">Vielen Dank für die Teilnahme an unserer Studie.\nDer Stresslevel-Fragebogen wurde bereits</string>
 <string name="whatsNew3">ausgefüllt. Der Fragebogen muss bitte 30 mal ausgefüllt werden, damit diese Studie erfolgreich beendet werden kann. Sobald die Zahl erreicht ist, erscheint ein neuer Hinweis.\nVielen Dank!</string>
-<string name="finished">Vielen Dank für die Teilnahme an unserer Studie. Die App kann nun deinstalliert, darf aber auch gerne weiter benutzt werden. Noch eine letzte Bitte: Über diesen Link () gelangt man zum Abschlussfragebogen der Studie. Dort kann auch zusätzliches Feedback zur Studie oder zur App gegeben werden.</string>
+<string name="finished">Vielen Dank für die Teilnahme an unserer Studie. Noch eine letzte Bitte: Über diesen Link () gelangt man zum Abschlussfragebogen der Studie. Dort kann auch zusätzliches Feedback zur Studie oder zur App gegeben werden.\nDie App kann anschließend deinstalliert, darf aber auch gerne weiter benutzt werden.</string>
 </resources>

@@ -19,7 +19,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 <string name="app_name">myStress</string>
 <string name="Copyright">&#169; 2004-2006 Nokia Corp.\n&#169; 2008-2012 Dirk Trossen \n&#169; 2013-2014 TecVis LP \n&#169; 2014 FIM Research Center
 \n\nContact: myStress@fim-rc.de
-\n\nFAQ (only available in german!): http://goo.gl/bkZkgF
+\n\nFAQ (only available in german!): http://goo.gl/nJBiXZ
 \n\nmyStress source code is licensed under LGPL 2.0 license and soon hosted on Github. For more information on license terms, review <b>license.txt</b>!
 \n\nThis Application was developed at the FIM Research Center in cooperation with the Elite Graduate Program Finance and Information Management. 
 \n\nThe objective of this research process is the unobtrusivly recognition and prediction of stress.
@@ -58,7 +58,7 @@ The on/off-switch enables or disables myStress\' recording.
 \n\nThe current version of myStress records on the one hand the source for stress and on the other hand the felt stress level to detected stress relevant charateristics.
 \n\nOnce recordings are started, myStress runs mainly in the background and determines the values of all integrated sensors in intervals of 6 minutes.
 \n\nThrice daily you are asked to answer four short questions regarding your current stress level, yet you can delay or skip them.
-\n\n\nFor further questions please have a look at the FAQ (only available in german!) http://goo.gl/bkZkgF or send an email to myStress@fim-rc.de
+\n\n\nFor further questions please have a look at the FAQ (only available in german!) http://goo.gl/nJBiXZ or send an email to myStress@fim-rc.de
 </string>
 
 <string name="sensed">sensed</string>
@@ -322,8 +322,7 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="valueDescription8">Average amplient amplitude:</string>
 <string name="refresh">Refresh</string>
 <string name="whatsNew">Changelog</string>
-<string name="whatsNew2">Vielen Dank für die Teilnahme an unserer Studie.\nDer Stresslevel-Fragebogen wurde bereits </string>
-<string name="whatsNew3"> ausgefüllt. Der Fragebogen muss bitte 30 mal ausgefüllt werden, damit diese Studie erfolgreich beendet werden kann. Sobald die Zahl erreicht ist, erscheint ein neuer Hinweis.\nVielen Dank!</string>
-<string name="finished">Vielen Dank für die Teilnahme an unserer Studie. Die App kann nun deinstalliert, darf aber auch gerne weiter benutzt werden. Noch eine letzte Bitte: Über diesen Link gelangt man zum Abschlussfragebogen der Studie. Dort kann auch zusätzliches Feedback zur Studie oder zur App gegeben werden.</string>
-
+<string name="whatsNew2">Thank you very much for participating in our research study.\nThe stress level questionnaire has already been filled out</string>
+<string name="whatsNew3">times. Please answer the questionnaire 30 times for successfully finishing the study. We will inform you, when you reached this goal.\nThank you!</string>
+<string name="finished">Thank you very much for participating in our research study. One last request: You can access the final questionnaire of our study via this link (). You can also give us feedback to our study and app.\nAfter this you can deinstall myStress, but we would be happy to keep you as user.</string>
 </resources>
