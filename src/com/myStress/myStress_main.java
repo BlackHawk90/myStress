@@ -289,6 +289,14 @@ public class myStress_main extends Activity implements
 			// Make the textview clickable. Must be called after show()
 			((TextView) alert.findViewById(android.R.id.message))
 					.setMovementMethod(LinkMovementMethod.getInstance());
+			
+			Editor editor2 = settings.edit();
+			editor2.putString(
+					"myStress_local::version", "");
+
+			// finally commit to storing
+			// values!!
+			editor2.commit();
 
 			try {
 				// get editor for settings
@@ -305,14 +313,16 @@ public class myStress_main extends Activity implements
 				editor.commit();
 			} catch (Exception e) {
 			}
-		} else if(!settings.getString("myStress_local::version", "").trim().equals(
+		}
+		if(!settings.getString("myStress_local::version", "").trim().equals(
 				(""+currentVersionCode).trim())){
 			// check if app is updated
+				int counter = myStress_local.countPolled(this);
 				SpannableString s = new SpannableString(
-						getString(R.string.whatsNew2) +" " + myStress_local.countPolled(this) + " " + getString(R.string.whatsNew3));
+						getString(R.string.whatsNew2) +" " + counter + " " + getString(R.string.whatsNew3));
 				Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
 				
-				PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("StressCounter", myStress_local.countPolled(this));
+				PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("StressCounter", counter).commit();
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setMessage(s)
@@ -341,7 +351,8 @@ public class myStress_main extends Activity implements
 				((TextView) alert.findViewById(android.R.id.message))
 						.setMovementMethod(LinkMovementMethod.getInstance());
 				//FIXME Vor Veröffentlichung muss die Zahl 32 durch 30 ersetzt werden
-		} else if (PreferenceManager.getDefaultSharedPreferences(this).getInt("StressCounter", 0)>=33){
+		}
+		if (settings.getInt("StressCounter", 0)>=33){
 			SpannableString s = new SpannableString(getString(R.string.finished));
 			Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
 

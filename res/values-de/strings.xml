@@ -279,12 +279,12 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="myStressUpload">myStress Upload</string>
 <string name="myStress_Map">myStress Map</string>
 <string name="myStress_Timeline">myStress Timeline</string>
-<string name="polltime">300000</string>
-<string name="stresspolltime">3600000</string>
-<string name="stresssnoozetime">5000</string>
+<string name="polltime">5000</string>
+<string name="stresspolltime">5000</string>
+<string name="stresssnoozetime">900000</string>
 <string name="time1">10</string>
 <string name="time2">14</string>
-<string name="time3">18</string>
+<string name="time3">00</string>
 
 <string name="notnow">In 15 Min.</string>
 <string name="skip">Diesmal nicht</string>
@@ -298,6 +298,7 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="l2">manchmal</string>
 <string name="l3">häufig</string>
 <string name="l4">sehr oft</string>
+
 <string name="sync">Synchronisieren</string>
 <string name="measurements">Messergebnisse</string>
 <string name="exit_before_sync">myStress läuft momentan.\nMöchtest Du die momentanen Aufzeichnungen unterbrechen um zu synchronisieren? Du musst myStress dann neu starten.</string>
@@ -319,6 +320,6 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="refresh">Aktualisieren</string>
 <string name="whatsNew">Änderungen</string>
 <string name="whatsNew2">Vielen Dank für die Teilnahme an unserer Studie.\nDer Stresslevel-Fragebogen wurde bereits</string>
-<string name="whatsNew3">ausgefüllt. Der Fragebogen muss bitte 30 mal ausgefüllt werden, damit diese Studie erfolgreich beendet werden kann. Sobald die Zahl erreicht ist, erscheint ein neuer Hinweis.\nVielen Dank!</string>
+<string name="whatsNew3">Mal ausgefüllt. Der Fragebogen muss bitte 30 mal ausgefüllt werden, damit diese Studie erfolgreich beendet werden kann. Sobald die Zahl erreicht ist, erscheint ein neuer Hinweis.\nVielen Dank!</string>
 <string name="finished">Vielen Dank für die Teilnahme an unserer Studie. Noch eine letzte Bitte: Über diesen Link () gelangt man zum Abschlussfragebogen der Studie. Dort kann auch zusätzliches Feedback zur Studie oder zur App gegeben werden.\nDie App kann anschließend deinstalliert, darf aber auch gerne weiter benutzt werden.</string>
 </resources>

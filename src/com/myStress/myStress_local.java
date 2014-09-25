@@ -1118,10 +1118,10 @@ public class myStress_local extends Service
 		 }
 		 else	// otherwise get wake lock for keeping running all the time!
 		 {
-			 // create new wakelock
-			 PowerManager pm = (PowerManager)this.getSystemService(Context.POWER_SERVICE);
-			 wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "myStress Local Lock");
-			 wl.acquire();
+//			 // create new wakelock
+//			 PowerManager pm = (PowerManager)this.getSystemService(Context.POWER_SERVICE);
+//			 wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "myStress Local Lock");
+//			 wl.acquire();
 		 }
 		 
 		 // need battery monitor?
