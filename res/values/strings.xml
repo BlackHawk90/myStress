@@ -284,7 +284,7 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="myStress_Timeline">myStress Timeline</string>
 <string name="polltime">300000</string>
 <string name="stresspolltime">3600000</string>
-<string name="stresssnoozetime">5000</string>
+<string name="stresssnoozetime">900000</string>
 <string name="time1">10</string>
 <string name="time2">14</string>
 <string name="time3">18</string>
