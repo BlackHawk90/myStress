@@ -245,13 +245,13 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 								} else {
 									Log.v("myStress",
 											"...sleeping until right network becomes available");
-									Waker.sleep(3600000);
+									Waker.sleep(10800000);
 								}
 							} while (right_network == false);
 						} else {
 							Log.v("myStress",
 									"...sleeping until right network becomes available");
-							Waker.sleep(3600000);
+							Waker.sleep(10800000);
 						}
 					} catch (Exception e) {
 						Log.e("myStress",
