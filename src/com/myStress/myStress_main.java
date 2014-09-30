@@ -353,7 +353,7 @@ public class myStress_main extends Activity implements
 				//FIXME Vor Veröffentlichung muss die Zahl 32 durch 30 ersetzt werden
 		}
 		if (settings.getInt("StressCounter", 0)>=33){
-			SpannableString s = new SpannableString(getString(R.string.finished));
+			SpannableString s = new SpannableString(getString(R.string.finished1)+settings.getString("UniqueID", "")+getString(R.string.finished2));
 			Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -369,7 +369,9 @@ public class myStress_main extends Activity implements
 									editor.putString(
 											"myStress_local::version", ""
 													+ currentVersionCode);
-
+									
+									
+									editor.putBoolean("UploadWifi", false);
 									// finally commit to storing
 									// values!!
 									editor.commit();
@@ -504,8 +506,75 @@ public class myStress_main extends Activity implements
 			PopUpManager.AboutDialog(getResources().getString(R.string.Help),
 					getString(R.string.HelpText), this);
 			break;
-		}
+		case R.id.main_questionnaire:
+			if (settings.getInt("StressCounter", 0)>=33){
+				SpannableString s = new SpannableString(getString(R.string.finished1)+settings.getString("UniqueID", "")+getString(R.string.finished2));
+				Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
+	
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(s)
+						.setTitle(getString(R.string.whatsNew))
+						.setCancelable(false)
+						.setPositiveButton(getString(R.string.OK),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										// clear persistent flag
+										Editor editor = settings.edit();
+										editor.putString(
+												"myStress_local::version", ""
+														+ currentVersionCode);
+	
+										// finally commit to storing
+										// values!!
+										editor.commit();
+										dialog.dismiss();
+									}
+								});
+				AlertDialog alert = builder.create();
+				alert.show();
+	
+				// Make the textview clickable. Must be called after show()
+				((TextView) alert.findViewById(android.R.id.message))
+						.setMovementMethod(LinkMovementMethod.getInstance());
+			}
+			else{
+				int counter = myStress_local.countPolled(this);
+				SpannableString s = new SpannableString(
+						getString(R.string.whatsNew2) +" " + counter + " " + getString(R.string.whatsNew3));
+				Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
+				
+				PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("StressCounter", counter).commit();
 
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(s)
+						.setTitle(getString(R.string.whatsNew))
+						.setCancelable(false)
+						.setPositiveButton(getString(R.string.OK),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										// clear persistent flag
+										Editor editor = settings.edit();
+										editor.putString(
+												"myStress_local::version", ""
+														+ currentVersionCode);
+
+										// finally commit to storing
+										// values!!
+										editor.commit();
+										dialog.dismiss();
+									}
+								});
+				AlertDialog alert = builder.create();
+				alert.show();
+
+				// Make the textview clickable. Must be called after show()
+				((TextView) alert.findViewById(android.R.id.message))
+						.setMovementMethod(LinkMovementMethod.getInstance());
+			}
+			break;
+		}
 		return false;
 	}
 

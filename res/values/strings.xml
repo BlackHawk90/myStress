@@ -305,7 +305,7 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="sync">Sync</string>
 <string name="measurements">Measurements</string>
 <string name="exit_before_sync">myStress has been running.\nDo you want to interrupt the current recording to synchronize? You will need to start myStress again.</string>
-<string name="question">Questionnaire</string>
+<string name="questionnaire">Final questionnaire</string>
 <string name="noData">Currently there aren\'t any collected data and therefore can not be presented.</string>
 <string name="showNotification">Show image in the notification bar</string>
 <string name="showValues">Values since:</string>
@@ -324,5 +324,6 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="whatsNew">Changelog</string>
 <string name="whatsNew2">Thank you very much for participating in our research study.\nThe stress level questionnaire has already been filled out</string>
 <string name="whatsNew3">times. Please answer the questionnaire 30 times for successfully finishing the study. We will inform you, when you reached this goal.\nThank you!</string>
-<string name="finished">Thank you very much for participating in our research study. One last request: You can access the final questionnaire of our study via this link (). You can also give us feedback to our study and app.\nAfter this you can deinstall myStress, but we would be happy to keep you as user.</string>
+<string name="finished1">Thank you very much for participating in our research study. One last request: You can access the final questionnaire of our study via this link (mystress.limequery.com/index.php/647725/lang-en?id=</string>
+<string name="finished2">). You can also give us feedback to our study and app.\nAfter this you can deinstall myStress, but we would be happy to keep you as user.</string>
 </resources>

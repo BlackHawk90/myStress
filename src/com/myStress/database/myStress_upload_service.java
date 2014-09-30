@@ -288,12 +288,14 @@ public class myStress_upload_service extends Service{ // implements MediaHttpUpl
 		// any network available?
 		if (netInfo != null) {
 			// is it the right network (in case wifi only is enabled)?
-			if (netInfo.getType() != ConnectivityManager.TYPE_WIFI
+			if (settings.getInt("StressCounter", 0)>=33)
+				right_network = true;
+			else if (netInfo.getType() != ConnectivityManager.TYPE_WIFI
 					&& wifi_only == true)
 				right_network = false;
 		} else
 			right_network = false; // no network available anyways
-
+		
 		return right_network;
 	}
 

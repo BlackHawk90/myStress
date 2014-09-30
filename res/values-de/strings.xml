@@ -302,7 +302,7 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="sync">Synchronisieren</string>
 <string name="measurements">Messergebnisse</string>
 <string name="exit_before_sync">myStress läuft momentan.\nMöchtest Du die momentanen Aufzeichnungen unterbrechen um zu synchronisieren? Du musst myStress dann neu starten.</string>
-<string name="question">Fragebogen</string>
+<string name="questionnaire">Abschlussfragebogen</string>
 <string name="noData">Es werden derzeit keine Daten aufgezeichnet und können deshalb nicht angezeigt werden.</string>
 <string name="showNotification">Zeige Symbol in der Benachrichtigungsanzeige</string>
 <string name="showValues">Zeige aggregierte Daten seit:</string>
@@ -321,5 +321,6 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="whatsNew">Änderungen</string>
 <string name="whatsNew2">Vielen Dank für die Teilnahme an unserer Studie.\nDer Stresslevel-Fragebogen wurde bereits</string>
 <string name="whatsNew3">Mal ausgefüllt. Der Fragebogen muss bitte 30 mal ausgefüllt werden, damit diese Studie erfolgreich beendet werden kann. Sobald die Zahl erreicht ist, erscheint ein neuer Hinweis.\nVielen Dank!</string>
-<string name="finished">Vielen Dank für die Teilnahme an unserer Studie. Noch eine letzte Bitte: Über diesen Link () gelangt man zum Abschlussfragebogen der Studie. Dort kann auch zusätzliches Feedback zur Studie oder zur App gegeben werden.\nDie App kann anschließend deinstalliert, darf aber auch gerne weiter benutzt werden.</string>
+<string name="finished1">Vielen Dank für die Teilnahme an unserer Studie. Noch eine letzte Bitte: Über diesen Link (mystress.limequery.com/index.php/647725/lang-de?id=</string>
+<string name="finished2">) gelangt man zum Abschlussfragebogen der Studie. Dort kann auch zusätzliches Feedback zur Studie oder zur App gegeben werden.\nDie App kann anschließend deinstalliert, darf aber auch gerne weiter benutzt werden.</string>
 </resources>
