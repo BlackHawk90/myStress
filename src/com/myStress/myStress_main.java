@@ -318,7 +318,7 @@ public class myStress_main extends Activity implements
 				(""+currentVersionCode).trim())){
 			// check if app is updated
 				int counter = myStress_local.countPolled(this);
-				SpannableString s = new SpannableString(
+				SpannableString s = new SpannableString(getString(R.string.whatsNew1)+
 						getString(R.string.whatsNew2) +" " + counter + " " + getString(R.string.whatsNew3));
 				Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
 				

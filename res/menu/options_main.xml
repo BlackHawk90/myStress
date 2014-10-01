@@ -22,7 +22,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
         android:id="@+id/main_copyright"
         android:icon="@drawable/info"
         android:title="@string/main_About"/>
-        <item
+    <item
         android:id="@+id/main_help"
         android:icon="@drawable/help"
         android:title="@string/Help"/>
@@ -36,5 +36,6 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
         android:title="@string/measurements"/>
     <item
         android:id="@+id/main_questionnaire"
+        android:icon="@drawable/finish"
         android:title="@string/questionnaire"/>
 </menu>
