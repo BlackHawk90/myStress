@@ -175,6 +175,39 @@ public class myStress_main extends Activity implements
 					}
 
 					else {
+						if (settings.getInt("StressCounter", 0)>=33){
+							SpannableString s = new SpannableString(getString(R.string.finished1)+settings.getString("UniqueID", "")+getString(R.string.finished2));
+							Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
+
+							AlertDialog.Builder builder = new AlertDialog.Builder(myStress_main.this);
+							builder.setMessage(s)
+									.setTitle(getString(R.string.whatsNew))
+									.setCancelable(false)
+									.setPositiveButton(getString(R.string.OK),
+											new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog,
+														int id) {
+													// clear persistent flag
+													Editor editor = settings.edit();
+													editor.putString(
+															"myStress_local::version", ""
+																	+ currentVersionCode);
+													
+													
+													editor.putBoolean("UploadWifi", false);
+													// finally commit to storing
+													// values!!
+													editor.commit();
+													dialog.dismiss();
+												}
+											});
+							AlertDialog alert = builder.create();
+							alert.show();
+
+							// Make the textview clickable. Must be called after show()
+							((TextView) alert.findViewById(android.R.id.message))
+									.setMovementMethod(LinkMovementMethod.getInstance());
+						}
 						myStress_upload.setTimer(getApplicationContext());
 						initializeStart();
 					}
@@ -256,7 +289,7 @@ public class myStress_main extends Activity implements
 		getApplicationContext().bindService(
 				new Intent(this, myStress_local.class), mConnection,
 				Service.BIND_AUTO_CREATE);
-
+		
 		// check if first start in order to show 'Getting Started' dialog
 		if (settings.getBoolean("myStress_local::first_start", false) == false) {
 			SpannableString s = new SpannableString(
@@ -314,8 +347,45 @@ public class myStress_main extends Activity implements
 			} catch (Exception e) {
 			}
 		}
-		if(!settings.getString("myStress_local::version", "").trim().equals(
+		else if(!settings.getString("myStress_local::version", "").trim().equals(
 				(""+currentVersionCode).trim())){
+			if (settings.getInt("StressCounter", 0)>=33){
+				SpannableString s = new SpannableString(getString(R.string.finished1)+settings.getString("UniqueID", ""
+							+ ((TelephonyManager) getApplicationContext()
+								.getSystemService(TELEPHONY_SERVICE))
+								.getDeviceId().hashCode())+getString(R.string.finished2));
+				Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(myStress_main.this);
+				builder.setMessage(s)
+						.setTitle(getString(R.string.whatsNew))
+						.setCancelable(false)
+						.setPositiveButton(getString(R.string.OK),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										// clear persistent flag
+										Editor editor = settings.edit();
+										editor.putString(
+												"myStress_local::version", ""
+														+ currentVersionCode);
+										
+										
+										editor.putBoolean("UploadWifi", false);
+										// finally commit to storing
+										// values!!
+										editor.commit();
+										dialog.dismiss();
+									}
+								});
+				AlertDialog alert = builder.create();
+				alert.show();
+
+				// Make the textview clickable. Must be called after show()
+				((TextView) alert.findViewById(android.R.id.message))
+						.setMovementMethod(LinkMovementMethod.getInstance());
+			}
+			else{
 			// check if app is updated
 				int counter = myStress_local.countPolled(this);
 				SpannableString s = new SpannableString(getString(R.string.whatsNew1)+
@@ -350,40 +420,7 @@ public class myStress_main extends Activity implements
 				// Make the textview clickable. Must be called after show()
 				((TextView) alert.findViewById(android.R.id.message))
 						.setMovementMethod(LinkMovementMethod.getInstance());
-				//FIXME Vor Veröffentlichung muss die Zahl 32 durch 30 ersetzt werden
-		}
-		if (settings.getInt("StressCounter", 0)>=33){
-			SpannableString s = new SpannableString(getString(R.string.finished1)+settings.getString("UniqueID", "")+getString(R.string.finished2));
-			Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
-
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage(s)
-					.setTitle(getString(R.string.whatsNew))
-					.setCancelable(false)
-					.setPositiveButton(getString(R.string.OK),
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int id) {
-									// clear persistent flag
-									Editor editor = settings.edit();
-									editor.putString(
-											"myStress_local::version", ""
-													+ currentVersionCode);
-									
-									
-									editor.putBoolean("UploadWifi", false);
-									// finally commit to storing
-									// values!!
-									editor.commit();
-									dialog.dismiss();
-								}
-							});
-			AlertDialog alert = builder.create();
-			alert.show();
-
-			// Make the textview clickable. Must be called after show()
-			((TextView) alert.findViewById(android.R.id.message))
-					.setMovementMethod(LinkMovementMethod.getInstance());
+			}
 		}
 	}
 
@@ -539,7 +576,7 @@ public class myStress_main extends Activity implements
 						.setMovementMethod(LinkMovementMethod.getInstance());
 			}
 			else{
-				int counter = myStress_local.countPolled(this);
+				int counter = settings.getInt("StressCounter", 0);
 				SpannableString s = new SpannableString(
 						getString(R.string.whatsNew2) +" " + counter + " " + getString(R.string.whatsNew3));
 				Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
