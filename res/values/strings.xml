@@ -322,7 +322,7 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="valueDescription8">Average amplient amplitude:</string>
 <string name="refresh">Refresh</string>
 <string name="whatsNew">Changelog</string>
-<string name="whatsNew1">- 2 critical bugs fixed\n- myStress now available in English language\n- dramatically reduced battery usage\n- new menu item providing access to the final questionnaire\n\n</string>
+<string name="whatsNew1">- Upload bug fixed\n\n</string>
 <string name="whatsNew2">Thank you very much for participating in our research study.\nThe stress level questionnaire has already been filled out</string>
 <string name="whatsNew3">times. Please answer the questionnaire 33 times to successfully finish the study. We will inform you as soon as you achieved this goal.\nThank you!</string>
 <string name="finished1">Thank you very much for participating in our research study. We want to ask you for one last favour: please complete the final questionnaire of our study via this link (http://mystress.limequery.com/index.php/647725/lang-en?id=</string>
