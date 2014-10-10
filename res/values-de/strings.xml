@@ -322,6 +322,6 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="whatsNew1">- zwei kritische Fehler behoben\n- myStress ist jetzt auch auf Englisch verfügbar\n- drastisch reduzierter Batterieverbrauch\n- zusätzlicher Menüeintrag, um Abschlussfragebogen zu erreichen\n\n</string>
 <string name="whatsNew2">Vielen Dank für die Teilnahme an unserer Studie.\nDer Stresslevel-Fragebogen wurde bereits</string>
 <string name="whatsNew3">Mal ausgefüllt. Der Fragebogen muss bitte 33 mal ausgefüllt werden, damit diese Studie erfolgreich beendet werden kann. Sobald die Zahl erreicht ist, erscheint ein neuer Hinweis.\nVielen Dank!</string>
-<string name="finished1">Vielen Dank für die Teilnahme an unserer Studie. Noch eine letzte Bitte: Über diesen Link (http://goo.gl/yIuO0V?id=</string>
+<string name="finished1">Vielen Dank für die Teilnahme an unserer Studie. Noch eine letzte Bitte: Über diesen Link (http://mystress.limequery.com/index.php/647725/lang-de?id=</string>
 <string name="finished2">) gelangt man zum Abschlussfragebogen der Studie. Dort kann auch zusätzliches Feedback zur Studie oder zur App gegeben werden.</string>
 </resources>
