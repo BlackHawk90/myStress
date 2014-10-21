@@ -52,7 +52,6 @@ public class NotificationHandlerService extends AccessibilityService
 	private double typingStartTime, typingEndTime;
 	private String typedText;
 	private boolean wasending1 = false, wasending2 = false, sending = false;
-	private boolean sent = false;
 	
 	/**
 	 * Called when an accessibility event occurs - here, we check the particular component packages that fired the event, filtering out the ones we support
@@ -207,7 +206,6 @@ public class NotificationHandlerService extends AccessibilityService
 		    
 		    //reset variables
 			sending = false;
-			sent = false;
 		}catch(Exception e){}
 	}
 	
@@ -264,7 +262,6 @@ public class NotificationHandlerService extends AccessibilityService
 			wasending1 = false;
 			wasending2 = false;
 			sending = false;
-			sent = true;
 		}
     }
     

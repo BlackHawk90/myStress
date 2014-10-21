@@ -116,6 +116,7 @@ public class myStress_measurements extends Activity implements OnItemClickListen
 	    public void onDestroy() 
 	    {	    		    	
 	        super.onDestroy();
+    		unbindService(mConnection);
 	    }
 
 	    /**
@@ -155,8 +156,8 @@ public class myStress_measurements extends Activity implements OnItemClickListen
 			    	// stop service from updating value adapter
 			    	if (myStress_locally!=null)
 			    	{
-			    		myStress_locally.setShowValues(false);	    		
-			    		unbindService(mConnection);
+			    		myStress_locally.setShowValues(false);
+//			    		unbindService(mConnection);
 			    	}
 	                finish();
 	                return true;

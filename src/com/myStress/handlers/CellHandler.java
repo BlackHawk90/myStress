@@ -50,7 +50,8 @@ public class CellHandler extends PhoneStateListener implements
 	// phone state classes
 	private TelephonyManager tm;
 	private CellHandler cellhandler;
-
+	private int polltime;
+	
 	// are these there?
 	private boolean enableProperties = false, enableListener;
 	// sensor data
@@ -190,7 +191,7 @@ public class CellHandler extends PhoneStateListener implements
 			SensorRepository.insertSensor(new String("CR"), new String(
 					"on/off"), myStress.getString(R.string.CR_d), myStress
 					.getString(R.string.CR_e), new String("int"), 0, 0, 1,
-					false, 60000, this);
+					false, polltime, this);
 			SensorRepository.insertSensor(new String("CD"), new String(
 					"on/off"), myStress.getString(R.string.CD_d), myStress
 					.getString(R.string.CD_e), new String("int"), 0, 0, 1,
@@ -239,7 +240,9 @@ public class CellHandler extends PhoneStateListener implements
 				// if it is not a GSM phone, return right away
 				if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_GSM)
 					return;
-
+				
+				polltime = Integer.parseInt(myStress.getString(R.string.polltime));
+				
 				// arm semaphores
 				wait(data_semaphore);
 				wait(signal_semaphore);

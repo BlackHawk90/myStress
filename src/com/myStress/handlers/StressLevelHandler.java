@@ -25,6 +25,8 @@ import com.myStress.R;
 import com.myStress.helper.SerialPortLogger;
 import com.myStress.platform.SensorRepository;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -136,6 +138,9 @@ public class StressLevelHandler implements Handler
 				Editor editor = settings.edit();
 				editor.putBoolean("myStress::snoozed", false);
 				editor.commit();
+				
+				// FIXME: Strings in strings.xml anpassen
+				//poll(polltime);
 		        
 				return readings.toString().getBytes();
 			}
@@ -219,6 +224,7 @@ public class StressLevelHandler implements Handler
 	 */
 	public void Discover()
 	{
+//		dontFIXME: polltime SL changed
 		SensorRepository.insertSensor(new String("SL"), new String("Level"), myStress.getString(R.string.SL_d), myStress.getString(R.string.SL_e), new String("str"), 0, 0, 1, false, polltime, this);
 		SensorRepository.insertSensor(new String("SM"), new String("Status"), myStress.getString(R.string.SM_d), myStress.getString(R.string.SM_e), new String("str"), 0, 0, 1, false, 0, this);
 	}
@@ -250,6 +256,8 @@ public class StressLevelHandler implements Handler
 			// get system service for Vibrator
 			vibrator = (Vibrator)myStress.getSystemService(Context.VIBRATOR_SERVICE);
 			dont_vibrate = false;
+			
+//			poll(polltime);
 		}
 		catch(Exception e)
 		{
@@ -278,13 +286,23 @@ public class StressLevelHandler implements Handler
 		meta_semaphore.release();
 		snooze_semaphore.release();
 	}
+	
+//	public void poll(long time){
+//	 	Intent intent = new Intent("com.myStress.stressalarm");
+//	 	PendingIntent pi = PendingIntent.getBroadcast(myStress, 0, intent, 0);
+//	 	AlarmManager am =  (AlarmManager)myStress.getSystemService(Context.ALARM_SERVICE);
+//	 	// first cancel any pending intent
+//	 	am.cancel(pi);
+//	 	// then set another one
+//	 	am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+time, pi);
+//	}
 		
 	private final BroadcastReceiver SystemReceiver = new BroadcastReceiver() 
 	{
         @Override
         public void onReceive(Context context, Intent intent) 
         {
-            if (intent.getAction().equals("com.myStress.stresslevel"))
+        	if (intent.getAction().equals("com.myStress.stresslevel"))
             {
             	if(intent.hasExtra("StressLevel")){
 	            	Event = intent.getStringExtra("StressLevel");
@@ -294,7 +312,7 @@ public class StressLevelHandler implements Handler
         		meta_semaphore.release();
 				return;
             }
-            if (intent.getAction().equals("com.myStress.pollstress"))
+        	else if (intent.getAction().equals("com.myStress.pollstress"))
             {
             	snooze_semaphore.release();
             }

@@ -29,9 +29,11 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -52,7 +54,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
+//import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -123,7 +125,7 @@ public class myStress_local extends Service
     private final IBinder mBinder = new LocalBinder(); // This is the object that receives interactions from clients
     private VibrateThread Vibrator;
     private Notification notification;
-    private WakeLock wl = null;
+//    private WakeLock wl = null;
     // database variables
     static private myStress_database database_helper; // Reference to current myStress_database
     static private SQLiteDatabase myStress_storage; // Reference to myStress database
@@ -141,6 +143,8 @@ public class myStress_local extends Service
 		 	private boolean started = true;	
 		 	private String value_intent;
 		    private long nextDay;		// milliseconds for next day starting
+		    
+		    private Semaphore semaphore = new Semaphore(1);
 
 			protected void sleep(long millis) 
 			{
@@ -173,8 +177,21 @@ public class myStress_local extends Service
 		        cal.set(Calendar.MINUTE, 59);
 		        cal.set(Calendar.MILLISECOND, 999);
 		        nextDay = cal.getTimeInMillis();
-		         
-				(thread = new Thread(this, "myStress: " + current.Symbol)).start();;
+		        
+				(thread = new Thread(this, "myStress: " + current.Symbol)).start();
+				
+			 	Intent intent = new Intent("com.myStress.poll."+current.Symbol);
+			 	PendingIntent pi = PendingIntent.getBroadcast(myStress, 0, intent, 0);
+			 	AlarmManager am =  (AlarmManager)myStress.getSystemService(Context.ALARM_SERVICE);
+			 	// first cancel any pending intent
+			 	am.cancel(pi);
+			 	// then set another one
+			 	am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), current.polltime, pi);
+			 	
+				IntentFilter intentFilter = new IntentFilter();
+				intentFilter.addAction("com.myStress.poll."+this.current.Symbol);
+				
+		        myStress.registerReceiver(SystemReceiver, intentFilter);
 			}
 
 			// return true if sensor has historical data
@@ -268,7 +285,15 @@ public class myStress_local extends Service
 				 			// pause while told to
 				 			while(pause == true)
 				 				sleep(500);
-		
+				 			
+		    				if (current.polltime>0){
+								try{
+									semaphore.acquire();
+								}catch(Exception e){
+									e.printStackTrace();
+								}
+		    				}
+				 			
 				 			// handle sensor status
 				 			switch(current.status)
 				 			{
@@ -296,7 +321,7 @@ public class myStress_local extends Service
 		    					output(current.Symbol + " : - [" + current.Unit + "]", false);
 								SerialPortLogger.debug("HandlerThread for " + current.Symbol + ": woken up again");
 				 				break;
-				 			case Sensor.SENSOR_VALID:		 			
+				 			case Sensor.SENSOR_VALID:
 					    		// acquire latest value
 				    			sensor_data = current.handler.Acquire(current.Symbol, null);
 				    			// anything?
@@ -513,9 +538,11 @@ public class myStress_local extends Service
 			    				}
 			    				
 			    				// are we waiting for the next poll?
-			    				if (current.polltime>0 && interrupted ==false)
+			    				/*if (current.polltime>0 && interrupted ==false)
 			    					Thread.sleep(current.polltime);
-			    				break;
+			    				break;*/
+			    				
+			    			 	break;
 				 			}
 				 		 }
 					}
@@ -528,6 +555,19 @@ public class myStress_local extends Service
 					debug("HandlerThread: interrupted and terminating 2..."  + current.Symbol);
 					return;
 			}
+			
+			private final BroadcastReceiver SystemReceiver = new BroadcastReceiver() 
+			{
+		        @Override
+		        public void onReceive(Context context, Intent intent) 
+		        {
+		        	if (intent.getAction().equals("com.myStress.poll."+current.Symbol)){
+	    				if (current.polltime>0){
+	    					semaphore.release();
+	    				}
+		        	}
+		        }
+		    };
 	 }
     
 	/**
@@ -827,9 +867,9 @@ public class myStress_local extends Service
 			}
 
 	   	// release wake lock if held
-	   	if (wl != null)
+/*	   	if (wl != null)
 	   		 if (wl.isHeld() == true)
-	   			 wl.release();
+	   			 wl.release();*/
 	   	 
 	   	// if registered for screen activity or battery level -> unregister
 	   	if (registered == true)

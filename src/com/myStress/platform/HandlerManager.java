@@ -20,7 +20,10 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 
 package com.myStress.platform;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
@@ -86,7 +89,9 @@ public class HandlerManager {
 		handlers[inst_handlers++] = (Handler) new CallLogHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new StressLevelHandler(myStress);
 		handlers[inst_handlers++] = (Handler) new CallAudioHandler(myStress);
-
+		
+		
+		
 		return true;
 	}
 

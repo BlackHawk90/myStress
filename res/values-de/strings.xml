@@ -279,12 +279,12 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="myStressUpload">myStress Upload</string>
 <string name="myStress_Map">myStress Map</string>
 <string name="myStress_Timeline">myStress Timeline</string>
-<string name="polltime">300000</string>
-<string name="stresspolltime">3600000</string>
-<string name="stresssnoozetime">900000</string>
-<string name="time1">10</string>
-<string name="time2">14</string>
-<string name="time3">18</string>
+<string name="polltime">60000</string>
+<string name="stresspolltime">600000</string>
+<string name="stresssnoozetime">90000</string>
+<string name="time1">20</string>
+<string name="time2">21</string>
+<string name="time3">22</string>
 
 <string name="notnow">In 15 Min.</string>
 <string name="skip">Diesmal nicht</string>
