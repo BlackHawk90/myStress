@@ -123,7 +123,7 @@ public class NotificationHandlerService extends AccessibilityService
 		    	
 		    	if(del == true){
 					Intent intent = new Intent("com.myStress.accessibility");
-					intent.putExtra("KeyLogger", length_diff + " characters deleted");
+					intent.putExtra("KeyLogger", packageName + ":" + length_diff);
 					sendBroadcast(intent);
 		    	}
 		    }

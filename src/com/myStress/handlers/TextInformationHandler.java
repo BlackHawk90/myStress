@@ -35,7 +35,9 @@ public class TextInformationHandler implements Handler
 {
 	private Context myStress;
 	private Semaphore length_semaphore = new Semaphore(1);
+	private Semaphore deletedtext_semaphore = new Semaphore(1);
 	private String textinfo;
+	private String deletedtext;
 	private boolean shutdown = false;
 	
 	private void wait(Semaphore sema)
@@ -67,6 +69,14 @@ public class TextInformationHandler implements Handler
 			
 			StringBuffer reading = new StringBuffer("TI");
 			reading.append(textinfo);
+			
+			return reading.toString().getBytes();
+		}
+		else if(sensor.compareTo("TD") == 0){
+			wait(deletedtext_semaphore);
+			
+			StringBuffer reading = new StringBuffer("TD");
+			reading.append(deletedtext);
 			
 			return reading.toString().getBytes();
 		}
@@ -105,6 +115,7 @@ public class TextInformationHandler implements Handler
 	public void Discover()
 	{
 	    SensorRepository.insertSensor(new String("TI"), myStress.getString(R.string.TI_u), myStress.getString(R.string.TI_d), myStress.getString(R.string.TI_e), new String("txt"), 0, 0, 10000, false, 0, this);
+	    SensorRepository.insertSensor(new String("TD"), myStress.getString(R.string.TD_u), myStress.getString(R.string.TD_d), myStress.getString(R.string.TD_e), new String("txt"), 0, 0, 10000, false, 0, this);
 	}
 	
 	/**
@@ -118,6 +129,7 @@ public class TextInformationHandler implements Handler
 		
 		// arm semaphore
 		wait(length_semaphore);
+		wait(deletedtext_semaphore);
 		
 		// register for any input from the accessbility service
 		IntentFilter intentFilter = new IntentFilter("com.myStress.accessibility");
@@ -141,6 +153,7 @@ public class TextInformationHandler implements Handler
 		
 		// release all semaphores for unlocking the Acquire() threads
 		length_semaphore.release();
+		deletedtext_semaphore.release();
 		
 		// unregister the broadcast receiver
 		myStress.unregisterReceiver(SystemReceiver);
@@ -148,7 +161,7 @@ public class TextInformationHandler implements Handler
         // now broadcast the stop of the accessibility service
 		Intent intent = new Intent("com.myStress.accessibility.start");
 		intent.putExtra("start", false);
-		myStress.sendBroadcast(intent);				
+		myStress.sendBroadcast(intent);
 	}
 	
 	private final BroadcastReceiver SystemReceiver = new BroadcastReceiver() 
@@ -164,6 +177,10 @@ public class TextInformationHandler implements Handler
             	if(intent.hasExtra("TextInformation")){
             		textinfo = intent.getStringExtra("TextInformation");
             		length_semaphore.release();
+            	}
+            	if(intent.hasExtra("KeyLogger")){
+            		deletedtext = intent.getStringExtra("KeyLogger");
+            		deletedtext_semaphore.release();
             	}
             }
         }

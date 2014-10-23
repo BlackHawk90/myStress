@@ -191,6 +191,9 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="TI_d">Textinformationen</string>
 <string name="TI_e">Bestimmt Anwendung, Länge, Sentiment und Tippgeschwindigkeit jeder eingetippten Nachricht.</string>
 <string name="TI_u">App:Länge:Geschw.:Sentiment</string>
+<string name="TD_d">gelöschte Zeichen</string>
+<string name="TD_e">Bestimmt die Anzahl der gelöschten Zeichen</string>
+<string name="TD_u">App:#</string>
 <string name="AZ_d">Azimut</string>
 <string name="AZ_e">Bestimmt das Handys Azimut - der Winkel in Bezug zum magnetischen Pol.</string>
 <string name="PI_d">Neigung</string>
@@ -268,7 +271,7 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="WC_e">Bestimmt ob das Handy momentan an WiFi angeschlossen ist (1, wenn ja, 0, wenn nicht).</string>
 
 <string name="debug_setting">false</string>
-<string name="activatedSensors">AC;AS;AF;AU;AV;Az;Ba;Bc;BM;CA;CI;CR;CD;CL;CC;GI;GS;HU;PH;Ro;Pi;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;Rm;Sc;SR;SS;TM;VI</string>
+<string name="activatedSensors">AC;AS;AF;AU;AV;Az;Ba;Bc;BM;CA;CI;CR;CD;CL;CC;GI;GS;HU;PH;Ro;Pi;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;TD;Rm;Sc;SR;SS;TM;VI</string>
 <string name="accessibility_titel">Bitte aktiviere die Bedien- bzw. Eingabehilfe</string>
 <string name="accessibility_message">Damit die Applikation korrekt arbeiten kann, muss die Bedien- bzw. Eingabehilfe aktiviert werden</string>
 <string name="accessibility_goto">Einstellungen</string>

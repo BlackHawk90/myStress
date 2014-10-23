@@ -189,6 +189,9 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="TI_d">Text Information</string>
 <string name="TI_e">Determines length of each text input.</string>
 <string name="TI_u">App:Length:Speed:Sentiment</string>
+<string name="TD_d">deleted characters</string>
+<string name="TD_e">Determines deleted characters</string>
+<string name="TD_u">App:#</string>
 <string name="AZ_d">Azimuth</string>
 <string name="AZ_e">Provides the phone\'s azimuth - the angle towards the magnetic pole.</string>
 <string name="PI_d">Pitch</string>
@@ -271,7 +274,7 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="WC_e">Provides status information (1 if phone is connected to a WiFi).</string> 
 
 <string name="debug_setting">false</string>
-<string name="activatedSensors">AC;AS;AF;AU;AV;Az;Ba;Bc;BM;CA;CI;CR;CD;CL;CC;GI;GS;HU;PH;Ro;Pi;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;Rm;Sc;SR;SS;TM;VI</string>
+<string name="activatedSensors">AC;AS;AF;AU;AV;Az;Ba;Bc;BM;CA;CI;CR;CD;CL;CC;GI;GS;HU;PH;Ro;Pi;LI;PR;PU;PD;SL;SM;TR;TV;NO;TI;TD;Rm;Sc;SR;SS;TM;VI</string>
 <string name="accessibility_titel">Please activate the accessibility service</string>
 <string name="accessibility_message">To ensure that the application is working correctly, we would like you to activate the accessibility service.</string>
 <string name="accessibility_goto">Settings</string>
