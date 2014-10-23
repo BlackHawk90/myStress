@@ -51,11 +51,12 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="Cancel">Abbruch</string>
 
 <string name="Getting_Started">Vor dem ersten Start</string>
-<string name="Getting_Started2">Vielen Dank für die Teilnahme an unserem Forschungsprojekt.
-\n\nDie Anwendung wurde im Rahmen einer Forschungsarbeit am Kernkompetenzzentrum Finanz- und Informationsmanagement in Kooperation mit dem Elitenetzwerkstudiengang Finance and Information Management entwicklet.
+<string name="Getting_Started2">Jetzt neu: 3 mal 25€ Amazon-Gutschein zu verlosen!\nMit der erfolgreichen Teilnahme an unserem Forschungsprojekt, d.h. 33 ausgefüllten Stressfragebogen und ausgefülltem Abschlussfragebogen, nehmt ihr automatisch an der Verlosung teil.\nIm Fall eines Gewinns, werdet ihr automatisch von myStress benachrichtigt.\nTeilnahmeschluss: 30.11.2014
+\n\nVielen Dank für die Teilnahme an unserem Forschungsprojekt.
+\n\nDie Anwendung wurde im Rahmen einer Forschungsarbeit am Kernkompetenzzentrum Finanz- und Informationsmanagement in Kooperation mit dem Elitenetzwerkstudiengang Finance and Information Management entwickelt.
 \n\nZiel dieses Projekts ist es, mithilfe eines Smartphones zu erkennen, wie gestresst der Besitzer ist.
 \n\nDie aktuelle Version von myStress dient zunächst der Erfassung von Sensordaten sowie empfundenem Stress, um stressrelevante Merkmale zu bestimmen.
-\n\nNach einmaligem Start läuft myStress größtenteils im Hintergrund und erfasst dort in 6-Minuten-Intervallen die Werte der integrierten Sensoren.
+\n\nNach einmaligem Start läuft myStress größtenteils im Hintergrund und erfasst dort in 5-Minuten-Intervallen die Werte der integrierten Sensoren.
 \n\nDreimal täglich wird der Benutzer gebeten, vier kurze Fragen zu seinem aktuellen Stressempfinden zu beantworten.
 \n\n\nWeitere Fragen werden im FAQ beantwortet http://goo.gl/nJBiXZ oder per Mail an myStress@fim-rc.de
 </string>
@@ -282,12 +283,12 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="myStressUpload">myStress Upload</string>
 <string name="myStress_Map">myStress Map</string>
 <string name="myStress_Timeline">myStress Timeline</string>
-<string name="polltime">60000</string>
-<string name="stresspolltime">600000</string>
-<string name="stresssnoozetime">90000</string>
-<string name="time1">20</string>
-<string name="time2">21</string>
-<string name="time3">22</string>
+<string name="polltime">300000</string>
+<string name="stresspolltime">3600000</string>
+<string name="stresssnoozetime">900000</string>
+<string name="time1">10</string>
+<string name="time2">14</string>
+<string name="time3">18</string>
 
 <string name="notnow">In 15 Min.</string>
 <string name="skip">Diesmal nicht</string>
@@ -322,9 +323,9 @@ Der An/Aus-Schalter aktiviert bzw. deaktiviert die Aufnahme von myStress.
 <string name="valueDescription8">Durchschnittliche Umgebungslautstärke:</string>
 <string name="refresh">Aktualisieren</string>
 <string name="whatsNew">Änderungen</string>
-<string name="whatsNew1">- Problem beim Dateiupload behoben\n\n</string>
+<string name="whatsNew1">3 mal 25€ Amazon-Gutschein zu verlosen!\nMit der erfolgreichen Teilnahme an unserem Forschungsprojekt, d.h. 33 ausgefüllten Stressfragebogen und ausgefülltem Abschlussfragebogen, nehmt ihr automatisch an der Verlosung teil.\nIm Fall eines Gewinns, werdet ihr automatisch von myStress benachrichtigt.\nTeilnahmeschluss: 30.11.2014\n\n</string>
 <string name="whatsNew2">Vielen Dank für die Teilnahme an unserer Studie.\nDer Stresslevel-Fragebogen wurde bereits</string>
 <string name="whatsNew3">Mal ausgefüllt. Der Fragebogen muss bitte 33 mal ausgefüllt werden, damit diese Studie erfolgreich beendet werden kann. Sobald die Zahl erreicht ist, erscheint ein neuer Hinweis.\nVielen Dank!</string>
-<string name="finished1">Vielen Dank für die Teilnahme an unserer Studie. Noch eine letzte Bitte: Über diesen Link (http://mystress.limequery.com/index.php/647725/lang-de?id=</string>
-<string name="finished2">) gelangt man zum Abschlussfragebogen der Studie. Dort kann auch zusätzliches Feedback zur Studie oder zur App gegeben werden.</string>
+<string name="finished1">Vielen Dank für die Teilnahme an unserer Studie. Um an der Verlosung der Amazon-Gutscheine teilzunehmen, füllt bitte unseren Abschlussfragebogen aus: (http://mystress.limequery.com/index.php/647725/lang-de?id=</string>
+<string name="finished2">). Dort könnt ihr auch zusätzliches Feedback zur Studie oder zur App geben.</string>
 </resources>

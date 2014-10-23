@@ -52,11 +52,12 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="Cancel">Cancel</string>
 
 <string name="Getting_Started">Getting Started</string>
-<string name="Getting_Started2">Thank you very much for your participation in our research project.
+<string name="Getting_Started2">New: Chance to win one of three 25€ Amazon coupons!\nAfter successfully participating in our study, i.e. 33 answered stress questionnaire and fully answered final questionnaire, you automatically go into the draw to win an Amazon coupon.\nIn case of winning, you will be automatically notified through myStress. Closing date: 2014/11/30
+\n\nThank you very much for your participation in our research project.
 \n\nThis Application was developed at the FIM Research Center in cooperation with the Elite Graduate Program Finance and Information Management.
 \n\nThe objective of this research process is the unobtrusive recognition and prediction of stress.
 \n\nThe current version of myStress records on the one hand the source for stress and on the other hand the felt stress level to detected stress relevant charateristics.
-\n\nOnce recordings are started, myStress runs mainly in the background and determines the values of all integrated sensors in intervals of 6 minutes.
+\n\nOnce recordings are started, myStress runs mainly in the background and determines the values of all integrated sensors in intervals of 5 minutes.
 \n\nThree times daily you are asked to answer four short questions regarding your current stress level, yet you can delay or skip them.
 \n\n\nFor further questions please have a look at the FAQ (only available in german!) http://goo.gl/nJBiXZ or send an email to myStress@fim-rc.de
 </string>
@@ -325,9 +326,9 @@ The on/off-switch enables or disables myStress\' recording.
 <string name="valueDescription8">Average amplient amplitude:</string>
 <string name="refresh">Refresh</string>
 <string name="whatsNew">Changelog</string>
-<string name="whatsNew1">- Upload bug fixed\n\n</string>
+<string name="whatsNew1">Chance to win one of three 25€ Amazon coupons!\nAfter successfully participating in our study, i.e. 33 answered stress questionnaire and fully answered final questionnaire, you automatically go into the draw to win an Amazon coupon.\nIn case of winning, you will be automatically notified through myStress.\nClosing date: 2014/11/30\n\n</string>
 <string name="whatsNew2">Thank you very much for participating in our research study.\nThe stress level questionnaire has already been filled out</string>
 <string name="whatsNew3">times. Please answer the questionnaire 33 times to successfully finish the study. We will inform you as soon as you achieved this goal.\nThank you!</string>
-<string name="finished1">Thank you very much for participating in our research study. We want to ask you for one last favour: please complete the final questionnaire of our study via this link (http://mystress.limequery.com/index.php/647725/lang-en?id=</string>
+<string name="finished1">Thank you very much for participating in our research study. In order to take part in the draw, please answer our final questionnaire: (http://mystress.limequery.com/index.php/647725/lang-en?id=</string>
 <string name="finished2">). You can also give us feedback to our study and app.</string>
 </resources>
